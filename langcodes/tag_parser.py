@@ -34,6 +34,11 @@ langcodes.tag_parser.LanguageTagError: This script subtag, 'hant', is out of pla
 >>> parse('ja-latn-hepburn')
 [('language', 'ja'), ('script', 'Latn'), ('variant', 'hepburn')]
 
+>>> parse('ja-hepburn-latn')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
+
 >>> parse('zh-yue')
 [('language', 'zh'), ('extlang', 'yue')]
 
@@ -104,6 +109,10 @@ def parse(tag):
     if tag in EXCEPTIONS:
         return [('grandfathered', tag)]
     else:
+        # The first subtag is always either the language code, or 'x' to mark
+        # the entire tag as private-use. Other subtags are distinguished
+        # by their length and format, but the language code is distinguished
+        # entirely by the fact that it is required to come first.
         subtags = tag.split('-')
         if subtags[0] == 'x':
             return parse_extension(subtags)
@@ -118,55 +127,117 @@ def parse_subtags(subtags, expect=EXTLANG):
     Parse everything that comes after the language tag: scripts, regions,
     variants, and assorted extensions.
     """
+    # We parse the parts of a language code recursively: each step of
+    # language code parsing handles one component of the code, recurses
+    # to handle the rest of the code, and adds what it found onto the
+    # list of things that were in the rest of the code.
+    #
+    # This could just as well have been iterative, but the loops would have
+    # been convoluted.
+    #
+    # So here's the base case.
     if not subtags:
         return []
+
+    # There's a subtag that comes next. We need to find out what it is.
+    #
+    # The primary thing that distinguishes different types of subtags is
+    # length, but the subtags also come in a specified order. The 'expect'
+    # parameter keeps track of where we are in that order. expect=REGION,
+    # for example, means we're expecting a region code, or anything later
+    # (because everything but the language is optional).
     subtag = subtags[0]
     tag_length = len(subtag)
+
+    # In the usual case, our goal is to recognize what kind of tag this is,
+    # and set it in 'tagtype' -- as an integer, so we can compare where it
+    # should go in order. You can see the enumerated list of tagtypes above,
+    # where the SUBTAG_TYPES global is defined.
     tagtype = None
+
     if tag_length == 0 or tag_length > 8:
+        # Unless you're inside a private use tag or something -- in which case,
+        # you're not in this function at the moment -- every component needs to
+        # be between 1 and 8 characters.
         subtag_error(subtag, '1-8 characters')
+    
     elif tag_length == 1:
+        # A one-character subtag introduces an extension, which can itself have
+        # sub-subtags, so we dispatch to a different function at this point.
+        #
+        # We don't need to check anything about the order, because extensions
+        # necessarily come last.
         return parse_extension(subtags)
+    
     elif tag_length == 2:
         if subtag.isalpha():
+            # Two-letter alphabetic subtags are regions. These are the only
+            # two-character subtags after the language.
             tagtype = REGION
+    
     elif tag_length == 3:
         if subtag.isalpha():
+            # Three-letter alphabetic subtags are 'extended languages'.
+            # It's allowed for there to be up to three of them in a row, so we
+            # need another function to enforce that. Before we dispatch to that
+            # function, though, we need to check whether we're in the right
+            # place in order.
             if expect <= EXTLANG:
                 return parse_extlang(subtags)
             else:
                 order_error(subtag, EXTLANG, expect)
         elif subtag.isdigit():
+            # Three-digit subtags are broad regions, such as Latin America
+            # (419).
             tagtype = REGION
+
     elif tag_length == 4:
         if subtag.isalpha():
+            # Four-letter alphabetic subtags are scripts.
             tagtype = SCRIPT
         elif subtag[0].isdigit():
+            # Four-character subtags that start with a digit are variants.
             tagtype = VARIANT
-    else:  # tags of length 5-8
+
+    else:
+        # Tags of length 5-8 are variants.
         tagtype = VARIANT
 
+    # That's the end of the big elif block for figuring out what kind of
+    # subtag we have based on its length. Now we should do something with that
+    # kind of subtag.
+    
     if tagtype is None:
-        # We haven't disappeared into the singleton function, and we haven't
-        # recognized a type of tag. This subtag just doesn't fit the standard.
+        # We haven't recognized a type of tag. This subtag just doesn't fit the
+        # standard.
         subtag_error(subtag)
+
     elif tagtype < expect:
         # We got a tag type that was supposed to appear earlier in the order.
         order_error(subtag, tagtype, expect)
+
     else:
-        # We've recognized a tag of a particular type. If it's a region or
-        # script, increment what we expect, because there can be only one
-        # of each.
+        # We've recognized a subtag of a particular type. If it's a region or
+        # script, we expect the next subtag to be a strictly later type, because
+        # there can be at most one region and one script. Otherwise, we expect
+        # the next subtag to be the type we got or later.
+
         if tagtype in (SCRIPT, REGION):
             expect = tagtype + 1
-        # We've recognized a basic tag; put it on the list and keep going.
+        else:
+            expect = tagtype
+
+        # Get the name of this subtag type instead of its integer value.
         typename = SUBTAG_TYPES[tagtype]
 
-        # Now restore case conventions.
+        # Some subtags are conventionally written with capitalization. Apply
+        # those conventions.
         if tagtype == SCRIPT:
             subtag = subtag.title()
         elif tagtype == REGION:
             subtag = subtag.upper()
+
+        # Recurse on the remaining subtags.
         return [(typename, subtag)] + parse_subtags(subtags[1:], expect)
 
 
@@ -174,6 +245,16 @@ def parse_extlang(subtags):
     """
     Parse an 'extended language' tag, which consists of 1 to 3 three-letter
     language codes.
+    
+    Extended languages are used for distinguishing dialects/sublanguages
+    (depending on your view) of macrolanguages such as Arabic, Bahasa Malay,
+    and Chinese.
+   
+    It's supposed to also be acceptable to just use the sublanguage as the
+    primary language code, and your code should know what's a macrolanguage of
+    what. For example, 'zh-yue' and 'yue' are the same language (Cantonese),
+    and differ only in whether they explicitly spell out that Cantonese is a
+    kind of Chinese.
     """
     index = 0
     parsed = []
@@ -186,25 +267,35 @@ def parse_extlang(subtags):
 def parse_extension(subtags):
     """
     An extension tag consists of a 'singleton' -- a one-character subtag --
-    followed by other subtags.
+    followed by other subtags. Extension tags are in the BCP 47 syntax, but
+    their meaning is outside the scope of the standard.
 
+    For example, there's the u- extension, which is used for setting Unicode
+    properties in some context I'm not aware of.
+    
     If the singleton is 'x', it's a private use extension, and consumes the
-    rest of the tag. Otherwise, it stops at the next singleton.
+    rest of the tag. Otherwise, it stops at the next singleton.    
     """
     subtag = subtags[0]
     if len(subtags) == 1:
         raise ValueError(
             "The subtag %r must be followed by something" % subtag
         )
+    
     if subtag == 'x':
         # Private use. Everything after this is arbitrary codes that we
         # can't look up.
         return [('private', '-'.join(subtags))]
+    
     else:
         # Look for the next singleton, if there is one.
         boundary = 1
         while boundary < len(subtags) and len(subtags[boundary]) != 1:
             boundary += 1
+        
+        # We've parsed a complete extension subtag. Return to the main
+        # parse_subtags function, but expect to find nothing but more
+        # extensions at this point.
         return ([('extension', '-'.join(subtags[:boundary]))]
                 + parse_subtags(subtags[boundary:], EXTENSION))
 
