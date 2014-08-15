@@ -160,7 +160,7 @@ def parse_subtags(subtags, expect=EXTLANG):
         # you're not in this function at the moment -- every component needs to
         # be between 1 and 8 characters.
         subtag_error(subtag, '1-8 characters')
-    
+
     elif tag_length == 1:
         # A one-character subtag introduces an extension, which can itself have
         # sub-subtags, so we dispatch to a different function at this point.
@@ -168,13 +168,13 @@ def parse_subtags(subtags, expect=EXTLANG):
         # We don't need to check anything about the order, because extensions
         # necessarily come last.
         return parse_extension(subtags)
-    
+
     elif tag_length == 2:
         if subtag.isalpha():
             # Two-letter alphabetic subtags are regions. These are the only
             # two-character subtags after the language.
             tagtype = REGION
-    
+
     elif tag_length == 3:
         if subtag.isalpha():
             # Three-letter alphabetic subtags are 'extended languages'.
@@ -206,7 +206,7 @@ def parse_subtags(subtags, expect=EXTLANG):
     # That's the end of the big elif block for figuring out what kind of
     # subtag we have based on its length. Now we should do something with that
     # kind of subtag.
-    
+
     if tagtype is None:
         # We haven't recognized a type of tag. This subtag just doesn't fit the
         # standard.
@@ -245,11 +245,11 @@ def parse_extlang(subtags):
     """
     Parse an 'extended language' tag, which consists of 1 to 3 three-letter
     language codes.
-    
+
     Extended languages are used for distinguishing dialects/sublanguages
     (depending on your view) of macrolanguages such as Arabic, Bahasa Malay,
     and Chinese.
-   
+
     It's supposed to also be acceptable to just use the sublanguage as the
     primary language code, and your code should know what's a macrolanguage of
     what. For example, 'zh-yue' and 'yue' are the same language (Cantonese),
@@ -272,27 +272,27 @@ def parse_extension(subtags):
 
     For example, there's the u- extension, which is used for setting Unicode
     properties in some context I'm not aware of.
-    
+
     If the singleton is 'x', it's a private use extension, and consumes the
-    rest of the tag. Otherwise, it stops at the next singleton.    
+    rest of the tag. Otherwise, it stops at the next singleton.
     """
     subtag = subtags[0]
     if len(subtags) == 1:
         raise ValueError(
             "The subtag %r must be followed by something" % subtag
         )
-    
+
     if subtag == 'x':
         # Private use. Everything after this is arbitrary codes that we
         # can't look up.
         return [('private', '-'.join(subtags))]
-    
+
     else:
         # Look for the next singleton, if there is one.
         boundary = 1
         while boundary < len(subtags) and len(subtags[boundary]) != 1:
             boundary += 1
-        
+
         # We've parsed a complete extension subtag. Return to the main
         # parse_subtags function, but expect to find nothing but more
         # extensions at this point.
