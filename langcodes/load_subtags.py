@@ -12,10 +12,12 @@ import contextlib
 import sqlite3
 import sys
 
+# Names that appear here are in English
+DATA_LANGUAGE = 'en'
 
 TABLES = [
     """CREATE TABLE IF NOT EXISTS language(
-        tag TEXT,
+        tag TEXT PRIMARY KEY,
         desc TEXT,
         script TEXT,
         is_macro INTEGER,
@@ -24,41 +26,42 @@ TABLES = [
         macrolang TEXT NULL
     )""",
     """CREATE TABLE IF NOT EXISTS nonstandard(
-        tag TEXT,
+        tag TEXT PRIMARY KEY,
         desc TEXT,
         preferred TEXT
     )""",
     """CREATE TABLE IF NOT EXISTS extlang(
-        tag TEXT,
+        tag TEXT PRIMARY KEY,
         desc TEXT,
         prefix TEXT,
         macrolang TEXT,
         preferred TEXT
     )""",
     """CREATE TABLE IF NOT EXISTS region(
-        tag TEXT,
+        tag TEXT PRIMARY KEY,
         desc TEXT
     )""",
     """CREATE TABLE IF NOT EXISTS script(
-        tag TEXT,
+        tag TEXT PRIMARY KEY,
         desc TEXT
     )""",
     """CREATE TABLE IF NOT EXISTS variant(
-        tag TEXT,
+        tag TEXT PRIMARY KEY,
         prefix TEXT,
         desc TEXT,
         comment TEXT
+    )""",
+    """CREATE TABLE IF NOT EXISTS language_name(
+        tag TEXT,
+        language TEXT,
+        name TEXT
     )""",
     """CREATE VIEW IF NOT EXISTS macrolanguages AS
         SELECT DISTINCT macrolang FROM language where macrolang is not NULL""",
 ]
 INDEXES = [
-    "CREATE UNIQUE INDEX IF NOT EXISTS langs_uniq ON language(tag)",
-    "CREATE UNIQUE INDEX IF NOT EXISTS nonstandard_uniq ON nonstandard(tag)",
-    "CREATE UNIQUE INDEX IF NOT EXISTS extlang_uniq ON extlang(tag)",
-    "CREATE UNIQUE INDEX IF NOT EXISTS region_uniq ON region(tag)",
-    "CREATE UNIQUE INDEX IF NOT EXISTS script_uniq ON script(tag)",
-    "CREATE UNIQUE INDEX IF NOT EXISTS variant_uniq ON variant(tag)",
+    "CREATE UNIQUE INDEX IF NOT EXISTS language_name_uniq ON language_name(tag, language, name)",
+    "CREATE INDEX IF NOT EXISTS language_name_lookup ON language_name(language, name)"
 ]
 
 
@@ -76,6 +79,9 @@ class Language(dict):
         return (self['code'], ';'.join(self['desc']), self['script'],
                 self.is_macrolang, self.is_collection, self['macrolang'],
                 self['preferred'])
+    
+    def name_rows(self):
+        return [(self['code'], DATA_LANGUAGE, name) for name in self['desc']]
 
 
 class Variant(dict):
@@ -118,7 +124,7 @@ def load_file(filename, conn):
     _type = None
     tag = None
     key = None
-    desc = []
+    descs = []
     comment = []
     nonstandard = False
     with codecs.open(filename, 'r', encoding='utf-8') as ifp:
@@ -140,23 +146,26 @@ def load_file(filename, conn):
                         variants.append(variant)
                     elif _type == 'script':
                         conn.execute('insert into script values (?, ?)',
-                                     (tag, ';'.join(desc)))
+                                     (tag, ';'.join(descs)))
                     elif _type == 'region':
                             conn.execute('insert into region values (?, ?)',
-                                         (tag, ';'.join(desc)))
+                                         (tag, ';'.join(descs)))
                 else:
                     if lang['preferred'] != lang['code']:
-                        lang['desc'] = ';'.join(desc)
+                        lang['desc'] = ';'.join(descs)
                         conn.execute('insert into nonstandard values(?, ?, ?)',
                                      (lang['code'], lang['desc'],
                                       lang['preferred']))
+                        for desc in descs:
+                            conn.execute('insert into language_name values(?, ?, ?)',
+                                        (lang['code'], DATA_LANGUAGE, desc))
                 nonstandard = False
                 _type = None
                 tag = None
                 lang = None
                 extlang = None
                 variant = None
-                desc = []
+                descs = []
                 comment = []
             else:
                 try:
@@ -184,7 +193,7 @@ def load_file(filename, conn):
                         elif _type == 'extlang':
                             extlang['desc'].append(value)
                         else:
-                            desc.append(value)
+                            descs.append(value)
                     elif key == 'Scope':
                         if value == 'macrolanguage' and lang:
                             lang.is_macrolang = 1
@@ -218,6 +227,9 @@ def load_file(filename, conn):
     for lang in languages:
         conn.execute('insert into language values (?, ?, ?, ?, ?, ?, ?)',
                      lang.to_row())
+        for name_row in lang.name_rows():
+            conn.execute('insert into language_name values (?, ?, ?)',
+                         name_row)
     for variant in variants:
         conn.execute('insert into variant values (?, ?, ?, ?)',
                      variant.to_row())
