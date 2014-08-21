@@ -85,9 +85,9 @@ class LanguageDB:
     
     def add_language(self, data, datalang):
         subtag = data['Subtag']
-        script = data.get('Script')
+        script = data.get('Suppress-Script')
         is_macro = 'Macrolanguage' in data
-        is_collection = (data.get('Scope') == 'Collection')
+        is_collection = (data.get('Scope') == 'collection')
         preferred = data.get('Preferred-Value')
         macrolang = data.get('Macrolanguage')
 
