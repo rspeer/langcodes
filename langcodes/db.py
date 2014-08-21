@@ -3,7 +3,7 @@ import sqlite3
 class LanguageDB:
     TABLES = [
         """CREATE TABLE IF NOT EXISTS language(
-            subtag TEXT PRIMARY KEY,
+            subtag TEXT PRIMARY KEY COLLATE NOCASE,
             script TEXT NULL,
             is_macro INTEGER,
             is_collection INTEGER,
@@ -11,44 +11,44 @@ class LanguageDB:
             macrolang TEXT NULL
         )""",
         """CREATE TABLE IF NOT EXISTS extlang(
-            subtag TEXT PRIMARY KEY,
+            subtag TEXT PRIMARY KEY COLLATE NOCASE,
             prefixes TEXT
         )""",
         """CREATE TABLE IF NOT EXISTS language_name(
-            subtag TEXT,
-            language TEXT,
-            name TEXT
+            subtag TEXT COLLATE NOCASE,
+            language TEXT COLLATE NOCASE,
+            name TEXT COLLATE NOCASE
         )""",
         """CREATE TABLE IF NOT EXISTS nonstandard(
-            tag TEXT PRIMARY KEY,
+            tag TEXT PRIMARY KEY COLLATE NOCASE,
             description TEXT,
             preferred TEXT NULL
         )""",
         """CREATE TABLE IF NOT EXISTS region(
-            subtag TEXT PRIMARY KEY,
+            subtag TEXT PRIMARY KEY COLLATE NOCASE,
             deprecated INTEGER,
             preferred TEXT NULL
         )""",
         """CREATE TABLE IF NOT EXISTS region_name(
-            subtag TEXT,
-            language TEXT,
-            name TEXT
+            subtag TEXT COLLATE NOCASE,
+            language TEXT COLLATE NOCASE,
+            name TEXT COLLATE NOCASE
         )""",
         # we have no useful information about scripts except their name
         """CREATE TABLE IF NOT EXISTS script_name(
-            subtag TEXT,
-            language TEXT,
-            name TEXT
+            subtag TEXT COLLATE NOCASE,
+            language TEXT COLLATE NOCASE,
+            name TEXT COLLATE NOCASE
         )""",
         # was there a reason variants saved their comments?
         """CREATE TABLE IF NOT EXISTS variant(
-            subtag TEXT PRIMARY KEY,
+            subtag TEXT PRIMARY KEY COLLATE NOCASE,
             prefixes TEXT
         )""",
         """CREATE TABLE IF NOT EXISTS variant_name(
-            subtag TEXT,
-            language TEXT,
-            name TEXT
+            subtag TEXT COLLATE NOCASE,
+            language TEXT COLLATE NOCASE,
+            name TEXT COLLATE NOCASE
         )""",
         """CREATE VIEW IF NOT EXISTS macrolanguages AS
             SELECT DISTINCT macrolang FROM language where macrolang is not NULL""",
@@ -80,6 +80,9 @@ class LanguageDB:
         # table name. Good thing Bobby Tables isn't giving us the names.
         self.conn.execute(template, values)
 
+    def add_name(self, table, subtag, datalang, name):
+        self._add_row('%s_name' % table, (subtag, datalang, name))
+    
     def add_language(self, data, datalang):
         subtag = data['Subtag']
         script = data.get('Script')
@@ -93,7 +96,7 @@ class LanguageDB:
             (subtag, script, is_macro, is_collection, preferred, macrolang)
         )
         for name in data['Description']:
-            self._add_row('language_name', (subtag, datalang, name))
+            self.add_name('language', subtag, datalang, name)
 
     def add_extlang(self, data, _datalang):
         subtag = data['Subtag']
@@ -113,12 +116,12 @@ class LanguageDB:
         
         self._add_row('region', (subtag, deprecated, preferred))
         for name in data['Description']:
-            self._add_row('region_name', (subtag, datalang, name))
+            self.add_name('region', subtag, datalang, name)
 
     def add_script(self, data, datalang):
         subtag = data['Subtag']
         for name in data['Description']:
-            self._add_row('script_name', (subtag, datalang, name))
+            self.add_name('script', subtag, datalang, name)
     
     def add_variant(self, data, datalang):
         subtag = data['Subtag']
@@ -126,7 +129,7 @@ class LanguageDB:
         self._add_row('variant', (subtag, prefixes))
         
         for name in data['Description']:
-            self._add_row('variant_name', (subtag, datalang, name))
+            self.add_name('variant', subtag, datalang, name)
     
     def close(self):
         self.conn.commit()
