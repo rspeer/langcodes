@@ -1,5 +1,4 @@
 from langcodes.util import data_filename
-import os
 
 LIST_KEYS = {'Description', 'Prefix'}
 
@@ -36,14 +35,14 @@ def parse_item(lines):
     """
     info = {}
     for line in lines:
-        key, value = line.split(': ')
+        key, value = line.split(': ', 1)
         if key in LIST_KEYS:
             info.setdefault(key, []).append(value)
         else:
             assert key not in info
             info[key] = value
     
-    if 'Subtag' in info:
+    if 'Subtag' in info or 'Tag' in info:
         yield info
 
 
