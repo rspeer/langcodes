@@ -41,9 +41,17 @@ def load_language_aliases(db, path):
     data = json.load(path.open(encoding='utf-8'))
     lang_aliases = data['supplemental']['metadata']['alias']['languageAlias']
     for subtag, value in lang_aliases.items():
-        preferred = value['_replacement']
-        is_macro = value['_reason'] == 'macrolanguage'
-        db.add_nonstandard_mapping(subtag, None, preferred, is_macro)
+        if '_replacement' in value:
+            preferred = value['_replacement']
+            is_macro = value['_reason'] == 'macrolanguage'
+            db.add_nonstandard_mapping(subtag, None, preferred, is_macro)
+
+
+def load_bibliographic_aliases(db, path):
+    for line in path.open(encoding='utf-8'):
+        biblio, preferred, name = line.rstrip().split(',', 2)
+        desc = '%s (bibliographic code)' % name
+        db.add_nonstandard_mapping(biblio, desc, preferred, False)
 
 
 def load_cldr(db, cldr_path):
@@ -64,6 +72,7 @@ def main(db_filename):
         db.setup()
         load_registry(db, parse_registry(), 'en')
         load_cldr(db, Path(data_filename('cldr')))
+        load_bibliographic_aliases(db, Path(data_filename('bibliographic_codes.csv')))
 
 
 if __name__ == '__main__':
