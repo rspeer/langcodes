@@ -37,21 +37,30 @@ def load_cldr_file(db, typ, langcode, path):
             db.add_name(typ, subtag, langcode, name)
 
 
-def load_language_aliases(db, path):
+def load_cldr_aliases(db, path):
     data = json.load(path.open(encoding='utf-8'))
     lang_aliases = data['supplemental']['metadata']['alias']['languageAlias']
     for subtag, value in lang_aliases.items():
         if '_replacement' in value:
             preferred = value['_replacement']
             is_macro = value['_reason'] == 'macrolanguage'
-            db.add_nonstandard_mapping(subtag, None, preferred, is_macro)
+            db.add_language_mapping(subtag, None, preferred, is_macro)
+    region_aliases = data['supplemental']['metadata']['alias']['territoryAlias']
+    for subtag, value in region_aliases.items():
+        if '_replacement' in value:
+            preferred = value['_replacement']
+            if ' ' in preferred:
+                # handling regions that have split up is a difficult detail that
+                # we don't care to implement yet
+                preferred = None
+            db.add_region_mapping(subtag, preferred)
 
 
 def load_bibliographic_aliases(db, path):
     for line in path.open(encoding='utf-8'):
         biblio, preferred, name = line.rstrip().split(',', 2)
         desc = '%s (bibliographic code)' % name
-        db.add_nonstandard_mapping(biblio, desc, preferred, False)
+        db.add_language_mapping(biblio, desc, preferred, False)
 
 
 def load_cldr(db, cldr_path):
@@ -63,7 +72,7 @@ def load_cldr(db, cldr_path):
             load_cldr_file(db, 'region', langcode, subpath / 'territories.json')
             load_cldr_file(db, 'script', langcode, subpath / 'scripts.json')
             load_cldr_file(db, 'variant', langcode, subpath / 'variants.json')
-    load_language_aliases(db, cldr_path / 'supplemental' / 'metadata.json')
+    load_cldr_aliases(db, cldr_path / 'supplemental' / 'metadata.json')
 
 
 def main(db_filename):

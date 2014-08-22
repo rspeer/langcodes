@@ -25,6 +25,10 @@ class LanguageDB:
             preferred TEXT NULL,
             is_macro INTEGER
         )""",
+        """CREATE TABLE IF NOT EXISTS nonstandard_region(
+            tag TEXT PRIMARY KEY COLLATE NOCASE,
+            preferred TEXT NULL
+        )""",
         """CREATE TABLE IF NOT EXISTS region(
             subtag TEXT PRIMARY KEY COLLATE NOCASE,
             deprecated INTEGER,
@@ -83,7 +87,7 @@ class LanguageDB:
 
     def add_name(self, table, subtag, datalang, name):
         self._add_row('%s_name' % table, (subtag, datalang, name))
-    
+
     def add_language(self, data, datalang):
         subtag = data['Subtag']
         script = data.get('Suppress-Script')
@@ -108,37 +112,58 @@ class LanguageDB:
         tag = data['Tag']
         desc = ';'.join(data.get('Description'))
         preferred = data.get('Preferred-Value')
-        self.add_nonstandard_mapping(tag, desc, preferred, False)
+        self.add_language_mapping(tag, desc, preferred, False)
 
-    def add_nonstandard_mapping(self, tag, desc, preferred, is_macro):
+    def add_language_mapping(self, tag, desc, preferred, is_macro):
         self._add_row('nonstandard', (tag, desc, preferred, is_macro))
 
     def add_region(self, data, datalang):
         subtag = data['Subtag']
         deprecated = 'Deprecated' in data
         preferred = data.get('Preferred-Value')
-        
+
         self._add_row('region', (subtag, deprecated, preferred))
         for name in data['Description']:
             self.add_name('region', subtag, datalang, name)
+
+    def add_region_mapping(self, tag, preferred):
+        self._add_row('nonstandard_region', (tag, preferred))
 
     def add_script(self, data, datalang):
         subtag = data['Subtag']
         for name in data['Description']:
             self.add_name('script', subtag, datalang, name)
-    
+
     def add_variant(self, data, datalang):
         subtag = data['Subtag']
         prefixes = ';'.join(data.get('Prefix', '*'))
         self._add_row('variant', (subtag, prefixes))
-        
+
         for name in data['Description']:
             self.add_name('variant', subtag, datalang, name)
-    
+
+    def language_replacements(self, macro=False):
+        c = self.conn.cursor()
+        c.execute("select tag, preferred from nonstandard where is_macro=? "
+                  "and preferred is not null", (macro,))
+        return c.fetchall()
+
+    def region_replacements(self):
+        c = self.conn.cursor()
+        c.execute("select tag, preferred from nonstandard_region "
+                  "where preferred is not null")
+        return c.fetchall()
+
+    def suppressed_scripts(self):
+        c = self.conn.cursor()
+        c.execute("select subtag, script from language "
+                  "where script is not null")
+        return c.fetchall()
+
     def close(self):
         self.conn.commit()
         self.conn.close()
-    
+
     def __enter__(self):
         return self
 
