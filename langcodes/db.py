@@ -22,7 +22,8 @@ class LanguageDB:
         """CREATE TABLE IF NOT EXISTS nonstandard(
             tag TEXT PRIMARY KEY COLLATE NOCASE,
             description TEXT,
-            preferred TEXT NULL
+            preferred TEXT NULL,
+            is_macro INTEGER
         )""",
         """CREATE TABLE IF NOT EXISTS region(
             subtag TEXT PRIMARY KEY COLLATE NOCASE,
@@ -107,7 +108,10 @@ class LanguageDB:
         tag = data['Tag']
         desc = ';'.join(data.get('Description'))
         preferred = data.get('Preferred-Value')
-        self._add_row('nonstandard', (tag, desc, preferred))
+        self.add_nonstandard_mapping(tag, desc, preferred, False)
+
+    def add_nonstandard_mapping(self, tag, desc, preferred, is_macro):
+        self._add_row('nonstandard', (tag, desc, preferred, is_macro))
 
     def add_region(self, data, datalang):
         subtag = data['Subtag']

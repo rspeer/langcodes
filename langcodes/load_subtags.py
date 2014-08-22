@@ -37,14 +37,25 @@ def load_cldr_file(db, typ, langcode, path):
             db.add_name(typ, subtag, langcode, name)
 
 
+def load_language_aliases(db, path):
+    data = json.load(path.open(encoding='utf-8'))
+    lang_aliases = data['supplemental']['metadata']['alias']['languageAlias']
+    for subtag, value in lang_aliases.items():
+        preferred = value['_replacement']
+        is_macro = value['_reason'] == 'macrolanguage'
+        db.add_nonstandard_mapping(subtag, None, preferred, is_macro)
+
+
 def load_cldr(db, cldr_path):
-    for subpath in cldr_path.iterdir():
+    main_path = cldr_path / 'main'
+    for subpath in main_path.iterdir():
         if subpath.is_dir() and (subpath / 'languages.json').exists():
             langcode = subpath.name
             load_cldr_file(db, 'language', langcode, subpath / 'languages.json')
             load_cldr_file(db, 'region', langcode, subpath / 'territories.json')
             load_cldr_file(db, 'script', langcode, subpath / 'scripts.json')
             load_cldr_file(db, 'variant', langcode, subpath / 'variants.json')
+    load_language_aliases(db, cldr_path / 'supplemental' / 'metadata.json')
 
 
 def main(db_filename):
