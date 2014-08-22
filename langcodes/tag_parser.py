@@ -42,11 +42,14 @@ langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of pla
 >>> parse('zh-yue')
 [('language', 'zh'), ('extlang', 'yue')]
 
+>>> parse('zh-yue-Hant')
+[('language', 'zh'), ('extlang', 'yue'), ('script', 'Hant')]
+
 >>> parse('zh-min-nan')
 [('grandfathered', 'zh-min-nan')]
 
 >>> parse('x-dothraki')
-[('private', 'x-dothraki')]
+[('language', 'x-dothraki')]
 
 >>> parse('en-u-co-backwards-x-pig-latin')
 [('language', 'en'), ('extension', 'u-co-backwards'), ('private', 'x-pig-latin')]
@@ -115,7 +118,12 @@ def parse(tag):
         # entirely by the fact that it is required to come first.
         subtags = tag.split('-')
         if subtags[0] == 'x':
-            return parse_extension(subtags)
+            if len(subtags) == 1:
+                raise LanguageTagError("'x' is not a language tag on its own")
+            else:
+                # the entire language tag is private use, but we know that,
+                # whatever it is, it fills the "language" slot
+                return [('language', tag)]
         elif len(subtags[0]) >= 2:
             return [('language', subtags[0])] + parse_subtags(subtags[1:])
         else:
@@ -261,7 +269,7 @@ def parse_extlang(subtags):
     while index < len(subtags) and len(subtags[index]) == 3 and index < 3:
         parsed.append(('extlang', subtags[index]))
         index += 1
-    return parsed + parse_subtags(subtags[index + 1:], SCRIPT)
+    return parsed + parse_subtags(subtags[index:], SCRIPT)
 
 
 def parse_extension(subtags):
@@ -278,7 +286,7 @@ def parse_extension(subtags):
     """
     subtag = subtags[0]
     if len(subtags) == 1:
-        raise ValueError(
+        raise LanguageTagError(
             "The subtag %r must be followed by something" % subtag
         )
 
