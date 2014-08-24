@@ -1,10 +1,6 @@
 from .tag_parser import parse
-from .db import LanguageDB
+from .db import LanguageDB, LIKELY_SUBTAGS
 from .util import data_filename
-import logging
-
-logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 
 
 DB = LanguageDB(data_filename('subtags.db'))
@@ -19,18 +15,24 @@ NORMALIZED_MACROLANGUAGES = {
     for (orig, new) in DB.language_replacements(macro=True)
 }
 
+# Mappings for all languages that have macrolanguages.
+MACROLANGUAGES = {lang: macro for (lang, macro) in DB.macrolanguages()}
+
+
+# Regions that have been renamed, merged, or re-coded. (This package doesn't
+# handle the ones that have been split, like Yugoslavia.)
 NORMALIZED_REGIONS = {
     orig.upper(): new.upper()
     for (orig, new) in DB.region_replacements()
 }
 
-SUPPRESSED_SCRIPTS = {
+DEFAULT_SCRIPTS = {
     lang: script
     for (lang, script) in DB.suppressed_scripts()
 }
 
 
-def standardize_tag(tag: str, macro=False) -> str:
+def standardize_tag(tag: str, macro: bool=False) -> str:
     """
     Standardize a language tag:
 
@@ -43,7 +45,7 @@ def standardize_tag(tag: str, macro=False) -> str:
     - Format the result according to the conventions of BCP 47
 
     Macrolanguage replacement is not required by BCP 47, but it is required
-    by Unicode.
+    by the Unicode CLDR.
 
     >>> standardize_tag('en_US')
     'en-US'
@@ -69,13 +71,10 @@ def standardize_tag(tag: str, macro=False) -> str:
     >>> standardize_tag('zh-cmn-hans-cn', macro=True)
     'zh-Hans-CN'
     """
+    meaning = tag_to_meaning(tag, normalize=True)
     if macro:
-        normalize = 'macro'
-    else:
-        normalize = True
-    return meaning_to_tag(simplify_script(
-        tag_to_meaning(tag, normalize=normalize)
-    ))
+        meaning = prefer_macrolanguage(meaning)
+    return meaning_to_tag(simplify_script(meaning))
 
 
 def tag_to_meaning(tag: str, normalize=True) -> dict:
@@ -86,7 +85,7 @@ def tag_to_meaning(tag: str, normalize=True) -> dict:
     {'language': 'en', 'region': 'US'}
 
     >>> pprint(tag_to_meaning('sh-QU'))        # transform deprecated tags
-    {'language': 'sr', 'region': 'EU', 'script': 'Latn'}
+    {'language': 'sr', 'macrolanguage': 'sh', 'region': 'EU', 'script': 'Latn'}
 
     >>> pprint(tag_to_meaning('sgn-US'))
     {'language': 'ase'}
@@ -95,9 +94,9 @@ def tag_to_meaning(tag: str, normalize=True) -> dict:
     {'language': 'sgn', 'region': 'US'}
 
     >>> pprint(tag_to_meaning('zh-cmn-Hant'))  # promote extlangs to languages
-    {'language': 'cmn', 'script': 'Hant'}
+    {'language': 'cmn', 'macrolanguage': 'zh', 'script': 'Hant'}
 
-    >>> pprint(tag_to_meaning('zh-cmn-Hant', normalize='macro'))
+    >>> pprint(prefer_macrolanguage(tag_to_meaning('zh-cmn-Hant')))
     {'language': 'zh', 'script': 'Hant'}
 
     >>> pprint(tag_to_meaning('zh-cmn-Hant', normalize=False))
@@ -111,8 +110,6 @@ def tag_to_meaning(tag: str, normalize=True) -> dict:
         tag = NORMALIZED_LANGUAGES[tag.lower()]
 
     components = parse(tag)
-    logger.info("Input: %s", tag)
-    logger.info("Components: %s", components)
 
     for typ, value in components:
         if typ == 'extlang' and normalize and meaning['language']:
@@ -125,15 +122,17 @@ def tag_to_meaning(tag: str, normalize=True) -> dict:
         elif typ in {'extlang', 'variant', 'extension'}:
             meaning.setdefault(typ, set()).add(value)
         elif typ == 'language':
-            if normalize and value in NORMALIZED_LANGUAGES:
+            if value == 'und':
+                pass
+            elif normalize and value in NORMALIZED_LANGUAGES:
                 replacement = NORMALIZED_LANGUAGES[value]
                 # parse the replacement if necessary -- this helps with
                 # Serbian and Moldovan
                 meaning.update(tag_to_meaning(replacement, normalize))
-            elif normalize == 'macro' and value in NORMALIZED_MACROLANGUAGES:
-                meaning[typ] = NORMALIZED_MACROLANGUAGES[value]
             else:
                 meaning[typ] = value
+                if value in MACROLANGUAGES:
+                    meaning['macrolanguage'] = MACROLANGUAGES[value]
         elif typ == 'region':
             if normalize and value in NORMALIZED_REGIONS:
                 meaning[typ] = NORMALIZED_REGIONS[value]
@@ -142,6 +141,18 @@ def tag_to_meaning(tag: str, normalize=True) -> dict:
         else:
             meaning[typ] = value
     return meaning
+
+
+def prefer_macrolanguage(meaning: dict) -> dict:
+    language = meaning.get('language', 'und')
+    if language in NORMALIZED_MACROLANGUAGES:
+        copied = dict(meaning)
+        copied['language'] = NORMALIZED_MACROLANGUAGES[language]
+        if 'macrolanguage' in copied:
+            del copied['macrolanguage']
+        return copied
+    else:
+        return meaning
 
 
 def meaning_to_tag(meaning: dict) -> str:
@@ -180,7 +191,7 @@ def simplify_script(meaning: dict) -> dict:
     'yi'
     """
     if 'language' in meaning and 'script' in meaning:
-        if SUPPRESSED_SCRIPTS.get(meaning['language']) == meaning['script']:
+        if DEFAULT_SCRIPTS.get(meaning['language']) == meaning['script']:
             copied = dict(meaning)
             del copied['script']
             return copied
@@ -217,7 +228,7 @@ def assume_script(meaning: dict) -> dict:
         lang = meaning['language']
         copied = dict(meaning)
         try:
-            copied['script'] = SUPPRESSED_SCRIPTS[lang]
+            copied['script'] = DEFAULT_SCRIPTS[lang]
         except KeyError:
             pass
         return copied
@@ -270,3 +281,56 @@ def meaning_superset(meaning1: dict, meaning2: dict) -> bool:
                     return False
     return True
 
+
+BROADER_KEYSETS = [
+    {'language', 'script', 'region'},
+    {'language', 'script'},
+    {'language', 'region'},
+    {'language'},
+    {'macrolanguage', 'script', 'region'},
+    {'macrolanguage', 'script'},
+    {'macrolanguage', 'region'},
+    {'macrolanguage'},
+    {'script', 'region'},
+    {'script'},
+    {'region'},
+    {}
+]
+
+
+def _filter_keys(d: dict, keys: set) -> dict:
+    filtered = {key: d[key] for key in keys if key in d}
+    if 'macrolanguage' in filtered and 'language' not in filtered:
+        filtered['language'] = filtered['macrolanguage']
+        del filtered['macrolanguage']
+    return filtered
+
+
+def broader_meanings(meaning: dict):
+    # TODO: apply all macrolanguages, and possibly region inclusions
+    yield meaning
+    for keyset in BROADER_KEYSETS:
+        filtered = _filter_keys(meaning, keyset)
+        if filtered != meaning:
+            yield filtered
+
+
+def fill_likely_values(meaning: dict) -> dict:
+    for check_meaning in broader_meanings(meaning):
+        tag = meaning_to_tag(check_meaning)
+        if tag in LIKELY_SUBTAGS:
+            result = tag_to_meaning(LIKELY_SUBTAGS[tag])
+            result.update(meaning)
+            return result
+    raise RuntimeError(
+        "Couldn't fill in likely values. This represents a problem with "
+        "langcodes.db.LIKELY_SUBTAGS."
+    )
+
+
+def natural_language_meaning(meaning: dict, language: str='en') -> dict:
+    """
+    Replace the codes in a 'meaning' dictionary with their names in
+    a natural language, when possible.
+    """
+    raise NotImplementedError

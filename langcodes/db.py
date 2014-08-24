@@ -1,4 +1,11 @@
 import sqlite3
+import json
+from .util import data_filename
+
+_LIKELY_SUBTAG_DATA = json.load(
+    open(data_filename('cldr/supplemental/likelySubtags.json'), encoding='ascii')
+)
+LIKELY_SUBTAGS = _LIKELY_SUBTAG_DATA['supplemental']['likelySubtags']
 
 class LanguageDB:
     TABLES = [
@@ -141,6 +148,12 @@ class LanguageDB:
 
         for name in data['Description']:
             self.add_name('variant', subtag, datalang, name)
+
+    def macrolanguages(self):
+        c = self.conn.cursor()
+        c.execute("select subtag, macrolang from language "
+                  "where macrolang is not null")
+        return c.fetchall()
 
     def language_replacements(self, macro=False):
         c = self.conn.cursor()
