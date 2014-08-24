@@ -1,5 +1,5 @@
 from .tag_parser import parse
-from .db import LanguageDB, LIKELY_SUBTAGS
+from .db import LanguageDB, LIKELY_SUBTAGS, LANGUAGE_MATCHING, PARENT_LOCALES
 from .util import data_filename
 
 
@@ -326,6 +326,93 @@ def fill_likely_values(meaning: dict) -> dict:
         "Couldn't fill in likely values. This represents a problem with "
         "langcodes.db.LIKELY_SUBTAGS."
     )
+
+
+def _check_filtered(desired, supported, keyset):
+    return (_filter_keys(desired, keyset) == _filter_keys(supported, keyset))
+
+
+def _searchable_form(meaning: dict) -> dict:
+    four_keys = _filter_keys(
+        meaning,
+        {'macrolanguage', 'language', 'script', 'region'}
+    )
+    return prefer_macrolanguage(simplify_script(four_keys))
+
+
+def language_match_value(desired: dict, supported: dict) -> int:
+    if desired == supported:
+        return 100
+    desired_complete = fill_likely_values(desired)
+    supported_complete = fill_likely_values(supported)
+    desired_reduced = _searchable_form(desired_complete)
+    supported_reduced = _searchable_form(supported_complete)
+
+    # if the languages match after we normalize them, that's very good
+    if desired_reduced == supported_reduced:
+        return 99
+
+    # When a language tag matches another tag's "parent locale" exactly,
+    # that's a very good match.
+    desired_tag = meaning_to_tag(desired_reduced)
+    supported_tag = meaning_to_tag(supported_reduced)
+    if PARENT_LOCALES.get(desired_tag) == supported_tag:
+        return 98
+    if PARENT_LOCALES.get(supported_tag) == desired_tag:
+        return 97
+
+    if (desired_tag, supported_tag) in LANGUAGE_MATCHING:
+        return LANGUAGE_MATCHING[(desired_tag, supported_tag)]
+    
+    if desired_complete['script'] == supported_complete['script']:
+        # When the scripts match, we can check for mutually intelligible
+        # languages.
+        dlang, slang = desired_complete['language'], supported_complete['language']
+        if (dlang, slang) in LANGUAGE_MATCHING:
+            return LANGUAGE_MATCHING[(dlang, slang)]
+    
+    if desired_complete['language'] == supported_complete['language']:
+        # We also have some information about mutually intelligible scripts.
+        if desired_complete['script'] == supported_complete['script']:
+            return 96
+        if desired_complete['script'] == 'Hans' and supported_complete['script'] == 'Hant':
+            return 85
+        elif desired_complete['script'] == 'Hant' and supported_complete['script'] == 'Hans':
+            return 75
+        else:
+            # Most scripts aren't mutually intelligible. I don't know why CLDR
+            # gives this a value as high as 20.
+            return 20
+
+
+    if 'macrolanguage' in desired_complete or 'macrolanguage' in supported_complete:
+        # This rule isn't in the CLDR data, because they don't trust any
+        # information about sub-languages of a macrolanguage.
+        #
+        # If the two language codes share a macrolanguage, we take half of
+        # what their match value would be if the macrolanguage were a language.
+
+        desired_macro = dict(desired_complete)
+        supported_macro = dict(supported_complete)
+        if 'macrolanguage' in desired_complete:
+            desired_macro['language'] = desired_complete['macrolanguage']
+        if 'macrolanguage' in supported_complete:
+            supported_macro['language'] = supported_complete['macrolanguage']
+        if desired_macro != desired_complete or supported_macro != supported_complete:
+            return language_match_value(desired_macro, supported_macro) // 2
+
+    # There is nothing that matches.
+    # CLDR would give a match value of 1 here, for reasons I suspect are
+    # internal to their own software. Forget that. 0 should mean "no match".
+    return 0
+
+
+def tag_match_value(desired: str, supported: str):
+    return language_match_value(tag_to_meaning(desired), tag_to_meaning(supported))
+
+
+def match_language_code(desired_language: str, supported_languages: list) -> str:
+    raise NotImplementedError
 
 
 def natural_language_meaning(meaning: dict, language: str='en') -> dict:

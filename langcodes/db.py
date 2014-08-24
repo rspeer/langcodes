@@ -2,12 +2,47 @@ import sqlite3
 import json
 from .util import data_filename
 
-_LIKELY_SUBTAG_DATA = json.load(
-    open(data_filename('cldr/supplemental/likelySubtags.json'), encoding='ascii')
+
+# Load some small amounts of data from .json that it's okay to reload on each
+# import.
+_LIKELY_SUBTAG_JSON = json.load(
+    open(data_filename('cldr/supplemental/likelySubtags.json'))
 )
-LIKELY_SUBTAGS = _LIKELY_SUBTAG_DATA['supplemental']['likelySubtags']
+LIKELY_SUBTAGS = _LIKELY_SUBTAG_JSON['supplemental']['likelySubtags']
+
+
+def _make_language_match_data():
+    match_json = json.load(
+        open(data_filename('cldr/supplemental/languageMatching.json'))
+    )
+    matches = {}
+    match_data = match_json['supplemental']['languageMatching']['written']
+    for item in match_data:
+        match = item['languageMatch']
+        desired = match['_desired']
+        supported = match['_supported']
+        value = match['_percent']
+        if (desired, supported) not in matches:
+            matches[(desired, supported)] = int(value)
+        if match.get('_oneway') != 'true':
+            if (supported, desired) not in matches:
+                matches[(supported, desired)] = int(value)
+    return matches
+LANGUAGE_MATCHING = _make_language_match_data()
+
+
+_PARENT_LOCALE_JSON = json.load(
+    open(data_filename('cldr/supplemental/parentLocales.json'), encoding='ascii')
+)
+PARENT_LOCALES = _PARENT_LOCALE_JSON['supplemental']['parentLocales']['parentLocale']
+    
 
 class LanguageDB:
+    """
+    The LanguageDB contains relational data about language subtags. It's
+    originally read from a flatfile and .json files using load_subtags.py,
+    and after that it's available in this SQLite database.
+    """
     TABLES = [
         """CREATE TABLE IF NOT EXISTS language(
             subtag TEXT PRIMARY KEY COLLATE NOCASE,
