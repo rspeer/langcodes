@@ -1,7 +1,6 @@
 from .tag_parser import parse
 from .db import LanguageDB, LIKELY_SUBTAGS, LANGUAGE_MATCHING, PARENT_LOCALES
 from .util import data_filename
-import logging
 
 DB = LanguageDB(data_filename('subtags.db'))
 
@@ -103,6 +102,9 @@ def tag_to_meaning(tag: str, normalize=True) -> dict:
 
     >>> pprint(tag_to_meaning('zh-cmn-Hant', normalize=False))
     {'extlang': {'cmn'}, 'language': 'zh', 'script': 'Hant'}
+
+    >>> pprint(tag_to_meaning('und'))
+    {}
     """
     meaning = {}
     # if the complete tag appears as something to normalize, do the
@@ -231,7 +233,7 @@ def simplify_script(meaning: dict) -> dict:
 
     >>> meaning_to_tag(simplify_script({'language': 'en', 'script': 'Latn'}))
     'en'
-    
+
     >>> meaning_to_tag(simplify_script({'language': 'yi', 'script': 'Latn'}))
     'yi-Latn'
 
@@ -251,7 +253,7 @@ def assume_script(meaning: dict) -> dict:
     """
     Fill in the script if it's missing, and if it can be assumed from the
     language subtag. This is the opposite of `simplify_script`.
-    
+
     >>> meaning_to_tag(assume_script({'language': 'en'}))
     'en-Latn'
     >>> meaning_to_tag(assume_script({'language': 'yi'}))
@@ -343,6 +345,12 @@ BROADER_KEYSETS = [
     {'script'},
     {'region'},
     {}
+]
+
+MATCHABLE_KEYSETS = [
+    {'language', 'script', 'region'},
+    {'language', 'script'},
+    {'language'},
 ]
 
 
@@ -441,22 +449,22 @@ def _searchable_form(meaning: dict) -> dict:
     return prefer_macrolanguage(simplify_script(four_keys))
 
 
-def language_match_value(desired: dict, supported: dict) -> int:
+def language_match_score(desired: dict, supported: dict) -> int:
     """
     Return a number from 0 to 100 indicating the strength of match between the
     language the user desires, D, and a supported language, S. The scale comes
     from CLDR data, but we've added some scale steps to deal with languages
     within macrolanguages.
 
-    This function takes its inputs as dictionaries. See `tag_match_value` for
+    This function takes its inputs as dictionaries. See `tag_match_score` for
     the equivalent function that works on language tags as strings, including
     examples.
     """
     if desired == supported:
         return 100
 
-    desired_complete = fill_likely_values(desired)
-    supported_complete = fill_likely_values(supported)
+    desired_complete = fill_likely_values(prefer_macrolanguage(desired))
+    supported_complete = fill_likely_values(prefer_macrolanguage(supported))
     desired_reduced = _searchable_form(desired_complete)
     supported_reduced = _searchable_form(supported_complete)
 
@@ -473,26 +481,24 @@ def language_match_value(desired: dict, supported: dict) -> int:
     if PARENT_LOCALES.get(supported_tag) == desired_tag:
         return 97
 
-    if desired_complete['script'] == supported_complete['script']:
-        # When the scripts match, we can check for mutually intelligible
-        # languages.
+    # Look for language pairs that are present in CLDR's 'languageMatching'.
+    for keyset in MATCHABLE_KEYSETS:
+        desired_filtered_tag = meaning_to_tag(
+            simplify_script(_filter_keys(desired_complete, keyset))
+        )
+        supported_filtered_tag = meaning_to_tag(
+            simplify_script(_filter_keys(supported_complete, keyset))
+        )
+        pair = (desired_filtered_tag, supported_filtered_tag)
 
-        dlang, slang = desired_complete['language'], supported_complete['language']
-        if (dlang, slang) in LANGUAGE_MATCHING:
-            return LANGUAGE_MATCHING[(dlang, slang)]
-    
+        if pair in LANGUAGE_MATCHING:
+            return LANGUAGE_MATCHING[pair]
+
     if desired_complete['language'] == supported_complete['language']:
         if desired_complete['script'] == supported_complete['script']:
             return 96
-        else:
-            # When the scripts don't match, check for mutually intelligible scripts.
-            dlang_script = meaning_to_tag(_filter_keys(desired_complete, {'language', 'script'}))
-            slang_script = meaning_to_tag(_filter_keys(supported_complete, {'language', 'script'}))
-            if (dlang_script, slang_script) in LANGUAGE_MATCHING:
-                return LANGUAGE_MATCHING[(dlang_script, slang_script)]
-
         # Implement these wildcard rules about Han scripts explicitly.
-        if desired_complete['script'] == 'Hans' and supported_complete['script'] == 'Hant':
+        elif desired_complete['script'] == 'Hans' and supported_complete['script'] == 'Hant':
             return 85
         elif desired_complete['script'] == 'Hant' and supported_complete['script'] == 'Hans':
             return 75
@@ -500,11 +506,6 @@ def language_match_value(desired: dict, supported: dict) -> int:
             # A low-ish score for incompatible scripts.
             return 20
 
-    # FIXME: match ta-IN with en-US even though the actual match is ('ta', 'en')
-    # filter for {l, r, s}, {l, r}, {l, s}, and {l}
-    if (desired_tag, supported_tag) in LANGUAGE_MATCHING:
-        return LANGUAGE_MATCHING[(desired_tag, supported_tag)]
-    
     if 'macrolanguage' in desired_complete or 'macrolanguage' in supported_complete:
         # This rule isn't in the CLDR data, because they don't trust any
         # information about sub-languages of a macrolanguage.
@@ -521,7 +522,7 @@ def language_match_value(desired: dict, supported: dict) -> int:
             supported_macro['language'] = supported_complete['macrolanguage']
             del supported_macro['macrolanguage']
         if desired_macro != desired_complete or supported_macro != supported_complete:
-            return language_match_value(desired_macro, supported_macro) // 2
+            return language_match_score(desired_macro, supported_macro) // 2
 
     # There is nothing that matches.
     # CLDR would give a match value of 1 here, for reasons I suspect are
@@ -529,31 +530,38 @@ def language_match_value(desired: dict, supported: dict) -> int:
     return 0
 
 
-def tag_match_value(desired: str, supported: str) -> int:
+def tag_match_score(desired: str, supported: str) -> int:
     """
     Return a number from 0 to 100 indicating the strength of match between the
     language the user desires, D, and a supported language, S. The scale comes
     from CLDR data, but we've added some scale steps to deal with languages
     within macrolanguages.
 
-    A match strength of 100 indicates that the languages are the same for all
-    purposes.
-    
-    >>> tag_match_value('en', 'en')
+    A match strength of 100 indicates that the languages should be considered the
+    same. Perhaps because they are the same.
+
+    >>> tag_match_score('en', 'en')
     100
-    >>> tag_match_value('no', 'nb')  # Unspecified Norwegian means Bokmål in practice.
+
+    >>> # Unspecified Norwegian means Bokmål in practice.
+    >>> tag_match_score('no', 'nb')
+    100
+
+    >>> # Serbo-Croatian is a politically contentious idea, but in practice
+    >>> # it's considered equivalent to Serbian in Latin characters.
+    >>> tag_match_score('sh', 'sr-Latn')
     100
 
     A match strength of 99 indicates that the languages are the same after
     filling in likely values and normalizing. There may be situations in which
     the tags differ, but users are unlikely to be bothered. A machine learning
     algorithm expecting input in language S should do just fine in language D.
-    
-    >>> tag_match_value('en', 'en-US')
+
+    >>> tag_match_score('en', 'en-US')
     99
-    >>> tag_match_value('zh-Hant', 'zh-TW')
+    >>> tag_match_score('zh-Hant', 'zh-TW')
     99
-    >>> tag_match_value('ru-Cyrl', 'ru')
+    >>> tag_match_score('ru-Cyrl', 'ru')
     99
 
     A match strength of 97 or 98 means that the language tags are different,
@@ -562,58 +570,58 @@ def tag_match_value(desired: str, supported: str) -> int:
     doesn't assign it a match strength. It uses hacky wildcard-based rules for
     this purpose instead. The end result is very similar.)
 
-    >>> tag_match_value('en-AU', 'en-GB')   # Australian English is similar to British
+    >>> tag_match_score('en-AU', 'en-GB')   # Australian English is similar to British
     98
-    >>> tag_match_value('en-IN', 'en-GB')   # Indian English is also similar to British
+    >>> tag_match_score('en-IN', 'en-GB')   # Indian English is also similar to British
     98
     >>> # It might be slightly more unexpected to ask for British usage and get
     >>> # Indian usage than the other way around.
-    >>> tag_match_value('en-GB', 'en-IN')
+    >>> tag_match_score('en-GB', 'en-IN')
     97
-    >>> tag_match_value('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
+    >>> tag_match_score('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
     98
 
     A match strength of 96 means that the tags indicate a regional difference.
     Users may notice some unexpected usage, and NLP algorithms that expect one
     language may occasionally trip up on the other.
-    
+
     >>> # European Portuguese is a bit different from the Brazilian most common dialect
-    >>> tag_match_value('pt', 'pt-PT')
+    >>> tag_match_score('pt', 'pt-PT')
     96
     >>> # UK and US English are also a bit different
-    >>> tag_match_value('en-GB', 'en-US')
+    >>> tag_match_score('en-GB', 'en-US')
     96
     >>> # Swiss German speakers will understand standardized German
-    >>> tag_match_value('gsw', 'de')
+    >>> tag_match_score('gsw', 'de')
     96
     >>> # Most German speakers will think Swiss German is a foreign language
-    >>> tag_match_value('de', 'gsw')
+    >>> tag_match_score('de', 'gsw')
     0
 
     A match strength of 90 represents languages with a considerable amount of
     overlap and some amount of mutual intelligibility. People will probably be
     able to handle the difference with a bit of discomfort
-    
+
     Algorithms may have more trouble, but you could probably train your NLP on
     _both_ languages without any problems. Below this match strength, though,
     don't expect algorithms to be compatible.
 
-    >>> tag_match_value('no', 'da')  # Norwegian Bokmål is like Danish
+    >>> tag_match_score('no', 'da')  # Norwegian Bokmål is like Danish
     90
-    >>> tag_match_value('id', 'ms')  # Indonesian is like Malay
+    >>> tag_match_score('id', 'ms')  # Indonesian is like Malay
     90
     >>> # Serbian language users will usually understand Serbian in its other script.
-    >>> tag_match_value('sr-Latn', 'sr-Cyrl')
+    >>> tag_match_score('sr-Latn', 'sr-Cyrl')
     90
 
     A match strength of 85 indicates a script that well-educated users of the
     desired language will understand, but they won't necessarily be happy with
     it. In particular, those who write in Simplified Chinese can often
     understand the Traditional script.
-    
-    >>> tag_match_value('zh-Hans', 'zh-Hant')
+
+    >>> tag_match_score('zh-Hans', 'zh-Hant')
     85
-    >>> tag_match_value('zh-CN', 'zh-HK')
+    >>> tag_match_score('zh-CN', 'zh-HK')
     85
 
     A match strength of 75 indicates a script that users of the desired language
@@ -621,27 +629,34 @@ def tag_match_value(desired: str, supported: str) -> int:
     Those who write in Traditional Chinese are less familiar with the Simplified
     script than the other way around.
 
-    >>> tag_match_value('zh-Hant', 'zh-Hans')
+    >>> tag_match_score('zh-Hant', 'zh-Hans')
     75
-    >>> tag_match_value('zh-HK', 'zh-CN')
+    >>> tag_match_score('zh-HK', 'zh-CN')
     75
+
+    Checking the macrolanguage is an extension that we added. The following
+    match strengths from 37 to 50 come from our interpretation of how to handle
+    macrolanguages, as opposed to the CLDR's position of wishing they would go
+    away.
 
     A match strength of 50 means that the languages are different sub-languages of
     a macrolanguage. Their mutual intelligibility will vary considerably based on
-    the circumstances. (Checking the macrolanguage is an extension that we added.)
+    the circumstances.
+
     >>> # Gan is considered a kind of Chinese, but it's fairly different from Mandarin.
-    >>> tag_match_value('gan', 'zh')
+    >>> tag_match_score('gan', 'zh')
     50
 
     A match strength of 35 to 49 has one of the differences described above as well
     as being different sub-languages of a macrolanguage.
 
-    >>> # Hong Kong uses traditional Chinese, but it may contain Cantonese-specific
-    >>> # expressions that are gibberish in Mandarin, hindering intelligibility.
-    >>> tag_match_value('zh-Hant', 'yue-HK')
+    >>> # Hong Kong uses traditional Chinese characters, but it may contain
+    >>> # Cantonese-specific expressions that are gibberish in Mandarin,
+    >>> # hindering intelligibility.
+    >>> tag_match_score('zh-Hant', 'yue-HK')
     48
     >>> # Mainland Chinese is actually a poor match for Hong Kong Cantonese.
-    >>> tag_match_value('yue-HK', 'zh-CN')
+    >>> tag_match_score('yue-HK', 'zh-CN')
     37
 
     A match strength of 20 indicates that the script that's supported is a
@@ -649,9 +664,12 @@ def tag_match_value(desired: str, supported: str) -> int:
     people only read their native language in one script, and in another script
     it would be gibberish to them. I think CLDR is assuming you've got a good
     reason to support the script you support.
-    >>> tag_match_value('ja', 'ja-Latn-US-hepburn')
+
+    >>> # Japanese may be understandable when romanized.
+    >>> tag_match_score('ja', 'ja-Latn-US-hepburn')
     20
-    >>> tag_match_value('en', 'en-Dsrt')
+    >>> # You can read the Shavian script, right?
+    >>> tag_match_score('en', 'en-Shaw')
     20
 
     A match strength of 10 is a last resort that might be better than matching
@@ -659,18 +677,83 @@ def tag_match_value(desired: str, supported: str) -> int:
     happen to understand language S, despite that there might be no connection
     between the languages.
 
-    >>> tag_match_value('ta', 'en')   # Many computer-using Tamil speakers also know English.
+    >>> tag_match_score('ta', 'en')   # Many computer-using Tamil speakers also know English.
     10
-    >>> tag_match_value('af', 'nl')   # Afrikaans and Dutch at least share history.
+    >>> tag_match_score('af', 'nl')   # Afrikaans and Dutch at least share history.
     10
+    >>> tag_match_score('eu', 'es')   # Basque speakers may grudgingly read Spanish.
+    10
+
+    Otherwise, the match value is 0.
+
+    >>> tag_match_score('ar', 'fa')   # Arabic and Persian (Farsi) do not match.
+    0
+    >>> tag_match_score('en', 'ta')   # English speakers generally do not know Tamil.
+    0
     """
+    return language_match_score(tag_to_meaning(desired), tag_to_meaning(supported))
 
 
-    return language_match_value(tag_to_meaning(desired), tag_to_meaning(supported))
+def match_language_tag(desired_language: str, supported_languages: list,
+                       min_score: int=90) -> (str, int):
+    """
+    You have software that supports any of the `supported_languages`. You want
+    to use `desired_language`. This function lets you choose the right language,
+    even if there isn't an exact match.
 
+    Returns:
 
-def match_language_code(desired_language: str, supported_languages: list) -> str:
-    raise NotImplementedError
+    - The best-matching language code, which will be one of the
+      `supported_languages` or 'und'
+    - The match strength, from 0 to 100
+
+    `min_score` sets the minimum score that will be allowed to match. If all
+    the scores are less than `min_score`, the result will be 'und' with a
+    strength of 0.
+
+    When there is a tie for the best matching language, the first one in the
+    tie will be used.
+
+    Setting `min_score` lower will enable more things to match, at the cost of
+    possibly mis-handling data or upsetting users. Read the documentation for
+    :func:`tag_match_score` to understand what the numbers mean.
+
+    >>> match_language_tag('fr', ['de', 'en', 'fr'])
+    ('fr', 100)
+    >>> match_language_tag('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
+    ('sr-Latn', 100)
+    >>> match_language_tag('zh-CN', ['zh-Hant', 'zh-Hans', 'gan', 'nan'])
+    ('zh-Hans', 99)
+    >>> match_language_tag('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
+    ('cmn-Hans', 99)
+    >>> match_language_tag('pt', ['pt-BR', 'pt-PT'])
+    ('pt-BR', 99)
+    >>> match_language_tag('en-AU', ['en-GB', 'en-US'])
+    ('en-GB', 98)
+    >>> match_language_tag('es-MX', ['es-ES', 'es-419', 'en-US'])
+    ('es-419', 98)
+    >>> match_language_tag('es-MX', ['es-PU', 'es-AR', 'es-PY'])
+    ('es-PU', 96)
+    >>> match_language_tag('es-MX', ['es-AR', 'es-PU', 'es-PY'])
+    ('es-AR', 96)
+    >>> match_language_tag('id', ['zsm', 'mhp'])
+    ('zsm', 90)
+    >>> match_language_tag('eu', ['el', 'en', 'es'], min_score=10)
+    ('es', 10)
+    >>> match_language_tag('eu', ['el', 'en', 'es'])
+    ('und', 0)
+    """
+    match_scores = [
+        (supported, tag_match_score(desired_language, supported))
+        for supported in supported_languages
+    ]
+    match_scores = [
+        (supported, score) for (supported, score) in match_scores
+        if score >= min_score
+    ] + [('und', 0)]
+
+    match_scores.sort(key=lambda item: -item[1])
+    return match_scores[0]
 
 
 def natural_language_meaning(meaning: dict, language: str='en') -> dict:
