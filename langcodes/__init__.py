@@ -523,6 +523,31 @@ class LanguageData:
         return names[target_language]
 
     def language_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
+        """
+        Give the name of the language (and no other subtags) in a natural language.
+        
+        By default, things are named in English:
+
+        >>> from pprint import pprint
+        >>> LanguageData(language='fr').language_name()
+        'French'
+
+        But you can ask for language names in numerous other languages:
+
+        >>> LanguageData(language='fr').language_name('fr')
+        'français'
+
+        Why does everyone get Slovak and Slovenian confused? Let's ask them.
+        
+        >>> LanguageData(language='sl').language_name('sl')
+        'slovenščina'
+        >>> LanguageData(language='sk').language_name('sk')
+        'slovenčina'
+        >>> LanguageData(language='sl').language_name('sk')
+        'slovinčina'
+        >>> LanguageData(language='sk').language_name('sl')
+        'slovaščina'
+        """
         return self._get_name('language', language, min_score)
 
     def script_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
@@ -543,27 +568,7 @@ class LanguageData:
         Return a dictionary that describes a given language tag in a specified
         natural language.
 
-        By default, things are named in English:
-
-        >>> from pprint import pprint
-        >>> pprint(LanguageData(language='fr').describe())
-        {'language': 'French'}
-
-        But you can ask for language names in numerous other languages:
-
-        >>> LanguageData(language='fr').describe('fr')
-        {'language': 'français'}
-
-        Why does everyone get Slovak and Slovenian confused? Let's ask them.
-
-        >>> LanguageData(language='sk').describe('sk')
-        {'language': 'slovenčina'}
-        >>> LanguageData(language='sl').describe('sl')
-        {'language': 'slovenščina'}
-        >>> LanguageData(language='sl').describe('sk')
-        {'language': 'slovinčina'}
-        >>> LanguageData(language='sk').describe('sl')
-        {'language': 'slovaščina'}
+        See `language_name` and related methods for more specific versions of this.
 
         The desired `language` will in fact be matched against the available
         options using the matching technique that this module provides.  We can
