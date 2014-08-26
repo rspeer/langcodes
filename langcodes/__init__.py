@@ -1,4 +1,3 @@
-from collections import namedtuple
 from .tag_parser import parse
 from .db import LanguageDB, LIKELY_SUBTAGS, LANGUAGE_MATCHING, PARENT_LOCALES
 from .util import data_filename
@@ -251,7 +250,7 @@ class LanguageData:
                 return LanguageData(**data)
 
         return self
-    
+
     def assume_script(self) -> 'LanguageData':
         """
         Fill in the script if it's missing, and if it can be assumed from the
@@ -362,7 +361,6 @@ class LanguageData:
             if filtered != data:
                 yield LanguageData(**filtered)
 
-
     def fill_likely_values(self) -> 'LanguageData':
         """
         The Unicode CLDR contains a "likelySubtags" data file, which can guess
@@ -399,7 +397,7 @@ class LanguageData:
             if tag in LIKELY_SUBTAGS:
                 result = LanguageData.parse(LIKELY_SUBTAGS[tag])
                 return result.update(self)
-        
+
         raise RuntimeError(
             "Couldn't fill in likely values. This represents a problem with "
             "langcodes.db.LIKELY_SUBTAGS."
@@ -413,7 +411,6 @@ class LanguageData:
         return self._filter_attributes(
             {'macrolanguage', 'language', 'script', 'region'}
         ).simplify_script().prefer_macrolanguage()
-
 
     def match_score(self, supported: 'LanguageData') -> int:
         """
@@ -497,8 +494,6 @@ class LanguageData:
         # CLDR would give a match value of 1 here, for reasons I suspect are
         # internal to their own software. Forget that. 0 should mean "no match".
         return 0
-
-
 
 
 def standardize_tag(tag: str, macro: bool=False) -> str:
@@ -772,10 +767,10 @@ def best_match(desired_language: str, supported_languages: list,
 
     match_scores.sort(key=lambda item: -item[1])
     return match_scores[0]
-    
+
+
 def _filter_keys(d: dict, keys: set) -> dict:
     """
     Select a subset of keys from a dictionary.
     """
     return {key: d[key] for key in keys if key in d}
-
