@@ -525,7 +525,7 @@ class LanguageData:
     def language_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
         """
         Give the name of the language (and no other subtags) in a natural language.
-        
+
         By default, things are named in English:
 
         >>> from pprint import pprint
@@ -538,7 +538,7 @@ class LanguageData:
         'français'
 
         Why does everyone get Slovak and Slovenian confused? Let's ask them.
-        
+
         >>> LanguageData(language='sl').language_name('sl')
         'slovenščina'
         >>> LanguageData(language='sk').language_name('sk')
