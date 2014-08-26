@@ -75,7 +75,7 @@ class LanguageData:
     def __repr__(self):
         items = []
         for attr in self.ATTRIBUTES:
-            if self[attr]:
+            if getattr(self, attr):
                 if not (attr == 'macrolanguage'
                         and self.macrolanguage == self.language):
                     items.append('{0}={1!r}'.format(attr, getattr(self, attr)))
@@ -91,7 +91,7 @@ class LanguageData:
             raise KeyError(key)
 
     def __contains__(self, key):
-        return key in self.ATTRIBUTES and self[key]
+        return key in self.ATTRIBUTES and getattr(self, key)
 
     def __eq__(self, other):
         if not isinstance(other, LanguageData):
@@ -105,23 +105,40 @@ class LanguageData:
         """
         result = {}
         for key in self.ATTRIBUTES:
-            if self[key] is not None:
-                result[key] = self[key]
+            value = getattr(self, key)
+            if value:
+                result[key] = value
         return result
 
     def update(self, other: 'LanguageData') -> 'LanguageData':
         """
         Update this LanguageData with the fields of another LanguageData.
         """
-        return self.update_dict(other.to_dict())
+        return LanguageData(
+            language=other.language or self.language,
+            macrolanguage=other.macrolanguage or self.macrolanguage,
+            extlangs=other.extlangs or self.extlangs,
+            script=other.script or self.script,
+            region=other.region or self.region,
+            variants=other.variants or self.variants,
+            extensions=other.extensions or self.extensions,
+            private=other.private or self.private
+        )
 
     def update_dict(self, newdata: dict) -> 'LanguageData':
         """
         Update the attributes of this LanguageData from a dictionary.
         """
-        data = self.to_dict()
-        data.update(newdata)
-        return LanguageData(**data)
+        return LanguageData(
+            language=newdata.get('language', self.language),
+            macrolanguage=newdata.get('macrolanguage', self.macrolanguage),
+            extlangs=newdata.get('extlangs', self.extlangs),
+            script=newdata.get('script', self.script),
+            region=newdata.get('region', self.region),
+            variants=newdata.get('variants', self.variants),
+            extensions=newdata.get('extensions', self.extensions),
+            private=newdata.get('private', self.private)
+        )
 
     @staticmethod
     def parse(tag: str, normalize=True) -> 'LanguageData':
@@ -254,9 +271,7 @@ class LanguageData:
         """
         if self.language and self.script:
             if DEFAULT_SCRIPTS.get(self.language) == self.script:
-                data = self.to_dict()
-                del data['script']
-                return LanguageData(**data)
+                return self.update_dict({'script': None})
 
         return self
 
@@ -289,12 +304,10 @@ class LanguageData:
         LanguageData(region='US')
         """
         if self.language and not self.script:
-            data = self.to_dict()
             try:
-                data['script'] = DEFAULT_SCRIPTS[self.language]
+                return self.update_dict({'script': DEFAULT_SCRIPTS[self.language]})
             except KeyError:
-                pass
-            return LanguageData(**data)
+                return self
         else:
             return self
 
@@ -327,11 +340,10 @@ class LanguageData:
         """
         language = self.language or 'und'
         if language in NORMALIZED_MACROLANGUAGES:
-            data = self.to_dict()
-            data['language'] = NORMALIZED_MACROLANGUAGES[language]
-            if 'macrolanguage' in data:
-                del data['macrolanguage']
-            return LanguageData(**data)
+            return self.update_dict({
+                'language': NORMALIZED_MACROLANGUAGES[language],
+                'macrolanguage': None
+            })
         else:
             return self
 
@@ -364,11 +376,8 @@ class LanguageData:
         und
         """
         yield self
-        data = self.to_dict()
         for keyset in self.BROADER_KEYSETS:
-            filtered = _filter_keys(data, keyset)
-            if filtered != data:
-                yield LanguageData(**filtered)
+            yield self._filter_attributes(keyset)
 
     def fill_likely_values(self) -> 'LanguageData':
         """
@@ -513,8 +522,8 @@ class LanguageData:
         if isinstance(language, LanguageData):
             language = str(language)
 
-        names = DB.names_for(attribute, self[attribute])
-        names['und'] = self[attribute]
+        names = DB.names_for(attribute, getattr(self, attribute))
+        names['und'] = getattr(self, attribute)
         return self._best_name(names, language, min_score)
 
     def _best_name(self, names: dict, language: str, min_score: int):
@@ -576,6 +585,7 @@ class LanguageData:
         script (a script devised by author George Bernard Shaw), and where you
         might find it, in various languages.
 
+        >>> from pprint import pprint
         >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en'))
         {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
 
@@ -682,12 +692,18 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
     return langdata.simplify_script().to_tag()
 
 
+_CACHE = {}
+
+
 def tag_match_score(desired: str, supported: str) -> int:
     """
     Return a number from 0 to 100 indicating the strength of match between the
     language the user desires, D, and a supported language, S. The scale comes
     from CLDR data, but we've added some scale steps to deal with languages
     within macrolanguages.
+
+    The results of tag_match_score are cached so that they'll be looked up
+    more quickly in the future.
 
     A match strength of 100 indicates that the languages should be considered the
     same. Perhaps because they are the same.
@@ -843,9 +859,14 @@ def tag_match_score(desired: str, supported: str) -> int:
     >>> tag_match_score('en', 'ta')   # English speakers generally do not know Tamil.
     0
     """
+    if (desired, supported) in _CACHE:
+        return _CACHE[desired, supported]
+
     desired_ld = LanguageData.parse(desired)
     supported_ld = LanguageData.parse(supported)
-    return desired_ld.match_score(supported_ld)
+    score = desired_ld.match_score(supported_ld)
+    _CACHE[desired, supported] = score
+    return score
 
 
 def best_match(desired_language: str, supported_languages: list,
