@@ -232,13 +232,20 @@ class LanguageDB:
     def names_for(self, table_name, subtag):
         results = {}
         items = self.query(
-            ("select language, name from %s_name "
-             "where subtag == ?" % table_name), subtag
+            ("select language, name from {}_name "
+             "where subtag == ?".format(table_name)), subtag
         )
         for language, name in items:
             if language not in results:
                 results[language] = name
         return results
+
+    def lookup_name(self, table_name, name, language):
+        return self.query(
+            "select subtag, name from {}_name where language == ? and "
+            "(name == ? or name like ?)".format(table_name),
+            language, name, name + '%'
+        )
 
     # Using the database as a context manager
     # =======================================
