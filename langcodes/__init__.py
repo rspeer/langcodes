@@ -89,17 +89,16 @@ class LanguageData:
     def __contains__(self, key):
         return key in self.ATTRIBUTES and self[key]
 
-    def __iter__(self):
-        for key in self.ATTRIBUTES:
-            if self[key]:
-                yield key
-
     def __eq__(self, other):
         if not isinstance(other, LanguageData):
             return False
         return self.to_dict() == other.to_dict()
 
     def to_dict(self):
+        """
+        Get a dictionary of the attributes of this LanguageData object, which
+        can be useful for constructing a similar object.
+        """
         result = {}
         for key in self.ATTRIBUTES:
             if self[key] is not None:
@@ -107,9 +106,15 @@ class LanguageData:
         return result
 
     def update(self, other: 'LanguageData') -> 'LanguageData':
+        """
+        Update this LanguageData with the fields of another LanguageData.
+        """
         return self.update_dict(other.to_dict())
 
     def update_dict(self, newdata: dict) -> 'LanguageData':
+        """
+        Update the attributes of this LanguageData from a dictionary.
+        """
         data = self.to_dict()
         data.update(newdata)
         return LanguageData(**data)
