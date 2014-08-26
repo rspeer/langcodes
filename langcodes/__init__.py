@@ -4,6 +4,10 @@ from .util import data_filename
 
 DB = LanguageDB(data_filename('subtags.db'))
 
+# When we're getting natural language information *about* languages, what
+# language should it be in by default?
+DEFAULT_LANGUAGE = 'en-US'
+
 # Non-standard codes that should be unconditionally replaced.
 NORMALIZED_LANGUAGES = {orig.lower(): new.lower()
                         for (orig, new) in DB.language_replacements()}
@@ -500,6 +504,102 @@ class LanguageData:
         # internal to their own software. Forget that. 0 should mean "no match".
         return 0
 
+    # These methods help to show what the language tag means in natural
+    # language. They actually apply the language-matching algorithm to find
+    # the right language to name things in.
+
+    def _get_name(self, attribute: str, language, min_score: int):
+        assert attribute in self.ATTRIBUTES
+        if isinstance(language, LanguageData):
+            language = str(language)
+
+        names = DB.names_for(attribute, self[attribute])
+        names['und'] = self[attribute]
+        return self._best_name(names, language, min_score)
+
+    def _best_name(self, names: dict, language: str, min_score: int):
+        possible_languages = sorted(names.keys())
+        target_language, score = best_match(language, possible_languages, min_score)
+        return names[target_language]
+
+    def language_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
+        return self._get_name('language', language, min_score)
+
+    def script_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
+        return self._get_name('script', language, min_score)
+
+    def region_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
+        return self._get_name('region', language, min_score)
+
+    def variant_names(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> list:
+        names = []
+        for variant in self.variants:
+            var_names = DB.names_for('variant', variant)
+            names.append(self._best_name(var_names, language, min_score))
+        return names
+
+    def describe(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> dict:
+        """
+        Return a dictionary that describes a given language tag in a specified
+        natural language. The desired `language` will in fact be matched
+        against the available options using the matching technique that this
+        module provides.
+
+        We can in fact illustrate many aspects of how this works by asking for
+        a description of Shavian script (a script devised by author George Bernard
+        Shaw) in various languages.
+
+        >>> from pprint import pprint
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en'))
+        {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en-GB'))
+        {'language': 'English', 'region': 'UK', 'script': 'Shavian'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en-AU'))
+        {'language': 'English', 'region': 'UK', 'script': 'Shavian'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en-CA'))
+        {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('fr'))
+        {'language': 'anglais', 'region': 'R.-U.', 'script': 'shavien'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('es'))
+        {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('pt'))
+        {'language': 'inglês', 'region': 'GB', 'script': 'shaviano'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('uk'))
+        {'language': 'англійська', 'region': 'Велика Британія', 'script': 'Шоу'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('ar'))
+        {'language': 'الإنجليزية', 'region': 'المملكة المتحدة', 'script': 'الشواني'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('th'))
+        {'language': 'อังกฤษ', 'region': 'สหราชอาณาจักร', 'script': 'ซอเวียน'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('zh-Hans'))
+        {'language': '英文', 'region': '英国', 'script': '萧伯纳式文'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('zh-Hant'))
+        {'language': '英文', 'region': '英國', 'script': '簫柏納字符'}
+
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('ja'))
+        {'language': '英語', 'region': 'イギリス', 'script': 'ショー文字'}
+        """
+        names = {}
+        if self.language:
+            names['language'] = self.language_name(language, min_score)
+        if self.script:
+            names['script'] = self.script_name(language, min_score)
+        if self.region:
+            names['region'] = self.region_name(language, min_score)
+        if self.variants:
+            names['variants'] = self.variant_names(language, min_score)
+        return names
+
 
 def standardize_tag(tag: str, macro: bool=False) -> str:
     """
@@ -543,6 +643,7 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
     langdata = LanguageData.parse(tag, normalize=True)
     if macro:
         langdata = langdata.prefer_macrolanguage()
+    
     return langdata.simplify_script().to_tag()
 
 

@@ -106,6 +106,12 @@ class LanguageDB:
         self.filename = db_filename
         self.conn = sqlite3.connect(db_filename)
 
+    def __str__(self):
+        return "LanguageDB(%s)" % self.filename
+    
+    # Methods for initially creating the schema
+    # =========================================
+
     def setup(self):
         for stmt in self.TABLES:
             self.conn.execute(stmt)
@@ -120,11 +126,14 @@ class LanguageDB:
                 "CREATE UNIQUE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language, name)".format(table_name)
             )
 
+    # Methods for building the database
+    # =================================
+
     def _add_row(self, table_name, values):
         tuple_template = ', '.join(['?'] * len(values))
         template = "INSERT OR IGNORE INTO %s VALUES (%s)" % (table_name, tuple_template)
         # I know, right? The sqlite3 driver doesn't let you parameterize the
-        # table name. Good thing Bobby Tables isn't giving us the names.
+        # table name. Good thing little Bobby Tables isn't giving us the names.
         self.conn.execute(template, values)
 
     def add_name(self, table, subtag, datalang, name):
@@ -184,29 +193,55 @@ class LanguageDB:
         for name in data['Description']:
             self.add_name('variant', subtag, datalang, name)
 
-    def macrolanguages(self):
+    # Iterating over things in the database
+    # =====================================
+
+    def query(self, query, *args):
         c = self.conn.cursor()
-        c.execute("select subtag, macrolang from language "
-                  "where macrolang is not null")
+        c.execute(query, args)
         return c.fetchall()
 
+    def macrolanguages(self):
+        return self.query(
+            "select subtag, macrolang from language "
+            "where macrolang is not null"
+        )
+
     def language_replacements(self, macro=False):
-        c = self.conn.cursor()
-        c.execute("select tag, preferred from nonstandard where is_macro=? "
-                  "and preferred is not null", (macro,))
+        return self.query(
+            "select tag, preferred from nonstandard where is_macro=? "
+            "and preferred is not null", macro
+        )
         return c.fetchall()
 
     def region_replacements(self):
-        c = self.conn.cursor()
-        c.execute("select tag, preferred from nonstandard_region "
-                  "where preferred is not null")
-        return c.fetchall()
+        return self.query(
+            "select tag, preferred from nonstandard_region "
+            "where preferred is not null"
+        )
 
     def suppressed_scripts(self):
-        c = self.conn.cursor()
-        c.execute("select subtag, script from language "
-                  "where script is not null")
-        return c.fetchall()
+        return self.query(
+            "select subtag, script from language "
+            "where script is not null"
+        )
+
+    # Looking up names of things
+    # ==========================
+
+    def names_for(self, table_name, subtag):
+        results = {}
+        items = self.query(
+            ("select language, name from %s_name "
+             "where subtag == ?" % table_name), subtag
+        )
+        for language, name in items:
+            if language not in results:
+                results[language] = name
+        return results
+
+    # Using the database as a context manager
+    # =======================================
 
     def close(self):
         self.conn.commit()
@@ -217,6 +252,3 @@ class LanguageDB:
 
     def __exit__(self, *exc_info):
         self.close()
-
-    def __str__(self):
-        return "LanguageDB(%s)" % self.filename
