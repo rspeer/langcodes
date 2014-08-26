@@ -147,45 +147,6 @@ def tag_to_meaning(tag: str, normalize=True) -> dict:
     return meaning
 
 
-def prefer_macrolanguage(meaning: dict) -> dict:
-    """
-    BCP 47 doesn't specify what to do with macrolanguages and the languages
-    they contain. The Unicode CLDR, on the other hand, says that when a
-    macrolanguage has a dominant standardized language, the macrolanguage
-    code should be used for that language. For example, Mandarin Chinese
-    is 'zh', not 'cmn', according to Unicode, and Malay is 'ms', not 'zsm'.
-
-    This isn't a rule you'd want to follow in all cases -- for example, you may
-    want to be able to specifically say that 'ms' (the Malay macrolanguage)
-    contains both 'zsm' (Standard Malay) and 'id' (Indonesian). But applying
-    this rule helps when interoperating with the Unicode CLDR.
-
-    So, applying `prefer_macrolanguage` to a meaning dictionary will replace
-    the language with the macrolanguage if it is the dominant language within
-    that macrolanguage. It will leave non-dominant languages that have
-    macrolanguages alone.
-
-    >>> from pprint import pprint
-    >>> pprint(prefer_macrolanguage(tag_to_meaning('arb')))
-    {'language': 'ar'}
-
-    >>> pprint(prefer_macrolanguage(tag_to_meaning('cmn-Hant')))
-    {'language': 'zh', 'script': 'Hant'}
-
-    >>> pprint(prefer_macrolanguage(tag_to_meaning('yue-Hant')))
-    {'language': 'yue', 'macrolanguage': 'zh', 'script': 'Hant'}
-    """
-    language = meaning.get('language', 'und')
-    if language in NORMALIZED_MACROLANGUAGES:
-        copied = dict(meaning)
-        copied['language'] = NORMALIZED_MACROLANGUAGES[language]
-        if 'macrolanguage' in copied:
-            del copied['macrolanguage']
-        return copied
-    else:
-        return meaning
-
-
 def meaning_to_tag(meaning: dict) -> str:
     """
     Convert a meaning dictionary back to a standard language tag, as a
@@ -224,6 +185,45 @@ def meaning_to_tag(meaning: dict) -> str:
     if 'private' in meaning:
         subtags.append(meaning['private'])
     return '-'.join(subtags)
+
+
+def prefer_macrolanguage(meaning: dict) -> dict:
+    """
+    BCP 47 doesn't specify what to do with macrolanguages and the languages
+    they contain. The Unicode CLDR, on the other hand, says that when a
+    macrolanguage has a dominant standardized language, the macrolanguage
+    code should be used for that language. For example, Mandarin Chinese
+    is 'zh', not 'cmn', according to Unicode, and Malay is 'ms', not 'zsm'.
+
+    This isn't a rule you'd want to follow in all cases -- for example, you may
+    want to be able to specifically say that 'ms' (the Malay macrolanguage)
+    contains both 'zsm' (Standard Malay) and 'id' (Indonesian). But applying
+    this rule helps when interoperating with the Unicode CLDR.
+
+    So, applying `prefer_macrolanguage` to a meaning dictionary will replace
+    the language with the macrolanguage if it is the dominant language within
+    that macrolanguage. It will leave non-dominant languages that have
+    macrolanguages alone.
+
+    >>> from pprint import pprint
+    >>> pprint(prefer_macrolanguage(tag_to_meaning('arb')))
+    {'language': 'ar'}
+
+    >>> pprint(prefer_macrolanguage(tag_to_meaning('cmn-Hant')))
+    {'language': 'zh', 'script': 'Hant'}
+
+    >>> pprint(prefer_macrolanguage(tag_to_meaning('yue-Hant')))
+    {'language': 'yue', 'macrolanguage': 'zh', 'script': 'Hant'}
+    """
+    language = meaning.get('language', 'und')
+    if language in NORMALIZED_MACROLANGUAGES:
+        copied = dict(meaning)
+        copied['language'] = NORMALIZED_MACROLANGUAGES[language]
+        if 'macrolanguage' in copied:
+            del copied['macrolanguage']
+        return copied
+    else:
+        return meaning
 
 
 def simplify_script(meaning: dict) -> dict:
@@ -694,16 +694,17 @@ def tag_match_score(desired: str, supported: str) -> int:
     return language_match_score(tag_to_meaning(desired), tag_to_meaning(supported))
 
 
-def match_language_tag(desired_language: str, supported_languages: list,
-                       min_score: int=90) -> (str, int):
+def best_match(desired_language: str, supported_languages: list,
+               min_score: int=90) -> (str, int):
     """
     You have software that supports any of the `supported_languages`. You want
     to use `desired_language`. This function lets you choose the right language,
     even if there isn't an exact match.
 
-    Returns:
+    Takes in the desired language (as a language tag string) and a list of
+    language tags to match it against (also strings), and returns:
 
-    - The best-matching language code, which will be one of the
+    - The best-matching language tag, which will be one of the
       `supported_languages` or 'und'
     - The match strength, from 0 to 100
 
@@ -718,29 +719,29 @@ def match_language_tag(desired_language: str, supported_languages: list,
     possibly mis-handling data or upsetting users. Read the documentation for
     :func:`tag_match_score` to understand what the numbers mean.
 
-    >>> match_language_tag('fr', ['de', 'en', 'fr'])
+    >>> best_match('fr', ['de', 'en', 'fr'])
     ('fr', 100)
-    >>> match_language_tag('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
+    >>> best_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
     ('sr-Latn', 100)
-    >>> match_language_tag('zh-CN', ['zh-Hant', 'zh-Hans', 'gan', 'nan'])
+    >>> best_match('zh-CN', ['zh-Hant', 'zh-Hans', 'gan', 'nan'])
     ('zh-Hans', 99)
-    >>> match_language_tag('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
+    >>> best_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
     ('cmn-Hans', 99)
-    >>> match_language_tag('pt', ['pt-BR', 'pt-PT'])
+    >>> best_match('pt', ['pt-BR', 'pt-PT'])
     ('pt-BR', 99)
-    >>> match_language_tag('en-AU', ['en-GB', 'en-US'])
+    >>> best_match('en-AU', ['en-GB', 'en-US'])
     ('en-GB', 98)
-    >>> match_language_tag('es-MX', ['es-ES', 'es-419', 'en-US'])
+    >>> best_match('es-MX', ['es-ES', 'es-419', 'en-US'])
     ('es-419', 98)
-    >>> match_language_tag('es-MX', ['es-PU', 'es-AR', 'es-PY'])
+    >>> best_match('es-MX', ['es-PU', 'es-AR', 'es-PY'])
     ('es-PU', 96)
-    >>> match_language_tag('es-MX', ['es-AR', 'es-PU', 'es-PY'])
+    >>> best_match('es-MX', ['es-AR', 'es-PU', 'es-PY'])
     ('es-AR', 96)
-    >>> match_language_tag('id', ['zsm', 'mhp'])
+    >>> best_match('id', ['zsm', 'mhp'])
     ('zsm', 90)
-    >>> match_language_tag('eu', ['el', 'en', 'es'], min_score=10)
+    >>> best_match('eu', ['el', 'en', 'es'], min_score=10)
     ('es', 10)
-    >>> match_language_tag('eu', ['el', 'en', 'es'])
+    >>> best_match('eu', ['el', 'en', 'es'])
     ('und', 0)
     """
     match_scores = [
@@ -754,11 +755,3 @@ def match_language_tag(desired_language: str, supported_languages: list,
 
     match_scores.sort(key=lambda item: -item[1])
     return match_scores[0]
-
-
-def natural_language_meaning(meaning: dict, language: str='en') -> dict:
-    """
-    Replace the codes in a 'meaning' dictionary with their names in
-    a natural language, when possible.
-    """
-    raise NotImplementedError
