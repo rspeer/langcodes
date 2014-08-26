@@ -541,15 +541,36 @@ class LanguageData:
     def describe(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> dict:
         """
         Return a dictionary that describes a given language tag in a specified
-        natural language. The desired `language` will in fact be matched
-        against the available options using the matching technique that this
-        module provides.
+        natural language.
 
-        We can in fact illustrate many aspects of how this works by asking for
-        a description of Shavian script (a script devised by author George Bernard
-        Shaw) in various languages.
+        By default, things are named in English:
 
         >>> from pprint import pprint
+        >>> pprint(LanguageData(language='fr').describe())
+        {'language': 'French'}
+
+        But you can ask for language names in numerous other languages:
+
+        >>> LanguageData(language='fr').describe('fr')
+        {'language': 'français'}
+
+        Why does everyone get Slovak and Slovenian confused? Let's ask them.
+
+        >>> LanguageData(language='sk').describe('sk')
+        {'language': 'slovenčina'}
+        >>> LanguageData(language='sl').describe('sl')
+        {'language': 'slovenščina'}
+        >>> LanguageData(language='sl').describe('sk')
+        {'language': 'slovinčina'}
+        >>> LanguageData(language='sk').describe('sl')
+        {'language': 'slovaščina'}
+
+        The desired `language` will in fact be matched against the available
+        options using the matching technique that this module provides.  We can
+        illustrate many aspects of this by asking for a description of Shavian
+        script (a script devised by author George Bernard Shaw), and where you
+        might find it, in various languages.
+
         >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en'))
         {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
 
@@ -574,7 +595,7 @@ class LanguageData:
         >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('uk'))
         {'language': 'англійська', 'region': 'Велика Британія', 'script': 'Шоу'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('ar'))
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('arb'))
         {'language': 'الإنجليزية', 'region': 'المملكة المتحدة', 'script': 'الشواني'}
 
         >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('th'))
@@ -588,6 +609,15 @@ class LanguageData:
 
         >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('ja'))
         {'language': '英語', 'region': 'イギリス', 'script': 'ショー文字'}
+
+        >>> # When we don't have a localization for the language, we fall back on
+        >>> # 'und', which just shows the language codes.
+        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('lol'))
+        {'language': 'en', 'region': 'GB', 'script': 'Shaw'}
+
+        >>> # Wait, is that a real language?
+        >>> pprint(LanguageData.parse('lol').fill_likely_values().describe())
+        {'language': 'Mongo', 'region': 'Congo (DRC)', 'script': 'Latin'}
         """
         names = {}
         if self.language:
@@ -643,7 +673,7 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
     langdata = LanguageData.parse(tag, normalize=True)
     if macro:
         langdata = langdata.prefer_macrolanguage()
-    
+
     return langdata.simplify_script().to_tag()
 
 
