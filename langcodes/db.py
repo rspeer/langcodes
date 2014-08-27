@@ -35,7 +35,7 @@ _PARENT_LOCALE_JSON = json.load(
     open(data_filename('cldr/supplemental/parentLocales.json'), encoding='ascii')
 )
 PARENT_LOCALES = _PARENT_LOCALE_JSON['supplemental']['parentLocales']['parentLocale']
-    
+
 
 class LanguageDB:
     """
@@ -108,7 +108,7 @@ class LanguageDB:
 
     def __str__(self):
         return "LanguageDB(%s)" % self.filename
-    
+
     # Methods for initially creating the schema
     # =========================================
 
@@ -241,6 +241,13 @@ class LanguageDB:
         return results
 
     def lookup_name(self, table_name, name, language):
+        return [row[0] for row in self.query(
+            "select subtag from {}_name where language == ? and "
+            "name == ?".format(table_name),
+            language, name
+        )]
+
+    def lookup_name_prefix(self, table_name, name, language):
         return self.query(
             "select subtag, name from {}_name where language == ? and "
             "(name == ? or name like ?)".format(table_name),
