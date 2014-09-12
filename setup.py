@@ -10,7 +10,7 @@ setup(
     platforms=["any"],
     description="Labels and compares human languages in a standards-compliant way",
     packages=['langcodes'],
-    package_data={'langcodes': ['data/*.txt', 'data/cldr/*.json', 'data/cldr/*/*.json']},
+    include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
