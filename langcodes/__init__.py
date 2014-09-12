@@ -347,8 +347,18 @@ class LanguageData:
         else:
             return self
 
+    @staticmethod
+    def _filter_keys(d: dict, keys: set) -> dict:
+        """
+        Select a subset of keys from a dictionary.
+        """
+        return {key: d[key] for key in keys if key in d}
+
     def _filter_attributes(self, keyset):
-        filtered = _filter_keys(self.to_dict(), keyset)
+        """
+        Return a copy of this object with a subset of its attributes set.
+        """
+        filtered = self._filter_keys(self.to_dict(), keyset)
         return LanguageData(**filtered)
 
     def broaden(self) -> 'Iterable[LanguageData]':
@@ -768,7 +778,7 @@ def tag_match_score(desired: str, supported: str) -> int:
 
     A match strength of 90 represents languages with a considerable amount of
     overlap and some amount of mutual intelligibility. People will probably be
-    able to handle the difference with a bit of discomfort
+    able to handle the difference with a bit of discomfort.
 
     Algorithms may have more trouble, but you could probably train your NLP on
     _both_ languages without any problems. Below this match strength, though,
@@ -931,8 +941,39 @@ def best_match(desired_language: str, supported_languages: list,
     return match_scores[0]
 
 
-def _filter_keys(d: dict, keys: set) -> dict:
+def normalize_language_tag(tag: str, macrolanguage: bool=True) -> str:
     """
-    Select a subset of keys from a dictionary.
+    Converts a language tag to a standardized form. This includes making sure
+    to use the shortest form of the language code, removing the script subtag
+    if it's obvious, and using the conventional capitalization.
+
+    If the 'macrolanguage' option is True (the default), it will follow the
+    CLDR recommendation of using the codes for macrolanguages in place of the
+    more specific code for the predominant language within that macrolanguage.
+
+    >>> normalize_language_tag('eng')
+    'en'
+    >>> normalize_language_tag('eng-UK')
+    'en-GB'
+    >>> normalize_language_tag('zsm')
+    'ms'
+    >>> normalize_language_tag('arb-Arab')
+    'ar'
+    >>> normalize_language_tag('ja-latn-hepburn')
+    'ja-Latn-hepburn'
+    >>> normalize_language_tag('spa-latn-mx')
+    'es-MX'
+
+    If the tag can't be parsed according to BCP 47, this will raise a
+    LanguageTagError (a subclass of ValueError):
+
+    >>> normalize_language_tag('spa-mx-latn')
+    Traceback (most recent call last):
+        ...
+    langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
     """
-    return {key: d[key] for key in keys if key in d}
+    parsed = LanguageData.parse(tag)
+    if macrolanguage:
+        parsed = parsed.prefer_macrolanguage()
+    return str(parsed.simplify_script())
+
