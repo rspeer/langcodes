@@ -1,3 +1,5 @@
+# coding: utf-8
+from __future__ import print_function, division, unicode_literals
 from .tag_parser import parse
 from .db import LanguageDB, LIKELY_SUBTAGS, LANGUAGE_MATCHING, PARENT_LOCALES
 from .util import data_filename
@@ -110,7 +112,7 @@ class LanguageData:
                 result[key] = value
         return result
 
-    def update(self, other: 'LanguageData') -> 'LanguageData':
+    def update(self, other):
         """
         Update this LanguageData with the fields of another LanguageData.
         """
@@ -125,7 +127,7 @@ class LanguageData:
             private=other.private or self.private
         )
 
-    def update_dict(self, newdata: dict) -> 'LanguageData':
+    def update_dict(self, newdata):
         """
         Update the attributes of this LanguageData from a dictionary.
         """
@@ -141,7 +143,7 @@ class LanguageData:
         )
 
     @staticmethod
-    def parse(tag: str, normalize=True) -> 'LanguageData':
+    def parse(tag, normalize=True):
         """
         Create a LanguageData object from a language tag string.
 
@@ -215,19 +217,19 @@ class LanguageData:
 
         return LanguageData(**data)
 
-    def to_tag(self) -> str:
+    def to_tag(self):
         """
         Convert a LanguageData back to a standard language tag, as a string.
         This is also the str() representation of a LanguageData object.
 
         >>> LanguageData(language='en', region='GB').to_tag()
-        'en-GB'
+        u'en-GB'
 
         >>> LanguageData(language='yue', macrolanguage='zh', script='Hant',
         ...              region='HK').to_tag()
-        'yue-Hant-HK'
+        u'yue-Hant-HK'
 
-        >>> LanguageData(script='Arab').to_tag()
+        >>> str(LanguageData(script='Arab'))
         'und-Arab'
 
         >>> str(LanguageData(region='IN'))
@@ -255,7 +257,7 @@ class LanguageData:
             subtags.append(self.private)
         return '-'.join(subtags)
 
-    def simplify_script(self) -> 'LanguageData':
+    def simplify_script(self):
         """
         Remove the script from some parsed language data, if the script is
         redundant with the language.
@@ -275,7 +277,7 @@ class LanguageData:
 
         return self
 
-    def assume_script(self) -> 'LanguageData':
+    def assume_script(self):
         """
         Fill in the script if it's missing, and if it can be assumed from the
         language subtag. This is the opposite of `simplify_script`.
@@ -311,7 +313,7 @@ class LanguageData:
         else:
             return self
 
-    def prefer_macrolanguage(self) -> 'LanguageData':
+    def prefer_macrolanguage(self):
         """
         BCP 47 doesn't specify what to do with macrolanguages and the languages
         they contain. The Unicode CLDR, on the other hand, says that when a
@@ -348,7 +350,7 @@ class LanguageData:
             return self
 
     @staticmethod
-    def _filter_keys(d: dict, keys: set) -> dict:
+    def _filter_keys(d, keys):
         """
         Select a subset of keys from a dictionary.
         """
@@ -361,7 +363,7 @@ class LanguageData:
         filtered = self._filter_keys(self.to_dict(), keyset)
         return LanguageData(**filtered)
 
-    def broaden(self) -> 'Iterable[LanguageData]':
+    def broaden(self):
         """
         Iterate through increasingly general versions of this parsed language tag.
 
@@ -389,7 +391,7 @@ class LanguageData:
         for keyset in self.BROADER_KEYSETS:
             yield self._filter_attributes(keyset)
 
-    def fill_likely_values(self) -> 'LanguageData':
+    def fill_likely_values(self):
         """
         The Unicode CLDR contains a "likelySubtags" data file, which can guess
         reasonable values for fields that are missing from a language tag.
@@ -431,7 +433,7 @@ class LanguageData:
             "langcodes.db.LIKELY_SUBTAGS."
         )
 
-    def _searchable_form(self) -> 'LanguageData':
+    def _searchable_form(self):
         """
         Convert a parsed language tag so that the information it contains is in
         the best form for looking up information in the CLDR.
@@ -440,7 +442,7 @@ class LanguageData:
             {'macrolanguage', 'language', 'script', 'region'}
         ).simplify_script().prefer_macrolanguage()
 
-    def match_score(self, supported: 'LanguageData') -> int:
+    def match_score(self, supported):
         """
         Suppose that `self` is the language that the user desires, and
         `supported` is a language that is actually supported. This method
@@ -516,7 +518,9 @@ class LanguageData:
                      'macrolanguage': None}
                 )
             if desired_macro != desired_complete or supported_macro != supported_complete:
-                return desired_macro.match_score(supported_macro) // 2
+                print(desired_macro, desired_complete)
+                print(supported_macro, supported_complete)
+                #return desired_macro.match_score(supported_macro) // 2
 
         # There is nothing that matches.
         # CLDR would give a match value of 1 here, for reasons I suspect are
@@ -527,7 +531,7 @@ class LanguageData:
     # language. They actually apply the language-matching algorithm to find
     # the right language to name things in.
 
-    def _get_name(self, attribute: str, language, min_score: int):
+    def _get_name(self, attribute, language, min_score):
         assert attribute in self.ATTRIBUTES
         if isinstance(language, LanguageData):
             language = str(language)
@@ -536,12 +540,12 @@ class LanguageData:
         names['und'] = getattr(self, attribute)
         return self._best_name(names, language, min_score)
 
-    def _best_name(self, names: dict, language: str, min_score: int):
+    def _best_name(self, names, language, min_score):
         possible_languages = sorted(names.keys())
         target_language, score = best_match(language, possible_languages, min_score)
         return names[target_language]
 
-    def language_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
+    def language_name(self, language=DEFAULT_LANGUAGE, min_score=90):
         """
         Give the name of the language (and no other subtags) in a natural language.
 
@@ -569,20 +573,20 @@ class LanguageData:
         """
         return self._get_name('language', language, min_score)
 
-    def script_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
+    def script_name(self, language=DEFAULT_LANGUAGE, min_score=90):
         return self._get_name('script', language, min_score)
 
-    def region_name(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> str:
+    def region_name(self, language=DEFAULT_LANGUAGE, min_score=90):
         return self._get_name('region', language, min_score)
 
-    def variant_names(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> list:
+    def variant_names(self, language=DEFAULT_LANGUAGE, min_score=90):
         names = []
         for variant in self.variants:
             var_names = DB.names_for('variant', variant)
             names.append(self._best_name(var_names, language, min_score))
         return names
 
-    def describe(self, language: str=DEFAULT_LANGUAGE, min_score: int=90) -> dict:
+    def describe(self, language=DEFAULT_LANGUAGE, min_score=90):
         """
         Return a dictionary that describes a given language tag in a specified
         natural language.
@@ -656,7 +660,7 @@ class LanguageData:
         return names
 
 
-def standardize_tag(tag: str, macro: bool=False) -> str:
+def standardize_tag(tag, macro=False):
     """
     Standardize a language tag:
 
@@ -705,7 +709,7 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
 _CACHE = {}
 
 
-def tag_match_score(desired: str, supported: str) -> int:
+def tag_match_score(desired, supported):
     """
     Return a number from 0 to 100 indicating the strength of match between the
     language the user desires, D, and a supported language, S. The scale comes
@@ -879,8 +883,7 @@ def tag_match_score(desired: str, supported: str) -> int:
     return score
 
 
-def best_match(desired_language: str, supported_languages: list,
-               min_score: int=90) -> (str, int):
+def best_match(desired_language, supported_languages, min_score=90):
     """
     You have software that supports any of the `supported_languages`. You want
     to use `desired_language`. This function lets you choose the right language,
@@ -941,7 +944,7 @@ def best_match(desired_language: str, supported_languages: list,
     return match_scores[0]
 
 
-def normalize_language_tag(tag: str, macrolanguage: bool=True) -> str:
+def normalize_language_tag(tag, macrolanguage=True):
     """
     Converts a language tag to a standardized form. This includes making sure
     to use the shortest form of the language code, removing the script subtag

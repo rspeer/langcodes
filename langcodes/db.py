@@ -32,7 +32,7 @@ LANGUAGE_MATCHING = _make_language_match_data()
 
 
 _PARENT_LOCALE_JSON = json.load(
-    open(data_filename('cldr/supplemental/parentLocales.json'), encoding='ascii')
+    open(data_filename('cldr/supplemental/parentLocales.json'))
 )
 PARENT_LOCALES = _PARENT_LOCALE_JSON['supplemental']['parentLocales']['parentLocale']
 
