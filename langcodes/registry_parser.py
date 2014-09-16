@@ -14,7 +14,8 @@ def parse_file(file):
         if line == '%%':
             # This is a separator between items. Parse the data we've
             # collected and yield the result.
-            yield from parse_item(lines)
+            for parsed in parse_item(lines):
+                yield parsed
             lines.clear()
         elif line.startswith('  '):
             # This is a continuation line. Concatenate it to the previous
@@ -22,7 +23,8 @@ def parse_file(file):
             lines[-1] += line[1:]
         else:
             lines.append(line)
-    yield from parse_item(lines)
+    for parsed in parse_item(lines):
+        yield parsed
 
 
 def parse_item(lines):
@@ -53,6 +55,7 @@ def parse_registry():
     """
     with open(data_filename('language-subtag-registry.txt'),
               encoding='utf-8') as data_file:
-        # 'yield from' instead of returning, so that we only close the file
+        # yield instead of returning, so that we only close the file
         # when finished.
-        yield from parse_file(data_file)
+        for parsed in parse_file(data_file):
+            yield parsed

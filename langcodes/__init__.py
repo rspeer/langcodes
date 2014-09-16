@@ -100,6 +100,9 @@ class LanguageData:
             return False
         return self.to_dict() == other.to_dict()
 
+    def __ne__(self, other):
+        return not self == other
+
     def to_dict(self):
         """
         Get a dictionary of the attributes of this LanguageData object, which
@@ -223,13 +226,13 @@ class LanguageData:
         This is also the str() representation of a LanguageData object.
 
         >>> LanguageData(language='en', region='GB').to_tag()
-        u'en-GB'
+        'en-GB'
 
         >>> LanguageData(language='yue', macrolanguage='zh', script='Hant',
         ...              region='HK').to_tag()
-        u'yue-Hant-HK'
+        'yue-Hant-HK'
 
-        >>> str(LanguageData(script='Arab'))
+        >>> LanguageData(script='Arab').to_tag()
         'und-Arab'
 
         >>> str(LanguageData(region='IN'))
@@ -518,9 +521,7 @@ class LanguageData:
                      'macrolanguage': None}
                 )
             if desired_macro != desired_complete or supported_macro != supported_complete:
-                print(desired_macro, desired_complete)
-                print(supported_macro, supported_complete)
-                #return desired_macro.match_score(supported_macro) // 2
+                return desired_macro.match_score(supported_macro) // 2
 
         # There is nothing that matches.
         # CLDR would give a match value of 1 here, for reasons I suspect are
