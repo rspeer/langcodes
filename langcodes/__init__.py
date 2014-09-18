@@ -41,16 +41,14 @@ class LanguageData:
 
     BROADER_KEYSETS = [
         {'language', 'script', 'region'},
-        {'language', 'script'},
         {'language', 'region'},
+        {'language', 'script'},
         {'language'},
         {'macrolanguage', 'script', 'region'},
-        {'macrolanguage', 'script'},
         {'macrolanguage', 'region'},
+        {'macrolanguage', 'script'},
         {'macrolanguage'},
-        {'script', 'region'},
         {'script'},
-        {'region'},
         {}
     ]
 
@@ -370,20 +368,21 @@ class LanguageData:
         against each other, but it is useful for matching them against a known
         standardized form, such as in the CLDR data.
 
+        The list of broader versions to try appears in UTR 35, section 4.3,
+        "Likely Subtags".
+
         >>> for langdata in LanguageData.get('nn-Latn-NO-x-thingy').broaden():
         ...     print(langdata)
         nn-Latn-NO-x-thingy
         nn-Latn-NO
-        nn-Latn
         nn-NO
+        nn-Latn
         nn
         no-Latn-NO
-        no-Latn
         no-NO
+        no-Latn
         no
-        und-Latn-NO
         und-Latn
-        und-NO
         und
         """
         yield self

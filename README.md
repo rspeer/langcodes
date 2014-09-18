@@ -26,11 +26,11 @@ Although this is not the only reason to use it, langcodes will make you more acr
 
 langcodes implements [BCP 47](http://tools.ietf.org/html/bcp47), the IETF Best Current Practices on Tags for Identifying Languages. BCP 47 is also known as RFC 5646. It subsumes standards such as ISO 639. 
 
-langcodes also implements recommendations from the [Unicode CLDR](http://cldr.unicode.org), but (like BCP 47 does) it lets you go against those recommendations if you want to. In particular, CLDR equates macrolanguages such as Chinese (`zh`) with their most common sub-language, such as Mandarin (`cmn`). langcodes lets you smash those together, but it also lets you make the distinction.
+langcodes also implements recommendations from the [Unicode CLDR](http://cldr.unicode.org), but because CLDR is narrower than BCP 47, it lets you go against those recommendations if you want to. In particular, CLDR equates macrolanguages such as Chinese (`zh`) with their most common sub-language, such as Mandarin (`cmn`). langcodes lets you smash those together, but it also lets you make the distinction.
 
 The package also comes with a database of language properties and names, built from CLDR and the IANA subtag registry.
 
-This is all a verbose way to say that langcodes takes language codes and does the Right Thing with them, and if you want to know exactly what the Right Thing is, there are some documents you can go read.
+In summary, langcodes takes language codes and does the Right Thing with them, and if you want to know exactly what the Right Thing is, there are some documents you can go read.
 
 
 # Documentation
