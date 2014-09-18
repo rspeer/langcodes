@@ -1,0 +1,2 @@
+recursive-include langcodes/data *
+include README.md

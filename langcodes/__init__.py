@@ -1,4 +1,4 @@
-from .tag_parser import parse
+from .tag_parser import parse_tag
 from .db import LanguageDB, LIKELY_SUBTAGS, LANGUAGE_MATCHING, PARENT_LOCALES
 from .util import data_filename
 
@@ -141,42 +141,43 @@ class LanguageData:
         )
 
     @staticmethod
-    def parse(tag: str, normalize=True) -> 'LanguageData':
+    def get(tag: str, normalize=True) -> 'LanguageData':
         """
         Create a LanguageData object from a language tag string.
 
         If normalize=True, non-standard or overlong tags will be replaced as
         they're interpreted. This is recommended.
 
-        >>> LanguageData.parse('en-US')
+        >>> LanguageData.get('en-US')
         LanguageData(language='en', region='US')
 
-        >>> LanguageData.parse('sh-QU')        # transform deprecated tags
+        >>> LanguageData.get('sh-QU')        # transform deprecated tags
         LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
 
-        >>> LanguageData.parse('sgn-US')
+        >>> LanguageData.get('sgn-US')
         LanguageData(language='ase')
 
-        >>> LanguageData.parse('sgn-US', normalize=False)
+        >>> LanguageData.get('sgn-US', normalize=False)
         LanguageData(language='sgn', region='US')
 
-        >>> LanguageData.parse('zh-cmn-Hant')  # promote extlangs to languages
+        >>> LanguageData.get('zh-cmn-Hant')  # promote extlangs to languages
         LanguageData(language='cmn', macrolanguage='zh', script='Hant')
 
-        >>> LanguageData.parse('zh-cmn-Hant', normalize=False)
+        >>> LanguageData.get('zh-cmn-Hant', normalize=False)
         LanguageData(language='zh', extlangs=['cmn'], script='Hant')
 
-        >>> LanguageData.parse('und')
+        >>> LanguageData.get('und')
         LanguageData()
         """
         data = {}
         # if the complete tag appears as something to normalize, do the
         # normalization right away. Smash case when checking, because the
-        # case normalization that comes from parse() hasn't been applied yet.
+        # case normalization that comes from parse_tag() hasn't been applied
+        # yet.
         if normalize and tag.lower() in NORMALIZED_LANGUAGES:
             tag = NORMALIZED_LANGUAGES[tag.lower()]
 
-        components = parse(tag)
+        components = parse_tag(tag)
 
         for typ, value in components:
             if typ == 'extlang' and normalize and data['language']:
@@ -185,7 +186,7 @@ class LanguageData:
                 if minitag in NORMALIZED_LANGUAGES:
                     norm = NORMALIZED_LANGUAGES[minitag]
                     data.update(
-                        LanguageData.parse(norm, normalize).to_dict()
+                        LanguageData.get(norm, normalize).to_dict()
                     )
                 else:
                     data.setdefault(typ + 's', []).append(value)
@@ -199,7 +200,7 @@ class LanguageData:
                     # parse the replacement if necessary -- this helps with
                     # Serbian and Moldovan
                     data.update(
-                        LanguageData.parse(replacement, normalize).to_dict()
+                        LanguageData.get(replacement, normalize).to_dict()
                     )
                 else:
                     data[typ] = value
@@ -329,13 +330,13 @@ class LanguageData:
         it is the dominant language within that macrolanguage. It will leave
         non-dominant languages that have macrolanguages alone.
 
-        >>> LanguageData.parse('arb').prefer_macrolanguage()
+        >>> LanguageData.get('arb').prefer_macrolanguage()
         LanguageData(language='ar')
 
-        >>> LanguageData.parse('cmn-Hant').prefer_macrolanguage()
+        >>> LanguageData.get('cmn-Hant').prefer_macrolanguage()
         LanguageData(language='zh', script='Hant')
 
-        >>> LanguageData.parse('yue-Hant').prefer_macrolanguage()
+        >>> LanguageData.get('yue-Hant').prefer_macrolanguage()
         LanguageData(language='yue', macrolanguage='zh', script='Hant')
         """
         language = self.language or 'und'
@@ -369,7 +370,7 @@ class LanguageData:
         against each other, but it is useful for matching them against a known
         standardized form, such as in the CLDR data.
 
-        >>> for langdata in LanguageData.parse('nn-Latn-NO-x-thingy').broaden():
+        >>> for langdata in LanguageData.get('nn-Latn-NO-x-thingy').broaden():
         ...     print(langdata)
         nn-Latn-NO-x-thingy
         nn-Latn-NO
@@ -405,17 +406,17 @@ class LanguageData:
         information on the Internet. (This is why the overall default is English,
         not Chinese.)
 
-        >>> str(LanguageData.parse('zh-Hant').fill_likely_values())
+        >>> str(LanguageData.get('zh-Hant').fill_likely_values())
         'zh-Hant-TW'
-        >>> str(LanguageData.parse('zh-TW').fill_likely_values())
+        >>> str(LanguageData.get('zh-TW').fill_likely_values())
         'zh-Hant-TW'
-        >>> str(LanguageData.parse('ja').fill_likely_values())
+        >>> str(LanguageData.get('ja').fill_likely_values())
         'ja-Jpan-JP'
-        >>> str(LanguageData.parse('pt').fill_likely_values())
+        >>> str(LanguageData.get('pt').fill_likely_values())
         'pt-Latn-BR'
-        >>> str(LanguageData.parse('und-Arab').fill_likely_values())
+        >>> str(LanguageData.get('und-Arab').fill_likely_values())
         'ar-Arab-EG'
-        >>> str(LanguageData.parse('und-CH').fill_likely_values())
+        >>> str(LanguageData.get('und-CH').fill_likely_values())
         'de-Latn-CH'
         >>> str(LanguageData().fill_likely_values())    # 'MURICA.
         'en-Latn-US'
@@ -423,7 +424,7 @@ class LanguageData:
         for broader in self.broaden():
             tag = str(broader)
             if tag in LIKELY_SUBTAGS:
-                result = LanguageData.parse(LIKELY_SUBTAGS[tag])
+                result = LanguageData.get(LIKELY_SUBTAGS[tag])
                 return result.update(self)
 
         raise RuntimeError(
@@ -641,7 +642,7 @@ class LanguageData:
         {'language': 'en', 'region': 'GB', 'script': 'Shaw'}
 
         >>> # Wait, is that a real language?
-        >>> pprint(LanguageData.parse('lol').fill_likely_values().describe())
+        >>> pprint(LanguageData.get('lol').fill_likely_values().describe())
         {'language': 'Mongo', 'region': 'Congo (DRC)', 'script': 'Latin'}
         """
         names = {}
@@ -680,6 +681,9 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
     >>> standardize_tag('en-uk')
     'en-GB'
 
+    >>> standardize_tag('eng')
+    'en'
+    
     >>> standardize_tag('arb-Arab', macro=True)
     'ar'
 
@@ -694,8 +698,25 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
 
     >>> standardize_tag('zh-cmn-hans-cn', macro=True)
     'zh-Hans-CN'
+    
+    >>> standardize_tag('zsm', macro=True)
+    'ms'
+
+    >>> standardize_tag('ja-latn-hepburn')
+    'ja-Latn-hepburn'
+
+    >>> standardize_tag('spa-latn-mx')
+    'es-MX'
+
+    If the tag can't be parsed according to BCP 47, this will raise a
+    LanguageTagError (a subclass of ValueError):
+
+    >>> standardize_tag('spa-mx-latn')
+    Traceback (most recent call last):
+        ...
+    langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
     """
-    langdata = LanguageData.parse(tag, normalize=True)
+    langdata = LanguageData.get(tag, normalize=True)
     if macro:
         langdata = langdata.prefer_macrolanguage()
 
@@ -872,8 +893,8 @@ def tag_match_score(desired: str, supported: str) -> int:
     if (desired, supported) in _CACHE:
         return _CACHE[desired, supported]
 
-    desired_ld = LanguageData.parse(desired)
-    supported_ld = LanguageData.parse(supported)
+    desired_ld = LanguageData.get(desired)
+    supported_ld = LanguageData.get(supported)
     score = desired_ld.match_score(supported_ld)
     _CACHE[desired, supported] = score
     return score
@@ -940,40 +961,4 @@ def best_match(desired_language: str, supported_languages: list,
     match_scores.sort(key=lambda item: -item[1])
     return match_scores[0]
 
-
-def normalize_language_tag(tag: str, macrolanguage: bool=True) -> str:
-    """
-    Converts a language tag to a standardized form. This includes making sure
-    to use the shortest form of the language code, removing the script subtag
-    if it's obvious, and using the conventional capitalization.
-
-    If the 'macrolanguage' option is True (the default), it will follow the
-    CLDR recommendation of using the codes for macrolanguages in place of the
-    more specific code for the predominant language within that macrolanguage.
-
-    >>> normalize_language_tag('eng')
-    'en'
-    >>> normalize_language_tag('eng-UK')
-    'en-GB'
-    >>> normalize_language_tag('zsm')
-    'ms'
-    >>> normalize_language_tag('arb-Arab')
-    'ar'
-    >>> normalize_language_tag('ja-latn-hepburn')
-    'ja-Latn-hepburn'
-    >>> normalize_language_tag('spa-latn-mx')
-    'es-MX'
-
-    If the tag can't be parsed according to BCP 47, this will raise a
-    LanguageTagError (a subclass of ValueError):
-
-    >>> normalize_language_tag('spa-mx-latn')
-    Traceback (most recent call last):
-        ...
-    langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
-    """
-    parsed = LanguageData.parse(tag)
-    if macrolanguage:
-        parsed = parsed.prefer_macrolanguage()
-    return str(parsed.simplify_script())
 
