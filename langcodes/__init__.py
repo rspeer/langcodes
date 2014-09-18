@@ -597,48 +597,49 @@ class LanguageData:
         might find it, in various languages.
 
         >>> from pprint import pprint
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en'))
+        >>> shaw = LanguageData(script='Shaw').fill_likely_values()
+        >>> pprint(shaw.describe('en'))
         {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en-GB'))
+        >>> pprint(shaw.describe('en-GB'))
         {'language': 'English', 'region': 'UK', 'script': 'Shavian'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en-AU'))
+        >>> pprint(shaw.describe('en-AU'))
         {'language': 'English', 'region': 'UK', 'script': 'Shavian'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('en-CA'))
+        >>> pprint(shaw.describe('en-CA'))
         {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('fr'))
+        >>> pprint(shaw.describe('fr'))
         {'language': 'anglais', 'region': 'R.-U.', 'script': 'shavien'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('es'))
+        >>> pprint(shaw.describe('es'))
         {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('pt'))
+        >>> pprint(shaw.describe('pt'))
         {'language': 'inglês', 'region': 'GB', 'script': 'shaviano'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('uk'))
+        >>> pprint(shaw.describe('uk'))
         {'language': 'англійська', 'region': 'Велика Британія', 'script': 'Шоу'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('arb'))
+        >>> pprint(shaw.describe('arb'))
         {'language': 'الإنجليزية', 'region': 'المملكة المتحدة', 'script': 'الشواني'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('th'))
+        >>> pprint(shaw.describe('th'))
         {'language': 'อังกฤษ', 'region': 'สหราชอาณาจักร', 'script': 'ซอเวียน'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('zh-Hans'))
+        >>> pprint(shaw.describe('zh-Hans'))
         {'language': '英文', 'region': '英国', 'script': '萧伯纳式文'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('zh-Hant'))
+        >>> pprint(shaw.describe('zh-Hant'))
         {'language': '英文', 'region': '英國', 'script': '簫柏納字符'}
 
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('ja'))
+        >>> pprint(shaw.describe('ja'))
         {'language': '英語', 'region': 'イギリス', 'script': 'ショー文字'}
 
         >>> # When we don't have a localization for the language, we fall back on
         >>> # 'und', which just shows the language codes.
-        >>> pprint(LanguageData(script='Shaw').fill_likely_values().describe('lol'))
+        >>> pprint(shaw.describe('lol'))
         {'language': 'en', 'region': 'GB', 'script': 'Shaw'}
 
         >>> # Wait, is that a real language?
