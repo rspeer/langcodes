@@ -8,56 +8,56 @@ what they actually mean in a data file is a separate step.
 For a full description of the syntax of a language tag, see page 3 of
     http://tools.ietf.org/html/bcp47
 
->>> parse('en')
+>>> parse_tag('en')
 [('language', 'en')]
 
->>> parse('en_US')
+>>> parse_tag('en_US')
 [('language', 'en'), ('region', 'US')]
 
->>> parse('en-Latn')
+>>> parse_tag('en-Latn')
 [('language', 'en'), ('script', 'Latn')]
 
->>> parse('es-419')
+>>> parse_tag('es-419')
 [('language', 'es'), ('region', '419')]
 
->>> parse('zh-hant-tw')
+>>> parse_tag('zh-hant-tw')
 [('language', 'zh'), ('script', 'Hant'), ('region', 'TW')]
 
->>> parse('zh-tw-hant')
+>>> parse_tag('zh-tw-hant')
 Traceback (most recent call last):
     ...
 langcodes.tag_parser.LanguageTagError: This script subtag, 'hant', is out of place. Expected variant, extension, or end of string.
 
->>> parse('de-DE-1901')
+>>> parse_tag('de-DE-1901')
 [('language', 'de'), ('region', 'DE'), ('variant', '1901')]
 
->>> parse('ja-latn-hepburn')
+>>> parse_tag('ja-latn-hepburn')
 [('language', 'ja'), ('script', 'Latn'), ('variant', 'hepburn')]
 
->>> parse('ja-hepburn-latn')
+>>> parse_tag('ja-hepburn-latn')
 Traceback (most recent call last):
     ...
 langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
 
->>> parse('zh-yue')
+>>> parse_tag('zh-yue')
 [('language', 'zh'), ('extlang', 'yue')]
 
->>> parse('zh-yue-Hant')
+>>> parse_tag('zh-yue-Hant')
 [('language', 'zh'), ('extlang', 'yue'), ('script', 'Hant')]
 
->>> parse('zh-min-nan')
+>>> parse_tag('zh-min-nan')
 [('grandfathered', 'zh-min-nan')]
 
->>> parse('x-dothraki')
+>>> parse_tag('x-dothraki')
 [('language', 'x-dothraki')]
 
->>> parse('en-u-co-backwards-x-pig-latin')
+>>> parse_tag('en-u-co-backwards-x-pig-latin')
 [('language', 'en'), ('extension', 'u-co-backwards'), ('private', 'x-pig-latin')]
 
->>> parse('en-x-pig-latin-u-co-backwards')
+>>> parse_tag('en-x-pig-latin-u-co-backwards')
 [('language', 'en'), ('private', 'x-pig-latin-u-co-backwards')]
 
->>> parse('u-co-backwards')
+>>> parse_tag('u-co-backwards')
 Traceback (most recent call last):
     ...
 langcodes.tag_parser.LanguageTagError: Expected a language code, got 'u'
@@ -102,7 +102,7 @@ def normalize_characters(tag):
     return tag.lower().replace('_', '-')
 
 
-def parse(tag):
+def parse_tag(tag):
     """
     Parse the syntax of a language tag, without looking up anything in the
     registry, yet. Returns a list of (type, value) tuples indicating what
