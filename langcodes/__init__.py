@@ -144,7 +144,7 @@ class LanguageData:
         )
 
     @staticmethod
-    def get(tag: str, normalize=True) -> 'LanguageData':
+    def get(tag, normalize=True):
         """
         Create a LanguageData object from a language tag string.
 
