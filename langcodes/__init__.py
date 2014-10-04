@@ -463,14 +463,15 @@ class LanguageData:
         if desired_reduced == supported_reduced:
             return 99
 
-        # CLDR doesn't tell us how to combine the data in 'parentLocales' with
-        # that in 'languageMatching', so here's a heuristic that seems to fit.
+        # CLDR suggests using 'parentLocales' with 'languageMatching', but
+        # doesn't assign numerical values to parent locales. Here are some
+        # numbers that seem to match the intent.
         desired_tag = str(desired_reduced)
         supported_tag = str(supported_reduced)
         if PARENT_LOCALES.get(desired_tag) == supported_tag:
-            return 98
+            return 99
         if PARENT_LOCALES.get(supported_tag) == desired_tag:
-            return 97
+            return 98
 
         # Look for language pairs that are present in CLDR's 'languageMatching'.
         for keyset in self.MATCHABLE_KEYSETS:
@@ -485,15 +486,27 @@ class LanguageData:
                 return LANGUAGE_MATCHING[pair]
 
         if desired_complete.language == supported_complete.language:
+            # Partial wildcard rules from CLDR's 'languageMatching'. I'm not
+            # trying to interpret the ugly format they're written in, so I'm
+            # just reimplementing them. There are only eight of these rules
+            # anyway.
+
             if desired_complete.script == supported_complete.script:
-                return 96
-            # Implement these wildcard rules about Han scripts explicitly.
+                if desired_complete.language == 'en' and desired_complete.region == 'US':
+                    return 97
+                elif desired_complete.language == 'es' and desired_complete.region == 'ES':
+                    return 97
+                elif desired_complete.language == 'es' and desired_complete.region == '419':
+                    return 99
+                elif desired_complete.language == 'es':
+                    return 98
+                else:
+                    return 96
             elif desired_complete.script == 'Hans' and supported_complete.script == 'Hant':
                 return 85
             elif desired_complete.script == 'Hant' and supported_complete.script == 'Hans':
                 return 75
             else:
-                # A low-ish score for incompatible scripts.
                 return 20
 
         if desired_complete.macrolanguage or supported_complete.macrolanguage:
@@ -763,26 +776,29 @@ def tag_match_score(desired: str, supported: str) -> int:
     >>> tag_match_score('ru-Cyrl', 'ru')
     99
 
+    >>> tag_match_score('en-AU', 'en-GB')   # Australian English is similar to British
+    99
+    >>> tag_match_score('en-IN', 'en-GB')   # Indian English is also similar to British
+    99
+    >>> tag_match_score('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
+    99
+    
     A match strength of 97 or 98 means that the language tags are different,
     but are culturally similar enough that they should be interchangeable in
     most contexts. (The CLDR provides the data about related locales, but
     doesn't assign it a match strength. It uses hacky wildcard-based rules for
     this purpose instead. The end result is very similar.)
 
-    >>> tag_match_score('en-AU', 'en-GB')   # Australian English is similar to British
-    98
-    >>> tag_match_score('en-IN', 'en-GB')   # Indian English is also similar to British
-    98
+    A match strength of 96 to 98 indicates a regional difference. At a score of
+    98, the regions are very similar in their language usage, and the language
+    should be interchangeable in most contexts. At a score of 96, users may
+    notice some unexpected usage, and NLP algorithms that expect one language
+    variant may occasionally trip up on the other.
+
     >>> # It might be slightly more unexpected to ask for British usage and get
     >>> # Indian usage than the other way around.
     >>> tag_match_score('en-GB', 'en-IN')
-    97
-    >>> tag_match_score('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
     98
-
-    A match strength of 96 means that the tags indicate a regional difference.
-    Users may notice some unexpected usage, and NLP algorithms that expect one
-    language may occasionally trip up on the other.
 
     >>> # European Portuguese is a bit different from the Brazilian most common dialect
     >>> tag_match_score('pt', 'pt-PT')
@@ -935,13 +951,13 @@ def best_match(desired_language: str, supported_languages: list,
     >>> best_match('pt', ['pt-BR', 'pt-PT'])
     ('pt-BR', 99)
     >>> best_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 98)
+    ('en-GB', 99)
     >>> best_match('es-MX', ['es-ES', 'es-419', 'en-US'])
-    ('es-419', 98)
+    ('es-419', 99)
     >>> best_match('es-MX', ['es-PU', 'es-AR', 'es-PY'])
-    ('es-PU', 96)
+    ('es-PU', 98)
     >>> best_match('es-MX', ['es-AR', 'es-PU', 'es-PY'])
-    ('es-AR', 96)
+    ('es-AR', 98)
     >>> best_match('id', ['zsm', 'mhp'])
     ('zsm', 90)
     >>> best_match('eu', ['el', 'en', 'es'], min_score=10)
