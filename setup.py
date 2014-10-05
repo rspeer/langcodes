@@ -4,7 +4,8 @@ import sys
 if sys.version_info[0] < 3:
     print(
         """
-        Sorry for the inconvenience, but langcodes is native Python 3 code.
+        Sorry for the inconvenience, but langcodes is native Python 3 code,
+        and you're running Python 2.
 
         If you need to run it on Python 2, there's a backport to Python 2.7 in
         a separate package called `langcodes-py2`.

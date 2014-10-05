@@ -104,7 +104,10 @@ class LanguageDB:
 
     def __init__(self, db_filename):
         self.filename = db_filename
-        self.conn = sqlite3.connect(db_filename)
+
+        # Because this is Python 3, we can set `check_same_thread=False` and
+        # get a database that can be safely read in multiple threads. Hooray!
+        self.conn = sqlite3.connect(db_filename, check_same_thread=False)
 
     def __str__(self):
         return "LanguageDB(%s)" % self.filename
