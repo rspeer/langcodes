@@ -1,14 +1,31 @@
 # coding: utf-8
 from __future__ import print_function, division, unicode_literals
+"""
+langcodes knows what languages are. It knows the standardized codes that
+refer to them, such as `en` for English, `es` for Spanish and `hi` for Hindi.
+Often, it knows what these languages are called *in* a language, and that
+language doesn't have to be English.
+
+See README.md for the main documentation, or read it on GitHub at
+https://github.com/LuminosoInsight/langcodes/ . For more specific documentation
+on the functions in langcodes, scroll down and read the docstrings.
+"""
 from .tag_parser import parse_tag
 from .db import LanguageDB, LIKELY_SUBTAGS, LANGUAGE_MATCHING, PARENT_LOCALES
 from .util import data_filename
 
-DB = LanguageDB(data_filename('subtags.db'))
-
-# When we're getting natural language information *about* languages, what
-# language should it be in by default?
+# When we're getting natural language information *about* languages, it's in
+# U.S. English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en-US'
+
+
+# Loading data
+# ------------
+# Here, we open the database and pre-load some important information from it.
+# Feel free to skip past this to the LanguageData class.
+
+# Load the SQLite database that contains the data we need about languages.
+DB = LanguageDB(data_filename('subtags.db'))
 
 # Non-standard codes that should be unconditionally replaced.
 NORMALIZED_LANGUAGES = {orig.lower(): new.lower()
@@ -23,7 +40,6 @@ NORMALIZED_MACROLANGUAGES = {
 # Mappings for all languages that have macrolanguages.
 MACROLANGUAGES = {lang: macro for (lang, macro) in DB.macrolanguages()}
 
-
 # Regions that have been renamed, merged, or re-coded. (This package doesn't
 # handle the ones that have been split, like Yugoslavia.)
 NORMALIZED_REGIONS = {
@@ -31,6 +47,8 @@ NORMALIZED_REGIONS = {
     for (orig, new) in DB.region_replacements()
 }
 
+# Most languages imply a particular script that they should be written in.
+# This data is used by the `assume_script` and `simplify_script` methods.
 DEFAULT_SCRIPTS = {
     lang: script
     for (lang, script) in DB.suppressed_scripts()
@@ -38,9 +56,32 @@ DEFAULT_SCRIPTS = {
 
 
 class LanguageData:
+    """
+    The LanguageData class defines the results of parsing a language tag.
+    LanguageData objects have the following attributes, any of which may be
+    unspecified (in which case their value is None):
+
+    - *language*: the code for the language itself.
+    - *macrolanguage*: a code for a broader language that contains that language.
+    - *script*: the 4-letter code for the writing system being used.
+    - *region*: the 2-letter or 3-digit code for the country or similar region
+      whose usage of the language appears in this text.
+    - *extlangs*: a list of more specific language codes that follow the language
+      code. (This is allowed by the language code syntax, but deprecated.)
+    - *variants*: codes for specific variations of language usage that aren't
+      covered by the *script* or *region* codes.
+    - *extensions*: information that's attached to the language code for use in
+      some specific system, such as Unicode collation orders.
+    - *private*: a code starting with `x-` that has no defined meaning.
+
+    The `LanguageData.get` method converts a string to a LanguageData instance.
+    """
+
     ATTRIBUTES = ['language', 'macrolanguage', 'extlangs', 'script', 'region',
                   'variants', 'extensions', 'private']
 
+    # When looking up "likely subtags" data, we try looking up the data for
+    # increasingly less specific versions of the language code.
     BROADER_KEYSETS = [
         {'language', 'script', 'region'},
         {'language', 'region'},
@@ -63,6 +104,9 @@ class LanguageData:
     def __init__(self, language=None, macrolanguage=None, extlangs=None,
                  script=None, region=None, variants=None, extensions=None,
                  private=None):
+        """
+        Create a LanguageData object by giving any subset of its attributes.
+        """
         self.language = language or macrolanguage
         self.macrolanguage = macrolanguage or language
         self.extlangs = extlangs
@@ -71,77 +115,6 @@ class LanguageData:
         self.variants = variants
         self.extensions = extensions
         self.private = private
-
-    def __repr__(self):
-        items = []
-        for attr in self.ATTRIBUTES:
-            if getattr(self, attr):
-                if not (attr == 'macrolanguage'
-                        and self.macrolanguage == self.language):
-                    items.append('{0}={1!r}'.format(attr, getattr(self, attr)))
-        return "LanguageData({})".format(', '.join(items))
-
-    def __str__(self):
-        return self.to_tag()
-
-    def __getitem__(self, key):
-        if key in self.ATTRIBUTES:
-            return getattr(self, key)
-        else:
-            raise KeyError(key)
-
-    def __contains__(self, key):
-        return key in self.ATTRIBUTES and getattr(self, key)
-
-    def __eq__(self, other):
-        if not isinstance(other, LanguageData):
-            return False
-        return self.to_dict() == other.to_dict()
-
-    def __ne__(self, other):
-        return not self == other
-
-    def to_dict(self):
-        """
-        Get a dictionary of the attributes of this LanguageData object, which
-        can be useful for constructing a similar object.
-        """
-        result = {}
-        for key in self.ATTRIBUTES:
-            value = getattr(self, key)
-            if value:
-                result[key] = value
-        return result
-
-    def update(self, other):
-        """
-        Update this LanguageData with the fields of another LanguageData.
-        """
-        return LanguageData(
-            language=other.language or self.language,
-            macrolanguage=other.macrolanguage or self.macrolanguage,
-            extlangs=other.extlangs or self.extlangs,
-            script=other.script or self.script,
-            region=other.region or self.region,
-            variants=other.variants or self.variants,
-            extensions=other.extensions or self.extensions,
-            private=other.private or self.private
-        )
-
-    def update_dict(self, newdata):
-        """
-        Update the attributes of this LanguageData from a dictionary.
-        """
-        return LanguageData(
-            language=newdata.get('language', self.language),
-            macrolanguage=newdata.get('macrolanguage', self.macrolanguage),
-            extlangs=newdata.get('extlangs', self.extlangs),
-            script=newdata.get('script', self.script),
-            region=newdata.get('region', self.region),
-            variants=newdata.get('variants', self.variants),
-            extensions=newdata.get('extensions', self.extensions),
-            private=newdata.get('private', self.private)
-        )
 
     @staticmethod
     def get(tag, normalize=True):
@@ -351,20 +324,6 @@ class LanguageData:
         else:
             return self
 
-    @staticmethod
-    def _filter_keys(d, keys):
-        """
-        Select a subset of keys from a dictionary.
-        """
-        return {key: d[key] for key in keys if key in d}
-
-    def _filter_attributes(self, keyset):
-        """
-        Return a copy of this object with a subset of its attributes set.
-        """
-        filtered = self._filter_keys(self.to_dict(), keyset)
-        return LanguageData(**filtered)
-
     def broaden(self):
         """
         Iterate through increasingly general versions of this parsed language tag.
@@ -436,15 +395,6 @@ class LanguageData:
             "langcodes.db.LIKELY_SUBTAGS."
         )
 
-    def _searchable_form(self):
-        """
-        Convert a parsed language tag so that the information it contains is in
-        the best form for looking up information in the CLDR.
-        """
-        return self._filter_attributes(
-            {'macrolanguage', 'language', 'script', 'region'}
-        ).simplify_script().prefer_macrolanguage()
-
     def match_score(self, supported):
         """
         Suppose that `self` is the language that the user desires, and
@@ -468,14 +418,15 @@ class LanguageData:
         if desired_reduced == supported_reduced:
             return 99
 
-        # CLDR doesn't tell us how to combine the data in 'parentLocales' with
-        # that in 'languageMatching', so here's a heuristic that seems to fit.
+        # CLDR suggests using 'parentLocales' with 'languageMatching', but
+        # doesn't assign numerical values to parent locales. Here are some
+        # numbers that seem to match the intent.
         desired_tag = str(desired_reduced)
         supported_tag = str(supported_reduced)
         if PARENT_LOCALES.get(desired_tag) == supported_tag:
-            return 98
+            return 99
         if PARENT_LOCALES.get(supported_tag) == desired_tag:
-            return 97
+            return 98
 
         # Look for language pairs that are present in CLDR's 'languageMatching'.
         for keyset in self.MATCHABLE_KEYSETS:
@@ -490,15 +441,27 @@ class LanguageData:
                 return LANGUAGE_MATCHING[pair]
 
         if desired_complete.language == supported_complete.language:
+            # Partial wildcard rules from CLDR's 'languageMatching'. I'm not
+            # trying to interpret the ugly format they're written in, so I'm
+            # just reimplementing them. There are only eight of these rules
+            # anyway.
+
             if desired_complete.script == supported_complete.script:
-                return 96
-            # Implement these wildcard rules about Han scripts explicitly.
+                if desired_complete.language == 'en' and desired_complete.region == 'US':
+                    return 97
+                elif desired_complete.language == 'es' and desired_complete.region == 'ES':
+                    return 97
+                elif desired_complete.language == 'es' and desired_complete.region == '419':
+                    return 99
+                elif desired_complete.language == 'es':
+                    return 98
+                else:
+                    return 96
             elif desired_complete.script == 'Hans' and supported_complete.script == 'Hant':
                 return 85
             elif desired_complete.script == 'Hant' and supported_complete.script == 'Hans':
                 return 75
             else:
-                # A low-ish score for incompatible scripts.
                 return 20
 
         if desired_complete.macrolanguage or supported_complete.macrolanguage:
@@ -548,7 +511,9 @@ class LanguageData:
 
     def language_name(self, language=DEFAULT_LANGUAGE, min_score=90):
         """
-        Give the name of the language (and no other subtags) in a natural language.
+        Give the name of the language (not the entire tag, just the language part)
+        in a natural language. The target language can be given as a string or
+        another LanguageData object.
 
         By default, things are named in English:
 
@@ -574,13 +539,47 @@ class LanguageData:
         """
         return self._get_name('language', language, min_score)
 
+    def autonym(self):
+        """
+        Give the name of this language *in* this language.
+
+        >>> LanguageData.get('fr').autonym()
+        'français'
+        >>> LanguageData.get('es').autonym()
+        'español'
+        >>> LanguageData.get('ja').autonym()
+        '日本語'
+        
+        This doesn't give the name of the region or script, but in one case,
+        you can get the autonym in two different scripts:
+        
+        >>> LanguageData.get('sr-Latn').autonym()
+        'srpski'
+        >>> LanguageData.get('sr-Cyrl').autonym()
+        'Српски'
+
+        This only works for language codes that CLDR has locale data for. You
+        can't ask for the autonym of 'ja-Latn' and get 'nihongo'.
+        """
+        return self.language_name(language=self, min_score=10)
+
     def script_name(self, language=DEFAULT_LANGUAGE, min_score=90):
+        """
+        Describe the script part of the language tag in a natural language.
+        """
         return self._get_name('script', language, min_score)
 
     def region_name(self, language=DEFAULT_LANGUAGE, min_score=90):
+        """
+        Describe the region part of the language tag in a natural language.
+        """
         return self._get_name('region', language, min_score)
 
     def variant_names(self, language=DEFAULT_LANGUAGE, min_score=90):
+        """
+        Describe each of the variant parts of the language tag in a natural
+        language.
+        """
         names = []
         for variant in self.variants:
             var_names = DB.names_for('variant', variant)
@@ -660,6 +659,100 @@ class LanguageData:
         if self.variants:
             names['variants'] = self.variant_names(language, min_score)
         return names
+
+    def to_dict(self):
+        """
+        Get a dictionary of the attributes of this LanguageData object, which
+        can be useful for constructing a similar object.
+        """
+        result = {}
+        for key in self.ATTRIBUTES:
+            value = getattr(self, key)
+            if value:
+                result[key] = value
+        return result
+
+    def update(self, other):
+        """
+        Update this LanguageData with the fields of another LanguageData.
+        """
+        return LanguageData(
+            language=other.language or self.language,
+            macrolanguage=other.macrolanguage or self.macrolanguage,
+            extlangs=other.extlangs or self.extlangs,
+            script=other.script or self.script,
+            region=other.region or self.region,
+            variants=other.variants or self.variants,
+            extensions=other.extensions or self.extensions,
+            private=other.private or self.private
+        )
+
+    def update_dict(self, newdata):
+        """
+        Update the attributes of this LanguageData from a dictionary.
+        """
+        return LanguageData(
+            language=newdata.get('language', self.language),
+            macrolanguage=newdata.get('macrolanguage', self.macrolanguage),
+            extlangs=newdata.get('extlangs', self.extlangs),
+            script=newdata.get('script', self.script),
+            region=newdata.get('region', self.region),
+            variants=newdata.get('variants', self.variants),
+            extensions=newdata.get('extensions', self.extensions),
+            private=newdata.get('private', self.private)
+        )
+
+    @staticmethod
+    def _filter_keys(d, keys):
+        """
+        Select a subset of keys from a dictionary.
+        """
+        return {key: d[key] for key in keys if key in d}
+
+    def _filter_attributes(self, keyset):
+        """
+        Return a copy of this object with a subset of its attributes set.
+        """
+        filtered = self._filter_keys(self.to_dict(), keyset)
+        return LanguageData(**filtered)
+
+    def _searchable_form(self):
+        """
+        Convert a parsed language tag so that the information it contains is in
+        the best form for looking up information in the CLDR.
+        """
+        return self._filter_attributes(
+            {'macrolanguage', 'language', 'script', 'region'}
+        ).simplify_script().prefer_macrolanguage()
+
+    def __eq__(self, other):
+        if not isinstance(other, LanguageData):
+            return False
+        return self.to_dict() == other.to_dict()
+
+    def __ne__(self, other):
+        return not (self == other)
+
+    def __getitem__(self, key):
+        if key in self.ATTRIBUTES:
+            return getattr(self, key)
+        else:
+            raise KeyError(key)
+
+    def __contains__(self, key):
+        return key in self.ATTRIBUTES and getattr(self, key)
+
+    def __repr__(self):
+        items = []
+        for attr in self.ATTRIBUTES:
+            if getattr(self, attr):
+                if not (attr == 'macrolanguage'
+                        and self.macrolanguage == self.language):
+                    items.append('{0}={1!r}'.format(attr, getattr(self, attr)))
+        return "LanguageData({})".format(', '.join(items))
+
+    def __str__(self):
+        return self.to_tag()
 
 
 def standardize_tag(tag, macro=False):
@@ -768,26 +861,29 @@ def tag_match_score(desired, supported):
     >>> tag_match_score('ru-Cyrl', 'ru')
     99
 
+    >>> tag_match_score('en-AU', 'en-GB')   # Australian English is similar to British
+    99
+    >>> tag_match_score('en-IN', 'en-GB')   # Indian English is also similar to British
+    99
+    >>> tag_match_score('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
+    99
+    
     A match strength of 97 or 98 means that the language tags are different,
     but are culturally similar enough that they should be interchangeable in
     most contexts. (The CLDR provides the data about related locales, but
     doesn't assign it a match strength. It uses hacky wildcard-based rules for
     this purpose instead. The end result is very similar.)
 
-    >>> tag_match_score('en-AU', 'en-GB')   # Australian English is similar to British
-    98
-    >>> tag_match_score('en-IN', 'en-GB')   # Indian English is also similar to British
-    98
+    A match strength of 96 to 98 indicates a regional difference. At a score of
+    98, the regions are very similar in their language usage, and the language
+    should be interchangeable in most contexts. At a score of 96, users may
+    notice some unexpected usage, and NLP algorithms that expect one language
+    variant may occasionally trip up on the other.
+
     >>> # It might be slightly more unexpected to ask for British usage and get
     >>> # Indian usage than the other way around.
     >>> tag_match_score('en-GB', 'en-IN')
-    97
-    >>> tag_match_score('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
     98
-
-    A match strength of 96 means that the tags indicate a regional difference.
-    Users may notice some unexpected usage, and NLP algorithms that expect one
-    language may occasionally trip up on the other.
 
     >>> # European Portuguese is a bit different from the Brazilian most common dialect
     >>> tag_match_score('pt', 'pt-PT')
@@ -939,13 +1035,13 @@ def best_match(desired_language, supported_languages, min_score=90):
     >>> best_match('pt', ['pt-BR', 'pt-PT'])
     ('pt-BR', 99)
     >>> best_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 98)
+    ('en-GB', 99)
     >>> best_match('es-MX', ['es-ES', 'es-419', 'en-US'])
-    ('es-419', 98)
+    ('es-419', 99)
     >>> best_match('es-MX', ['es-PU', 'es-AR', 'es-PY'])
-    ('es-PU', 96)
+    ('es-PU', 98)
     >>> best_match('es-MX', ['es-AR', 'es-PU', 'es-PY'])
-    ('es-AR', 96)
+    ('es-AR', 98)
     >>> best_match('id', ['zsm', 'mhp'])
     ('zsm', 90)
     >>> best_match('eu', ['el', 'en', 'es'], min_score=10)

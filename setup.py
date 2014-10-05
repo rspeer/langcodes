@@ -1,10 +1,22 @@
 from setuptools import setup
+import sys
+
+if sys.version_info[0] < 3:
+    print(
+        """
+        Sorry for the inconvenience, but langcodes is native Python 3 code.
+
+        If you need to run it on Python 2, there's a backport to Python 2.7 in
+        a separate package called `langcodes-py2`.
+        """
+    )
+    sys.exit(1)
 
 setup(
     name="langcodes",
-    version='0.1',
+    version='1.0',
     maintainer='Luminoso Technologies, Inc.',
-    maintainer_email='info@luminoso.com',
+    maintainer_email='rspeer@luminoso.com',
     license="MIT",
     url='http://github.com/LuminosoInsight/langcodes',
     platforms=["any"],
