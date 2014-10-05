@@ -315,12 +315,6 @@ standard string form:
     >>> str(LanguageData(region='IN'))
     'und-IN'
 
-This operation -- of making a LanguageData object and then converting it back
-to a standardized string -- also has its own function, `standardize_tag`:
-
-    >>> standardize_tag('en_uk')
-    'en-GB'
-
 ### Describing LanguageData objects in natural language
 
 It's often helpful to be able to describe a language code in a way that a user

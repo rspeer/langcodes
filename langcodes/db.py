@@ -104,6 +104,7 @@ class LanguageDB:
 
     def __init__(self, db_filename):
         self.filename = db_filename
+
         self.conn = sqlite3.connect(db_filename)
 
     def __str__(self):
