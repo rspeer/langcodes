@@ -119,12 +119,13 @@ strength of match between the language the user desires and a supported
 language.
 
 This is very similar to the 1-100 scale that CLDR uses, but we've added some
-scale steps to enable comparing languages within macrolanguages. This function
-does not purport to return exactly the same results as a literal implementation
-of CLDR would; it just uses most of the same source data.
+scale steps to enable comparing languages within macrolanguages. So this
+function does not purport to return exactly the same results as another package
+built on CLDR, such as ICU. It just uses the same source data. The specific
+values aren't standardized the way BCP 47 is, anyway.
 
-For example, CLDR thinks that Cantonese and Mandarin are a worse match than
-Tamil and English, and this function disagrees.
+For example, without handling macrolanguages, CLDR would suggest that Cantonese
+and Mandarin are a worse match than Tamil and English. This function disagrees.
 
 ### Match values
 
@@ -140,7 +141,7 @@ Value | Meaning
    85 | The supported script is not quite the desired one, but should be understandable: for example, giving Traditional Chinese when Simplified Chinese is desired.
    75 | The supported script is not the desired one, and may not be entirely understandable: for example, giving Simplified Chinese where Traditional Chinese is desired.
    50 | These are different languages within the same macrolanguage, such as Cantonese vs. Mandarin.
-37-49 | These are different languages within the same macrolanguages, plus other differences: for example, Hong Kong Cantonese vs. mainland Mandarin Chinese.
+37-49 | These are different languages within the same macrolanguage, plus other differences: for example, Hong Kong Cantonese vs. mainland Mandarin Chinese.
    20 | The supported script is different from the desired one, and that will probably make the text difficult to understand.
    10 | These are different languages. There is some reason to believe, demographically, that those who understand the desired language will understand some of the supported language.
     0 | There is no apparent way that these language codes match.
@@ -369,7 +370,7 @@ or `.variant_names()`, or get all the names at once with `.describe()`.
 
     >>> shaw = LanguageData.get('en-Shaw-GB')
     >>> pprint(shaw.describe('en'))
-    {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
+    {'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
     
     >>> pprint(shaw.describe('es'))
     {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
