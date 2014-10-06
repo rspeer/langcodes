@@ -370,7 +370,7 @@ or `.variant_names()`, or get all the names at once with `.describe()`.
 
     >>> shaw = LanguageData.get('en-Shaw-GB')
     >>> pprint(shaw.describe('en'))
-    {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
+    {'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
     
     >>> pprint(shaw.describe('es'))
     {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}

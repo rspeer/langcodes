@@ -9,48 +9,15 @@ https://github.com/LuminosoInsight/langcodes/ . For more specific documentation
 on the functions in langcodes, scroll down and read the docstrings.
 """
 from .tag_parser import parse_tag
-from .db import LanguageDB, LIKELY_SUBTAGS, LANGUAGE_MATCHING, PARENT_LOCALES
+from .db import LanguageDB
 from .util import data_filename
 
 # When we're getting natural language information *about* languages, it's in
 # U.S. English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en-US'
 
-
-# Loading data
-# ------------
-# Here, we open the database and pre-load some important information from it.
-# Feel free to skip past this to the LanguageData class.
-
 # Load the SQLite database that contains the data we need about languages.
 DB = LanguageDB(data_filename('subtags.db'))
-
-# Non-standard codes that should be unconditionally replaced.
-NORMALIZED_LANGUAGES = {orig.lower(): new.lower()
-                        for (orig, new) in DB.language_replacements()}
-
-# Codes that the Unicode Consortium would rather replace with macrolanguages.
-NORMALIZED_MACROLANGUAGES = {
-    orig.lower(): new
-    for (orig, new) in DB.language_replacements(macro=True)
-}
-
-# Mappings for all languages that have macrolanguages.
-MACROLANGUAGES = {lang: macro for (lang, macro) in DB.macrolanguages()}
-
-# Regions that have been renamed, merged, or re-coded. (This package doesn't
-# handle the ones that have been split, like Yugoslavia.)
-NORMALIZED_REGIONS = {
-    orig.upper(): new.upper()
-    for (orig, new) in DB.region_replacements()
-}
-
-# Most languages imply a particular script that they should be written in.
-# This data is used by the `assume_script` and `simplify_script` methods.
-DEFAULT_SCRIPTS = {
-    lang: script
-    for (lang, script) in DB.suppressed_scripts()
-}
 
 
 class LanguageData:
@@ -148,8 +115,8 @@ class LanguageData:
         # normalization right away. Smash case when checking, because the
         # case normalization that comes from parse_tag() hasn't been applied
         # yet.
-        if normalize and tag.lower() in NORMALIZED_LANGUAGES:
-            tag = NORMALIZED_LANGUAGES[tag.lower()]
+        if normalize and tag.lower() in DB.normalized_languages:
+            tag = DB.normalized_languages[tag.lower()]
 
         components = parse_tag(tag)
 
@@ -157,8 +124,8 @@ class LanguageData:
             if typ == 'extlang' and normalize and data['language']:
                 # smash extlangs when possible
                 minitag = '%s-%s' % (data['language'], value)
-                if minitag in NORMALIZED_LANGUAGES:
-                    norm = NORMALIZED_LANGUAGES[minitag]
+                if minitag in DB.normalized_languages:
+                    norm = DB.normalized_languages[minitag]
                     data.update(
                         LanguageData.get(norm, normalize).to_dict()
                     )
@@ -169,8 +136,8 @@ class LanguageData:
             elif typ == 'language':
                 if value == 'und':
                     pass
-                elif normalize and value in NORMALIZED_LANGUAGES:
-                    replacement = NORMALIZED_LANGUAGES[value]
+                elif normalize and value in DB.normalized_languages:
+                    replacement = DB.normalized_languages[value]
                     # parse the replacement if necessary -- this helps with
                     # Serbian and Moldovan
                     data.update(
@@ -178,11 +145,11 @@ class LanguageData:
                     )
                 else:
                     data[typ] = value
-                    if value in MACROLANGUAGES:
-                        data['macrolanguage'] = MACROLANGUAGES[value]
+                    if value in DB.macrolanguages:
+                        data['macrolanguage'] = DB.macrolanguages[value]
             elif typ == 'region':
-                if normalize and value in NORMALIZED_REGIONS:
-                    data[typ] = NORMALIZED_REGIONS[value]
+                if normalize and value in DB.normalized_regions:
+                    data[typ] = DB.normalized_regions[value]
                 else:
                     data[typ] = value
             else:
@@ -245,7 +212,7 @@ class LanguageData:
         LanguageData(language='yi')
         """
         if self.language and self.script:
-            if DEFAULT_SCRIPTS.get(self.language) == self.script:
+            if DB.default_scripts.get(self.language) == self.script:
                 return self.update_dict({'script': None})
 
         return self
@@ -280,7 +247,7 @@ class LanguageData:
         """
         if self.language and not self.script:
             try:
-                return self.update_dict({'script': DEFAULT_SCRIPTS[self.language]})
+                return self.update_dict({'script': DB.default_scripts[self.language]})
             except KeyError:
                 return self
         else:
@@ -314,9 +281,9 @@ class LanguageData:
         LanguageData(language='yue', macrolanguage='zh', script='Hant')
         """
         language = self.language or 'und'
-        if language in NORMALIZED_MACROLANGUAGES:
+        if language in DB.normalized_macrolanguages:
             return self.update_dict({
-                'language': NORMALIZED_MACROLANGUAGES[language],
+                'language': DB.normalized_macrolanguages[language],
                 'macrolanguage': None
             })
         else:
@@ -384,13 +351,13 @@ class LanguageData:
         """
         for broader in self.broaden():
             tag = str(broader)
-            if tag in LIKELY_SUBTAGS:
-                result = LanguageData.get(LIKELY_SUBTAGS[tag])
+            if tag in DB.likely_subtags:
+                result = LanguageData.get(DB.likely_subtags[tag])
                 return result.update(self)
 
         raise RuntimeError(
             "Couldn't fill in likely values. This represents a problem with "
-            "langcodes.db.LIKELY_SUBTAGS."
+            "DB.likely_subtags."
         )
 
     def match_score(self, supported: 'LanguageData') -> int:
@@ -421,9 +388,9 @@ class LanguageData:
         # numbers that seem to match the intent.
         desired_tag = str(desired_reduced)
         supported_tag = str(supported_reduced)
-        if PARENT_LOCALES.get(desired_tag) == supported_tag:
+        if DB.parent_locales.get(desired_tag) == supported_tag:
             return 99
-        if PARENT_LOCALES.get(supported_tag) == desired_tag:
+        if DB.parent_locales.get(supported_tag) == desired_tag:
             return 98
 
         # Look for language pairs that are present in CLDR's 'languageMatching'.
@@ -435,8 +402,8 @@ class LanguageData:
                 supported_complete._filter_attributes(keyset).simplify_script()
             )
             pair = (desired_filtered_tag, supported_filtered_tag)
-            if pair in LANGUAGE_MATCHING:
-                return LANGUAGE_MATCHING[pair]
+            if pair in DB.language_matching:
+                return DB.language_matching[pair]
 
         if desired_complete.language == supported_complete.language:
             # Partial wildcard rules from CLDR's 'languageMatching'. I'm not
@@ -547,10 +514,10 @@ class LanguageData:
         'español'
         >>> LanguageData.get('ja').autonym()
         '日本語'
-        
+
         This doesn't give the name of the region or script, but in one case,
         you can get the autonym in two different scripts:
-        
+
         >>> LanguageData.get('sr-Latn').autonym()
         'srpski'
         >>> LanguageData.get('sr-Cyrl').autonym()
@@ -600,25 +567,16 @@ class LanguageData:
         >>> from pprint import pprint
         >>> shaw = LanguageData(script='Shaw').fill_likely_values()
         >>> pprint(shaw.describe('en'))
-        {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
-
-        >>> pprint(shaw.describe('en-GB'))
-        {'language': 'English', 'region': 'UK', 'script': 'Shavian'}
-
-        >>> pprint(shaw.describe('en-AU'))
-        {'language': 'English', 'region': 'UK', 'script': 'Shavian'}
-
-        >>> pprint(shaw.describe('en-CA'))
-        {'language': 'English', 'region': 'U.K.', 'script': 'Shavian'}
+        {'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
 
         >>> pprint(shaw.describe('fr'))
-        {'language': 'anglais', 'region': 'R.-U.', 'script': 'shavien'}
+        {'language': 'anglais', 'region': 'Royaume-Uni', 'script': 'shavien'}
 
         >>> pprint(shaw.describe('es'))
         {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
 
         >>> pprint(shaw.describe('pt'))
-        {'language': 'inglês', 'region': 'GB', 'script': 'shaviano'}
+        {'language': 'inglês', 'region': 'Reino Unido', 'script': 'shaviano'}
 
         >>> pprint(shaw.describe('uk'))
         {'language': 'англійська', 'region': 'Велика Британія', 'script': 'Шоу'}
@@ -645,7 +603,9 @@ class LanguageData:
 
         >>> # Wait, is that a real language?
         >>> pprint(LanguageData.get('lol').fill_likely_values().describe())
-        {'language': 'Mongo', 'region': 'Congo (DRC)', 'script': 'Latin'}
+        {'language': 'Mongo',
+         'region': 'The Democratic Republic of the Congo',
+         'script': 'Latin'}
         """
         names = {}
         if self.language:
@@ -776,7 +736,7 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
 
     >>> standardize_tag('eng')
     'en'
-    
+
     >>> standardize_tag('arb-Arab', macro=True)
     'ar'
 
@@ -791,7 +751,7 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
 
     >>> standardize_tag('zh-cmn-hans-cn', macro=True)
     'zh-Hans-CN'
-    
+
     >>> standardize_tag('zsm', macro=True)
     'ms'
 
@@ -862,7 +822,7 @@ def tag_match_score(desired: str, supported: str) -> int:
     99
     >>> tag_match_score('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
     99
-    
+
     A match strength of 97 or 98 means that the language tags are different,
     but are culturally similar enough that they should be interchangeable in
     most contexts. (The CLDR provides the data about related locales, but
@@ -1056,5 +1016,3 @@ def best_match(desired_language: str, supported_languages: list,
 
     match_scores.sort(key=lambda item: -item[1])
     return match_scores[0]
-
-

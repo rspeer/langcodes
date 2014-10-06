@@ -29,12 +29,14 @@ def load_cldr_file(db, typ, langcode, path):
     data = json.load(path.open(encoding='utf-8'))
     closer = data['main'][langcode]['localeDisplayNames']
     for actual_data in closer.values():
+        order = 0
         for subtag, name in actual_data.items():
             if '-alt-' in subtag:
                 subtag, _ = subtag.split('-alt-', 1)
             if typ == 'variant':
                 subtag = subtag.lower()
-            db.add_name(typ, subtag, langcode, name)
+            db.add_name(typ, subtag, langcode, name, order)
+            order += 1
 
 
 def load_cldr_aliases(db, path):
