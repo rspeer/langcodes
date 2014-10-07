@@ -11,6 +11,16 @@ if sys.version_info[0] >= 3:
         """
     )
 
+
+LONG_DESC = """
+langcodes is a toolkit for working with and comparing the standardized codes
+for languages, such as 'en' for English and 'zh-Hant' for Traditional Chinese.
+
+The documentation for langcodes lives in its README file, which you can read
+on GitHub: https://github.com/LuminosoInsight/langcodes
+"""
+
+
 setup(
     name="langcodes-py2",
     version='1.0',
@@ -19,7 +29,8 @@ setup(
     license="MIT",
     url='http://github.com/LuminosoInsight/langcodes',
     platforms=["any"],
-    description="Labels and compares human languages in a standards-compliant way",
+    description="Labels and compares human languages in a standardized way",
+    long_description=LONG_DESC,
     packages=['langcodes'],
     include_package_data=True,
     classifiers=[
