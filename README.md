@@ -28,6 +28,8 @@ One way to know is to read IETF standards and Unicode technical reports.
 Another way is to use a library that implements those standards and guidelines
 for you, which langcodes does.
 
+langcodes is maintained by Rob Speer at [Luminoso](http://luminoso.com), and is
+released as free software under the MIT license.
 
 ## Standards implemented
 
@@ -453,4 +455,3 @@ date.
 [Code with documentation][code]
 
 [code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
-
