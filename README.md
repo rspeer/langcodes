@@ -65,54 +65,68 @@ This function standardizes tags, as strings, in several ways.
 It replaces overlong tags with their shortest version, and also formats them
 according to the conventions of BCP 47:
 
-    >>> standardize_tag('eng_US')
-    'en-US'
+```python
+>>> standardize_tag('eng_US')
+'en-US'
+```
 
 It removes script subtags that are redundant with the language:
 
-    >>> standardize_tag('en-Latn')
-    'en'
+```python
+>>> standardize_tag('en-Latn')
+'en'
+```
 
 It replaces deprecated values with their correct versions, if possible:
 
-    >>> standardize_tag('en-uk')
-    'en-GB'
+```python
+>>> standardize_tag('en-uk')
+'en-GB'
+```
 
 Sometimes this involves complex substitutions, such as replacing Serbo-Croatian
 (`sh`) with Serbian in Latin script (`sr-Latn`), or the entire tag `sgn-US`
 with `ase` (American Sign Language).
 
-    >>> standardize_tag('sh-QU')
-    'sr-Latn-EU'
+```python
+>>> standardize_tag('sh-QU')
+'sr-Latn-EU'
 
-    >>> standardize_tag('sgn-US')
-    'ase'
+>>> standardize_tag('sgn-US')
+'ase'
+```
 
 If *macro* is True, it uses macrolanguage codes as a replacement for the most
 common standardized language within that macrolanguage.
 
-    >>> standardize_tag('arb-Arab', macro=True)
-    'ar'
+```python
+>>> standardize_tag('arb-Arab', macro=True)
+'ar'
+```
 
 Even when *macro* is False, it shortens tags that contain both the
 macrolanguage and the language:
 
-    >>> standardize_tag('zh-cmn-hans-cn')
-    'cmn-Hans-CN'
+```python
+>>> standardize_tag('zh-cmn-hans-cn')
+'cmn-Hans-CN'
 
-    >>> standardize_tag('zh-cmn-hans-cn', macro=True)
-    'zh-Hans-CN'
+>>> standardize_tag('zh-cmn-hans-cn', macro=True)
+'zh-Hans-CN'
+```
 
 If the tag can't be parsed according to BCP 47, this will raise a
 LanguageTagError (a subclass of ValueError):
 
-    >>> standardize_tag('spa-latn-mx')
-    'es-MX'
+```python
+>>> standardize_tag('spa-latn-mx')
+'es-MX'
 
-    >>> standardize_tag('spa-mx-latn')
-    Traceback (most recent call last):
-        ...
-    langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
+>>> standardize_tag('spa-mx-latn')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
+```
 
 
 ## Comparing and matching languages
@@ -151,75 +165,101 @@ Value | Meaning
 
 ### Language matching examples
 
-    >>> tag_match_score('en', 'en')
-    100
+```python
+>>> tag_match_score('en', 'en')
+100
+```
 
 U.S. English is a likely match for English in general.
 
-    >>> tag_match_score('en', 'en-US')
-    99
+```python
+>>> tag_match_score('en', 'en-US')
+99
+```
 
 British English and Indian English are related, but Indian English users are
 more likely to expect British English than the other way around.
 
-    >>> tag_match_score('en-IN', 'en-GB')
-    98
+```python
+>>> tag_match_score('en-IN', 'en-GB')
+98
 
-    >>> tag_match_score('en-GB', 'en-IN')
-    97
+>>> tag_match_score('en-GB', 'en-IN')
+97
+```
 
 Peruvian Spanish is a part of Latin American Spanish.
 
-    >>> tag_match_score('es-PR', 'es-419')
-    98
+```python
+>>> tag_match_score('es-PR', 'es-419')
+98
+```
 
 European Portuguese is a bit different from the most likely dialect, which is
 Brazilian.
 
-    >>> tag_match_score('pt', 'pt-PT')
-    96
+```python
+>>> tag_match_score('pt', 'pt-PT')
+96
+```
 
 Swiss German speakers will understand standard German.
 
-    >>> tag_match_score('gsw', 'de')
-    96
+```python
+>>> tag_match_score('gsw', 'de')
+96
+```
 
 But most German speakers will think Swiss German is a foreign language.
 
-    >>> tag_match_score('de', 'gsw')
-    0
+```python
+>>> tag_match_score('de', 'gsw')
+0
+```
 
 Norwegian Bokmål is like Danish.
 
-    >>> tag_match_score('no', 'da')
-    90
-    
+```python
+>>> tag_match_score('no', 'da')
+90
+```
+
 Serbian language users will usually understand Serbian in its other script.
 
-    >>> tag_match_score('sr-Latn', 'sr-Cyrl')
-    90
+```python
+>>> tag_match_score('sr-Latn', 'sr-Cyrl')
+90
+```
 
 Even if you disregard differences between Cantonese and Mandarin, Mainland
 China and Hong Kong use different scripts.
 
-    >>> tag_match_score('zh-HK', 'zh-CN')
-    75
+```python
+>>> tag_match_score('zh-HK', 'zh-CN')
+75
+```
 
 If you explicitly specify Cantonese, the difference becomes greater:
-    
-    >>> tag_match_score('yue-HK', 'zh-CN')
-    37
+
+```python
+>>> tag_match_score('yue-HK', 'zh-CN')
+37
+```
 
 Japanese can be written in Roman letters using the Hepburn system, but this is
 not the typical way to read Japanese:
 
-    >>> tag_match_score('ja', 'ja-Latn-US-hepburn')
-    20
+```python
+>>> tag_match_score('ja', 'ja-Latn-US-hepburn')
+20
+```
 
 Afrikaans speakers can sort of understand Dutch:
-    
-    >>> tag_match_score('af', 'nl')
-    10
+
+```python
+>>> tag_match_score('af', 'nl')
+10
+```
 
 ### Finding the best matching language
 
@@ -241,29 +281,31 @@ possibly mis-handling data or upsetting users.
 Here are some examples. (If you want to know what these language tags mean,
 scroll down and learn about the `language_name` method!)
 
-    >>> best_match('fr', ['de', 'en', 'fr'])
-    ('fr', 100)
+```python
+>>> best_match('fr', ['de', 'en', 'fr'])
+('fr', 100)
 
-    >>> best_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
-    ('sr-Latn', 100)
+>>> best_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
+('sr-Latn', 100)
 
-    >>> best_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
-    ('cmn-Hans', 99)
+>>> best_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
+('cmn-Hans', 99)
 
-    >>> best_match('pt', ['pt-BR', 'pt-PT'])
-    ('pt-BR', 99)
+>>> best_match('pt', ['pt-BR', 'pt-PT'])
+('pt-BR', 99)
 
-    >>> best_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 99)
+>>> best_match('en-AU', ['en-GB', 'en-US'])
+('en-GB', 99)
 
-    >>> best_match('id', ['zsm', 'mhp'])
-    ('zsm', 90)
+>>> best_match('id', ['zsm', 'mhp'])
+('zsm', 90)
 
-    >>> best_match('eu', ['el', 'en', 'es'])
-    ('und', 0)
+>>> best_match('eu', ['el', 'en', 'es'])
+('und', 0)
 
-    >>> best_match('eu', ['el', 'en', 'es'], min_score=10)
-    ('es', 10)
+>>> best_match('eu', ['el', 'en', 'es'], min_score=10)
+('es', 10)
+```
 
 ## LanguageData objects
 
@@ -290,34 +332,40 @@ By default, it will replace non-standard and overlong tags as it interprets
 them. To disable this feature and get the codes that literally appear in the
 language tag, use the *normalize=False* option.
 
-    >>> LanguageData.get('en-Latn-US')
-    LanguageData(language='en', script='Latn', region='US')
+```python
+>>> LanguageData.get('en-Latn-US')
+LanguageData(language='en', script='Latn', region='US')
 
-    >>> LanguageData.get('sgn-US', normalize=False)
-    LanguageData(language='sgn', region='US')
+>>> LanguageData.get('sgn-US', normalize=False)
+LanguageData(language='sgn', region='US')
 
-    >>> LanguageData.get('und')
-    LanguageData()
+>>> LanguageData.get('und')
+LanguageData()
+```
 
 Here are some examples of replacing non-standard tags:
 
-    >>> LanguageData.get('sh-QU')
-    LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
+```python
+>>> LanguageData.get('sh-QU')
+LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
 
-    >>> LanguageData.get('sgn-US')
-    LanguageData(language='ase')
+>>> LanguageData.get('sgn-US')
+LanguageData(language='ase')
 
-    >>> LanguageData.get('zh-cmn-Hant')  # promote extlangs to languages
-    LanguageData(language='cmn', macrolanguage='zh', script='Hant')
+>>> LanguageData.get('zh-cmn-Hant')  # promote extlangs to languages
+LanguageData(language='cmn', macrolanguage='zh', script='Hant')
+```
 
 Use the `str()` function on a LanguageData object to convert it back to its
 standard string form:
 
-    >>> str(LanguageData.get('sh-QU'))
-    'sr-Latn-EU'
+```python
+>>> str(LanguageData.get('sh-QU'))
+'sr-Latn-EU'
 
-    >>> str(LanguageData(region='IN'))
-    'und-IN'
+>>> str(LanguageData(region='IN'))
+'und-IN'
+```
 
 ### Describing LanguageData objects in natural language
 
@@ -331,52 +379,62 @@ English, plus CLDR, which names languages in many commonly-used languages.
 
 The default language for naming things is English:
 
-    >>> LanguageData(language='fr').language_name()
-    'French'
+```python
+>>> LanguageData(language='fr').language_name()
+'French'
+```
 
 But you can ask for language names in numerous other languages:
 
-    >>> LanguageData(language='fr').language_name('fr')
-    'français'
+```python
+>>> LanguageData(language='fr').language_name('fr')
+'français'
 
-    >>> LanguageData.get('fr').language_name('es')
-    'francés'
+>>> LanguageData.get('fr').language_name('es')
+'francés'
+```
 
 Why does everyone get Slovak and Slovenian confused? Let's ask them.
 
-    >>> LanguageData(language='sl').language_name('sl')
-    'slovenščina'
-    >>> LanguageData(language='sk').language_name('sk')
-    'slovenčina'
-    >>> LanguageData(language='sl').language_name('sk')
-    'slovinčina'
-    >>> LanguageData(language='sk').language_name('sl')
-    'slovaščina'
+```python
+>>> LanguageData(language='sl').language_name('sl')
+'slovenščina'
+>>> LanguageData(language='sk').language_name('sk')
+'slovenčina'
+>>> LanguageData(language='sl').language_name('sk')
+'slovinčina'
+>>> LanguageData(language='sk').language_name('sl')
+'slovaščina'
+```
 
 Naming a language in itself is sometimes a useful thing to do, so the
 `.autonym()` method makes this easy:
 
-    >>> LanguageData.get('fr').autonym()
-    'français'
-    >>> LanguageData.get('es').autonym()
-    'español'
-    >>> LanguageData.get('ja').autonym()
-    '日本語'
-    >>> LanguageData.get('sr-Latn').autonym()
-    'srpski'
-    >>> LanguageData.get('sr-Cyrl').autonym()
-    'Српски'
+```python
+>>> LanguageData.get('fr').autonym()
+'français'
+>>> LanguageData.get('es').autonym()
+'español'
+>>> LanguageData.get('ja').autonym()
+'日本語'
+>>> LanguageData.get('sr-Latn').autonym()
+'srpski'
+>>> LanguageData.get('sr-Cyrl').autonym()
+'Српски'
+```
 
 These names only apply to the language part of the language tag. You can
 also get names for other parts with `.script_name()`, `.region_name()`,
 or `.variant_names()`, or get all the names at once with `.describe()`.
 
-    >>> shaw = LanguageData.get('en-Shaw-GB')
-    >>> pprint(shaw.describe('en'))
-    {'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
-    
-    >>> pprint(shaw.describe('es'))
-    {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
+```python
+>>> shaw = LanguageData.get('en-Shaw-GB')
+>>> pprint(shaw.describe('en'))
+{'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
+
+>>> pprint(shaw.describe('es'))
+{'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
+```
 
 The names in English come from the IANA language subtag registry. In other
 languages, they come from CLDR data files. Internally, this code uses
