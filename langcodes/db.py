@@ -249,6 +249,13 @@ class LanguageDB:
             language, name
         )]
 
+    def lookup_name_in_any_language(self, table_name, name):
+        return [row for row in self.query(
+            "select subtag, language from {}_name where name == ? "
+            .format(table_name),
+            name
+        )]
+
     def lookup_name_prefix(self, table_name, name, language):
         """
         Given a table name ('language', 'script', 'region', or 'variant'),
@@ -271,8 +278,12 @@ class LanguageDB:
         """
         Non-standard codes that should be unconditionally replaced.
         """
-        return {orig.lower(): new.lower()
-                for (orig, new) in self.language_replacements()}
+        results = {orig.lower(): new.lower()
+                   for (orig, new) in self.language_replacements()}
+        
+        # one more to handle the 'root' locale
+        results['root'] = 'und'
+        return results
 
     @lazy_property
     def normalized_macrolanguages(self):
