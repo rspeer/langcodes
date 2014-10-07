@@ -11,15 +11,15 @@ library solves it for you.
 
 But there's an interesting problem hiding in here. How do you work with
 language codes? How do you know when two different codes represent the same
-thing? How do you know that:
+thing? How should your code represent relationships between codes, like the
+following?
 
 * `eng` is equivalent to `en`.
 * `fra` and `fre` are both equivalent to `fr`.
-* `en-UK` is an erroneous code, but it's equivalent to `en-GB` anyway.
-* `en-GB` might be written as `en-gb` or `en_GB`.
+* `en-GB` might be written as `en-gb` or `en_GB`. Or as 'en-UK', which is erroneous, but should be treated as the same.
 * `en-CA` is not exactly equivalent to `en-US`, but it's really, really close.
 * `en-Latn-US` is equivalent to `en-US`, because written English must be written in the Latin alphabet to be understood.
-* The difference between `ar` and `arb` is the difference between "Arabic" and "Modern Standard Arabic", and you very well might not care.
+* The difference between `ar` and `arb` is the difference between "Arabic" and "Modern Standard Arabic", a difference that may not be relevant to you.
 * You'll find Mandarin Chinese tagged as `cmn` on Wiktionary, but many other resources would call the same language `zh`.
 * Chinese is written in different scripts in different regions. Some software distinguishes the script. Other software distinguishes the region. The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are `zh-TW` and `zh-Hant`, even though occasionally you'll need something different such as `zh-HK` or `zh-Latn-pinyin`.
 * The Indonesian (`id`) and Malaysian (`ms` or `zsm`) languages are mutually intelligible.
@@ -411,8 +411,8 @@ the languages that CLDR supports, which are:
 * Turkish (`tr`)
 * Ukrainian (`uk`)
 * Vietnamese (`vi`)
-* Mainland Chinese (`zh-Hans-CN`)
-* Taiwanese Chinese (`zh-Hant-TW`)
+* Chinese in simplified script (`zh-Hans`)
+* Chinese in traditional script (`zh-Hant`)
 
 
 ## The Python 2 backport
