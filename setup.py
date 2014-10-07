@@ -18,6 +18,9 @@ for languages, such as 'en' for English, 'es' for Spanish, and 'zh-Hant' for
 Traditional Chinese. These are BCP 47 language codes, formerly known as ISO
 language codes.
 
+langcodes is designed for Python 3, but this version of langcodes,
+'langcodes-py2', is a backport to Python 2.7.
+
 The documentation for langcodes lives in its README file, which you can read
 on GitHub: https://github.com/LuminosoInsight/langcodes
 """
@@ -31,7 +34,7 @@ setup(
     license="MIT",
     url='http://github.com/LuminosoInsight/langcodes',
     platforms=["any"],
-    description="Labels and compares human languages in a standardized way",
+    description="Labels and compares human languages in a standardized way -- Python 2 backport",
     long_description=LONG_DESC,
     packages=['langcodes'],
     include_package_data=True,
