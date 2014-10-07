@@ -22,6 +22,14 @@ DEFAULT_LANGUAGE = 'en-US'
 DB = LanguageDB(data_filename('subtags.db'))
 
 
+class AmbiguousError(LookupError):
+    """
+    Raised when there is more than one subtag matching a given natural
+    language name.
+    """
+    pass
+
+
 class LanguageData:
     """
     The LanguageData class defines the results of parsing a language tag.
@@ -42,6 +50,7 @@ class LanguageData:
     - *private*: a code starting with `x-` that has no defined meaning.
 
     The `LanguageData.get` method converts a string to a LanguageData instance.
+    It's also available at the top level of this module as the `get` function.
     """
 
     ATTRIBUTES = ['language', 'macrolanguage', 'extlangs', 'script', 'region',
@@ -110,6 +119,9 @@ class LanguageData:
         LanguageData(language='zh', extlangs=['cmn'], script='Hant')
 
         >>> LanguageData.get('und')
+        LanguageData()
+
+        >>> LanguageData.get('root')
         LanguageData()
         """
         data = {}
@@ -485,23 +497,23 @@ class LanguageData:
         By default, things are named in English:
 
         >>> from pprint import pprint
-        >>> LanguageData(language='fr').language_name()
+        >>> LanguageData.get('fr').language_name()
         'French'
 
         But you can ask for language names in numerous other languages:
 
-        >>> LanguageData(language='fr').language_name('fr')
+        >>> LanguageData.get('fr').language_name('fr')
         'français'
 
         Why does everyone get Slovak and Slovenian confused? Let's ask them.
 
-        >>> LanguageData(language='sl').language_name('sl')
+        >>> LanguageData.get('sl').language_name('sl')
         'slovenščina'
-        >>> LanguageData(language='sk').language_name('sk')
+        >>> LanguageData.get('sk').language_name('sk')
         'slovenčina'
-        >>> LanguageData(language='sl').language_name('sk')
+        >>> LanguageData.get('sl').language_name('sk')
         'slovinčina'
-        >>> LanguageData(language='sk').language_name('sl')
+        >>> LanguageData.get('sk').language_name('sl')
         'slovaščina'
         """
         return self._get_name('language', language, min_score)
@@ -598,12 +610,14 @@ class LanguageData:
         >>> pprint(shaw.describe('ja'))
         {'language': '英語', 'region': 'イギリス', 'script': 'ショー文字'}
 
-        >>> # When we don't have a localization for the language, we fall back on
-        >>> # 'und', which just shows the language codes.
+        When we don't have a localization for the language, we fall back on
+        'und', which just shows the language codes.
+
         >>> pprint(shaw.describe('lol'))
         {'language': 'en', 'region': 'GB', 'script': 'Shaw'}
 
-        >>> # Wait, is that a real language?
+        Wait, is that a real language?
+
         >>> pprint(LanguageData.get('lol').fill_likely_values().describe())
         {'language': 'Mongo',
          'region': 'The Democratic Republic of the Congo',
@@ -619,6 +633,82 @@ class LanguageData:
         if self.variants:
             names['variants'] = self.variant_names(language, min_score)
         return names
+
+    @staticmethod
+    def find_name(tagtype, name, language):
+        """
+        Find the subtag of a particular `tagtype` that has the given `name`.
+
+        This is not a particularly powerful full-text search. It ignores case, but
+        otherwise it expects the name to appear exactly the way it does in one of
+        the databases that langcodes uses. If the exact name isn't found, you get a
+        LookupError. If more than one subtag is found with the same name, you get
+        an AmbiguousError.
+
+        The `language` parameter is the language code or LanguageData object
+        representing the language that you're providing the name in.
+
+        >>> LanguageData.find_name('language', 'francés', 'es')
+        LanguageData(language='fr')
+
+        >>> LanguageData.find_name('region', 'United Kingdom', LanguageData.get('en'))
+        LanguageData(region='GB')
+
+        >>> LanguageData.find_name('script', 'Arabic', 'en')
+        LanguageData(script='Arab')
+
+        >>> LanguageData.find_name('language', 'norsk bokmål', 'no')
+        LanguageData(language='nb')
+
+        >>> LanguageData.find_name('language', 'norsk bokmal', 'no')
+        Traceback (most recent call last):
+            ...
+        LookupError: Can't find any language named 'norsk bokmal'
+        """
+        und = LanguageData()
+
+        options = DB.lookup_name_in_any_language(tagtype, name)
+        if isinstance(language, LanguageData):
+            target_language = language
+        else:
+            target_language = LanguageData.get(language)
+        best_options = set()
+        best_match_score = 1
+
+        for subtag, langcode in options:
+            data_language = LanguageData.get(langcode)
+            if data_language == und:
+                # We don't want to match the language codes themselves.
+                continue
+
+            score = target_language.match_score(LanguageData.get(langcode))
+
+            # semi-secret trick: if you just want to match this name in whatever
+            # language it's in, use 'und' as the language. This isn't in the
+            # docstring because it's possibly a bad idea and possibly subject to
+            # change.
+            if target_language == und:
+                score = 100
+
+            if score > best_match_score:
+                best_match_score = score
+                best_options = {subtag}
+            elif score == best_match_score:
+                best_options.add(subtag)
+
+        if len(best_options) > 1:
+            raise AmbiguousError(
+                "The name %r matches multiple %s subtags: %r"
+                % (name, tagtype, best_options)
+            )
+        elif len(best_options) == 0:
+            raise LookupError(
+                "Can't find any %s named %r" % (tagtype, name)
+            )
+        else:
+            best = best_options.pop()
+            data = {tagtype: best}
+            return LanguageData(**data)
 
     def to_dict(self):
         """
@@ -713,6 +803,11 @@ class LanguageData:
 
     def __str__(self):
         return self.to_tag()
+
+
+# Make the get() and find_name() functions available at the top level
+get = LanguageData.get
+find_name = LanguageData.find_name
 
 
 def standardize_tag(tag, macro=False):
