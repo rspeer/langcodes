@@ -105,6 +105,8 @@ class LanguageDB:
         # get a database that can be safely read in multiple threads. Hooray!
         with self.condition:
             self.conn = sqlite3.connect(db_filename, check_same_thread=False)
+            self.condition.notifyAll()
+
 
     def __str__(self):
         return "LanguageDB(%s)" % self.filename
@@ -117,6 +119,8 @@ class LanguageDB:
             for stmt in self.TABLES:
                 self.conn.execute(stmt)
             self._make_indexes()
+            self.condition.notifyAll()
+
 
     def _make_indexes(self):
         with self.condition:
@@ -127,6 +131,8 @@ class LanguageDB:
                 self.conn.execute(
                     "CREATE UNIQUE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language, name)".format(table_name)
                 )
+            self.condition.notifyAll()
+
 
     # Methods for building the database
     # =================================
@@ -138,6 +144,8 @@ class LanguageDB:
         # table name. Good thing little Bobby Tables isn't giving us the names.
         with self.condition:
             self.conn.execute(template, values)
+            self.condition.notifyAll()
+
 
     def add_name(self, table, subtag, datalang, name, i):
         self._add_row('%s_name' % table, (subtag, datalang, name, i))
@@ -203,7 +211,9 @@ class LanguageDB:
         with self.condition:
             c = self.conn.cursor()
             c.execute(query, args)
-            return c.fetchall()
+            out = c.fetchall()
+            self.condition.notifyAll()
+        return out
 
     def list_macrolanguages(self):
         return self.query(
@@ -382,6 +392,8 @@ class LanguageDB:
         with self.condition:
             self.conn.commit()
             self.conn.close()
+            self.condition.notifyAll()
+
 
     def __enter__(self):
         return self
