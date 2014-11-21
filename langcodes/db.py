@@ -1,5 +1,6 @@
 import sqlite3
 import json
+import threading
 from .util import data_filename
 
 
@@ -33,7 +34,7 @@ class LanguageDB:
     .json files.
     """
 
-    self.condition = threading.Condition()
+    condition = threading.Condition()
 
     TABLES = [
         """CREATE TABLE IF NOT EXISTS language(
