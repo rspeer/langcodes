@@ -58,6 +58,22 @@ def load_cldr_aliases(db, path):
             db.add_region_mapping(subtag, preferred)
 
 
+def load_custom_aliases(db, path):
+    """
+    Load custom language aliases that are given in a CSV file.
+    """
+    data = path.open(encoding='utf-8')
+    for line in data:
+        typ, datalang, subtag, name = line.rstrip().split(',', 3)
+        db.add_name(
+            table=typ,
+            subtag=subtag,
+            datalang=datalang,
+            name=name,
+            order=1000
+        )
+
+
 def load_bibliographic_aliases(db, path):
     for line in path.open(encoding='utf-8'):
         biblio, preferred, name = line.rstrip().split(',', 2)
@@ -84,6 +100,7 @@ def main(db_filename):
         load_registry(db, parse_registry(), 'en')
         load_cldr(db, Path(data_filename('cldr')))
         load_bibliographic_aliases(db, Path(data_filename('bibliographic_codes.csv')))
+        load_custom_aliases(db, Path(data_filename('aliases.csv')))
 
 
 if __name__ == '__main__':

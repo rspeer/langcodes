@@ -670,7 +670,7 @@ class LanguageData:
             target_language = language
         else:
             target_language = LanguageData.get(language)
-        best_options = set()
+        best_options = []
         best_match_score = 1
 
         for subtag, langcode in options:
@@ -690,21 +690,17 @@ class LanguageData:
 
             if score > best_match_score:
                 best_match_score = score
-                best_options = {subtag}
+                best_options = [subtag]
             elif score == best_match_score:
-                best_options.add(subtag)
+                best_options.append(subtag)
 
-        if len(best_options) > 1:
-            raise AmbiguousError(
-                "The name %r matches multiple %s subtags: %r"
-                % (name, tagtype, best_options)
-            )
-        elif len(best_options) == 0:
+        if len(best_options) == 0:
             raise LookupError(
                 "Can't find any %s named %r" % (tagtype, name)
             )
         else:
-            best = best_options.pop()
+            # If there are still multiple options, get the most specific one
+            best = max(best_options, key=lambda item: item.count('-'))
             data = {tagtype: best}
             return LanguageData(**data)
 
