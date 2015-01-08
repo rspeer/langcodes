@@ -664,6 +664,7 @@ class LanguageData:
         LookupError: Can't find any language named 'norsk bokmal'
         """
         und = LanguageData()
+        english = LanguageData(language='en')
 
         options = DB.lookup_name_in_any_language(tagtype, name)
         if isinstance(language, LanguageData):
@@ -680,6 +681,11 @@ class LanguageData:
                 continue
 
             score = target_language.match_score(LanguageData.get(langcode))
+
+            # Languages are often named in English, even when speaking in
+            # other languages
+            if data_language == english:
+                score = 1
 
             # semi-secret trick: if you just want to match this name in whatever
             # language it's in, use 'und' as the language. This isn't in the

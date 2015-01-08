@@ -10,7 +10,9 @@ identifiable language code are commented out here.
 """
 from langcodes import find_name
 
-LANGUAGE_NAMES = [
+LANGUAGE_NAMES = {}
+
+LANGUAGE_NAMES['en'] = [
     "Spanish",
     "French",
     "Latvian",
@@ -313,12 +315,135 @@ LANGUAGE_NAMES = [
     "Bislama",
 ]
 
-def test_wiktionary_languages():
+LANGUAGE_NAMES['de'] = [
+	"Deutsch",
+	"Englisch",
+	"Polnisch",
+	"Italienisch",
+	"Französisch",
+	"Esperanto",
+	"Schwedisch",
+	"Lateinisch",
+	"Tschechisch",
+	"Katalanisch",
+	"Spanisch",
+	"Okzitanisch",
+	"Ungarisch",
+	"Litauisch",
+	"Finnisch",
+	"Russisch",
+	"Altgriechisch",
+	"Niederländisch",
+	"Kurdisch",
+	"Baskisch",
+	"Armenisch",
+	"Isländisch",
+	"Bulgarisch",
+	"Färöisch",
+	"Dänisch",
+	"Portugiesisch",
+	"Slowakisch",
+	"Türkisch",
+	"Maori",
+	"Albanisch",
+	"Japanisch",
+	"Norwegisch",
+	"Irisch",
+	"Koreanisch",
+	"Chinesisch",
+	"Venezianisch",
+	"Friaulisch",
+	"Serbisch",
+	"Indonesisch",
+	"Walisisch",
+	"Arabisch",
+	"Zentral-Nahuatl",
+	"Neugriechisch",
+	"Sumerisch",
+	"Obersorbisch",
+	"Sesotho",
+	"Rumänisch",
+	"Suaheli",
+	"Persisch",
+	"Krimtatarisch",
+	"Plattdeutsch",
+	"Prußisch",
+	"Thai",
+	"Bosnisch",
+	"Sardisch",
+	"Maltesisch",
+	"Akkadisch",
+	"Hawaiianisch",
+	"Hebräisch",
+	"Gotisch",
+	"Afrikaans",
+	"Rätoromanisch",
+	"Tamil",
+	"Bretonisch",
+	"Ukrainisch",
+	"Hindi",
+	"Georgisch",
+	"Panjabi",
+	"Papiamentu",
+	"Slowenisch",
+	"Nauruisch",
+	"Schottisch-Gälisch",
+	"Balinesisch",
+	"Estnisch",
+	"Manx",
+	"Korsisch",
+	# "Frühneuhochdeutsch",
+	"Lettisch",
+	"isiZulu",
+	"Tagalog",
+	"Tok Pisin",
+	# "Südpikenisch",
+	"Kroatisch",
+	"Niedersorbisch",
+	"Kannada",
+	"Guanche",
+	"Weißrussisch",
+	"Sanskrit",
+	"Aserbaidschanisch",
+	"Mittelhochdeutsch",
+	"Laotisch",
+	"Altnordisch",
+	"Altenglisch",
+	"Vietnamesisch",
+	"Tadschikisch",
+	"Samoanisch",
+	"Mazedonisch",
+	"Luxemburgisch",
+	"Hethitisch",
+	# "Yukatekisch",
+	"Kaschubisch",
+	"Wallonisch",
+	# "Klassisches Nahuatl",
+	"Telugu",
+	"Rapanui",
+	"Jiddisch",
+	"Ido",
+	# "Galicisch",
+	"Volapük",
+	"Bengalisch",
+	"Mapudungun",
+	"Lojban",
+	"Tuvaluisch",
+	"Gujarati",
+	"Assamesisch",
+]
+
+def check_wiktionary_language(target_lang):
     seen_codes = {}
-    for lang_name in LANGUAGE_NAMES:
+    for lang_name in LANGUAGE_NAMES[target_lang]:
         if lang_name.startswith('Proto-'):
             lang_name = lang_name[6:]
-        code = str(find_name('language', lang_name, 'en'))
+        code = str(find_name('language', lang_name, target_lang))
         assert code not in seen_codes, \
             "%r and %r have the same code" % (seen_codes[code], lang_name)
         seen_codes[code] = lang_name
+
+
+def test_wiktionary_languages():
+    yield check_wiktionary_language, 'en'
+    yield check_wiktionary_language, 'de'
