@@ -499,11 +499,15 @@ class LanguageData:
         >>> from pprint import pprint
         >>> LanguageData.get('fr').language_name()
         'French'
+        >>> LanguageData.get('el').language_name()
+        'Greek'
 
         But you can ask for language names in numerous other languages:
 
         >>> LanguageData.get('fr').language_name('fr')
         'français'
+        >>> LanguageData.get('el').language_name('fr')
+        'grec'
 
         Why does everyone get Slovak and Slovenian confused? Let's ask them.
 
@@ -619,9 +623,7 @@ class LanguageData:
         Wait, is that a real language?
 
         >>> pprint(LanguageData.get('lol').fill_likely_values().describe())
-        {'language': 'Mongo',
-         'region': 'The Democratic Republic of the Congo',
-         'script': 'Latin'}
+        {'language': 'Mongo', 'region': 'Congo - Kinshasa', 'script': 'Latin'}
         """
         names = {}
         if self.language:
@@ -666,13 +668,14 @@ class LanguageData:
         LookupError: Can't find any language named 'norsk bokmal'
         """
         und = LanguageData()
+        english = LanguageData(language='en')
 
         options = DB.lookup_name_in_any_language(tagtype, name)
         if isinstance(language, LanguageData):
             target_language = language
         else:
             target_language = LanguageData.get(language)
-        best_options = set()
+        best_options = []
         best_match_score = 1
 
         for subtag, langcode in options:
@@ -683,6 +686,11 @@ class LanguageData:
 
             score = target_language.match_score(LanguageData.get(langcode))
 
+            # Languages are often named in English, even when speaking in
+            # other languages
+            if data_language == english:
+                score = 1
+
             # semi-secret trick: if you just want to match this name in whatever
             # language it's in, use 'und' as the language. This isn't in the
             # docstring because it's possibly a bad idea and possibly subject to
@@ -692,21 +700,17 @@ class LanguageData:
 
             if score > best_match_score:
                 best_match_score = score
-                best_options = {subtag}
+                best_options = [subtag]
             elif score == best_match_score:
-                best_options.add(subtag)
+                best_options.append(subtag)
 
-        if len(best_options) > 1:
-            raise AmbiguousError(
-                "The name %r matches multiple %s subtags: %r"
-                % (name, tagtype, best_options)
-            )
-        elif len(best_options) == 0:
+        if len(best_options) == 0:
             raise LookupError(
                 "Can't find any %s named %r" % (tagtype, name)
             )
         else:
-            best = best_options.pop()
+            # If there are still multiple options, get the most specific one
+            best = max(best_options, key=lambda item: item.count('-'))
             data = {tagtype: best}
             return LanguageData(**data)
 
