@@ -210,7 +210,8 @@ Swiss German speakers will understand standard German.
 96
 ```
 
-But most German speakers will think Swiss German is a foreign language.
+But the above mapping is one-way -- CLDR believes that anything tagged as Swiss
+German would be foreign to most German speakers.
 
 ```python
 >>> tag_match_score('de', 'gsw')
@@ -231,8 +232,8 @@ Serbian language users will usually understand Serbian in its other script.
 90
 ```
 
-Even if you disregard differences between Cantonese and Mandarin, Mainland
-China and Hong Kong use different scripts.
+Even if you disregard differences in usage between Cantonese and Mandarin,
+Mainland China and Hong Kong use different scripts.
 
 ```python
 >>> tag_match_score('zh-HK', 'zh-CN')
@@ -263,8 +264,8 @@ Afrikaans speakers can sort of understand Dutch:
 
 ### Finding the best matching language
 
-You have software that supports any of the `supported_languages`. The user
-wants to use `desired_language`. The `best_match(desired_language,
+Suppose you have software that supports any of the `supported_languages`. The
+user wants to use `desired_language`. The `best_match(desired_language,
 supported_languages)` function lets you choose the right language, even if
 there isn't an exact match.
 
