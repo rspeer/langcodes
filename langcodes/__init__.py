@@ -497,11 +497,15 @@ class LanguageData:
         >>> from pprint import pprint
         >>> LanguageData.get('fr').language_name()
         'French'
+        >>> LanguageData.get('el').language_name()
+        'Greek'
 
         But you can ask for language names in numerous other languages:
 
         >>> LanguageData.get('fr').language_name('fr')
         'français'
+        >>> LanguageData.get('el').language_name('fr')
+        'grec'
 
         Why does everyone get Slovak and Slovenian confused? Let's ask them.
 
@@ -617,9 +621,7 @@ class LanguageData:
         Wait, is that a real language?
 
         >>> pprint(LanguageData.get('lol').fill_likely_values().describe())
-        {'language': 'Mongo',
-         'region': 'The Democratic Republic of the Congo',
-         'script': 'Latin'}
+        {'language': 'Mongo', 'region': 'Congo - Kinshasa', 'script': 'Latin'}
         """
         names = {}
         if self.language:

@@ -10,17 +10,17 @@ def load_registry(db, registry_data, datalang='en'):
     for item in registry_data:
         typ = item['Type']
         if typ == 'language':
-            db.add_language(item, datalang)
+            db.add_language(item, datalang, name_order=10)
         elif typ == 'extlang':
             db.add_extlang(item, datalang)
         elif typ in {'grandfathered', 'redundant'}:
             db.add_nonstandard(item, datalang)
         elif typ == 'region':
-            db.add_region(item, datalang)
+            db.add_region(item, datalang, name_order=10)
         elif typ == 'script':
-            db.add_script(item, datalang)
+            db.add_script(item, datalang, name_order=10)
         elif typ == 'variant':
-            db.add_variant(item, datalang)
+            db.add_variant(item, datalang, name_order=10)
         else:
             print("Ignoring type: %s" % typ)
 
@@ -30,10 +30,10 @@ def load_cldr_file(db, typ, langcode, path):
     closer = data['main'][langcode]['localeDisplayNames']
     for actual_data in closer.values():
         for subtag, name in actual_data.items():
-            order = 1
+            order = 0
             if '-alt-' in subtag:
                 subtag, _ = subtag.split('-alt-', 1)
-                order = 2
+                order = 1
             if typ == 'variant':
                 subtag = subtag.lower()
             db.add_name(typ, subtag, langcode, name, order)
@@ -97,8 +97,8 @@ def main(db_filename):
     # Create the database
     with LanguageDB(db_filename) as db:
         db.setup()
-        load_registry(db, parse_registry(), 'en')
         load_cldr(db, Path(data_filename('cldr')))
+        load_registry(db, parse_registry(), 'en')
         load_bibliographic_aliases(db, Path(data_filename('bibliographic_codes.csv')))
         load_custom_aliases(db, Path(data_filename('aliases.csv')))
 

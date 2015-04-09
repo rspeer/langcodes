@@ -135,7 +135,12 @@ class LanguageDB:
     def add_name(self, table, subtag, datalang, name, order):
         self._add_row('%s_name' % table, (subtag, datalang, name, order))
 
-    def add_language(self, data, datalang):
+        # Handle multiple forms of language names in Chinese
+        if '文' in name:
+            self._add_row('%s_name' % table, (subtag, datalang, name.replace('文', '语'), order + 100))
+            self._add_row('%s_name' % table, (subtag, datalang, name.replace('文', '語'), order + 100))
+
+    def add_language(self, data, datalang, name_order=0):
         subtag = data['Subtag']
         script = data.get('Suppress-Script')
         is_macro = 'Macrolanguage' in data
@@ -149,7 +154,7 @@ class LanguageDB:
         )
         if not 'Preferred-Value' in data:
             for i, name in enumerate(data['Description']):
-                self.add_name('language', subtag, datalang, name, i)
+                self.add_name('language', subtag, datalang, name, i + name_order)
                 # Allow, for example, "Karen" to match "Karen languages", or
                 # "Hakka" to match "Hakka Chinese"
                 if name.endswith(' languages'):
@@ -171,30 +176,30 @@ class LanguageDB:
     def add_language_mapping(self, tag, desc, preferred, is_macro):
         self._add_row('nonstandard', (tag, desc, preferred, is_macro))
 
-    def add_region(self, data, datalang):
+    def add_region(self, data, datalang, name_order=0):
         subtag = data['Subtag']
         deprecated = 'Deprecated' in data
         preferred = data.get('Preferred-Value')
 
         self._add_row('region', (subtag, deprecated, preferred))
         for i, name in enumerate(data['Description']):
-            self.add_name('region', subtag, datalang, name, i)
+            self.add_name('region', subtag, datalang, name, i + name_order)
 
     def add_region_mapping(self, tag, preferred):
         self._add_row('nonstandard_region', (tag, preferred))
 
-    def add_script(self, data, datalang):
+    def add_script(self, data, datalang, name_order=0):
         subtag = data['Subtag']
         for i, name in enumerate(data['Description']):
-            self.add_name('script', subtag, datalang, name, i)
+            self.add_name('script', subtag, datalang, name, i + name_order)
 
-    def add_variant(self, data, datalang):
+    def add_variant(self, data, datalang, name_order=0):
         subtag = data['Subtag']
         prefixes = ';'.join(data.get('Prefix', '*'))
         self._add_row('variant', (subtag, prefixes))
 
         for i, name in enumerate(data['Description']):
-            self.add_name('variant', subtag, datalang, name, i)
+            self.add_name('variant', subtag, datalang, name, i + name_order)
 
     # Iterating over things in the database
     # =====================================
