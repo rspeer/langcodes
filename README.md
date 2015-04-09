@@ -436,9 +436,9 @@ or `.variant_names()`, or get all the names at once with `.describe()`.
 {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
 ```
 
-The names in English come from the IANA language subtag registry. In other
-languages, they come from CLDR data files. Internally, this code uses
-the `best_match()` function to line up the language you asked for with
+The names come from the Unicode CLDR data files, and in English they can
+also come from the IANA language subtag registry. Internally, this code
+uses the `best_match()` function to line up the language you asked for with
 the languages that CLDR supports, which are:
 
 * Arabic (`ar`)
@@ -474,6 +474,25 @@ the languages that CLDR supports, which are:
 * Vietnamese (`vi`)
 * Chinese in simplified script (`zh-Hans`)
 * Chinese in traditional script (`zh-Hant`)
+
+
+### Recognizing language names in natural language
+
+As the reverse of the above operation, you may want to look up a language by
+its name, converting a natural language name such as "French" to a code such as
+'fr'. You need to specify which language the name is in using its language
+code.
+
+```python
+>>> langcodes.find_name('language', 'french', 'en')
+LanguageData(language='fr')
+
+>>> langcodes.find_name('language', 'francés', 'es')
+LanguageData(language='fr')
+```
+
+This would need significantly better fuzzy matching to work in general. It at least
+works with hundreds of language names that are used on en.wiktionary.org.
 
 
 ## The Python 2 backport
