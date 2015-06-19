@@ -121,6 +121,9 @@ class LanguageData:
 
         >>> LanguageData.get('root')
         LanguageData()
+
+        >>> LanguageData.get('und-ibe')
+        LanguageData(extlangs=['ibe'])
         """
         data = {}
         # if the complete tag appears as something to normalize, do the
@@ -360,6 +363,8 @@ class LanguageData:
         'de-Latn-CH'
         >>> str(LanguageData().fill_likely_values())    # 'MURICA.
         'en-Latn-US'
+        >>> str(LanguageData.get('und-ibe').fill_likely_values())
+        'en-ibe-Latn-US'
         """
         for broader in self.broaden():
             tag = str(broader)
