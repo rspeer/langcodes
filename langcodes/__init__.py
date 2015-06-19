@@ -121,6 +121,9 @@ class LanguageData:
 
         >>> LanguageData.get('root')
         LanguageData()
+
+        >>> LanguageData.get('und-ibe')
+        LanguageData(extlangs=['ibe'])
         """
         data = {}
         # if the complete tag appears as something to normalize, do the
@@ -133,7 +136,7 @@ class LanguageData:
         components = parse_tag(tag)
 
         for typ, value in components:
-            if typ == 'extlang' and normalize and data['language']:
+            if typ == 'extlang' and normalize and 'language' in data:
                 # smash extlangs when possible
                 minitag = '%s-%s' % (data['language'], value)
                 if minitag in DB.normalized_languages:
@@ -142,7 +145,7 @@ class LanguageData:
                         LanguageData.get(norm, normalize).to_dict()
                     )
                 else:
-                    data.setdefault(typ + 's', []).append(value)
+                    data.setdefault('extlangs', []).append(value)
             elif typ in {'extlang', 'variant', 'extension'}:
                 data.setdefault(typ + 's', []).append(value)
             elif typ == 'language':
@@ -156,14 +159,14 @@ class LanguageData:
                         LanguageData.get(replacement, normalize).to_dict()
                     )
                 else:
-                    data[typ] = value
+                    data['language'] = value
                     if value in DB.macrolanguages:
                         data['macrolanguage'] = DB.macrolanguages[value]
             elif typ == 'region':
                 if normalize and value in DB.normalized_regions:
-                    data[typ] = DB.normalized_regions[value]
+                    data['region'] = DB.normalized_regions[value]
                 else:
-                    data[typ] = value
+                    data['region'] = value
             else:
                 data[typ] = value
 
@@ -360,6 +363,8 @@ class LanguageData:
         'de-Latn-CH'
         >>> str(LanguageData().fill_likely_values())    # 'MURICA.
         'en-Latn-US'
+        >>> str(LanguageData.get('und-ibe').fill_likely_values())
+        'en-ibe-Latn-US'
         """
         for broader in self.broaden():
             tag = str(broader)
