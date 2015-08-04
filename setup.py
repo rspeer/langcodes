@@ -28,7 +28,7 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes-py2",
-    version='1.1.0',
+    version='1.1.1',
     maintainer='Luminoso Technologies, Inc.',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
