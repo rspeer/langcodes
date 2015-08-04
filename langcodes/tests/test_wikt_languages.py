@@ -1,3 +1,6 @@
+# coding: utf-8
+from __future__ import unicode_literals
+
 """
 These are the 300 languages that have the most entries on the English
 Wiktionary (which defines words of all languages in English). Wiktionary

@@ -1,3 +1,5 @@
+# coding: utf-8
+from __future__ import unicode_literals
 import sqlite3
 import json
 from .util import data_filename
