@@ -516,9 +516,6 @@ backport. It's in the "py2" branch of this repository, and it's on PyPI as
   sometimes forced to give you bytestrings, such as when you call the `str()`
   function on a LanguageData object.
 
-* The Py3 version can be used in multiple threads. The Py2 version cannot,
-  because of a limitation of the `sqlite` module in Py2.
-
 
 ## Further API documentation
 

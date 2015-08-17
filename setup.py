@@ -27,7 +27,7 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes",
-    version='1.1.1',
+    version='1.1.2',
     maintainer='Luminoso Technologies, Inc.',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
@@ -37,6 +37,7 @@ setup(
     long_description=LONG_DESC,
     packages=['langcodes'],
     include_package_data=True,
+    zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
