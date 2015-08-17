@@ -4,8 +4,8 @@ import sys
 if sys.version_info[0] >= 3:
     print(
         """
-        Hey nice, you're on Python 3! You could be running a better,
-        thread-safe version of langcodes that's written natively in Python 3.
+        Hey nice, you're on Python 3! You could be running a better
+        version of langcodes that's written natively in Python 3.
 
         Just install `langcodes` instead of `langcodes-py2`.
         """
@@ -28,7 +28,7 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes-py2",
-    version='1.1.1',
+    version='1.1.2',
     maintainer='Luminoso Technologies, Inc.',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
@@ -38,6 +38,7 @@ setup(
     long_description=LONG_DESC,
     packages=['langcodes'],
     include_package_data=True,
+    zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
