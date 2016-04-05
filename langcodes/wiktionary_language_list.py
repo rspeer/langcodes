@@ -37,7 +37,7 @@ LANGUAGE_NAMES['en'] = [
     "Old French",
     "Czech",
     "Norwegian",
-    # Jèrriais
+    # Jèrriais -- same as Norman
     "Esperanto",
     "Icelandic",
     # Old Armenian
@@ -105,7 +105,7 @@ LANGUAGE_NAMES['en'] = [
     "Ladino",
     "Basque",
     "Breton",
-    # Guernésiais
+    # Guernésiais -- same as Norman
     "Vai",
     "Navajo",
     "Azeri",
@@ -153,7 +153,7 @@ LANGUAGE_NAMES['en'] = [
     "Kashubian",
     "Sranan Tongo",
     "Proto-Sino-Tibetan",
-    # Norman
+    "Norman",
     "Proto-Austronesian",
     "Marathi",
     "Rohingya",
@@ -427,5 +427,4 @@ LANGUAGE_NAMES['de'] = [
 	"Gujarati",
 	"Assamesisch",
 ]
-
 

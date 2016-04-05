@@ -27,7 +27,7 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes",
-    version='1.1.2',
+    version='1.1.3',
     maintainer='Luminoso Technologies, Inc.',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
@@ -42,6 +42,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules",

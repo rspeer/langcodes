@@ -93,6 +93,20 @@ def load_cldr(db, cldr_path):
     load_cldr_aliases(db, cldr_path / 'supplemental' / 'metadata.json')
 
 
+def load_wiktionary_codes(db, datalang, path):
+    for line in path.open(encoding='utf-8'):
+        code, canonical, family, script, othernames = line.rstrip('\n').split('\t', 4)
+        names = [canonical] + [name.strip() for name in othernames.split(',')]
+        for i, name in enumerate(names):
+            db.add_name(
+                table='language',
+                subtag=code,
+                datalang=datalang,
+                name=name,
+                order=2000 + i
+            )
+
+
 def main(db_filename):
     # Create the database
     with LanguageDB(db_filename) as db:
@@ -101,6 +115,7 @@ def main(db_filename):
         load_registry(db, parse_registry(), 'en')
         load_bibliographic_aliases(db, Path(data_filename('bibliographic_codes.csv')))
         load_custom_aliases(db, Path(data_filename('aliases.csv')))
+        load_wiktionary_codes(db, 'en', Path(data_filename('wiktionary/codes-en.csv')))
 
 
 if __name__ == '__main__':
