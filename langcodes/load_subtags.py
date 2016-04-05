@@ -95,7 +95,7 @@ def load_cldr(db, cldr_path):
 
 def load_wiktionary_codes(db, datalang, path):
     for line in path.open(encoding='utf-8'):
-        code, canonical, family, script, othernames = line.rstrip('\n').split('\t', 4)
+        code, canonical, family, script, othernames = line.rstrip('\n').split('\t')[:5]
         names = [canonical] + [name.strip() for name in othernames.split(',')]
         for i, name in enumerate(names):
             db.add_name(
