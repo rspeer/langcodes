@@ -167,6 +167,11 @@ class LanguageData:
                     data['region'] = DB.normalized_regions[value]
                 else:
                     data['region'] = value
+            elif typ == 'grandfathered':
+                # If we got here, we got a grandfathered tag but we were asked
+                # not to normalize it, or the DB doesn't know how to normalize
+                # it. The best we can do is set the entire tag as the language.
+                data['language'] = value
             else:
                 data[typ] = value
 
