@@ -3,34 +3,36 @@
     "de": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
-        },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
         "language": "de"
       },
       "localeDisplayNames": {
         "variants": {
-          "1606NICT": "Spätes Mittelfranzösisch",
-          "1694ACAD": "Klassisches Französisch",
           "1901": "Alte deutsche Rechtschreibung",
-          "1959ACAD": "Akademisch",
           "1994": "Standardisierte Resianische Rechtschreibung",
           "1996": "Neue deutsche Rechtschreibung",
+          "1606NICT": "Spätes Mittelfranzösisch",
+          "1694ACAD": "Klassisches Französisch",
+          "1959ACAD": "Akademisch",
+          "ABL1943": "ABL1943",
           "ALALC97": "ALALC97",
           "ALUKU": "ALUKU",
+          "AO1990": "AO1990",
           "AREVELA": "Ostarmenisch",
           "AREVMDA": "Westarmenisch",
           "BAKU1926": "Einheitliches Türkisches Alphabet",
           "BALANKA": "BALANKA",
           "BARLA": "BARLA",
+          "BASICENG": "BASICENG",
           "BAUDDHA": "BAUDDHA",
           "BISCAYAN": "BISCAYAN",
           "BISKE": "Bela-Dialekt",
           "BOHORIC": "BOHORIC",
           "BOONT": "Boontling",
+          "COLB1945": "COLB1945",
+          "CORNU": "CORNU",
           "DAJNKO": "DAJNKO",
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
@@ -44,6 +46,7 @@
           "JAUER": "JAUER",
           "JYUTPING": "JYUTPING",
           "KKCOR": "Allgemeine Rechtschreibung",
+          "KOCIEWIE": "KOCIEWIE",
           "KSCOR": "KSCOR",
           "LAUKIKA": "LAUKIKA",
           "LIPAW": "Lipovaz-Dialekt",
@@ -52,9 +55,11 @@
           "MONOTON": "Monotonisch",
           "NDYUKA": "NDYUKA",
           "NEDIS": "Natisone-Dialekt",
+          "NEWFOUND": "NEWFOUND",
           "NJIVA": "Njiva-Dialekt",
           "NULIK": "NULIK",
           "OSOJS": "Osojane-Dialekt",
+          "OXENDICT": "OXENDICT",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "Pinyin",
@@ -68,6 +73,7 @@
           "SAAHO": "Saho",
           "SCOTLAND": "Schottisches Standardenglisch",
           "SCOUSE": "Scouse-Dialekt",
+          "SIMPLE": "SIMPLE",
           "SOLBA": "Solbica-Dialekt",
           "SOTAV": "SOTAV",
           "SURMIRAN": "SURMIRAN",

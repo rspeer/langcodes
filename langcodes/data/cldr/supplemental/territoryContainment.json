@@ -1,11 +1,9 @@
 {
   "supplemental": {
     "version": {
-      "_cldrVersion": "25",
-      "_number": "$Revision: 91 $"
-    },
-    "generation": {
-      "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+      "_number": "$Revision: 12447 $",
+      "_unicodeVersion": "8.0.0",
+      "_cldrVersion": "29"
     },
     "territoryContainment": {
       "001": {
@@ -15,6 +13,16 @@
           "150",
           "142",
           "009"
+        ]
+      },
+      "001-status-deprecated": {
+        "_contains": [
+          "QU"
+        ]
+      },
+      "001-status-grouping": {
+        "_contains": [
+          "EU"
         ]
       },
       "002": {
@@ -27,12 +35,12 @@
         ]
       },
       "003": {
-        "_grouping": "true",
         "_contains": [
           "021",
           "013",
           "029"
-        ]
+        ],
+        "_grouping": "true"
       },
       "005": {
         "_contains": [
@@ -110,6 +118,7 @@
           "RW",
           "SC",
           "SO",
+          "SS",
           "TZ",
           "UG",
           "YT",
@@ -125,7 +134,6 @@
           "LY",
           "MA",
           "SD",
-          "SS",
           "TN",
           "EA",
           "IC"
@@ -386,16 +394,6 @@
           "039"
         ]
       },
-      "150-status-deprecated": {
-        "_contains": [
-          "QU"
-        ]
-      },
-      "150-status-grouping": {
-        "_contains": [
-          "EU"
-        ]
-      },
       "151": {
         "_contains": [
           "BG",
@@ -455,15 +453,14 @@
         ]
       },
       "419": {
-        "_grouping": "true",
         "_contains": [
           "013",
           "029",
           "005"
-        ]
+        ],
+        "_grouping": "true"
       },
       "EU": {
-        "_grouping": "true",
         "_contains": [
           "AT",
           "BE",
@@ -477,6 +474,7 @@
           "FR",
           "GB",
           "GR",
+          "HR",
           "HU",
           "IE",
           "IT",
@@ -492,7 +490,8 @@
           "SK",
           "BG",
           "RO"
-        ]
+        ],
+        "_grouping": "true"
       },
       "QO": {
         "_contains": [

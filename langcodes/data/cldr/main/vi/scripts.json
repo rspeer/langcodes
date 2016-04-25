@@ -3,18 +3,17 @@
     "vi": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12312 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "vi"
       },
       "localeDisplayNames": {
         "scripts": {
+          "Adlm": "Adlm",
           "Afak": "Chữ Afaka",
           "Aghb": "Aghb",
+          "Ahom": "Ahom",
           "Arab": "Chữ Ả Rập",
           "Arab-alt-variant": "Chữ Ba Tư-Ả Rập",
           "Armi": "Chữ Imperial Aramaic",
@@ -25,6 +24,7 @@
           "Bass": "Chữ Bassa Vah",
           "Batk": "Chữ Batak",
           "Beng": "Chữ Bengali",
+          "Bhks": "Bhks",
           "Blis": "Chữ Blissymbols",
           "Bopo": "Chữ Bopomofo",
           "Brah": "Chữ Brahmi",
@@ -57,13 +57,15 @@
           "Grek": "Chữ Hy Lạp",
           "Gujr": "Chữ Gujarati",
           "Guru": "Chữ Gurmukhi",
+          "Hanb": "Hanb",
           "Hang": "Chữ Hangul",
           "Hani": "Chữ Hán",
           "Hano": "Chữ Hanunoo",
-          "Hans": "Giản thể",
+          "Hans": "Giản thể",
           "Hans-alt-stand-alone": "Chữ Hán giản thể",
-          "Hant": "Phồn thể",
+          "Hant": "Phồn thể",
           "Hant-alt-stand-alone": "Chữ Hán phồn thể",
+          "Hatr": "Hatr",
           "Hebr": "Chữ Do Thái",
           "Hira": "Chữ Hiragana",
           "Hluw": "Chữ tượng hình Anatolia",
@@ -72,6 +74,7 @@
           "Hung": "Chữ Hungary cổ",
           "Inds": "Chữ Indus",
           "Ital": "Chữ Italic cổ",
+          "Jamo": "Jamo",
           "Java": "Chữ Java",
           "Jpan": "Chữ Nhật Bản",
           "Jurc": "Chữ Jurchen",
@@ -100,18 +103,22 @@
           "Mahj": "Mahj",
           "Mand": "Chữ Mandaean",
           "Mani": "Chữ Manichaean",
+          "Marc": "Marc",
           "Maya": "Chữ tượng hình Maya",
           "Mend": "Chữ Mende",
           "Merc": "Chữ Meroitic Nét thảo",
           "Mero": "Chữ Meroitic",
           "Mlym": "Chữ Malayalam",
+          "Modi": "Modi",
           "Mong": "Chữ Mông Cổ",
           "Moon": "Chữ nổi Moon",
           "Mroo": "Chữ Mro",
           "Mtei": "Chữ Meitei Mayek",
+          "Mult": "Mult",
           "Mymr": "Myanma",
           "Narb": "Chữ Bắc Ả Rập cổ",
           "Nbat": "Chữ Nabataean",
+          "Newa": "Newa",
           "Nkgb": "Chữ Naxi Geba",
           "Nkoo": "Chữ N’Ko",
           "Nshu": "Chữ Nüshu",
@@ -119,8 +126,10 @@
           "Olck": "Chữ Ol Chiki",
           "Orkh": "Chữ Orkhon",
           "Orya": "Chữ Oriya",
+          "Osge": "Osge",
           "Osma": "Chữ Osmanya",
           "Palm": "Chữ Palmyrene",
+          "Pauc": "Pauc",
           "Perm": "Chữ Permic cổ",
           "Phag": "Chữ Phags-pa",
           "Phli": "Chữ Pahlavi Văn bia",
@@ -188,6 +197,7 @@
           "Sgnw": "Chữ viết Ký hiệu",
           "Shaw": "Chữ Shavian",
           "Shrd": "Chữ Sharada",
+          "Sidd": "Sidd",
           "Sind": "Chữ Khudawadi",
           "Sinh": "Chữ Sinhala",
           "Sora": "Chữ Sora Sompeng",
@@ -222,10 +232,11 @@
           "Yiii": "Chữ Di",
           "Zinh": "Chữ Kế thừa",
           "Zmth": "Ký hiệu Toán học",
+          "Zsye": "Zsye",
           "Zsym": "Ký hiệu",
           "Zxxx": "Chưa có chữ viết",
           "Zyyy": "Chung",
-          "Zzzz": "Chữ viết Không xác định"
+          "Zzzz": "Chữ viết không xác định"
         }
       }
     }

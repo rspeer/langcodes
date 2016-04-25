@@ -3,34 +3,36 @@
     "ja": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
-        },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
         "language": "ja"
       },
       "localeDisplayNames": {
         "variants": {
-          "1606NICT": "後期中世フランス語(〜1606)",
-          "1694ACAD": "初期現代フランス語",
           "1901": "ドイツ語旧正書法",
-          "1959ACAD": "標準ベラルーシ語 (1959)",
           "1994": "標準レージア方言正書法",
           "1996": "ドイツ語正書法(1996)",
+          "1606NICT": "後期中世フランス語(〜1606)",
+          "1694ACAD": "初期現代フランス語",
+          "1959ACAD": "標準ベラルーシ語 (1959)",
+          "ABL1943": "ABL1943",
           "ALALC97": "ALA-LCラテン文字化(1997)",
           "ALUKU": "アロコ方言",
+          "AO1990": "AO1990",
           "AREVELA": "東アルメニア文語",
           "AREVMDA": "西アルメニア文語",
           "BAKU1926": "統一トルコラテン文字",
           "BALANKA": "BALANKA",
           "BARLA": "BARLA",
+          "BASICENG": "BASICENG",
           "BAUDDHA": "バウッダ",
           "BISCAYAN": "ビスカヤ語",
           "BISKE": "サン・ジョルジョ/ビーラ方言",
           "BOHORIC": "ボホリッツ・アルファベット",
           "BOONT": "ブーントリング",
+          "COLB1945": "COLB1945",
+          "CORNU": "CORNU",
           "DAJNKO": "ダインチッツァ",
           "EKAVSK": "EKAVSK",
           "EMODENG": "初期近代英語",
@@ -44,6 +46,7 @@
           "JAUER": "ヤウエル",
           "JYUTPING": "略称粤拼",
           "KKCOR": "共通コーンウォール語正書法",
+          "KOCIEWIE": "KOCIEWIE",
           "KSCOR": "標準コーンウォール語正書法",
           "LAUKIKA": "ラウキカ",
           "LIPAW": "レージア方言 リポヴァツ方言",
@@ -52,9 +55,11 @@
           "MONOTON": "モノトニック",
           "NDYUKA": "ンジュカ方言",
           "NEDIS": "ナティゾーネ方言",
+          "NEWFOUND": "NEWFOUND",
           "NJIVA": "ニヴァ方言",
           "NULIK": "現代ヴォラピュク語",
           "OSOJS": "オゼアッコ/オソヤネ方言",
+          "OXENDICT": "OXENDICT",
           "PAMAKA": "パマカ方言",
           "PETR1708": "PETR1708",
           "PINYIN": "ピン音(ローマ字表記法)",
@@ -68,6 +73,7 @@
           "SAAHO": "サホ語",
           "SCOTLAND": "スコットランド標準英語",
           "SCOUSE": "リバプール方言",
+          "SIMPLE": "SIMPLE",
           "SOLBA": "ストルヴィッツァ/ソルビツァ方言",
           "SOTAV": "SOTAV",
           "SURMIRAN": "スルミラン",

@@ -3,13 +3,10 @@
     "zh": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "zh"
       },
       "localeDisplayNames": {
         "territories": {
@@ -51,7 +48,6 @@
           "AI": "安圭拉",
           "AL": "阿尔巴尼亚",
           "AM": "亚美尼亚",
-          "AN": "荷属安的列斯群岛",
           "AO": "安哥拉",
           "AQ": "南极洲",
           "AR": "阿根廷",
@@ -78,7 +74,7 @@
           "BR": "巴西",
           "BS": "巴哈马",
           "BT": "不丹",
-          "BV": "布维特岛",
+          "BV": "布维岛",
           "BW": "博茨瓦纳",
           "BY": "白俄罗斯",
           "BZ": "伯利兹",
@@ -195,7 +191,7 @@
           "MA": "摩洛哥",
           "MC": "摩纳哥",
           "MD": "摩尔多瓦",
-          "ME": "黑山共和国",
+          "ME": "黑山",
           "MF": "法属圣马丁",
           "MG": "马达加斯加",
           "MH": "马绍尔群岛",

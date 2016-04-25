@@ -3,13 +3,10 @@
     "sl": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "sl"
       },
       "localeDisplayNames": {
         "territories": {
@@ -51,7 +48,6 @@
           "AI": "Angvila",
           "AL": "Albanija",
           "AM": "Armenija",
-          "AN": "Nizozemski Antili",
           "AO": "Angola",
           "AQ": "Antarktika",
           "AR": "Argentina",
@@ -59,7 +55,7 @@
           "AT": "Avstrija",
           "AU": "Avstralija",
           "AW": "Aruba",
-          "AX": "Alandsko otočje",
+          "AX": "Ålandski otoki",
           "AZ": "Azerbajdžan",
           "BA": "Bosna in Hercegovina",
           "BB": "Barbados",
@@ -70,7 +66,7 @@
           "BH": "Bahrajn",
           "BI": "Burundi",
           "BJ": "Benin",
-          "BL": "Saint Barthelemy",
+          "BL": "Saint Barthélemy",
           "BM": "Bermudi",
           "BN": "Brunej",
           "BO": "Bolivija",
@@ -91,8 +87,8 @@
           "CG-alt-variant": "Kongo (Republika)",
           "CH": "Švica",
           "CI": "Slonokoščena obala",
-          "CI-alt-variant": "CI",
-          "CK": "Cookovo otočje",
+          "CI-alt-variant": "Côte d’Ivoire",
+          "CK": "Cookovi otoki",
           "CL": "Čile",
           "CM": "Kamerun",
           "CN": "Kitajska",
@@ -124,12 +120,12 @@
           "FI": "Finska",
           "FJ": "Fidži",
           "FK": "Falklandski otoki",
-          "FK-alt-variant": "Falklandski otoki (Malvinski otoki)",
+          "FK-alt-variant": "Falklandski otoki (Malvini)",
           "FM": "Mikronezija",
           "FO": "Ferski otoki",
           "FR": "Francija",
           "GA": "Gabon",
-          "GB": "Velika Britanija",
+          "GB": "Združeno kraljestvo",
           "GB-alt-short": "ZK",
           "GD": "Grenada",
           "GE": "Gruzija",
@@ -150,7 +146,7 @@
           "GY": "Gvajana",
           "HK": "Posebno administrativno območje LR Kitajske Hong Kong",
           "HK-alt-short": "Hongkong",
-          "HM": "Otok Heard in otočje McDonald",
+          "HM": "Heardov otok in McDonaldovi otoki",
           "HN": "Honduras",
           "HR": "Hrvaška",
           "HT": "Haiti",

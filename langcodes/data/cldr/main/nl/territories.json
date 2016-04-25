@@ -3,17 +3,14 @@
     "nl": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
-        },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+          "_number": "$Revision: 12381 $",
+          "_cldrVersion": "29"
         },
         "language": "nl"
       },
       "localeDisplayNames": {
         "territories": {
-          "001": "Wereld",
+          "001": "wereld",
           "002": "Afrika",
           "003": "Noord-Amerika",
           "005": "Zuid-Amerika",
@@ -51,11 +48,10 @@
           "AI": "Anguilla",
           "AL": "Albanië",
           "AM": "Armenië",
-          "AN": "Nederlandse Antillen",
           "AO": "Angola",
           "AQ": "Antarctica",
           "AR": "Argentinië",
-          "AS": "Amerikaans Samoa",
+          "AS": "Amerikaans-Samoa",
           "AT": "Oostenrijk",
           "AU": "Australië",
           "AW": "Aruba",
@@ -70,7 +66,7 @@
           "BH": "Bahrein",
           "BI": "Burundi",
           "BJ": "Benin",
-          "BL": "Saint Barthélemy",
+          "BL": "Saint-Barthélemy",
           "BM": "Bermuda",
           "BN": "Brunei",
           "BO": "Bolivia",
@@ -80,7 +76,7 @@
           "BT": "Bhutan",
           "BV": "Bouveteiland",
           "BW": "Botswana",
-          "BY": "Wit-Rusland",
+          "BY": "Belarus",
           "BZ": "Belize",
           "CA": "Canada",
           "CC": "Cocoseilanden",
@@ -125,7 +121,7 @@
           "FJ": "Fiji",
           "FK": "Falklandeilanden",
           "FK-alt-variant": "Falklandeilanden (Islas Malvinas)",
-          "FM": "Micronesië",
+          "FM": "Micronesia",
           "FO": "Faeröer",
           "FR": "Frankrijk",
           "GA": "Gabon",
@@ -150,7 +146,7 @@
           "GY": "Guyana",
           "HK": "Hongkong SAR van China",
           "HK-alt-short": "Hongkong",
-          "HM": "Heard- en McDonaldeilanden",
+          "HM": "Heard en McDonaldeilanden",
           "HN": "Honduras",
           "HR": "Kroatië",
           "HT": "Haïti",
@@ -179,7 +175,7 @@
           "KP": "Noord-Korea",
           "KR": "Zuid-Korea",
           "KW": "Koeweit",
-          "KY": "Caymaneilanden",
+          "KY": "Kaaimaneilanden",
           "KZ": "Kazachstan",
           "LA": "Laos",
           "LB": "Libanon",
@@ -204,9 +200,9 @@
           "ML": "Mali",
           "MM": "Myanmar (Birma)",
           "MN": "Mongolië",
-          "MO": "Macao SAR van China",
-          "MO-alt-short": "Macao",
-          "MP": "Noordelijke Marianeneilanden",
+          "MO": "Macau SAR van China",
+          "MO-alt-short": "Macau",
+          "MP": "Noordelijke Marianen",
           "MQ": "Martinique",
           "MR": "Mauritanië",
           "MS": "Montserrat",
@@ -220,7 +216,7 @@
           "NA": "Namibië",
           "NC": "Nieuw-Caledonië",
           "NE": "Niger",
-          "NF": "Norfolkeiland",
+          "NF": "Norfolk",
           "NG": "Nigeria",
           "NI": "Nicaragua",
           "NL": "Nederland",
@@ -246,7 +242,7 @@
           "PW": "Palau",
           "PY": "Paraguay",
           "QA": "Qatar",
-          "QO": "Overig Oceanië",
+          "QO": "overig Oceanië",
           "RE": "Réunion",
           "RO": "Roemenië",
           "RS": "Servië",
@@ -313,7 +309,7 @@
           "ZA": "Zuid-Afrika",
           "ZM": "Zambia",
           "ZW": "Zimbabwe",
-          "ZZ": "Onbekend gebied"
+          "ZZ": "onbekend gebied"
         }
       }
     }
