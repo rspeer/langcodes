@@ -98,11 +98,30 @@ class LanguageData:
         If normalize=True, non-standard or overlong tags will be replaced as
         they're interpreted. This is recommended.
 
+        Here are several examples of language codes, which are also test cases.
+        Most language codes are straightforward, but these examples will get
+        pretty obscure toward the end.
+
         >>> LanguageData.get('en-US')
         LanguageData(language='en', region='US')
 
-        >>> LanguageData.get('sh-QU')        # transform deprecated tags
-        LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
+        >>> LanguageData.get('zh-Hant')
+        LanguageData(language='zh', script='Hant')
+
+        >>> LanguageData.get('und')
+        LanguageData()
+
+        The non-code 'root' is sometimes used to represent the lack of any
+        language information, similar to 'und'.
+
+        >>> LanguageData.get('root')
+        LanguageData()
+
+        One type of deprecated tag that should be replaced is for sign
+        languages, which used to all be coded as regional variants of a
+        fictitious global sign language called 'sgn'. Of course, there is no
+        global sign language, so sign languages now have their own language
+        codes.
 
         >>> LanguageData.get('sgn-US')
         LanguageData(language='ase')
@@ -110,20 +129,61 @@ class LanguageData:
         >>> LanguageData.get('sgn-US', normalize=False)
         LanguageData(language='sgn', region='US')
 
+        Some macrolanguages have been divided into language codes for the
+        specific mutually-unintelligible languages they contain. Most
+        internationalization code continues to use the macrolanguage, such as
+        'zh' for Chinese, but data projects such as Wiktionary and Ethnologue
+        want to be more specific, so they use the codes that distinguish
+        languages, such as 'cmn' for Mandarin and 'yue' for Cantonese.
+
+        For this reason, LanguageData objects keep track of both the
+        macrolanguage and the specific language when they're allowed to
+        normalize the input.
+
         >>> LanguageData.get('zh-cmn-Hant')  # promote extlangs to languages
         LanguageData(language='cmn', macrolanguage='zh', script='Hant')
 
         >>> LanguageData.get('zh-cmn-Hant', normalize=False)
         LanguageData(language='zh', extlangs=['cmn'], script='Hant')
 
-        >>> LanguageData.get('und')
-        LanguageData()
+        'en-gb-oed' is a tag that's grandfathered into the standard because it
+        has been used to mean "spell-check this with Oxford English Dictionary
+        spelling", but that tag has the wrong shape. We interpret this as the
+        new standardized tag 'en-gb-oxendict', unless asked not to normalize.
 
-        >>> LanguageData.get('root')
-        LanguageData()
+        >>> LanguageData.get('en-gb-oed')
+        LanguageData(language='en', region='GB', variants=['oxendict'])
+
+        >>> LanguageData.get('en-gb-oed', normalize=False)
+        LanguageData(language='en-gb-oed')
+
+        'zh-min-nan' is another oddly-formed tag, used to represent the
+        Southern Min language, which includes Taiwanese as a regional form. It
+        now has its own language code.
+
+        >>> LanguageData.get('zh-min-nan')
+        LanguageData(language='nan', macrolanguage='zh')
+
+        There's not much we can do with the vague tag 'zh-min':
+
+        >>> LanguageData.get('zh-min')
+        LanguageData(language='zh-min')
+
+        Occasionally Wiktionary will use 'extlang' tags in strange ways, such
+        as using the tag 'und-ibe' for some unspecified Iberian language.
 
         >>> LanguageData.get('und-ibe')
         LanguageData(extlangs=['ibe'])
+
+        Here's an example of replacing multiple deprecated tags. The language
+        tag 'sh' (Serbo-Croatian) ended up being politically unsustainable or
+        something. It's been made into a macrolanguage *and* replaced with the
+        code 'sr-Latn'. We complicate the example by adding on the region tag
+        'QU', an old tag for the European Union, which is now standardized as
+        'EU'.
+
+        >>> LanguageData.get('sh-QU')
+        LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
         """
         data = {}
         # if the complete tag appears as something to normalize, do the
