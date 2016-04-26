@@ -117,6 +117,15 @@ class LanguageData:
         >>> LanguageData.get('root')
         LanguageData()
 
+        By default, getting a LanguageData object will automatically convert
+        deprecated tags:
+
+        >>> LanguageData.get('iw')
+        LanguageData(language='he')
+
+        >>> LanguageData.get('in')
+        LanguageData(language='id', macrolanguage='ms')
+
         One type of deprecated tag that should be replaced is for sign
         languages, which used to all be coded as regional variants of a
         fictitious global sign language called 'sgn'. Of course, there is no

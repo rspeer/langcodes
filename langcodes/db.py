@@ -152,7 +152,12 @@ class LanguageDB:
             'language',
             (subtag, script, is_macro, is_collection, preferred, macrolang)
         )
-        if not 'Preferred-Value' in data:
+        if 'Preferred-Value' in data:
+            desc = ';'.join(data.get('Description', []))
+            self.add_language_mapping(
+                subtag, desc, data['Preferred-Value'], False
+            )
+        else:
             for i, name in enumerate(data['Description']):
                 self.add_name('language', subtag, datalang, name, i + name_order)
                 # Allow, for example, "Karen" to match "Karen languages", or
@@ -292,7 +297,7 @@ class LanguageDB:
         """
         results = {orig.lower(): new.lower()
                    for (orig, new) in self.language_replacements()}
-        
+
         # one more to handle the 'root' locale
         results['root'] = 'und'
         return results
