@@ -175,11 +175,17 @@ class LanguageData:
         >>> LanguageData.get('und-ibe')
         LanguageData(extlangs=['ibe'])
 
-        Here's an example of replacing multiple deprecated tags. The language
-        tag 'sh' (Serbo-Croatian) ended up being politically unsustainable or
-        something. It's been made into a macrolanguage *and* replaced with the
-        code 'sr-Latn'. We complicate the example by adding on the region tag
-        'QU', an old tag for the European Union, which is now standardized as
+        Here's an example of replacing multiple deprecated tags.
+
+        The language tag 'sh' (Serbo-Croatian) ended up being politically
+        problematic, and different standards took different steps to address
+        this. The IANA made it into a macrolanguage that contains 'sr', 'hr',
+        and 'bs'. Unicode further decided that it's a legacy tag that should
+        be interpreted as 'sr-Latn', which the language matching rules say
+        is mutually intelligible with all those languages.
+
+        We complicate the example by adding on the region tag 'QU', an old
+        provisional tag for the European Union, which is now standardized as
         'EU'.
 
         >>> LanguageData.get('sh-QU')
