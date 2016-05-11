@@ -119,7 +119,10 @@ class LanguageDB:
                 "CREATE UNIQUE INDEX IF NOT EXISTS {0}_uniq ON {0}(subtag, language, name)".format(table_name)
             )
             self.conn.execute(
-                "CREATE UNIQUE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language, name)".format(table_name)
+                "CREATE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language)".format(table_name)
+            )
+            self.conn.execute(
+                "CREATE INDEX IF NOT EXISTS {0}_lookup_name ON {0}(language, name)".format(table_name)
             )
 
     # Methods for building the database
@@ -133,6 +136,8 @@ class LanguageDB:
         self.conn.execute(template, values)
 
     def add_name(self, table, subtag, datalang, name, order):
+        if name == subtag:
+            return
         self._add_row('%s_name' % table, (subtag, datalang, name, order))
 
         # Handle multiple forms of language names in Chinese
