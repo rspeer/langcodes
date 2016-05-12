@@ -108,7 +108,7 @@ Haitian Creole
 Yiddish
 Tatar
 Proto-Malayo-Polynesian
-French 
+French
 Aromanian
 Ottoman Turkish
 Old Provençal
@@ -144,7 +144,7 @@ Bashkir
 Kashubian
 Sranan Tongo
 Proto-Sino-Tibetan
-# Norman
+Norman
 Proto-Austronesian
 Marathi
 Rohingya
@@ -235,7 +235,7 @@ Hindi
 Tuvan
 Polabian
 Aramaic
-Middle Armenian  
+Middle Armenian
 Malayalam
 Kumyk
 Inari Sami
@@ -276,7 +276,7 @@ Meriam
 Marshallese
 Khakas
 Balinese
-Albanian 
+Albanian
 Zhuang
 Tuvaluan
 Niuean
