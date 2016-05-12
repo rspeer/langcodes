@@ -1,3 +1,6 @@
+# coding: utf-8
+from __future__ import unicode_literals
+
 """
 These are the languages that have the most entries on the English and
 German Wiktionaries. Wiktionary only consistently identifies languages by their
