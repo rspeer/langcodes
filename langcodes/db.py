@@ -1,5 +1,6 @@
 import sqlite3
 import json
+import threading
 from .util import data_filename
 
 
@@ -32,6 +33,9 @@ class LanguageDB:
     Some information that doesn't fit into the SQL schema is loaded lazily from
     .json files.
     """
+
+    condition = threading.Condition()
+
     TABLES = [
         """CREATE TABLE IF NOT EXISTS language(
             subtag TEXT PRIMARY KEY COLLATE NOCASE,
@@ -100,7 +104,10 @@ class LanguageDB:
 
         # Because this is Python 3, we can set `check_same_thread=False` and
         # get a database that can be safely read in multiple threads. Hooray!
-        self.conn = sqlite3.connect(db_filename, check_same_thread=False)
+        with self.condition:
+            self.conn = sqlite3.connect(db_filename, check_same_thread=False)
+            self.condition.notifyAll()
+
 
     def __str__(self):
         return "LanguageDB(%s)" % self.filename
@@ -109,18 +116,24 @@ class LanguageDB:
     # =========================================
 
     def setup(self):
-        for stmt in self.TABLES:
-            self.conn.execute(stmt)
-        self._make_indexes()
+        with self.condition:
+            for stmt in self.TABLES:
+                self.conn.execute(stmt)
+            self._make_indexes()
+            self.condition.notifyAll()
+
 
     def _make_indexes(self):
-        for table_name in self.NAMES_TO_INDEX:
-            self.conn.execute(
-                "CREATE UNIQUE INDEX IF NOT EXISTS {0}_uniq ON {0}(subtag, language, name)".format(table_name)
-            )
-            self.conn.execute(
-                "CREATE UNIQUE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language, name)".format(table_name)
-            )
+        with self.condition:
+            for table_name in self.NAMES_TO_INDEX:
+                self.conn.execute(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS {0}_uniq ON {0}(subtag, language, name)".format(table_name)
+                )
+                self.conn.execute(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language, name)".format(table_name)
+                )
+            self.condition.notifyAll()
+
 
     # Methods for building the database
     # =================================
@@ -130,7 +143,10 @@ class LanguageDB:
         template = "INSERT OR IGNORE INTO %s VALUES (%s)" % (table_name, tuple_template)
         # I know, right? The sqlite3 driver doesn't let you parameterize the
         # table name. Good thing little Bobby Tables isn't giving us the names.
-        self.conn.execute(template, values)
+        with self.condition:
+            self.conn.execute(template, values)
+            self.condition.notifyAll()
+
 
     def add_name(self, table, subtag, datalang, name, order):
         self._add_row('%s_name' % table, (subtag, datalang, name, order))
@@ -227,9 +243,12 @@ class LanguageDB:
     # =====================================
 
     def query(self, query, *args):
-        c = self.conn.cursor()
-        c.execute(query, args)
-        return c.fetchall()
+        with self.condition:
+            c = self.conn.cursor()
+            c.execute(query, args)
+            out = c.fetchall()
+            self.condition.notifyAll()
+        return out
 
     def list_macrolanguages(self):
         return self.query(
@@ -405,8 +424,11 @@ class LanguageDB:
     # =======================================
 
     def close(self):
-        self.conn.commit()
-        self.conn.close()
+        with self.condition:
+            self.conn.commit()
+            self.conn.close()
+            self.condition.notifyAll()
+
 
     def __enter__(self):
         return self

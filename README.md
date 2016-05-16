@@ -1,5 +1,18 @@
 # Langcodes: a library for language codes
 
+
+** warning**
+For python2.x I forked this project and created more advanced version which is going to support caching (redis) and db supports (PostgreSQL, MySQL, MsSQL)
+
+Addition python packages are needed to make sure that this module can work
+* sqlalchemy
+* redis
+
+Module is thread and multiprocess safe
+
+
+
+
 **langcodes** knows what languages are. It knows the standardized codes that
 refer to them, such as `en` for English, `es` for Spanish and `hi` for Hindi.
 Often, it knows what these languages are called *in* a language, and that
