@@ -20,6 +20,11 @@ DEFAULT_LANGUAGE = 'en-US'
 DB = LanguageDB(data_filename('subtags.db'))
 
 
+_MATCH_CACHE = {}
+_LIKELY_VALUES_CACHE = {}
+_PARSE_CACHE = {}
+
+
 class AmbiguousError(LookupError):
     """
     Raised when there is more than one subtag matching a given natural
@@ -89,6 +94,10 @@ class LanguageData:
         self.variants = variants
         self.extensions = extensions
         self.private = private
+
+        # Cached values
+        self._filled = None
+        self._str_tag = None
 
     @staticmethod
     def get(tag: str, normalize=True) -> 'LanguageData':
@@ -200,6 +209,9 @@ class LanguageData:
         >>> LanguageData.get('sh-QU')
         LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
         """
+        if (tag, normalize) in _PARSE_CACHE:
+            return _PARSE_CACHE[tag, normalize]
+
         data = {}
         # if the complete tag appears as something to normalize, do the
         # normalization right away. Smash case when checking, because the
@@ -250,7 +262,9 @@ class LanguageData:
             else:
                 data[typ] = value
 
-        return LanguageData(**data)
+        result = LanguageData(**data)
+        _PARSE_CACHE[tag, normalize] = result
+        return result
 
     def to_tag(self) -> str:
         """
@@ -270,6 +284,8 @@ class LanguageData:
         >>> str(LanguageData(region='IN'))
         'und-IN'
         """
+        if self._str_tag:
+            return self._str_tag
         subtags = ['und']
         if self.language:
             subtags[0] = self.language
@@ -290,7 +306,8 @@ class LanguageData:
                 subtags.append(ext)
         if self.private:
             subtags.append(self.private)
-        return '-'.join(subtags)
+        self._str_tag = '-'.join(subtags)
+        return self._str_tag
 
     def simplify_script(self) -> 'LanguageData':
         """
@@ -446,11 +463,16 @@ class LanguageData:
         >>> str(LanguageData.get('und-ibe').fill_likely_values())
         'en-ibe-Latn-US'
         """
+        if self._filled is not None:
+            return self._filled
+
         for broader in self.broaden():
             tag = str(broader)
             if tag in DB.likely_subtags:
                 result = LanguageData.get(DB.likely_subtags[tag])
-                return result.update(self)
+                result = result.update(self)
+                self._filled = result
+                return result
 
         raise RuntimeError(
             "Couldn't fill in likely values. This represents a problem with "
@@ -471,6 +493,14 @@ class LanguageData:
         if supported == self:
             return 100
 
+        if (str(self), str(supported)) in _MATCH_CACHE:
+            return _MATCH_CACHE[str(self), str(supported)]
+
+        result = self._match_score(supported)
+        _MATCH_CACHE[str(self), str(supported)] = result
+        return result
+
+    def _match_score(self, supported: 'LanguageData') -> int:
         desired_complete = self.prefer_macrolanguage().fill_likely_values()
         supported_complete = supported.prefer_macrolanguage().fill_likely_values()
         desired_reduced = desired_complete._searchable_form()
@@ -960,9 +990,6 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
     return langdata.simplify_script().to_tag()
 
 
-_CACHE = {}
-
-
 def tag_match_score(desired: str, supported: str) -> int:
     """
     Return a number from 0 to 100 indicating the strength of match between the
@@ -1130,13 +1157,13 @@ def tag_match_score(desired: str, supported: str) -> int:
     >>> tag_match_score('en', 'ta')   # English speakers generally do not know Tamil.
     0
     """
-    if (desired, supported) in _CACHE:
-        return _CACHE[desired, supported]
+    if (desired, supported) in _MATCH_CACHE:
+        return _MATCH_CACHE[desired, supported]
 
     desired_ld = LanguageData.get(desired)
     supported_ld = LanguageData.get(supported)
     score = desired_ld.match_score(supported_ld)
-    _CACHE[desired, supported] = score
+    _MATCH_CACHE[desired, supported] = score
     return score
 
 
@@ -1189,6 +1216,15 @@ def best_match(desired_language: str, supported_languages: list,
     >>> best_match('eu', ['el', 'en', 'es'])
     ('und', 0)
     """
+    # Quickly return if the desired language is directly supported
+    if desired_language in supported_languages:
+        return desired_language, 100
+
+    # Reduce the desired language to a standard form that could also match
+    desired_language = standardize_tag(desired_language)
+    if desired_language in supported_languages:
+        return desired_language, 100
+
     match_scores = [
         (supported, tag_match_score(desired_language, supported))
         for supported in supported_languages
