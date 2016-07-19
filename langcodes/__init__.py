@@ -97,7 +97,11 @@ class LanguageData:
 
         # Cached values
         self._filled = None
+        self._simplified = None
+        self._assumed = None
+        self._macrolanguage = None
         self._str_tag = None
+        self._dict = None
 
     @staticmethod
     def get(tag: str, normalize=True) -> 'LanguageData':
@@ -323,10 +327,15 @@ class LanguageData:
         >>> LanguageData(language='yi', script='Hebr').simplify_script()
         LanguageData(language='yi')
         """
+        if self._simplified is not None:
+            return self._simplified
+
         if self.language and self.script:
             if DB.default_scripts.get(self.language) == self.script:
-                return self.update_dict({'script': None})
+                result = self.update_dict({'script': None})
+                self._simplified = result
 
+        self._simplified = self
         return self
 
     def assume_script(self) -> 'LanguageData':
@@ -357,13 +366,16 @@ class LanguageData:
         >>> LanguageData(region='US').assume_script()
         LanguageData(region='US')
         """
+        if self._assumed is not None:
+            return self._assumed
         if self.language and not self.script:
             try:
-                return self.update_dict({'script': DB.default_scripts[self.language]})
+                self._assumed = self.update_dict({'script': DB.default_scripts[self.language]})
             except KeyError:
-                return self
+                self._assumed = self
         else:
-            return self
+            self._assumed = self
+        return self._assumed
 
     def prefer_macrolanguage(self) -> 'LanguageData':
         """
@@ -392,14 +404,17 @@ class LanguageData:
         >>> LanguageData.get('yue-Hant').prefer_macrolanguage()
         LanguageData(language='yue', macrolanguage='zh', script='Hant')
         """
+        if self._macrolanguage is not None:
+            return self._macrolanguage
         language = self.language or 'und'
         if language in DB.normalized_macrolanguages:
-            return self.update_dict({
+            self._macrolanguage = self.update_dict({
                 'language': DB.normalized_macrolanguages[language],
                 'macrolanguage': None
             })
         else:
-            return self
+            self._macrolanguage = self
+        return self._macrolanguage
 
     def broaden(self) -> 'Iterable[LanguageData]':
         """
@@ -832,11 +847,15 @@ class LanguageData:
         Get a dictionary of the attributes of this LanguageData object, which
         can be useful for constructing a similar object.
         """
+        if self._dict is not None:
+            return self._dict
+
         result = {}
         for key in self.ATTRIBUTES:
             value = getattr(self, key)
             if value:
                 result[key] = value
+        self._dict = result
         return result
 
     def update(self, other: 'LanguageData') -> 'LanguageData':
