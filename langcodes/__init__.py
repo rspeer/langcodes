@@ -20,11 +20,6 @@ DEFAULT_LANGUAGE = 'en-US'
 DB = LanguageDB(data_filename('subtags.db'))
 
 
-_MATCH_CACHE = {}
-_LIKELY_VALUES_CACHE = {}
-_PARSE_CACHE = {}
-
-
 class AmbiguousError(LookupError):
     """
     Raised when there is more than one subtag matching a given natural
@@ -33,10 +28,10 @@ class AmbiguousError(LookupError):
     pass
 
 
-class LanguageData:
+class Language:
     """
-    The LanguageData class defines the results of parsing a language tag.
-    LanguageData objects have the following attributes, any of which may be
+    The Language class defines the results of parsing a language tag.
+    Language objects have the following attributes, any of which may be
     unspecified (in which case their value is None):
 
     - *language*: the code for the language itself.
@@ -52,7 +47,7 @@ class LanguageData:
       some specific system, such as Unicode collation orders.
     - *private*: a code starting with `x-` that has no defined meaning.
 
-    The `LanguageData.get` method converts a string to a LanguageData instance.
+    The `Language.get` method converts a string to a Language instance.
     It's also available at the top level of this module as the `get` function.
     """
 
@@ -80,11 +75,21 @@ class LanguageData:
         {'language'},
     ]
 
+    # Values cached at the class level
+    _INSTANCES = {}
+    _MATCH_CACHE = {}
+    _LIKELY_VALUES_CACHE = {}
+    _PARSE_CACHE = {}
+
     def __init__(self, language=None, macrolanguage=None, extlangs=None,
                  script=None, region=None, variants=None, extensions=None,
                  private=None):
         """
-        Create a LanguageData object by giving any subset of its attributes.
+        The constructor for Language objects.
+
+        It's inefficient to call this directly, because it can't return
+        an existing instance. Instead, call Language.make(), which
+        has the same signature.
         """
         self.language = language or macrolanguage
         self.macrolanguage = macrolanguage or language
@@ -96,17 +101,44 @@ class LanguageData:
         self.private = private
 
         # Cached values
-        self._filled = None
         self._simplified = None
+        self._searchable = None
+        self._matchable_tags = None
+        self._broader = None
         self._assumed = None
+        self._filled = None
         self._macrolanguage = None
         self._str_tag = None
         self._dict = None
 
-    @staticmethod
-    def get(tag: str, normalize=True) -> 'LanguageData':
+    @classmethod
+    def make(cls, language=None, macrolanguage=None, extlangs=None,
+             script=None, region=None, variants=None, extensions=None,
+             private=None):
         """
-        Create a LanguageData object from a language tag string.
+        Create a Language object by giving any subset of its attributes.
+
+        If this value has been created before, return the existing value.
+        """
+        language = language or macrolanguage
+        macrolanguage = macrolanguage or language
+        values = (language, macrolanguage, tuple(extlangs or ()), script, region,
+                  tuple(variants or ()), tuple(extensions or ()), private)
+        if values in cls._INSTANCES:
+            return cls._INSTANCES[values]
+
+        instance = cls(
+            language=language, macrolanguage=macrolanguage, extlangs=extlangs,
+            script=script, region=region, variants=variants,
+            extensions=extensions, private=private
+        )
+        cls._INSTANCES[values] = instance
+        return instance
+
+    @staticmethod
+    def get(tag: str, normalize=True) -> 'Language':
+        """
+        Create a Language object from a language tag string.
 
         If normalize=True, non-standard or overlong tags will be replaced as
         they're interpreted. This is recommended.
@@ -115,29 +147,29 @@ class LanguageData:
         Most language codes are straightforward, but these examples will get
         pretty obscure toward the end.
 
-        >>> LanguageData.get('en-US')
-        LanguageData(language='en', region='US')
+        >>> Language.get('en-US')
+        Language.make(language='en', region='US')
 
-        >>> LanguageData.get('zh-Hant')
-        LanguageData(language='zh', script='Hant')
+        >>> Language.get('zh-Hant')
+        Language.make(language='zh', script='Hant')
 
-        >>> LanguageData.get('und')
-        LanguageData()
+        >>> Language.get('und')
+        Language.make()
 
         The non-code 'root' is sometimes used to represent the lack of any
         language information, similar to 'und'.
 
-        >>> LanguageData.get('root')
-        LanguageData()
+        >>> Language.get('root')
+        Language.make()
 
-        By default, getting a LanguageData object will automatically convert
+        By default, getting a Language object will automatically convert
         deprecated tags:
 
-        >>> LanguageData.get('iw')
-        LanguageData(language='he')
+        >>> Language.get('iw')
+        Language.make(language='he')
 
-        >>> LanguageData.get('in')
-        LanguageData(language='id', macrolanguage='ms')
+        >>> Language.get('in')
+        Language.make(language='id', macrolanguage='ms')
 
         One type of deprecated tag that should be replaced is for sign
         languages, which used to all be coded as regional variants of a
@@ -145,11 +177,11 @@ class LanguageData:
         global sign language, so sign languages now have their own language
         codes.
 
-        >>> LanguageData.get('sgn-US')
-        LanguageData(language='ase')
+        >>> Language.get('sgn-US')
+        Language.make(language='ase')
 
-        >>> LanguageData.get('sgn-US', normalize=False)
-        LanguageData(language='sgn', region='US')
+        >>> Language.get('sgn-US', normalize=False)
+        Language.make(language='sgn', region='US')
 
         Some macrolanguages have been divided into language codes for the
         specific mutually-unintelligible languages they contain. Most
@@ -158,44 +190,44 @@ class LanguageData:
         want to be more specific, so they use the codes that distinguish
         languages, such as 'cmn' for Mandarin and 'yue' for Cantonese.
 
-        For this reason, LanguageData objects keep track of both the
+        For this reason, Language objects keep track of both the
         macrolanguage and the specific language when they're allowed to
         normalize the input.
 
-        >>> LanguageData.get('zh-cmn-Hant')  # promote extlangs to languages
-        LanguageData(language='cmn', macrolanguage='zh', script='Hant')
+        >>> Language.get('zh-cmn-Hant')  # promote extlangs to languages
+        Language.make(language='cmn', macrolanguage='zh', script='Hant')
 
-        >>> LanguageData.get('zh-cmn-Hant', normalize=False)
-        LanguageData(language='zh', extlangs=['cmn'], script='Hant')
+        >>> Language.get('zh-cmn-Hant', normalize=False)
+        Language.make(language='zh', extlangs=['cmn'], script='Hant')
 
         'en-gb-oed' is a tag that's grandfathered into the standard because it
         has been used to mean "spell-check this with Oxford English Dictionary
         spelling", but that tag has the wrong shape. We interpret this as the
         new standardized tag 'en-gb-oxendict', unless asked not to normalize.
 
-        >>> LanguageData.get('en-gb-oed')
-        LanguageData(language='en', region='GB', variants=['oxendict'])
+        >>> Language.get('en-gb-oed')
+        Language.make(language='en', region='GB', variants=['oxendict'])
 
-        >>> LanguageData.get('en-gb-oed', normalize=False)
-        LanguageData(language='en-gb-oed')
+        >>> Language.get('en-gb-oed', normalize=False)
+        Language.make(language='en-gb-oed')
 
         'zh-min-nan' is another oddly-formed tag, used to represent the
         Southern Min language, which includes Taiwanese as a regional form. It
         now has its own language code.
 
-        >>> LanguageData.get('zh-min-nan')
-        LanguageData(language='nan', macrolanguage='zh')
+        >>> Language.get('zh-min-nan')
+        Language.make(language='nan', macrolanguage='zh')
 
         There's not much we can do with the vague tag 'zh-min':
 
-        >>> LanguageData.get('zh-min')
-        LanguageData(language='zh-min')
+        >>> Language.get('zh-min')
+        Language.make(language='zh-min')
 
         Occasionally Wiktionary will use 'extlang' tags in strange ways, such
         as using the tag 'und-ibe' for some unspecified Iberian language.
 
-        >>> LanguageData.get('und-ibe')
-        LanguageData(extlangs=['ibe'])
+        >>> Language.get('und-ibe')
+        Language.make(extlangs=['ibe'])
 
         Here's an example of replacing multiple deprecated tags.
 
@@ -210,11 +242,11 @@ class LanguageData:
         provisional tag for the European Union, which is now standardized as
         'EU'.
 
-        >>> LanguageData.get('sh-QU')
-        LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
+        >>> Language.get('sh-QU')
+        Language.make(language='sr', macrolanguage='sh', script='Latn', region='EU')
         """
-        if (tag, normalize) in _PARSE_CACHE:
-            return _PARSE_CACHE[tag, normalize]
+        if (tag, normalize) in Language._PARSE_CACHE:
+            return Language._PARSE_CACHE[tag, normalize]
 
         data = {}
         # if the complete tag appears as something to normalize, do the
@@ -233,7 +265,7 @@ class LanguageData:
                 if minitag in DB.normalized_languages:
                     norm = DB.normalized_languages[minitag]
                     data.update(
-                        LanguageData.get(norm, normalize).to_dict()
+                        Language.get(norm, normalize).to_dict()
                     )
                 else:
                     data.setdefault('extlangs', []).append(value)
@@ -247,7 +279,7 @@ class LanguageData:
                     # parse the replacement if necessary -- this helps with
                     # Serbian and Moldovan
                     data.update(
-                        LanguageData.get(replacement, normalize).to_dict()
+                        Language.get(replacement, normalize).to_dict()
                     )
                 else:
                     data['language'] = value
@@ -266,26 +298,26 @@ class LanguageData:
             else:
                 data[typ] = value
 
-        result = LanguageData(**data)
-        _PARSE_CACHE[tag, normalize] = result
+        result = Language.make(**data)
+        Language._PARSE_CACHE[tag, normalize] = result
         return result
 
     def to_tag(self) -> str:
         """
-        Convert a LanguageData back to a standard language tag, as a string.
-        This is also the str() representation of a LanguageData object.
+        Convert a Language back to a standard language tag, as a string.
+        This is also the str() representation of a Language object.
 
-        >>> LanguageData(language='en', region='GB').to_tag()
+        >>> Language.make(language='en', region='GB').to_tag()
         'en-GB'
 
-        >>> LanguageData(language='yue', macrolanguage='zh', script='Hant',
+        >>> Language.make(language='yue', macrolanguage='zh', script='Hant',
         ...              region='HK').to_tag()
         'yue-Hant-HK'
 
-        >>> LanguageData(script='Arab').to_tag()
+        >>> Language.make(script='Arab').to_tag()
         'und-Arab'
 
-        >>> str(LanguageData(region='IN'))
+        >>> str(Language.make(region='IN'))
         'und-IN'
         """
         if self._str_tag:
@@ -313,19 +345,19 @@ class LanguageData:
         self._str_tag = '-'.join(subtags)
         return self._str_tag
 
-    def simplify_script(self) -> 'LanguageData':
+    def simplify_script(self) -> 'Language':
         """
         Remove the script from some parsed language data, if the script is
         redundant with the language.
 
-        >>> LanguageData(language='en', script='Latn').simplify_script()
-        LanguageData(language='en')
+        >>> Language.make(language='en', script='Latn').simplify_script()
+        Language.make(language='en')
 
-        >>> LanguageData(language='yi', script='Latn').simplify_script()
-        LanguageData(language='yi', script='Latn')
+        >>> Language.make(language='yi', script='Latn').simplify_script()
+        Language.make(language='yi', script='Latn')
 
-        >>> LanguageData(language='yi', script='Hebr').simplify_script()
-        LanguageData(language='yi')
+        >>> Language.make(language='yi', script='Hebr').simplify_script()
+        Language.make(language='yi')
         """
         if self._simplified is not None:
             return self._simplified
@@ -336,35 +368,35 @@ class LanguageData:
                 self._simplified = result
 
         self._simplified = self
-        return self
+        return self._simplified
 
-    def assume_script(self) -> 'LanguageData':
+    def assume_script(self) -> 'Language':
         """
         Fill in the script if it's missing, and if it can be assumed from the
         language subtag. This is the opposite of `simplify_script`.
 
-        >>> LanguageData(language='en').assume_script()
-        LanguageData(language='en', script='Latn')
+        >>> Language.make(language='en').assume_script()
+        Language.make(language='en', script='Latn')
 
-        >>> LanguageData(language='yi').assume_script()
-        LanguageData(language='yi', script='Hebr')
+        >>> Language.make(language='yi').assume_script()
+        Language.make(language='yi', script='Hebr')
 
-        >>> LanguageData(language='yi', script='Latn').assume_script()
-        LanguageData(language='yi', script='Latn')
+        >>> Language.make(language='yi', script='Latn').assume_script()
+        Language.make(language='yi', script='Latn')
 
         This fills in nothing when the script cannot be assumed -- such as when
         the language has multiple scripts, or it has no standard orthography:
 
-        >>> LanguageData(language='sr').assume_script()
-        LanguageData(language='sr')
+        >>> Language.make(language='sr').assume_script()
+        Language.make(language='sr')
 
-        >>> LanguageData(language='eee').assume_script()
-        LanguageData(language='eee')
+        >>> Language.make(language='eee').assume_script()
+        Language.make(language='eee')
 
         It also dosn't fill anything in when the language is unspecified.
 
-        >>> LanguageData(region='US').assume_script()
-        LanguageData(region='US')
+        >>> Language.make(region='US').assume_script()
+        Language.make(region='US')
         """
         if self._assumed is not None:
             return self._assumed
@@ -377,7 +409,7 @@ class LanguageData:
             self._assumed = self
         return self._assumed
 
-    def prefer_macrolanguage(self) -> 'LanguageData':
+    def prefer_macrolanguage(self) -> 'Language':
         """
         BCP 47 doesn't specify what to do with macrolanguages and the languages
         they contain. The Unicode CLDR, on the other hand, says that when a
@@ -390,19 +422,19 @@ class LanguageData:
         contains both 'zsm' (Standard Malay) and 'id' (Indonesian). But applying
         this rule helps when interoperating with the Unicode CLDR.
 
-        So, applying `prefer_macrolanguage` to a LanguageData object will
+        So, applying `prefer_macrolanguage` to a Language object will
         return a new object, replacing the language with the macrolanguage if
         it is the dominant language within that macrolanguage. It will leave
         non-dominant languages that have macrolanguages alone.
 
-        >>> LanguageData.get('arb').prefer_macrolanguage()
-        LanguageData(language='ar')
+        >>> Language.get('arb').prefer_macrolanguage()
+        Language.make(language='ar')
 
-        >>> LanguageData.get('cmn-Hant').prefer_macrolanguage()
-        LanguageData(language='zh', script='Hant')
+        >>> Language.get('cmn-Hant').prefer_macrolanguage()
+        Language.make(language='zh', script='Hant')
 
-        >>> LanguageData.get('yue-Hant').prefer_macrolanguage()
-        LanguageData(language='yue', macrolanguage='zh', script='Hant')
+        >>> Language.get('yue-Hant').prefer_macrolanguage()
+        Language.make(language='yue', macrolanguage='zh', script='Hant')
         """
         if self._macrolanguage is not None:
             return self._macrolanguage
@@ -416,7 +448,7 @@ class LanguageData:
             self._macrolanguage = self
         return self._macrolanguage
 
-    def broaden(self) -> 'Iterable[LanguageData]':
+    def broaden(self) -> 'List[Language]':
         """
         Iterate through increasingly general versions of this parsed language tag.
 
@@ -427,7 +459,7 @@ class LanguageData:
         The list of broader versions to try appears in UTR 35, section 4.3,
         "Likely Subtags".
 
-        >>> for langdata in LanguageData.get('nn-Latn-NO-x-thingy').broaden():
+        >>> for langdata in Language.get('nn-Latn-NO-x-thingy').broaden():
         ...     print(langdata)
         nn-Latn-NO-x-thingy
         nn-Latn-NO
@@ -441,11 +473,28 @@ class LanguageData:
         und-Latn
         und
         """
-        yield self
+        if self._broader is not None:
+            return self._broader
+        self._broader = [self]
+        seen = set(self.to_tag())
         for keyset in self.BROADER_KEYSETS:
-            yield self._filter_attributes(keyset)
+            filtered = self._filter_attributes(keyset)
+            tag = filtered.to_tag()
+            if tag not in seen:
+                self._broader.append(filtered)
+                seen.add(tag)
+        return self._broader
 
-    def fill_likely_values(self) -> 'LanguageData':
+    def matchable_tags(self) -> 'List[Language]':
+        if self._matchable_tags is not None:
+            return self._matchable_tags
+        self._matchable_tags = []
+        for keyset in self.MATCHABLE_KEYSETS:
+            filtered_tag = self._filter_attributes(keyset).to_tag()
+            self._matchable_tags.append(filtered_tag)
+        return self._matchable_tags
+
+    def fill_likely_values(self) -> 'Language':
         """
         The Unicode CLDR contains a "likelySubtags" data file, which can guess
         reasonable values for fields that are missing from a language tag.
@@ -461,30 +510,30 @@ class LanguageData:
         information on the Internet. (This is why the overall default is English,
         not Chinese.)
 
-        >>> str(LanguageData.get('zh-Hant').fill_likely_values())
+        >>> str(Language.get('zh-Hant').fill_likely_values())
         'zh-Hant-TW'
-        >>> str(LanguageData.get('zh-TW').fill_likely_values())
+        >>> str(Language.get('zh-TW').fill_likely_values())
         'zh-Hant-TW'
-        >>> str(LanguageData.get('ja').fill_likely_values())
+        >>> str(Language.get('ja').fill_likely_values())
         'ja-Jpan-JP'
-        >>> str(LanguageData.get('pt').fill_likely_values())
+        >>> str(Language.get('pt').fill_likely_values())
         'pt-Latn-BR'
-        >>> str(LanguageData.get('und-Arab').fill_likely_values())
+        >>> str(Language.get('und-Arab').fill_likely_values())
         'ar-Arab-EG'
-        >>> str(LanguageData.get('und-CH').fill_likely_values())
+        >>> str(Language.get('und-CH').fill_likely_values())
         'de-Latn-CH'
-        >>> str(LanguageData().fill_likely_values())    # 'MURICA.
+        >>> str(Language.make().fill_likely_values())    # 'MURICA.
         'en-Latn-US'
-        >>> str(LanguageData.get('und-ibe').fill_likely_values())
+        >>> str(Language.get('und-ibe').fill_likely_values())
         'en-ibe-Latn-US'
         """
         if self._filled is not None:
             return self._filled
 
         for broader in self.broaden():
-            tag = str(broader)
+            tag = broader.to_tag()
             if tag in DB.likely_subtags:
-                result = LanguageData.get(DB.likely_subtags[tag])
+                result = Language.get(DB.likely_subtags[tag])
                 result = result.update(self)
                 self._filled = result
                 return result
@@ -494,7 +543,7 @@ class LanguageData:
             "DB.likely_subtags."
         )
 
-    def match_score(self, supported: 'LanguageData') -> int:
+    def match_score(self, supported: 'Language') -> int:
         """
         Suppose that `self` is the language that the user desires, and
         `supported` is a language that is actually supported. This method
@@ -502,20 +551,22 @@ class LanguageData:
         between them. This is not a symmetric relation.
 
         See :func:`tag_match_score` for a function that works on strings,
-        instead of requiring you to instantiate LanguageData objects first.
+        instead of requiring you to instantiate Language objects first.
         Further documentation and examples appear with that function.
         """
         if supported == self:
             return 100
 
-        if (str(self), str(supported)) in _MATCH_CACHE:
-            return _MATCH_CACHE[str(self), str(supported)]
+        my_tag = self.to_tag()
+        other_tag = supported.to_tag()
+        if (my_tag, other_tag) in Language._MATCH_CACHE:
+            return Language._MATCH_CACHE[my_tag, other_tag]
 
         result = self._match_score(supported)
-        _MATCH_CACHE[str(self), str(supported)] = result
+        Language._MATCH_CACHE[my_tag, other_tag] = result
         return result
 
-    def _match_score(self, supported: 'LanguageData') -> int:
+    def _match_score(self, supported: 'Language') -> int:
         desired_complete = self.prefer_macrolanguage().fill_likely_values()
         supported_complete = supported.prefer_macrolanguage().fill_likely_values()
         desired_reduced = desired_complete._searchable_form()
@@ -528,21 +579,18 @@ class LanguageData:
         # CLDR suggests using 'parentLocales' with 'languageMatching', but
         # doesn't assign numerical values to parent locales. Here are some
         # numbers that seem to match the intent.
-        desired_tag = str(desired_reduced)
-        supported_tag = str(supported_reduced)
+        desired_tag = desired_reduced.to_tag()
+        supported_tag = supported_reduced.to_tag()
         if DB.parent_locales.get(desired_tag) == supported_tag:
             return 99
         if DB.parent_locales.get(supported_tag) == desired_tag:
             return 98
 
         # Look for language pairs that are present in CLDR's 'languageMatching'.
-        for keyset in self.MATCHABLE_KEYSETS:
-            desired_filtered_tag = str(
-                desired_complete._filter_attributes(keyset).simplify_script()
-            )
-            supported_filtered_tag = str(
-                supported_complete._filter_attributes(keyset).simplify_script()
-            )
+        for desired_filtered_tag, supported_filtered_tag in zip(
+            desired_complete.matchable_tags(),
+            supported_complete.matchable_tags()
+        ):
             pair = (desired_filtered_tag, supported_filtered_tag)
             if pair in DB.language_matching:
                 return DB.language_matching[pair]
@@ -578,18 +626,8 @@ class LanguageData:
             # If the two language codes share a macrolanguage, we take half of
             # what their match value would be if the macrolanguage were a language.
 
-            desired_macro = desired_complete
-            supported_macro = supported_complete
-            if desired_complete.macrolanguage:
-                desired_macro = desired_macro.update_dict(
-                    {'language': desired_complete.macrolanguage,
-                     'macrolanguage': None}
-                )
-            if supported_complete.macrolanguage:
-                supported_macro = supported_macro.update_dict(
-                    {'language': supported_complete.macrolanguage,
-                     'macrolanguage': None}
-                )
+            desired_macro = desired_complete.prefer_macrolanguage()
+            supported_macro = supported_complete.prefer_macrolanguage()
             if desired_macro != desired_complete or supported_macro != supported_complete:
                 return desired_macro.match_score(supported_macro) // 2
 
@@ -604,8 +642,8 @@ class LanguageData:
 
     def _get_name(self, attribute: str, language, min_score: int):
         assert attribute in self.ATTRIBUTES
-        if isinstance(language, LanguageData):
-            language = str(language)
+        if isinstance(language, Language):
+            language = language.to_tag()
 
         names = DB.names_for(attribute, getattr(self, attribute))
         names['und'] = getattr(self, attribute)
@@ -620,32 +658,32 @@ class LanguageData:
         """
         Give the name of the language (not the entire tag, just the language part)
         in a natural language. The target language can be given as a string or
-        another LanguageData object.
+        another Language object.
 
         By default, things are named in English:
 
         >>> from pprint import pprint
-        >>> LanguageData.get('fr').language_name()
+        >>> Language.get('fr').language_name()
         'French'
-        >>> LanguageData.get('el').language_name()
+        >>> Language.get('el').language_name()
         'Greek'
 
         But you can ask for language names in numerous other languages:
 
-        >>> LanguageData.get('fr').language_name('fr')
+        >>> Language.get('fr').language_name('fr')
         'français'
-        >>> LanguageData.get('el').language_name('fr')
+        >>> Language.get('el').language_name('fr')
         'grec'
 
         Why does everyone get Slovak and Slovenian confused? Let's ask them.
 
-        >>> LanguageData.get('sl').language_name('sl')
+        >>> Language.get('sl').language_name('sl')
         'slovenščina'
-        >>> LanguageData.get('sk').language_name('sk')
+        >>> Language.get('sk').language_name('sk')
         'slovenčina'
-        >>> LanguageData.get('sl').language_name('sk')
+        >>> Language.get('sl').language_name('sk')
         'slovinčina'
-        >>> LanguageData.get('sk').language_name('sl')
+        >>> Language.get('sk').language_name('sl')
         'slovaščina'
         """
         return self._get_name('language', language, min_score)
@@ -654,19 +692,19 @@ class LanguageData:
         """
         Give the name of this language *in* this language.
 
-        >>> LanguageData.get('fr').autonym()
+        >>> Language.get('fr').autonym()
         'français'
-        >>> LanguageData.get('es').autonym()
+        >>> Language.get('es').autonym()
         'español'
-        >>> LanguageData.get('ja').autonym()
+        >>> Language.get('ja').autonym()
         '日本語'
 
         This doesn't give the name of the region or script, but in one case,
         you can get the autonym in two different scripts:
 
-        >>> LanguageData.get('sr-Latn').autonym()
+        >>> Language.get('sr-Latn').autonym()
         'srpski'
-        >>> LanguageData.get('sr-Cyrl').autonym()
+        >>> Language.get('sr-Cyrl').autonym()
         'Српски'
 
         This only works for language codes that CLDR has locale data for. You
@@ -711,7 +749,7 @@ class LanguageData:
         might find it, in various languages.
 
         >>> from pprint import pprint
-        >>> shaw = LanguageData(script='Shaw').fill_likely_values()
+        >>> shaw = Language.make(script='Shaw').fill_likely_values()
         >>> pprint(shaw.describe('en'))
         {'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
 
@@ -750,7 +788,7 @@ class LanguageData:
 
         Wait, is that a real language?
 
-        >>> pprint(LanguageData.get('lol').fill_likely_values().describe())
+        >>> pprint(Language.get('lol').fill_likely_values().describe())
         {'language': 'Mongo', 'region': 'Congo - Kinshasa', 'script': 'Latin'}
         """
         names = {}
@@ -765,7 +803,7 @@ class LanguageData:
         return names
 
     @staticmethod
-    def find_name(tagtype: str, name: str, language: {str, 'LanguageData'}):
+    def find_name(tagtype: str, name: str, language: {str, 'Language'}):
         """
         Find the subtag of a particular `tagtype` that has the given `name`.
 
@@ -775,44 +813,44 @@ class LanguageData:
         LookupError. If more than one subtag is found with the same name, you get
         an AmbiguousError.
 
-        The `language` parameter is the language code or LanguageData object
+        The `language` parameter is the language code or Language object
         representing the language that you're providing the name in.
 
-        >>> LanguageData.find_name('language', 'francés', 'es')
-        LanguageData(language='fr')
+        >>> Language.find_name('language', 'francés', 'es')
+        Language.make(language='fr')
 
-        >>> LanguageData.find_name('region', 'United Kingdom', LanguageData.get('en'))
-        LanguageData(region='GB')
+        >>> Language.find_name('region', 'United Kingdom', Language.get('en'))
+        Language.make(region='GB')
 
-        >>> LanguageData.find_name('script', 'Arabic', 'en')
-        LanguageData(script='Arab')
+        >>> Language.find_name('script', 'Arabic', 'en')
+        Language.make(script='Arab')
 
-        >>> LanguageData.find_name('language', 'norsk bokmål', 'no')
-        LanguageData(language='nb')
+        >>> Language.find_name('language', 'norsk bokmål', 'no')
+        Language.make(language='nb')
 
-        >>> LanguageData.find_name('language', 'norsk bokmal', 'no')
+        >>> Language.find_name('language', 'norsk bokmal', 'no')
         Traceback (most recent call last):
             ...
         LookupError: Can't find any language named 'norsk bokmal'
         """
-        und = LanguageData()
-        english = LanguageData(language='en')
+        und = Language.make()
+        english = Language.make(language='en')
 
         options = DB.lookup_name_in_any_language(tagtype, name)
-        if isinstance(language, LanguageData):
+        if isinstance(language, Language):
             target_language = language
         else:
-            target_language = LanguageData.get(language)
+            target_language = Language.get(language)
         best_options = []
         best_match_score = 1
 
         for subtag, langcode in options:
-            data_language = LanguageData.get(langcode)
+            data_language = Language.get(langcode)
             if data_language == und:
                 # We don't want to match the language codes themselves.
                 continue
 
-            score = target_language.match_score(LanguageData.get(langcode))
+            score = target_language.match_score(Language.get(langcode))
 
             # Languages are often named in English, even when speaking in
             # other languages
@@ -840,11 +878,11 @@ class LanguageData:
             # If there are still multiple options, get the most specific one
             best = max(best_options, key=lambda item: item.count('-'))
             data = {tagtype: best}
-            return LanguageData(**data)
+            return Language.make(**data)
 
     def to_dict(self):
         """
-        Get a dictionary of the attributes of this LanguageData object, which
+        Get a dictionary of the attributes of this Language object, which
         can be useful for constructing a similar object.
         """
         if self._dict is not None:
@@ -858,11 +896,11 @@ class LanguageData:
         self._dict = result
         return result
 
-    def update(self, other: 'LanguageData') -> 'LanguageData':
+    def update(self, other: 'Language') -> 'Language':
         """
-        Update this LanguageData with the fields of another LanguageData.
+        Update this Language with the fields of another Language.
         """
-        return LanguageData(
+        return Language.make(
             language=other.language or self.language,
             macrolanguage=other.macrolanguage or self.macrolanguage,
             extlangs=other.extlangs or self.extlangs,
@@ -873,11 +911,11 @@ class LanguageData:
             private=other.private or self.private
         )
 
-    def update_dict(self, newdata: dict) -> 'LanguageData':
+    def update_dict(self, newdata: dict) -> 'Language':
         """
-        Update the attributes of this LanguageData from a dictionary.
+        Update the attributes of this Language from a dictionary.
         """
-        return LanguageData(
+        return Language.make(
             language=newdata.get('language', self.language),
             macrolanguage=newdata.get('macrolanguage', self.macrolanguage),
             extlangs=newdata.get('extlangs', self.extlangs),
@@ -900,21 +938,28 @@ class LanguageData:
         Return a copy of this object with a subset of its attributes set.
         """
         filtered = self._filter_keys(self.to_dict(), keyset)
-        return LanguageData(**filtered)
+        return Language.make(**filtered)
 
-    def _searchable_form(self) -> 'LanguageData':
+    def _searchable_form(self) -> 'Language':
         """
         Convert a parsed language tag so that the information it contains is in
         the best form for looking up information in the CLDR.
         """
-        return self._filter_attributes(
+        if self._searchable is not None:
+            return self._searchable
+
+        self._searchable = self._filter_attributes(
             {'macrolanguage', 'language', 'script', 'region'}
         ).simplify_script().prefer_macrolanguage()
+        return self._searchable
 
     def __eq__(self, other):
-        if not isinstance(other, LanguageData):
+        if not isinstance(other, Language):
             return False
-        return self.to_dict() == other.to_dict()
+        return self.to_tag() == other.to_tag()
+
+    def __hash__(self):
+        return hash(self.to_tag())
 
     def __getitem__(self, key):
         if key in self.ATTRIBUTES:
@@ -932,15 +977,18 @@ class LanguageData:
                 if not (attr == 'macrolanguage'
                         and self.macrolanguage == self.language):
                     items.append('{0}={1!r}'.format(attr, getattr(self, attr)))
-        return "LanguageData({})".format(', '.join(items))
+        return "Language.make({})".format(', '.join(items))
 
     def __str__(self):
         return self.to_tag()
 
 
 # Make the get() and find_name() functions available at the top level
-get = LanguageData.get
-find_name = LanguageData.find_name
+get = Language.get
+find_name = Language.find_name
+
+# Make the Language object available under the old name LanguageData
+LanguageData = Language
 
 
 def standardize_tag(tag: str, macro: bool=False) -> str:
@@ -1002,7 +1050,7 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
         ...
     langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
     """
-    langdata = LanguageData.get(tag, normalize=True)
+    langdata = Language.get(tag, normalize=True)
     if macro:
         langdata = langdata.prefer_macrolanguage()
 
@@ -1176,13 +1224,9 @@ def tag_match_score(desired: str, supported: str) -> int:
     >>> tag_match_score('en', 'ta')   # English speakers generally do not know Tamil.
     0
     """
-    if (desired, supported) in _MATCH_CACHE:
-        return _MATCH_CACHE[desired, supported]
-
-    desired_ld = LanguageData.get(desired)
-    supported_ld = LanguageData.get(supported)
+    desired_ld = Language.get(desired)
+    supported_ld = Language.get(supported)
     score = desired_ld.match_score(supported_ld)
-    _MATCH_CACHE[desired, supported] = score
     return score
 
 
