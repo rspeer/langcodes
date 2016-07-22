@@ -609,13 +609,19 @@ class Language:
         >>> Language.get('ja').autonym()
         '日本語'
 
-        This doesn't give the name of the region or script, but in one case,
-        you can get the autonym in two different scripts:
+        This doesn't give the name of the region or script, but in some cases
+        the language can name itself in multiple scripts:
 
         >>> Language.get('sr-Latn').autonym()
         'srpski'
         >>> Language.get('sr-Cyrl').autonym()
         'српски'
+        >>> Language.get('pa').autonym()
+        'ਪੰਜਾਬੀ'
+        >>> Language.get('pa-Latn').autonym()
+        'Punjabi'
+        >>> Language.get('pa-Arab').autonym()
+        'پنجابی'
 
         This only works for language codes that CLDR has locale data for. You
         can't ask for the autonym of 'ja-Latn' and get 'nihongo'.
