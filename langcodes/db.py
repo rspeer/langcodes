@@ -366,29 +366,6 @@ class LanguageDB:
         )
         return ls_json['supplemental']['likelySubtags']
 
-    @lazy_property
-    def language_matching(self):
-        """
-        Information about the strength of match between certain pairs of
-        languages.
-        """
-        match_json = json.load(
-            open(data_filename('cldr/supplemental/languageMatching.json'))
-        )
-        matches = {}
-        match_data = match_json['supplemental']['languageMatching']['written']
-        for item in match_data:
-            match = item['languageMatch']
-            desired = match['_desired']
-            supported = match['_supported']
-            value = match['_percent']
-            if (desired, supported) not in matches:
-                matches[(desired, supported)] = int(value)
-            if match.get('_oneway') != 'true':
-                if (supported, desired) not in matches:
-                    matches[(supported, desired)] = int(value)
-        return matches
-
     # Using the database as a context manager
     # =======================================
 
