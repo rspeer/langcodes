@@ -521,23 +521,13 @@ class Language:
         http://unicode.org/reports/tr35/#LanguageMatching. If you find these
         results bothersome, take it up with Unicode.
 
-        See :func:`tag_distance` for a function that works on strings,
+        See :func:`tag_match_score` for a function that works on strings,
         instead of requiring you to instantiate Language objects first.
         Further documentation and examples appear with that function.
         """
         if supported == self:
             return 0
 
-        my_tag = self.to_tag()
-        other_tag = supported.to_tag()
-        if (my_tag, other_tag) in Language._DISTANCE_CACHE:
-            return Language._DISTANCE_CACHE[my_tag, other_tag]
-
-        result = self._distance(supported)
-        Language._DISTANCE_CACHE[my_tag, other_tag] = result
-        return result
-
-    def _distance(self, supported: 'Language') -> int:
         desired_complete = self.prefer_macrolanguage().maximize()
         supported_complete = supported.prefer_macrolanguage().maximize()
 
@@ -868,12 +858,10 @@ class Language:
         return self._searchable
 
     def __eq__(self, other):
-        if not isinstance(other, Language):
-            return False
-        return self.to_tag() == other.to_tag()
+        return self is other
 
     def __hash__(self):
-        return hash(self.to_tag())
+        return hash(id(self))
 
     def __getitem__(self, key):
         if key in self.ATTRIBUTES:
@@ -1022,7 +1010,7 @@ def language_distance(desired: str, supported: str) -> int:
     A distance of 10 to 14 indicates that people who use the desired language
     are demographically likely to understand the supported language, even if
     the languages themselves are unrelated. There are many languages that have
-    a one-way distance of 10 to English or French.
+    a one-way connection of this kind to English or French.
 
     >>> language_distance('ta', 'en')  # Tamil to English
     14
@@ -1135,6 +1123,12 @@ def best_match(desired_language: str, supported_languages: list,
     ('es', 10)
     >>> best_match('eu', ['el', 'en', 'es'], max_distance=8)
     ('und', 100)
+
+    TODO:
+
+        - change back from `language_distance` to `tag_match_score`
+        - let parentLocales divert the way languages match
+        - allow indirect macrolanguages to match at a suitable cost
     """
     # Quickly return if the desired language is directly supported
     if desired_language in supported_languages:
