@@ -6,6 +6,10 @@ This is not meant to be used directly, but to supply the data that the
 Language objects need to measure distance.
 """
 
+
+_DISTANCE_CACHE = {}
+
+
 def _make_simple_distances():
     """
     This is a translation of the non-wildcard rules in
@@ -189,7 +193,15 @@ def raw_distance(desired: tuple, supported: tuple):
     # return quickly:
     if supported == desired:
         return 0
+    if (desired, supported) in _DISTANCE_CACHE:
+        return _DISTANCE_CACHE[desired, supported]
+    else:
+        result = _raw_distance(desired, supported)
+        _DISTANCE_CACHE[desired, supported] = result
+        return result
 
+
+def _raw_distance(desired, supported):
     # If these triples match one of the known distances, return that distance.
     # If they share the same last element, remove that last element and keep
     # checking.
@@ -248,8 +260,14 @@ def raw_distance(desired: tuple, supported: tuple):
             return 4
 
     # Most English in the world is closer to UK English than to US English.
+    # However, based on a comment in the languageInfo.xml file, we'll make
+    # US English closer to regions that are US dependencies.
     if d_lang == 'en' and s_lang == 'en' and d_script == s_script:
-        if d_region == 'US' or s_region == 'US':
+        if d_region == 'US' and s_region in ('AS', 'GU', 'MH', 'MP', 'PR', 'UM', 'VI'):
+            return 4
+        elif s_region == 'US' and d_region in ('AS', 'GU', 'MH', 'MP', 'PR', 'UM', 'VI'):
+            return 4
+        elif d_region == 'US' or s_region == 'US':
             return 6
         elif d_region in ('GB', '001'):
             return 4
