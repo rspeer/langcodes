@@ -4,6 +4,7 @@ from langcodes.util import data_filename
 from pathlib import Path
 import json
 import sys
+import pprint
 
 
 def load_registry(db, registry_data, datalang='en'):
@@ -100,17 +101,22 @@ def load_wiktionary_codes(db, datalang, path):
             )
 
 
-def main(db_filename):
+def make_macrolanguage_module(db, path):
+    with path.open('w', encoding='utf-8') as out:
+        code = "MACROLANGUAGES = dict(%s)" % pprint.pformat(db.list_macrolanguages())
+        print(code, file=out)
+
+
+def main():
     # Create the database
-    with LanguageDB(db_filename) as db:
+    with LanguageDB(data_filename('subtags.db')) as db:
         db.setup()
         load_cldr(db, Path(data_filename('cldr')))
         load_registry(db, parse_registry(), 'en')
         load_custom_aliases(db, Path(data_filename('aliases.csv')))
         load_wiktionary_codes(db, 'en', Path(data_filename('wiktionary/codes-en.csv')))
+        make_macrolanguage_module(db, Path(data_filename('../macrolanguages.py')))
 
 
 if __name__ == '__main__':
-    db_filename = sys.argv[1]
-
-    main(db_filename)
+    main()
