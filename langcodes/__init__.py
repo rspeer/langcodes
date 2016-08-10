@@ -105,6 +105,9 @@ class Language:
         self._str_tag = None
         self._dict = None
 
+        # Make sure the str_tag value is cached
+        self.to_tag()
+
     @classmethod
     def make(cls, language=None, extlangs=None, script=None,
              region=None, variants=None, extensions=None, private=None):
@@ -858,7 +861,11 @@ class Language:
         return self._searchable
 
     def __eq__(self, other):
-        return self is other
+        if self is other:
+            return True
+        if not isinstance(other, LanguageData):
+            return False
+        return self._str_tag == other._str_tag
 
     def __hash__(self):
         return hash(id(self))
