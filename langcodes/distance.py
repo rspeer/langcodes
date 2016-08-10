@@ -3,7 +3,7 @@ A helper module for finding the 'distance' between language codes, which is
 used to find the best supported language given a list of desired languages.
 
 This is not meant to be used directly, but to supply the data that the
-Language objects need to measure distance.
+Language objects need to measure match scores.
 """
 
 
@@ -217,13 +217,13 @@ def _raw_distance(desired, supported):
             break
 
     # The wildcard rules are weird and not even the documentation manages to
-    # explain them right. The cases where wildcard matches must be the same
-    # and where they must be different are very poorly described. The
+    # explain them coherently. The cases where wildcard matches must be the
+    # same and where they must be different are very poorly described. The
     # documentation describes a distance between (Portuguese, any-script,
     # Brazil) and (Portuguese, any-other-script, US) where it clearly didn't
-    # mean to say "other", and describes a match between nb-FR and nn-DE
-    # that doesn't follow its stated rules. You have to extrapolate from
-    # the examples what the rules really are.
+    # mean to say "other", and describes a match between nb-FR and nn-DE that
+    # doesn't follow its stated rules. You have to extrapolate from the
+    # examples what the rules really are.
     #
     # I think what they really are is a series of if-statements, so let's
     # implement those.
@@ -231,11 +231,9 @@ def _raw_distance(desired, supported):
     d_lang, d_script, d_region = desired
     s_lang, s_script, s_region = supported
 
-    # I don't get this rule, btw. It's telling me that Amharic speakers
-    # understand British English, and no other sort of English. This sounds
-    # like a bug in the standard, but who am I to fix it.
-    if d_lang == 'am' and s_lang == 'en' and d_script == s_script and s_region == 'GB':
-        return 10
+    # There was a rule here that says that Amharic speakers understand
+    # British English and no other sort of English. This sounds like a glitch
+    # in the generation of languageInfo.xml to me. I'm leaving it out.
 
     # Traditional and Simplified Chinese are closer than other scripts -- but
     # their distance is still very high, as people don't like dealing with the
@@ -308,6 +306,7 @@ def _raw_distance(desired, supported):
             (s_lang, s_script, None)
         ))
     elif d_script is not None:
+        # Non-matching script codes add 40 to the distance.
         if d_script != s_script:
             increment = 40
         else:
@@ -318,5 +317,6 @@ def _raw_distance(desired, supported):
             (s_lang, None, None)
         ))
     else:
+        # Non-matching language codes add 80 to the distance.
         return 80
 
