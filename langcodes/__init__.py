@@ -1061,6 +1061,29 @@ def tag_match_score(desired: str, supported: str) -> int:
     >>> tag_match_score('en', 'ta')   # English speakers generally do not know Tamil.
     0
 
+    CLDR doesn't take into account which languages are considered part of a
+    common 'macrolanguage'. We have this data, so we can use it in matching.
+    If two languages have no other rule that would allow them to match, but
+    share a macrolanguage, they'll get a match score of 20 less than what
+    they would get if the language matched.
+
+    >>> tag_match_score('arz', 'ar')   # Egyptian Arabic to Standard Arabic
+    80
+    >>> tag_match_score('arz', 'ary')  # Egyptian Arabic to Moroccan Arabic
+    76
+
+    Here's an example that has script, region, and language differences, but
+    a macrolanguage in common.
+
+    Written Chinese is usually presumed to be Mandarin Chinese, but colloquial
+    Cantonese can be written as well. When it is, it probably has region,
+    script, and language differences from the usual mainland Chinese. But it is
+    still part of the 'Chinese' macrolanguage, so there is more similarity
+    than, say, comparing Mandarin to Hindi.
+
+    >>> tag_match_score('yue', 'zh')
+    36
+
     Comparing Swiss German ('gsw') to standardized German ('de') shows how
     these scores can be asymmetrical. Swiss German speakers will understand
     German, so the score in that direction is 92. Most German speakers find
@@ -1130,7 +1153,6 @@ def best_match(desired_language: str, supported_languages: list,
     TODO:
 
         - let parentLocales divert the way languages match
-        - allow indirect macrolanguages to match at a suitable cost
     """
     # Quickly return if the desired language is directly supported
     if desired_language in supported_languages:
