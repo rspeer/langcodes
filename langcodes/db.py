@@ -273,7 +273,7 @@ class LanguageDB:
 
     def lookup_name_in_any_language(self, table_name, name):
         return [row for row in self.query(
-            "select subtag, language from {}_name where name == ? "
+            "select subtag, language from {}_name where name == ? order by entry_order"
             .format(table_name),
             name
         )]
