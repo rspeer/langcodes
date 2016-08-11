@@ -9,17 +9,13 @@ https://github.com/LuminosoInsight/langcodes/ . For more specific documentation
 on the functions in langcodes, scroll down and read the docstrings.
 """
 from .tag_parser import parse_tag
-from .db import LanguageDB
+from .db import DB
 from .distance import raw_distance
 from .util import data_filename
 
 # When we're getting natural language information *about* languages, it's in
 # U.S. English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en-US'
-
-# Load the SQLite database that contains the data we need about languages.
-DB = LanguageDB(data_filename('subtags.db'))
-
 
 class AmbiguousError(LookupError):
     """
@@ -522,7 +518,8 @@ class Language:
 
         The algorithm here is described (badly) in a Unicode technical report
         at http://unicode.org/reports/tr35/#LanguageMatching. If you find these
-        results bothersome, take it up with Unicode.
+        results bothersome, take it up with Unicode, unless it's particular
+        tweaks we implemented such as macrolanguage matching.
 
         See :func:`tag_match_score` for a function that works on strings,
         instead of requiring you to instantiate Language objects first.

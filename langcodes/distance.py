@@ -5,7 +5,7 @@ used to find the best supported language given a list of desired languages.
 This is not meant to be used directly, but to supply the data that the
 Language objects need to measure match scores.
 """
-from .macrolanguages import MACROLANGUAGES
+from .db import DB
 
 
 _DISTANCE_CACHE = {}
@@ -318,7 +318,7 @@ def _raw_distance(desired, supported):
             (s_lang, None, None)
         ))
     else:
-        if MACROLANGUAGES.get(d_lang, d_lang) == MACROLANGUAGES.get(s_lang, s_lang):
+        if DB.macrolanguages.get(d_lang, d_lang) == DB.macrolanguages.get(s_lang, s_lang):
             # Codes that share a macrolanguage add 20 to the distance.
             return 20
         else:

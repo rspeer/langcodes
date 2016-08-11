@@ -378,3 +378,7 @@ class LanguageDB:
 
     def __exit__(self, *exc_info):
         self.close()
+
+
+# Load the SQLite database that contains the data we need about languages.
+DB = LanguageDB(data_filename('subtags.db'))
