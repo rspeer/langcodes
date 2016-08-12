@@ -915,8 +915,9 @@ class Language:
         return self.to_tag()
 
 
-# Make the get() and find_name() functions available at the top level
+# Make the get(), find(), and find_name() functions available at the top level
 get = Language.get
+find = Language.find
 find_name = Language.find_name
 
 # Make the Language object available under the old name LanguageData
