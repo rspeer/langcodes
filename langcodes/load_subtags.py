@@ -101,12 +101,6 @@ def load_wiktionary_codes(db, datalang, path):
             )
 
 
-def make_macrolanguage_module(db, path):
-    with path.open('w', encoding='utf-8') as out:
-        code = "MACROLANGUAGES = dict(%s)" % pprint.pformat(db.list_macrolanguages())
-        print(code, file=out)
-
-
 def main():
     # Create the database
     with LanguageDB(data_filename('subtags.db')) as db:
@@ -115,7 +109,6 @@ def main():
         load_registry(db, parse_registry(), 'en')
         load_custom_aliases(db, Path(data_filename('aliases.csv')))
         load_wiktionary_codes(db, 'en', Path(data_filename('wiktionary/codes-en.csv')))
-        make_macrolanguage_module(db, Path(data_filename('../macrolanguages.py')))
 
 
 if __name__ == '__main__':
