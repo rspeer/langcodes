@@ -11,7 +11,6 @@ on the functions in langcodes, scroll down and read the docstrings.
 from .tag_parser import parse_tag
 from .db import DB
 from .distance import raw_distance
-from .util import data_filename
 
 # When we're getting natural language information *about* languages, it's in
 # U.S. English if you don't specify the language.
@@ -69,8 +68,6 @@ class Language:
 
     # Values cached at the class level
     _INSTANCES = {}
-    _DISTANCE_CACHE = {}
-    _LIKELY_VALUES_CACHE = {}
     _PARSE_CACHE = {}
 
     def __init__(self, language=None, extlangs=None, script=None,
