@@ -696,13 +696,13 @@ class Language:
         Sometimes the normalized and un-normalized versions of a language code
         have different descriptions:
 
-        >>> LanguageData.get('mo')
-        LanguageData(language='ro', region='MD')
+        >>> Language.get('mo')
+        Language.make(language='ro', region='MD')
 
-        >>> pprint(LanguageData.get('mo').describe())
+        >>> pprint(Language.get('mo').describe())
         {'language': 'Romanian', 'region': 'Moldova'}
 
-        >>> pprint(LanguageData.get('mo', normalize=False).describe())
+        >>> pprint(Language.get('mo', normalize=False).describe())
         {'language': 'Moldavian'}
         """
         names = {}
