@@ -738,6 +738,16 @@ class Language:
         Traceback (most recent call last):
             ...
         LookupError: Can't find any language named 'norsk bokmal'
+
+        Some langauge names resolve to more than a language. For example,
+        the name 'Brazilian Portuguese' resolves to a language and a region,
+        and 'Simplified Chinese' resolves to a language and a script. In these
+        cases, a Language object with multiple subtags will be returned.
+
+        >>> Language.find_name('language', 'Brazilian Portuguese', 'en')
+        Language.make(language='pt', region='BR')
+        >>> Language.find_name('language', 'Simplified Chinese', 'en')
+        Language.make(language='zh', script='Hans')
         """
         und = Language.make()
         english = Language.make(language='en')
@@ -783,8 +793,26 @@ class Language:
         else:
             # If there are still multiple options, get the most specific one
             best = max(best_options, key=lambda item: item.count('-'))
-            data = {tagtype: best}
-            return Language.make(**data)
+            if '-' in best:
+                return Language.get(best)
+            else:
+                data = {tagtype: best}
+                return Language.make(**data)
+
+    @staticmethod
+    def find(name: str, language: {str, 'Language'}):
+        """
+        A concise version of `find_name`, used to get a language tag by its
+        natural-language name.
+
+        >>> Language.find('Türkçe', 'tr')
+        Language.make(language='tr')
+        >>> Language.find('brazilian portuguese', 'en')
+        Language.make(language='pt', region='BR')
+        >>> Language.find('simplified chinese', 'en')
+        Language.make(language='zh', script='Hans')
+        """
+        return Language.find_name('language', name, language)
 
     def to_dict(self):
         """
@@ -860,7 +888,7 @@ class Language:
     def __eq__(self, other):
         if self is other:
             return True
-        if not isinstance(other, LanguageData):
+        if not isinstance(other, Language):
             return False
         return self._str_tag == other._str_tag
 
