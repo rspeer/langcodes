@@ -119,7 +119,10 @@ class LanguageDB:
                 "CREATE UNIQUE INDEX IF NOT EXISTS {0}_uniq ON {0}(subtag, language, name)".format(table_name)
             )
             self.conn.execute(
-                "CREATE UNIQUE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language, name)".format(table_name)
+                "CREATE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language)".format(table_name)
+            )
+            self.conn.execute(
+                "CREATE INDEX IF NOT EXISTS {0}_lookup_name ON {0}(language, name)".format(table_name)
             )
 
     # Methods for building the database
@@ -133,6 +136,8 @@ class LanguageDB:
         self.conn.execute(template, values)
 
     def add_name(self, table, subtag, datalang, name, order):
+        if name == subtag:
+            return
         self._add_row('%s_name' % table, (subtag, datalang, name, order))
 
         # Handle multiple forms of language names in Chinese
@@ -285,7 +290,7 @@ class LanguageDB:
 
     def lookup_name_in_any_language(self, table_name, name):
         return [row for row in self.query(
-            "select subtag, language from {}_name where name == ? "
+            "select subtag, language from {}_name where name == ? order by entry_order"
             .format(table_name),
             name
         )]
@@ -378,29 +383,6 @@ class LanguageDB:
         )
         return ls_json['supplemental']['likelySubtags']
 
-    @lazy_property
-    def language_matching(self):
-        """
-        Information about the strength of match between certain pairs of
-        languages.
-        """
-        match_json = json.load(
-            open(data_filename('cldr/supplemental/languageMatching.json'))
-        )
-        matches = {}
-        match_data = match_json['supplemental']['languageMatching']['written']
-        for item in match_data:
-            match = item['languageMatch']
-            desired = match['_desired']
-            supported = match['_supported']
-            value = match['_percent']
-            if (desired, supported) not in matches:
-                matches[(desired, supported)] = int(value)
-            if match.get('_oneway') != 'true':
-                if (supported, desired) not in matches:
-                    matches[(supported, desired)] = int(value)
-        return matches
-
     # Using the database as a context manager
     # =======================================
 
@@ -413,3 +395,7 @@ class LanguageDB:
 
     def __exit__(self, *exc_info):
         self.close()
+
+
+# Load the SQLite database that contains the data we need about languages.
+DB = LanguageDB(data_filename('subtags.db'))

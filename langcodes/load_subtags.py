@@ -4,6 +4,7 @@ from langcodes.util import data_filename
 from pathlib import Path
 import json
 import sys
+import pprint
 
 
 def load_registry(db, registry_data, datalang='en'):
@@ -74,13 +75,6 @@ def load_custom_aliases(db, path):
         )
 
 
-def load_bibliographic_aliases(db, path):
-    for line in path.open(encoding='utf-8'):
-        biblio, preferred, name = line.rstrip().split(',', 2)
-        desc = '%s (bibliographic code)' % name
-        db.add_language_mapping(biblio, desc, preferred, False)
-
-
 def load_cldr(db, cldr_path):
     main_path = cldr_path / 'main'
     for subpath in main_path.iterdir():
@@ -90,7 +84,7 @@ def load_cldr(db, cldr_path):
             load_cldr_file(db, 'region', langcode, subpath / 'territories.json')
             load_cldr_file(db, 'script', langcode, subpath / 'scripts.json')
             load_cldr_file(db, 'variant', langcode, subpath / 'variants.json')
-    load_cldr_aliases(db, cldr_path / 'supplemental' / 'metadata.json')
+    load_cldr_aliases(db, cldr_path / 'supplemental' / 'aliases.json')
 
 
 def load_wiktionary_codes(db, datalang, path):
@@ -107,18 +101,15 @@ def load_wiktionary_codes(db, datalang, path):
             )
 
 
-def main(db_filename):
+def main():
     # Create the database
-    with LanguageDB(db_filename) as db:
+    with LanguageDB(data_filename('subtags.db')) as db:
         db.setup()
         load_cldr(db, Path(data_filename('cldr')))
         load_registry(db, parse_registry(), 'en')
-        load_bibliographic_aliases(db, Path(data_filename('bibliographic_codes.csv')))
         load_custom_aliases(db, Path(data_filename('aliases.csv')))
         load_wiktionary_codes(db, 'en', Path(data_filename('wiktionary/codes-en.csv')))
 
 
 if __name__ == '__main__':
-    db_filename = sys.argv[1]
-
-    main(db_filename)
+    main()
