@@ -152,20 +152,37 @@ class LanguageDB:
             'language',
             (subtag, script, is_macro, is_collection, preferred, macrolang)
         )
-        if 'Preferred-Value' in data:
+
+        # If this is a deprecated tag that points to another language
+        # (using a Preferred-Value field), then make sure to add it using
+        # `add_language_mapping`, the same way we would for a 'grandfathered'
+        # or 'redundant' entry.
+        #
+        # For other kinds of subtags, we'll find the mappings we need later in
+        # the CLDR data, but we take language mappings from the IANA data
+        # when we find them because there are more languages in IANA than CLDR.
+        if preferred:
             desc = ';'.join(data.get('Description', []))
             self.add_language_mapping(
-                subtag, desc, data['Preferred-Value'], False
+                subtag, desc, preferred, False
             )
-        else:
-            for i, name in enumerate(data['Description']):
-                self.add_name('language', subtag, datalang, name, i + name_order)
-                # Allow, for example, "Karen" to match "Karen languages", or
-                # "Hakka" to match "Hakka Chinese"
-                if name.endswith(' languages'):
-                    self.add_name('language', subtag, datalang, name[:-10], i + 100)
-                if name.endswith(' Chinese'):
-                    self.add_name('language', subtag, datalang, name[:-8], i + 100)
+
+            # Make sure the names for unnormalized codes rank below all other
+            # ones.
+            name_order += 10000
+        
+        # Even if there's a mapping to another language code, we should still
+        # add its description; it might be the only way we know that name,
+        # such as 'Moldavian'.
+        for i, name in enumerate(data['Description']):
+            self.add_name('language', subtag, datalang, name, i + name_order)
+
+            # Allow, for example, "Karen" to match "Karen languages", or
+            # "Hakka" to match "Hakka Chinese"
+            if name.endswith(' languages'):
+                self.add_name('language', subtag, datalang, name[:-10], i + name_order + 100)
+            if name.endswith(' Chinese'):
+                self.add_name('language', subtag, datalang, name[:-8], i + name_order + 100)
 
     def add_extlang(self, data, _datalang):
         subtag = data['Subtag']

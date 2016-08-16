@@ -579,7 +579,6 @@ class LanguageData:
 
         By default, things are named in English:
 
-        >>> from pprint import pprint
         >>> LanguageData.get('fr').language_name()
         'French'
         >>> LanguageData.get('el').language_name()
@@ -707,6 +706,18 @@ class LanguageData:
 
         >>> pprint(LanguageData.get('lol').fill_likely_values().describe())
         {'language': 'Mongo', 'region': 'Congo - Kinshasa', 'script': 'Latin'}
+
+        Sometimes the normalized and un-normalized versions of a language code
+        have different descriptions:
+
+        >>> LanguageData.get('mo')
+        LanguageData(language='ro', region='MD')
+
+        >>> pprint(LanguageData.get('mo').describe())
+        {'language': 'Romanian', 'region': 'Moldova'}
+
+        >>> pprint(LanguageData.get('mo', normalize=False).describe())
+        {'language': 'Moldavian'}
         """
         names = {}
         if self.language:
