@@ -797,8 +797,9 @@ class Language:
                 "Can't find any %s named %r" % (tagtype, name)
             )
         else:
-            # If there are still multiple options, get the most specific one
-            best = max(best_options, key=lambda item: item.count('-'))
+            # If there are still multiple options, get the most specific one,
+            # then the last one in lexicographic order I guess
+            best = max(best_options, key=lambda item: (item.count('-'), item))
             if '-' in best:
                 return Language.get(best)
             else:
