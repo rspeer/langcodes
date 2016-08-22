@@ -604,15 +604,13 @@ class Language:
         'српски'
         >>> Language.get('pa').autonym()
         'ਪੰਜਾਬੀ'
-        >>> Language.get('pa-Latn').autonym()
-        'Punjabi'
         >>> Language.get('pa-Arab').autonym()
         'پنجابی'
 
         This only works for language codes that CLDR has locale data for. You
         can't ask for the autonym of 'ja-Latn' and get 'nihongo'.
         """
-        return self.language_name(language=self, min_score=75)
+        return self.language_name(language=self, min_score=91)
 
     def script_name(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> str:
         """
