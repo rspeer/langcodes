@@ -153,7 +153,7 @@ Value | Meaning                                                                 
 76-80 | These languages are related by their macrolanguage.                                                           | Moroccan Arabic → Egyptian Arabic
 51-75 | These codes indicate a significant barrier to understanding.                                                  | Japanese → Japanese in Hepburn romanization
 21-50 | These codes are a poor match in multiple ways.                                                                | Hong Kong Cantonese → mainland Mandarin Chinese
- 1-20 | These are different languages.                                                                                | English → French, Arabic → Urdu
+ 1-20 | These are different languages that use the same script.                                                       | English → French, Arabic → Urdu
     0 | These languages have nothing in common.                                                                       | English → Japanese, English → Tamil
 
 See the docstring of `tag_match_score` for more explanation and examples.
