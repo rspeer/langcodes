@@ -143,18 +143,18 @@ Indicating this in the match score requires looking up macrolanguages.
 
 This table summarizes the match values:
 
-Value | Meaning                                                                                         | Example
-----: | :------                                                                                         | :------
-  100 | These codes represent the same language, possibly after filling in values and normalizing.      | Norwegian Bokmål → Norwegian
-96-99 | These codes indicate a minor regional difference.                                               | Australian English → British English
-91-95 | These codes indicate a significant but unproblematic regional difference.                       | American English → British English
-86-90 | These are highly related but different languages, or demographically likely to be understood.   | Afrikaans → Dutch, Tamil → English
-81-85 | These languages are related, but the difference may be problematic.                             | Simplified Chinese → Traditional Chinese
-76-80 | These languages are related by their macrolanguage.                                             | Moroccan Arabic → Egyptian Arabic
-51-75 | These codes indicate a significant barrier to understanding.                                    | Japanese → Japanese in Hepburn romanization
-21-50 | These codes are a poor match in multiple ways.                                                  | Hong Kong Cantonese → mainland Mandarin Chinese
- 1-20 | These are different languages.                                                                  | English → French
-    0 | These languages have nothing in common.                                                         | English → Japanese
+Value | Meaning                                                                                                       | Example
+----: | :------                                                                                                       | :------
+  100 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
+96-99 | These codes indicate a minor regional difference.                                                             | Australian English → British English
+91-95 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
+86-90 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
+81-85 | These languages are related, but the difference may be problematic.                                           | Simplified Chinese → Traditional Chinese
+76-80 | These languages are related by their macrolanguage.                                                           | Moroccan Arabic → Egyptian Arabic
+51-75 | These codes indicate a significant barrier to understanding.                                                  | Japanese → Japanese in Hepburn romanization
+21-50 | These codes are a poor match in multiple ways.                                                                | Hong Kong Cantonese → mainland Mandarin Chinese
+ 1-20 | These are different languages.                                                                                | English → French, Arabic → Urdu
+    0 | These languages have nothing in common.                                                                       | English → Japanese, English → Tamil
 
 See the docstring of `tag_match_score` for more explanation and examples.
 
