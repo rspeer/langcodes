@@ -16,14 +16,6 @@ from .distance import raw_distance
 # U.S. English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en-US'
 
-class AmbiguousError(LookupError):
-    """
-    Raised when there is more than one subtag matching a given natural
-    language name.
-    """
-    pass
-
-
 class Language:
     """
     The Language class defines the results of parsing a language tag.
@@ -722,8 +714,7 @@ class Language:
         This is not a particularly powerful full-text search. It ignores case, but
         otherwise it expects the name to appear exactly the way it does in one of
         the databases that langcodes uses. If the exact name isn't found, you get a
-        LookupError. If more than one subtag is found with the same name, you get
-        an AmbiguousError.
+        LookupError.
 
         The `language` parameter is the language code or Language object
         representing the language that you're providing the name in.
