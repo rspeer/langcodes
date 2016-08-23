@@ -707,7 +707,7 @@ class Language:
         return names
 
     @staticmethod
-    def find_name(tagtype: str, name: str, language: {str, 'Language'}):
+    def find_name(tagtype: str, name: str, language: {str, 'Language', None}=None):
         """
         Find the subtag of a particular `tagtype` that has the given `name`.
 
@@ -716,22 +716,24 @@ class Language:
         the databases that langcodes uses. If the exact name isn't found, you get a
         LookupError.
 
-        The `language` parameter is the language code or Language object
-        representing the language that you're providing the name in.
+        This method used to require a `language` parameter, when it was possible to
+        get different results based on what language the name you were looking up
+        was in. Names are now an unambiguous many-to-one mapping, and the `language`
+        parameter is ignored.
 
-        >>> Language.find_name('language', 'francés', 'es')
+        >>> Language.find_name('language', 'francés')
         Language.make(language='fr')
 
-        >>> Language.find_name('region', 'United Kingdom', Language.get('en'))
+        >>> Language.find_name('region', 'United Kingdom')
         Language.make(region='GB')
 
-        >>> Language.find_name('script', 'Arabic', 'en')
+        >>> Language.find_name('script', 'Arabic')
         Language.make(script='Arab')
 
-        >>> Language.find_name('language', 'norsk bokmål', 'no')
+        >>> Language.find_name('language', 'norsk bokmål')
         Language.make(language='nb')
 
-        >>> Language.find_name('language', 'norsk bokmal', 'no')
+        >>> Language.find_name('language', 'norsk bokmal')
         Traceback (most recent call last):
             ...
         LookupError: Can't find any language named 'norsk bokmal'
@@ -746,71 +748,27 @@ class Language:
         >>> Language.find_name('language', 'Simplified Chinese', 'en')
         Language.make(language='zh', script='Hans')
         """
-        und = Language.make()
-        english = Language.make(language='en')
-
-        options = DB.lookup_name_in_any_language(tagtype, name)
-        if isinstance(language, Language):
-            target_language = language
+        code = DB.lookup_name(tagtype, name)
+        if '-' in code:
+            return Language.get(code)
         else:
-            target_language = Language.get(language)
-        best_options = []
-        best_score = 40
-
-        for subtag, langcode in options:
-            data_language = Language.get(langcode)
-            if data_language == und:
-                # We don't want to match the language codes themselves.
-                continue
-
-            score = target_language.match_score(Language.get(langcode))
-
-            # Languages are often named in English, even when speaking in
-            # other languages
-            if data_language == english and score < 50:
-                score = 50
-
-            # semi-secret trick: if you just want to match this name in whatever
-            # language it's in, use 'und' as the language. This isn't in the
-            # docstring because it's possibly a bad idea and possibly subject to
-            # change.
-            if target_language == und:
-                score = 100
-
-            if score > best_score:
-                best_score = score
-                best_options = [subtag]
-            elif score == best_score:
-                best_options.append(subtag)
-
-        if len(best_options) == 0:
-            raise LookupError(
-                "Can't find any %s named %r" % (tagtype, name)
-            )
-        else:
-            # If there are still multiple options, get the most specific one,
-            # then the last one in lexicographic order I guess
-            best = max(best_options, key=lambda item: (item.count('-'), item))
-            if '-' in best:
-                return Language.get(best)
-            else:
-                data = {tagtype: best}
-                return Language.make(**data)
+            data = {tagtype: code}
+            return Language.make(**data)
 
     @staticmethod
-    def find(name: str, language: {str, 'Language'}):
+    def find(name: str):
         """
         A concise version of `find_name`, used to get a language tag by its
-        natural-language name.
+        name in any natural language.
 
-        >>> Language.find('Türkçe', 'tr')
+        >>> Language.find('Türkçe')
         Language.make(language='tr')
-        >>> Language.find('brazilian portuguese', 'en')
+        >>> Language.find('brazilian portuguese')
         Language.make(language='pt', region='BR')
-        >>> Language.find('simplified chinese', 'en')
+        >>> Language.find('simplified chinese')
         Language.make(language='zh', script='Hans')
         """
-        return Language.find_name('language', name, language)
+        return Language.find_name('language', name)
 
     def to_dict(self):
         """
@@ -1080,8 +1038,10 @@ def tag_match_score(desired: str, supported: str) -> int:
     56
 
     When there is no indication the supported language will be understood, the
-    score bottoms out at 0.
+    score will be 20 or less, to a minimum of 0.
 
+    >>> tag_match_score('es', 'fr')   # Spanish and French are different.
+    16
     >>> tag_match_score('en', 'ta')   # English speakers generally do not know Tamil.
     0
 

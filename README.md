@@ -348,14 +348,13 @@ you language names in the 196 languages that CLDR supports.
 
 As the reverse of the above operation, you may want to look up a language by
 its name, converting a natural language name such as "French" to a code such as
-'fr'. You need to specify which language the name is in using its language
-code.
+'fr'. The name can be in any language that CLDR supports.
 
 ```python
->>> langcodes.find('french', 'en')
+>>> langcodes.find('french')
 Language.make(language='fr')
 
->>> langcodes.find('francés', 'es')
+>>> langcodes.find('francés')
 Language.make(language='fr')
 ```
 
