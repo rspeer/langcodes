@@ -576,7 +576,7 @@ class Language:
         """
         return self._get_name('language', language, min_score)
 
-    def autonym(self) -> str:
+    def autonym(self, min_score: int=75) -> str:
         """
         Give the name of this language *in* this language.
 
@@ -602,7 +602,7 @@ class Language:
         This only works for language codes that CLDR has locale data for. You
         can't ask for the autonym of 'ja-Latn' and get 'nihongo'.
         """
-        return self.language_name(language=self, min_score=91)
+        return self.language_name(language=self, min_score=min_score)
 
     def script_name(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> str:
         """
