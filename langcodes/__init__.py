@@ -11,10 +11,12 @@ on the functions in langcodes, scroll down and read the docstrings.
 from .tag_parser import parse_tag
 from .db import DB
 from .distance import raw_distance
+import warnings
 
 # When we're getting natural language information *about* languages, it's in
 # U.S. English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en-US'
+
 
 class Language:
     """
@@ -495,6 +497,8 @@ class Language:
             "Couldn't fill in likely values. This represents a problem with "
             "DB.likely_subtags."
         )
+
+    # Support an old, wordier name for the method
     fill_likely_values = maximize
 
     def match_score(self, supported: 'Language') -> int:
@@ -719,7 +723,7 @@ class Language:
         This method used to require a `language` parameter, when it was possible to
         get different results based on what language the name you were looking up
         was in. Names are now an unambiguous many-to-one mapping, and the `language`
-        parameter is ignored.
+        parameter is ignored and causes a PendingDeprecationWarning.
 
         >>> Language.find_name('language', 'francés')
         Language.make(language='fr')
@@ -748,6 +752,12 @@ class Language:
         >>> Language.find_name('language', 'Simplified Chinese', 'en')
         Language.make(language='zh', script='Hans')
         """
+        if language is not None:
+            warnings.warn(
+                "find_name no longer requires or uses the `language` parameter.",
+                PendingDeprecationWarning
+            )
+
         code = DB.lookup_name(tagtype, name)
         if '-' in code:
             return Language.get(code)
@@ -989,8 +999,6 @@ def tag_match_score(desired: str, supported: str) -> int:
     >>> # European Portuguese is different from the most common form (Brazilian Portuguese)
     >>> tag_match_score('pt', 'pt-PT')
     92
-    >>> # Norwegian Bokmål and Danish are basically regional varieties of the same language
-    92
 
     A score of 86 to 90 indicates that people who use the desired language
     are demographically likely to understand the supported language, even if
@@ -1002,15 +1010,18 @@ def tag_match_score(desired: str, supported: str) -> int:
     >>> tag_match_score('mg', 'fr')  # Malagasy to French
     86
 
-    This is also used for highly related languages with a noticeable distinction,
-    such as Indonesian and Malay, or the two written forms of Norwegian.
+    Sometimes it's more straightforward than that: people who use the desired
+    language are demographically likely to understand the supported language
+    because it's demographically relevant and highly related.
 
-    >>> tag_match_score('nn', 'nb')  # Nynorsk to Norwegian Bokmål
-    90
-    >>> tag_match_score('ms', 'id')  # Malay to Indonesian
-    86
     >>> tag_match_score('af', 'nl')  # Afrikaans to Dutch
     86
+    >>> tag_match_score('ms', 'id')  # Malay to Indonesian
+    86
+    >>> tag_match_score('nn', 'nb')  # Nynorsk to Norwegian Bokmål
+    90
+    >>> tag_match_score('nb', 'da')  # Norwegian Bokmål to Danish
+    88
 
     A score of 80 to 85 indicates a particularly contentious difference in
     script, where people who understand one script can learn the other but

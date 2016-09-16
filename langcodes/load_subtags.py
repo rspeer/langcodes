@@ -3,8 +3,6 @@ from langcodes.db import LanguageDB
 from langcodes.util import data_filename
 from pathlib import Path
 import json
-import sys
-import pprint
 
 
 def load_registry(db, registry_data, datalang='en'):
