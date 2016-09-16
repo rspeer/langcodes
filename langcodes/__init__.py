@@ -281,7 +281,7 @@ class Language:
         >>> str(Language.make(region='IN'))
         'und-IN'
         """
-        if self._str_tag:
+        if self._str_tag is not None:
             return self._str_tag
         subtags = ['und']
         if self.language:
