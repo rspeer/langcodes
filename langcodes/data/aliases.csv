@@ -42,6 +42,7 @@ language,de,vec,Venezianisch
 language,de,tvl,Tuvaluisch
 language,sh,sh,Srpskohrvatski
 language,la,la,Lingua latina
+language,ceb,ceb,Sinugbuanong Binisayâ
 language,ceb,ceb,Bisayâ
 language,ceb,ceb,Bisaya
 language,lah,lah,لہندا پنجابی
@@ -49,5 +50,16 @@ language,bho,bho,भोजपुरी
 language,ang,ang,Ænglisc
 language,vo,vo,Volapük
 language,io,io,Ido
+language,jbo,jbo,lojban
+language,jbo,jbo,lojbau
 language,rup,rup,armãneashti
 language,nv,nv,Diné bizaad
+language,zh-Hant,nan,閩南語
+language,zh-Hans,nan,闽南语
+language,nan-Latn,nan,Bân-lâm-gú
+language,zh-Hant,hak,客家語
+language,zh-Hans,hak,客家语
+language,ilo,ilo,Ilokano
+language,hil,hil,Ilonggo
+language,nah,nah,Nāhuatl
+language,tpi,tpi,Tok Pisin
