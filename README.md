@@ -39,14 +39,8 @@ acronym-compliant.
 
 langcodes implements [BCP 47](http://tools.ietf.org/html/bcp47), the IETF Best
 Current Practices on Tags for Identifying Languages. BCP 47 is also known as
-RFC 5646. It subsumes standards such as ISO 639.
-
-langcodes also implements recommendations from the [Unicode
-CLDR](http://cldr.unicode.org), but because CLDR is narrower than BCP 47, it
-lets you go against those recommendations if you want to. In particular, CLDR
-equates macrolanguages such as Chinese (`zh`) with their most common
-sub-language, such as Mandarin (`cmn`). langcodes lets you smash those
-together, but it also lets you make the distinction.
+RFC 5646. It subsumes standards such as ISO 639, and it also implements
+recommendations from the [Unicode CLDR](http://cldr.unicode.org).
 
 The package also comes with a database of language properties and names, built
 from CLDR and the IANA subtag registry.
@@ -135,132 +129,35 @@ The `tag_match_score` function returns a number from 0 to 100 indicating the
 strength of match between the language the user desires and a supported
 language.
 
-This is very similar to the 1-100 scale that CLDR uses, but we've added some
-scale steps to enable comparing languages within macrolanguages. So this
-function does not purport to return exactly the same results as another package
-built on CLDR, such as ICU. It just uses the same source data. The specific
-values aren't standardized the way BCP 47 is, anyway.
+This is very similar to the scale that CLDR uses, but we've added the ability
+to compare languages within macrolanguages. So this function does not purport
+to return exactly the same results as another package built on CLDR, such as
+ICU. It just uses the same source data. The specific values are only very
+vaguely standardized anyway.
 
-For example, without handling macrolanguages, CLDR would suggest that Cantonese
-and Mandarin are a worse match than Tamil and English. This function disagrees.
+For example, Moroccan Arabic and Egyptian Arabic may not be fully mutually
+intelligible, but they are a far better match than Moroccan Arabic and Urdu.
+Indicating this in the match score requires looking up macrolanguages.
 
 ### Match values
 
 This table summarizes the match values:
 
-Value | Meaning
-----: | :------
-  100 | These codes represent the same language.
-   99 | These codes represent the same language after filling in values and normalizing.
-97-98 | There's a regional difference that should be unproblematic, such as using British English instead of Australian English.
-   96 | There's a regional difference that may noticeably affect the language, such as Brazilian Portuguese instead of European Portuguese.
-   90 | These are somewhat different languages with a considerable amount of overlap, such as Norwegian and Danish.
-   85 | The supported script is not quite the desired one, but should be understandable: for example, giving Traditional Chinese when Simplified Chinese is desired.
-   75 | The supported script is not the desired one, and may not be entirely understandable: for example, giving Simplified Chinese where Traditional Chinese is desired.
-   50 | These are different languages within the same macrolanguage, such as Cantonese vs. Mandarin.
-37-49 | These are different languages within the same macrolanguage, plus other differences: for example, Hong Kong Cantonese vs. mainland Mandarin Chinese.
-   20 | The supported script is different from the desired one, and that will probably make the text difficult to understand.
-   10 | These are different languages. There is some reason to believe, demographically, that those who understand the desired language will understand some of the supported language.
-    0 | There is no apparent way that these language codes match.
+Value | Meaning                                                                                                       | Example
+----: | :------                                                                                                       | :------
+  100 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
+96-99 | These codes indicate a minor regional difference.                                                             | Australian English → British English
+91-95 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
+86-90 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
+81-85 | These languages are related, but the difference may be problematic.                                           | Simplified Chinese → Traditional Chinese
+76-80 | These languages are related by their macrolanguage.                                                           | Moroccan Arabic → Egyptian Arabic
+51-75 | These codes indicate a significant barrier to understanding.                                                  | Japanese → Japanese in Hepburn romanization
+21-50 | These codes are a poor match in multiple ways.                                                                | Hong Kong Cantonese → mainland Mandarin Chinese
+ 1-20 | These are different languages that use the same script.                                                       | English → French, Arabic → Urdu
+    0 | These languages have nothing in common.                                                                       | English → Japanese, English → Tamil
 
-### Language matching examples
+See the docstring of `tag_match_score` for more explanation and examples.
 
-```python
->>> tag_match_score('en', 'en')
-100
-```
-
-U.S. English is a likely match for English in general.
-
-```python
->>> tag_match_score('en', 'en-US')
-99
-```
-
-British English and Indian English are related, but Indian English users are
-more likely to expect British English than the other way around.
-
-```python
->>> tag_match_score('en-IN', 'en-GB')
-98
-
->>> tag_match_score('en-GB', 'en-IN')
-97
-```
-
-Peruvian Spanish is a part of Latin American Spanish.
-
-```python
->>> tag_match_score('es-PR', 'es-419')
-98
-```
-
-European Portuguese is a bit different from the most likely dialect, which is
-Brazilian.
-
-```python
->>> tag_match_score('pt', 'pt-PT')
-96
-```
-
-Swiss German speakers will understand standard German.
-
-```python
->>> tag_match_score('gsw', 'de')
-96
-```
-
-But the above mapping is one-way -- CLDR believes that anything tagged as Swiss
-German would be foreign to most German speakers.
-
-```python
->>> tag_match_score('de', 'gsw')
-0
-```
-
-Norwegian Bokmål is like Danish.
-
-```python
->>> tag_match_score('no', 'da')
-90
-```
-
-Serbian language users will usually understand Serbian in its other script.
-
-```python
->>> tag_match_score('sr-Latn', 'sr-Cyrl')
-90
-```
-
-Even if you disregard differences in usage between Cantonese and Mandarin,
-Mainland China and Hong Kong use different scripts.
-
-```python
->>> tag_match_score('zh-HK', 'zh-CN')
-75
-```
-
-If you explicitly specify Cantonese, the difference becomes greater:
-
-```python
->>> tag_match_score('yue-HK', 'zh-CN')
-37
-```
-
-Japanese can be written in Roman letters using the Hepburn system, but this is
-not the typical way to read Japanese:
-
-```python
->>> tag_match_score('ja', 'ja-Latn-US-hepburn')
-20
-```
-
-Afrikaans speakers can sort of understand Dutch:
-
-```python
->>> tag_match_score('af', 'nl')
-10
-```
 
 ### Finding the best matching language
 
@@ -290,32 +187,34 @@ scroll down and learn about the `language_name` method!)
 ('sr-Latn', 100)
 
 >>> best_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
-('cmn-Hans', 99)
+('cmn-Hans', 100)
 
 >>> best_match('pt', ['pt-BR', 'pt-PT'])
-('pt-BR', 99)
+('pt-BR', 100)
 
 >>> best_match('en-AU', ['en-GB', 'en-US'])
-('en-GB', 99)
+('en-GB', 96)
+
+>>> best_match('af', ['en', 'nl', 'zu'])
+('nl', 86)
 
 >>> best_match('id', ['zsm', 'mhp'])
-('zsm', 90)
+('zsm', 76)
 
->>> best_match('eu', ['el', 'en', 'es'])
+>>> best_match('ja-Latn-hepburn', ['ja', 'en'])
 ('und', 0)
 
->>> best_match('eu', ['el', 'en', 'es'], min_score=10)
-('es', 10)
+>>> best_match('ja-Latn-hepburn', ['ja', 'en'], min_score=50)
+('ja', 60)
 ```
 
-## LanguageData objects
+## Language objects
 
-This package defines one class, named LanguageData, which contains the results
-of parsing a language tag. LanguageData objects have the following fields,
+This package defines one class, named Language, which contains the results
+of parsing a language tag. Language objects have the following fields,
 any of which may be unspecified:
 
 - *language*: the code for the language itself.
-- *macrolanguage*: a code for a broader language that contains that language.
 - *script*: the 4-letter code for the writing system being used.
 - *region*: the 2-letter or 3-digit code for the country or similar region
   whose usage of the language appears in this text.
@@ -327,52 +226,55 @@ any of which may be unspecified:
   some specific system, such as Unicode collation orders.
 - *private*: a code starting with `x-` that has no defined meaning.
 
-The `LanguageData.get` method converts a string to a LanguageData instance.
+The `Language.get` method converts a string to a Language instance, and the
+`Language.make` method makes a Language instance from its fields.  These values
+are cached so that calling `Language.get` or `Language.make` again with the
+same values returns the same object, for efficiency.
 
 By default, it will replace non-standard and overlong tags as it interprets
 them. To disable this feature and get the codes that literally appear in the
 language tag, use the *normalize=False* option.
 
 ```python
->>> LanguageData.get('en-Latn-US')
-LanguageData(language='en', script='Latn', region='US')
+>>> Language.get('en-Latn-US')
+Language.make(language='en', script='Latn', region='US')
 
->>> LanguageData.get('sgn-US', normalize=False)
-LanguageData(language='sgn', region='US')
+>>> Language.get('sgn-US', normalize=False)
+Language.make(language='sgn', region='US')
 
->>> LanguageData.get('und')
-LanguageData()
+>>> Language.get('und')
+Language.make()
 ```
 
 Here are some examples of replacing non-standard tags:
 
 ```python
->>> LanguageData.get('sh-QU')
-LanguageData(language='sr', macrolanguage='sh', script='Latn', region='EU')
+>>> Language.get('sh-QU')
+Language.make(language='sr', script='Latn', region='EU')
 
->>> LanguageData.get('sgn-US')
-LanguageData(language='ase')
+>>> Language.get('sgn-US')
+Language.make(language='ase')
 
->>> LanguageData.get('zh-cmn-Hant')  # promote extlangs to languages
-LanguageData(language='cmn', macrolanguage='zh', script='Hant')
+>>> Language.get('zh-cmn-Hant')  # promote extlangs to languages
+Language.make(language='cmn', script='Hant')
 ```
 
-Use the `str()` function on a LanguageData object to convert it back to its
+Use the `str()` function on a Language object to convert it back to its
 standard string form:
 
 ```python
->>> str(LanguageData.get('sh-QU'))
+>>> str(Language.get('sh-QU'))
 'sr-Latn-EU'
 
->>> str(LanguageData(region='IN'))
+>>> str(Language.make(region='IN'))
 'und-IN'
 ```
 
-### Describing LanguageData objects in natural language
+### Describing Language objects in natural language
 
 It's often helpful to be able to describe a language code in a way that a user
 (or you) can understand, instead of in inscrutable short codes. The
-`language_name` method lets you describe a LanguageData object *in a language*.
+`language_name` method lets you describe a Language object *in a language*.
 
 The `.language_name(language, min_score)` method will look up the name of the
 language. The names come from the IANA language tag registry, which is only in
@@ -381,30 +283,30 @@ English, plus CLDR, which names languages in many commonly-used languages.
 The default language for naming things is English:
 
 ```python
->>> LanguageData(language='fr').language_name()
+>>> Language.make(language='fr').language_name()
 'French'
 ```
 
 But you can ask for language names in numerous other languages:
 
 ```python
->>> LanguageData(language='fr').language_name('fr')
+>>> Language.get('fr').language_name('fr')
 'français'
 
->>> LanguageData.get('fr').language_name('es')
+>>> Language.get('fr').language_name('es')
 'francés'
 ```
 
 Why does everyone get Slovak and Slovenian confused? Let's ask them.
 
 ```python
->>> LanguageData(language='sl').language_name('sl')
+>>> Language.make(language='sl').language_name('sl')
 'slovenščina'
->>> LanguageData(language='sk').language_name('sk')
+>>> Language.make(language='sk').language_name('sk')
 'slovenčina'
->>> LanguageData(language='sl').language_name('sk')
+>>> Language.make(language='sl').language_name('sk')
 'slovinčina'
->>> LanguageData(language='sk').language_name('sl')
+>>> Language.make(language='sk').language_name('sl')
 'slovaščina'
 ```
 
@@ -412,16 +314,16 @@ Naming a language in itself is sometimes a useful thing to do, so the
 `.autonym()` method makes this easy:
 
 ```python
->>> LanguageData.get('fr').autonym()
+>>> Language.get('fr').autonym()
 'français'
->>> LanguageData.get('es').autonym()
+>>> Language.get('es').autonym()
 'español'
->>> LanguageData.get('ja').autonym()
+>>> Language.get('ja').autonym()
 '日本語'
->>> LanguageData.get('sr-Latn').autonym()
+>>> Language.get('sr-Latn').autonym()
 'srpski'
->>> LanguageData.get('sr-Cyrl').autonym()
-'Српски'
+>>> Language.get('sr-Cyrl').autonym()
+'српски'
 ```
 
 These names only apply to the language part of the language tag. You can
@@ -429,7 +331,7 @@ also get names for other parts with `.script_name()`, `.region_name()`,
 or `.variant_names()`, or get all the names at once with `.describe()`.
 
 ```python
->>> shaw = LanguageData.get('en-Shaw-GB')
+>>> shaw = Language.get('en-Shaw-GB')
 >>> pprint(shaw.describe('en'))
 {'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
 
@@ -438,62 +340,27 @@ or `.variant_names()`, or get all the names at once with `.describe()`.
 ```
 
 The names come from the Unicode CLDR data files, and in English they can
-also come from the IANA language subtag registry. Internally, this code
-uses the `best_match()` function to line up the language you asked for with
-the languages that CLDR supports, which are:
-
-* Arabic (`ar`)
-* Catalan (`ca`)
-* Czech (`cz`)
-* Danish (`da`)
-* German (`de`)
-* Greek (`el`)
-* English (`en`), particularly U.S. English (`en-US`) and U.K. English (`en-GB`)
-* Spanish (`es`)
-* Finnish (`fi`)
-* French (`fr`)
-* Hebrew (`he`)
-* Hindi (`hi`)
-* Croatian (`hr`)
-* Hungarian (`hu`)
-* Italian (`it`)
-* Japanese (`ja`)
-* Korean (`ko`)
-* Norwegian Bokmål (`nb`)
-* Dutch (`nl`)
-* Polish (`pl`)
-* Portuguese (`pt`), particularly Brazilian Portuguese (`pt-BR`) and European Portuguese (`pt-PT`)
-* Romanian/Moldavian (`ro`)
-* Russian (`ru`)
-* Slovak (`sk`)
-* Slovenian (`sl`)
-* Serbian (`sr`)
-* Swedish (`sv`)
-* Thai (`th`)
-* Turkish (`tr`)
-* Ukrainian (`uk`)
-* Vietnamese (`vi`)
-* Chinese in simplified script (`zh-Hans`)
-* Chinese in traditional script (`zh-Hant`)
+also come from the IANA language subtag registry. Together, they can give
+you language names in the 196 languages that CLDR supports.
 
 
 ### Recognizing language names in natural language
 
 As the reverse of the above operation, you may want to look up a language by
 its name, converting a natural language name such as "French" to a code such as
-'fr'. You need to specify which language the name is in using its language
-code.
+'fr'. The name can be in any language that CLDR supports.
 
 ```python
->>> langcodes.find_name('language', 'french', 'en')
-LanguageData(language='fr')
+>>> langcodes.find('french')
+Language.make(language='fr')
 
->>> langcodes.find_name('language', 'francés', 'es')
-LanguageData(language='fr')
+>>> langcodes.find('francés')
+Language.make(language='fr')
 ```
 
-This would need significantly better fuzzy matching to work in general. It at least
-works with hundreds of language names that are used on en.wiktionary.org.
+There is still room to improve this using fuzzy matching, when a language is
+not consistently named the same way. The method currently works with hundreds of
+language names that are used on en.wiktionary.org.
 
 
 ## The Python 2 backport
@@ -514,7 +381,7 @@ backport. It's in the "py2" branch of this repository, and it's on PyPI as
 
 * The Py3 version uses Unicode strings consistently. The Py2 version is
   sometimes forced to give you bytestrings, such as when you call the `str()`
-  function on a LanguageData object.
+  function on a Language object.
 
 
 ## Further API documentation

@@ -119,7 +119,10 @@ class LanguageDB:
                 "CREATE UNIQUE INDEX IF NOT EXISTS {0}_uniq ON {0}(subtag, language, name)".format(table_name)
             )
             self.conn.execute(
-                "CREATE UNIQUE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language, name)".format(table_name)
+                "CREATE INDEX IF NOT EXISTS {0}_lookup ON {0}(subtag, language)".format(table_name)
+            )
+            self.conn.execute(
+                "CREATE INDEX IF NOT EXISTS {0}_lookup_name ON {0}(name)".format(table_name)
             )
 
     # Methods for building the database
@@ -133,6 +136,8 @@ class LanguageDB:
         self.conn.execute(template, values)
 
     def add_name(self, table, subtag, datalang, name, order):
+        if name == subtag:
+            return
         self._add_row('%s_name' % table, (subtag, datalang, name, order))
 
         # Handle multiple forms of language names in Chinese
@@ -170,17 +175,14 @@ class LanguageDB:
             # Make sure the names for unnormalized codes rank below all other
             # ones.
             name_order += 10000
-        
+
         # Even if there's a mapping to another language code, we should still
         # add its description; it might be the only way we know that name,
         # such as 'Moldavian'.
         for i, name in enumerate(data['Description']):
             self.add_name('language', subtag, datalang, name, i + name_order)
 
-            # Allow, for example, "Karen" to match "Karen languages", or
-            # "Hakka" to match "Hakka Chinese"
-            if name.endswith(' languages'):
-                self.add_name('language', subtag, datalang, name[:-10], i + name_order + 100)
+            # Allow, for example, "Hakka" to match "Hakka Chinese"
             if name.endswith(' Chinese'):
                 self.add_name('language', subtag, datalang, name[:-8], i + name_order + 100)
 
@@ -270,39 +272,42 @@ class LanguageDB:
                 results[language] = name
         return results
 
-    def lookup_name(self, table_name, name, language):
+    def lookup_name(self, table_name, name):
         """
-        Given a table name ('language', 'script', 'region', or 'variant'),
-        map a name of one of those things to a code.
+        Formerly `lookup_name_in_any_language`. Given a natural-language name,
+        find the code that it refers to. `table_name` can be 'language',
+        'script', or 'region'.
 
-        Returns a list of matching codes, which there should be 0 or 1 of.
+        We no longer care about the language we're supposed to find the
+        language name in, because there are no longer ambiguities that
+        depend on the language. "French" only ever refers to one language,
+        as does "francés" or "français".
         """
-        return [row[0] for row in self.query(
-            "select subtag from {}_name where language == ? and "
-            "name == ?".format(table_name),
-            language, name
-        )]
-
-    def lookup_name_in_any_language(self, table_name, name):
-        return [row for row in self.query(
-            "select subtag, language from {}_name where name == ? "
+        rows = [row for row in self.query(
+            "select subtag from {}_name where name == ? order by entry_order, language limit 1"
             .format(table_name),
             name
         )]
+        if not rows:
+            raise LookupError("Can't find any %s named %r" % (table_name, name))
+        else:
+            return rows[0][0]
 
-    def lookup_name_prefix(self, table_name, name, language):
+    def lookup_name_multiple(self, table_name, name):
         """
-        Given a table name ('language', 'script', 'region', or 'variant'),
-        map a prefix of a name of one of those things to a code.
-
-        Returns a list of matching codes, which there may be more than one of
-        in case of ambiguity.
+        Return all of the best-matching rows in a table of names.  Used for
+        testing that name lookups are never ambiguous.
         """
-        return self.query(
-            "select subtag, name from {}_name where language == ? and "
-            "(name == ? or name like ?)".format(table_name),
-            language, name, name + '%'
-        )
+        rows = [row for row in self.query(
+            "select subtag, language, entry_order from {}_name where name == ? order by entry_order"
+            .format(table_name),
+            name
+        )]
+        if not rows:
+            return []
+        else:
+            best_rank = min([row[2] for row in rows])
+            return [row for row in rows if row[2] == best_rank]
 
     # Cached dictionaries of information
     # ==================================
@@ -378,29 +383,6 @@ class LanguageDB:
         )
         return ls_json['supplemental']['likelySubtags']
 
-    @lazy_property
-    def language_matching(self):
-        """
-        Information about the strength of match between certain pairs of
-        languages.
-        """
-        match_json = json.load(
-            open(data_filename('cldr/supplemental/languageMatching.json'))
-        )
-        matches = {}
-        match_data = match_json['supplemental']['languageMatching']['written']
-        for item in match_data:
-            match = item['languageMatch']
-            desired = match['_desired']
-            supported = match['_supported']
-            value = match['_percent']
-            if (desired, supported) not in matches:
-                matches[(desired, supported)] = int(value)
-            if match.get('_oneway') != 'true':
-                if (supported, desired) not in matches:
-                    matches[(supported, desired)] = int(value)
-        return matches
-
     # Using the database as a context manager
     # =======================================
 
@@ -413,3 +395,7 @@ class LanguageDB:
 
     def __exit__(self, *exc_info):
         self.close()
+
+
+# Load the SQLite database that contains the data we need about languages.
+DB = LanguageDB(data_filename('subtags.db'))
