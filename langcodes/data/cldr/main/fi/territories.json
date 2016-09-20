@@ -3,11 +3,8 @@
     "fi": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
-        },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
         "language": "fi"
       },
@@ -51,7 +48,6 @@
           "AI": "Anguilla",
           "AL": "Albania",
           "AM": "Armenia",
-          "AN": "Alankomaiden Antillit",
           "AO": "Angola",
           "AQ": "Antarktis",
           "AR": "Argentiina",
@@ -91,7 +87,7 @@
           "CG-alt-variant": "Kongo-Brazzaville",
           "CH": "Sveitsi",
           "CI": "Norsunluurannikko",
-          "CI-alt-variant": "Côte d'Ivoire",
+          "CI-alt-variant": "Côte d’Ivoire",
           "CK": "Cookinsaaret",
           "CL": "Chile",
           "CM": "Kamerun",
@@ -129,7 +125,7 @@
           "FO": "Färsaaret",
           "FR": "Ranska",
           "GA": "Gabon",
-          "GB": "Yhdistynyt kuningaskunta",
+          "GB": "Iso-Britannia",
           "GB-alt-short": "Britannia",
           "GD": "Grenada",
           "GE": "Georgia",
@@ -276,7 +272,7 @@
           "TA": "Tristan da Cunha",
           "TC": "Turks- ja Caicossaaret",
           "TD": "Tšad",
-          "TF": "Ranskan ulkopuoliset eteläiset alueet",
+          "TF": "Ranskan eteläiset alueet",
           "TG": "Togo",
           "TH": "Thaimaa",
           "TJ": "Tadžikistan",

@@ -3,34 +3,36 @@
     "zh": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "zh"
       },
       "localeDisplayNames": {
         "variants": {
-          "1606NICT": "1606 年前中后期法文",
-          "1694ACAD": "早期现代法文",
           "1901": "传统德文拼字",
-          "1959ACAD": "学术",
           "1994": "标准雷西亚拼字",
           "1996": "1996 年德文拼字",
+          "1606NICT": "1606 年前中后期法文",
+          "1694ACAD": "早期现代法文",
+          "1959ACAD": "学术",
+          "ABL1943": "ABL1943",
           "ALALC97": "1997 版 ALA-LC 罗马字",
           "ALUKU": "阿鲁库方言",
+          "AO1990": "AO1990",
           "AREVELA": "东亚美尼亚文",
           "AREVMDA": "西亚美尼亚文",
           "BAKU1926": "统一土耳其拉丁字母",
           "BALANKA": "BALANKA",
           "BARLA": "BARLA",
+          "BASICENG": "BASICENG",
           "BAUDDHA": "佛陀梵文",
           "BISCAYAN": "比斯开方言",
           "BISKE": "圣乔治/比拉方言",
           "BOHORIC": "BOHORIC",
           "BOONT": "布恩特林方言",
+          "COLB1945": "COLB1945",
+          "CORNU": "CORNU",
           "DAJNKO": "DAJNKO",
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
@@ -44,6 +46,7 @@
           "JAUER": "米施泰尔方言",
           "JYUTPING": "粤语拼音",
           "KKCOR": "常用拼字",
+          "KOCIEWIE": "KOCIEWIE",
           "KSCOR": "KSCOR",
           "LAUKIKA": "传统梵文",
           "LIPAW": "雷西亚 Lipovaz 方言",
@@ -52,9 +55,11 @@
           "MONOTON": "单音字母",
           "NDYUKA": "Ndyuka 方言",
           "NEDIS": "Natisone 方言",
+          "NEWFOUND": "NEWFOUND",
           "NJIVA": "Gniva/Njiva 方言",
           "NULIK": "NULIK",
           "OSOJS": "Oseacco/Osojane 方言",
+          "OXENDICT": "OXENDICT",
           "PAMAKA": "Pamaka 方言",
           "PETR1708": "俄文拼字（1708年）",
           "PINYIN": "拼音罗马字",
@@ -68,6 +73,7 @@
           "SAAHO": "萨霍文",
           "SCOTLAND": "苏格兰标准英文",
           "SCOUSE": "利物浦方言",
+          "SIMPLE": "SIMPLE",
           "SOLBA": "Stolvizza/Solbica 方言",
           "SOTAV": "SOTAV",
           "SURMIRAN": "瑞士苏迈拉方言",

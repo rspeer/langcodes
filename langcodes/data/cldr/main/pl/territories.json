@@ -3,11 +3,8 @@
     "pl": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
-        },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
         "language": "pl"
       },
@@ -51,7 +48,6 @@
           "AI": "Anguilla",
           "AL": "Albania",
           "AM": "Armenia",
-          "AN": "Antyle Holenderskie",
           "AO": "Angola",
           "AQ": "Antarktyka",
           "AR": "Argentyna",
@@ -134,7 +130,7 @@
           "GD": "Grenada",
           "GE": "Gruzja",
           "GF": "Gujana Francuska",
-          "GG": "Wyspa Guernsey",
+          "GG": "Guernsey",
           "GH": "Ghana",
           "GI": "Gibraltar",
           "GL": "Grenlandia",
@@ -148,7 +144,7 @@
           "GU": "Guam",
           "GW": "Gwinea Bissau",
           "GY": "Gujana",
-          "HK": "Hongkong SAR",
+          "HK": "SRA Hongkong (Chiny)",
           "HK-alt-short": "Hongkong",
           "HM": "Wyspy Heard i McDonalda",
           "HN": "Honduras",
@@ -166,7 +162,7 @@
           "IR": "Iran",
           "IS": "Islandia",
           "IT": "Włochy",
-          "JE": "Wyspa Jersey",
+          "JE": "Jersey",
           "JM": "Jamajka",
           "JO": "Jordania",
           "JP": "Japonia",
@@ -204,7 +200,7 @@
           "ML": "Mali",
           "MM": "Mjanma (Birma)",
           "MN": "Mongolia",
-          "MO": "Makau SAR",
+          "MO": "SRA Makau (Chiny)",
           "MO-alt-short": "Makau",
           "MP": "Mariany Północne",
           "MQ": "Martynika",
@@ -276,13 +272,13 @@
           "TA": "Tristan da Cunha",
           "TC": "Turks i Caicos",
           "TD": "Czad",
-          "TF": "Francuskie Terytoria Południowe",
+          "TF": "Francuskie Terytoria Południowe i Antarktyczne",
           "TG": "Togo",
           "TH": "Tajlandia",
           "TJ": "Tadżykistan",
           "TK": "Tokelau",
           "TL": "Timor Wschodni",
-          "TL-alt-variant": "TL",
+          "TL-alt-variant": "Timor-Leste",
           "TM": "Turkmenistan",
           "TN": "Tunezja",
           "TO": "Tonga",

@@ -3,13 +3,10 @@
     "tr": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12373 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "tr"
       },
       "localeDisplayNames": {
         "territories": {
@@ -23,9 +20,9 @@
           "014": "Doğu Afrika",
           "015": "Kuzey Afrika",
           "017": "Orta Afrika",
-          "018": "Afrika'nın Güneyi",
+          "018": "Afrika’nın Güneyi",
           "019": "Amerika",
-          "021": "Amerika'nın Kuzeyi",
+          "021": "Amerika’nın Kuzeyi",
           "029": "Karayipler",
           "030": "Doğu Asya",
           "034": "Güney Asya",
@@ -33,7 +30,7 @@
           "039": "Güney Avrupa",
           "053": "Avustralasya",
           "054": "Melanezya",
-          "057": "Mikronezya",
+          "057": "Mikronezya Bölgesi",
           "061": "Polinezya",
           "142": "Asya",
           "143": "Orta Asya",
@@ -51,7 +48,6 @@
           "AI": "Anguilla",
           "AL": "Arnavutluk",
           "AM": "Ermenistan",
-          "AN": "Hollanda Antilleri",
           "AO": "Angola",
           "AQ": "Antarktika",
           "AR": "Arjantin",
@@ -103,7 +99,7 @@
           "CV": "Cape Verde",
           "CW": "Curaçao",
           "CX": "Christmas Adası",
-          "CY": "Güney Kıbrıs Rum Kesimi",
+          "CY": "Kıbrıs",
           "CZ": "Çek Cumhuriyeti",
           "DE": "Almanya",
           "DG": "Diego Garcia",
@@ -112,7 +108,7 @@
           "DM": "Dominika",
           "DO": "Dominik Cumhuriyeti",
           "DZ": "Cezayir",
-          "EA": "Ceuta ve Melilla",
+          "EA": "Septe ve Melilla",
           "EC": "Ekvador",
           "EE": "Estonya",
           "EG": "Mısır",
@@ -125,7 +121,7 @@
           "FJ": "Fiji",
           "FK": "Falkland Adaları",
           "FK-alt-variant": "Falkland Adaları (Malvinas Adaları)",
-          "FM": "Mikronezya Federal Eyaletleri",
+          "FM": "Mikronezya",
           "FO": "Faroe Adaları",
           "FR": "Fransa",
           "GA": "Gabon",
@@ -161,7 +157,7 @@
           "IL": "İsrail",
           "IM": "Man Adası",
           "IN": "Hindistan",
-          "IO": "İngiliz Hint Okyanusu Bölgesi",
+          "IO": "Britanya Hint Okyanusu Toprakları",
           "IQ": "Irak",
           "IR": "İran",
           "IS": "İzlanda",
@@ -276,7 +272,7 @@
           "TA": "Tristan da Cunha",
           "TC": "Turks ve Caicos Adaları",
           "TD": "Çad",
-          "TF": "Fransız Güney Bölgeleri",
+          "TF": "Fransız Güney Toprakları",
           "TG": "Togo",
           "TH": "Tayland",
           "TJ": "Tacikistan",
@@ -293,7 +289,7 @@
           "TZ": "Tanzanya",
           "UA": "Ukrayna",
           "UG": "Uganda",
-          "UM": "ABD Dış Adaları",
+          "UM": "ABD Uzak Adaları",
           "US": "ABD",
           "US-alt-short": "ABD",
           "UY": "Uruguay",

@@ -1,17 +1,15 @@
 {
   "supplemental": {
     "version": {
-      "_cldrVersion": "25",
-      "_number": "$Revision: 91 $"
-    },
-    "generation": {
-      "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+      "_cldrVersion": "28",
+      "_unicodeVersion": "8.0.0",
+      "_number": "$Revision: 12017 $"
     },
     "languageMatching": {
       "written": [
         {
           "languageMatch": {
-            "_percent": "100",
+            "_percent": "99",
             "_supported": "nb",
             "_desired": "no"
           }
@@ -19,29 +17,8 @@
         {
           "languageMatch": {
             "_percent": "96",
-            "_supported": "nb",
-            "_desired": "nn"
-          }
-        },
-        {
-          "languageMatch": {
-            "_percent": "96",
-            "_supported": "no",
-            "_desired": "nn"
-          }
-        },
-        {
-          "languageMatch": {
-            "_percent": "90",
-            "_supported": "no",
-            "_desired": "da"
-          }
-        },
-        {
-          "languageMatch": {
-            "_percent": "90",
-            "_supported": "nb",
-            "_desired": "da"
+            "_supported": "ckb",
+            "_desired": "ku"
           }
         },
         {
@@ -88,13 +65,6 @@
         },
         {
           "languageMatch": {
-            "_percent": "90",
-            "_supported": "id",
-            "_desired": "ms"
-          }
-        },
-        {
-          "languageMatch": {
             "_percent": "96",
             "_supported": "aa",
             "_desired": "ssy"
@@ -118,7 +88,28 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "92",
+            "_supported": "no",
+            "_desired": "da"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "92",
+            "_supported": "nb",
+            "_desired": "da"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "92",
+            "_supported": "ku",
+            "_desired": "ckb"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "ab"
@@ -126,7 +117,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ach"
@@ -134,7 +125,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "nl",
             "_oneway": "true",
             "_desired": "af"
@@ -142,7 +133,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ak"
@@ -150,15 +141,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
-            "_supported": "en",
+            "_percent": "90",
+            "_supported": "en-*-GB",
             "_oneway": "true",
-            "_desired": "am"
+            "_desired": "am-*-*"
           }
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "es",
             "_oneway": "true",
             "_desired": "ay"
@@ -166,7 +157,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "az"
@@ -174,7 +165,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "ru-Cyrl",
+            "_oneway": "true",
+            "_desired": "az-Latn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "be"
@@ -182,7 +181,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "bem"
@@ -190,7 +189,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "hi",
             "_oneway": "true",
             "_desired": "bh"
@@ -198,7 +197,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "bn"
@@ -206,7 +205,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "bn-Beng"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "br"
@@ -214,7 +221,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fil",
             "_oneway": "true",
             "_desired": "ceb"
@@ -222,7 +229,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "chr"
@@ -230,7 +237,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "ar",
             "_oneway": "true",
             "_desired": "ckb"
@@ -238,7 +245,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "co"
@@ -246,7 +253,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "crs"
@@ -254,7 +261,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "cy"
@@ -262,7 +269,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ee"
@@ -270,7 +277,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "eo"
@@ -278,15 +285,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
-            "_supported": "es-419",
-            "_oneway": "true",
-            "_desired": "es-MX"
-          }
-        },
-        {
-          "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fi",
             "_oneway": "true",
             "_desired": "et"
@@ -294,7 +293,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "es",
             "_oneway": "true",
             "_desired": "eu"
@@ -302,7 +301,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "da",
             "_oneway": "true",
             "_desired": "fo"
@@ -310,7 +309,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "nl",
             "_oneway": "true",
             "_desired": "fy"
@@ -318,7 +317,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ga"
@@ -326,7 +325,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "gaa"
@@ -334,7 +333,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "gd"
@@ -342,7 +341,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "es",
             "_oneway": "true",
             "_desired": "gl"
@@ -350,7 +349,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "es",
             "_oneway": "true",
             "_desired": "gn"
@@ -358,7 +357,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "hi",
             "_oneway": "true",
             "_desired": "gu"
@@ -366,7 +365,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ha"
@@ -374,7 +373,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "haw"
@@ -382,7 +381,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "ht"
@@ -390,7 +389,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "hy"
@@ -398,7 +397,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "ru-Cyrl",
+            "_oneway": "true",
+            "_desired": "hy-Armn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ia"
@@ -406,7 +413,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ig"
@@ -414,7 +421,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "is"
@@ -422,7 +429,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "id",
             "_oneway": "true",
             "_desired": "jv"
@@ -430,7 +437,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "ka-Geor"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ka"
@@ -438,7 +453,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "kg"
@@ -446,7 +461,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "kk"
@@ -454,7 +469,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "km"
@@ -462,7 +477,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "km-Khmr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "kn"
@@ -470,7 +493,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "kn-Knda"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "kri"
@@ -478,7 +509,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "tr",
             "_oneway": "true",
             "_desired": "ku"
@@ -486,7 +517,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "ky"
@@ -494,7 +525,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "it",
             "_oneway": "true",
             "_desired": "la"
@@ -502,7 +533,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "lg"
@@ -510,7 +541,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "ln"
@@ -518,15 +549,23 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
-            "_supported": "th",
+            "_percent": "90",
+            "_supported": "en",
             "_oneway": "true",
             "_desired": "lo"
           }
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "lo-Laoo"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "loz"
@@ -534,7 +573,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "lua"
@@ -542,7 +581,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "mfe"
@@ -550,7 +589,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "mg"
@@ -558,7 +597,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "mi"
@@ -566,7 +605,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "bg",
             "_oneway": "true",
             "_desired": "mk"
@@ -574,7 +613,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ml"
@@ -582,7 +621,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "ml-Mlym"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "mn"
@@ -590,7 +637,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "hi",
             "_oneway": "true",
             "_desired": "mr"
@@ -598,7 +645,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "id",
             "_oneway": "true",
             "_desired": "ms"
@@ -606,7 +653,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "mt"
@@ -614,7 +661,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "my"
@@ -622,7 +669,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "my-Mymr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ne"
@@ -630,15 +685,30 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "ne-Deva"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "nb",
+            "_desired": "nn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
+            "_supported": "no",
             "_oneway": "true",
             "_desired": "nn"
           }
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "nso"
@@ -646,7 +716,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ny"
@@ -654,7 +724,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "nyn"
@@ -662,7 +732,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "oc"
@@ -670,7 +740,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "om"
@@ -678,7 +748,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "or"
@@ -686,7 +756,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "or-Orya"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "pa"
@@ -694,7 +772,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "pa-Guru"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "pcm"
@@ -702,7 +788,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ps"
@@ -710,7 +796,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "ps-Arab"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "es",
             "_oneway": "true",
             "_desired": "qu"
@@ -718,7 +812,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "de",
             "_oneway": "true",
             "_desired": "rm"
@@ -726,7 +820,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "rn"
@@ -734,7 +828,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "rw"
@@ -742,7 +836,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "hi",
             "_oneway": "true",
             "_desired": "sa"
@@ -750,7 +844,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "sd"
@@ -758,7 +852,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "sd-Arab"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "si"
@@ -766,7 +868,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "si-Sinh"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "sn"
@@ -774,7 +884,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "so"
@@ -782,7 +892,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "sq"
@@ -790,7 +900,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "st"
@@ -798,7 +908,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "id",
             "_oneway": "true",
             "_desired": "su"
@@ -806,7 +916,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "sw"
@@ -814,7 +924,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ta"
@@ -822,7 +932,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "ta-Taml"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "te"
@@ -830,7 +948,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "te-Telu"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "tg"
@@ -838,7 +964,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ti"
@@ -846,7 +972,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "ti-Ethi"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "tk"
@@ -854,7 +988,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "ru-Cyrl",
+            "_oneway": "true",
+            "_desired": "tk-Latn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "tlh"
@@ -862,7 +1004,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "tn"
@@ -870,7 +1012,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "to"
@@ -878,7 +1020,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "tt"
@@ -886,7 +1028,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "tum"
@@ -894,7 +1036,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "zh",
             "_oneway": "true",
             "_desired": "ug"
@@ -902,7 +1044,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "ur"
@@ -910,7 +1052,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "ur-Arab"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "ru",
             "_oneway": "true",
             "_desired": "uz"
@@ -918,7 +1068,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "ru-Cyrl",
+            "_oneway": "true",
+            "_desired": "uz-Latn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "fr",
             "_oneway": "true",
             "_desired": "wo"
@@ -926,7 +1084,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "xh"
@@ -934,7 +1092,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "yi"
@@ -942,7 +1100,15 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
+            "_supported": "en-Latn",
+            "_oneway": "true",
+            "_desired": "yi-Hebr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "yo"
@@ -950,7 +1116,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "10",
+            "_percent": "90",
             "_supported": "en",
             "_oneway": "true",
             "_desired": "zu"
@@ -958,7 +1124,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "90",
+            "_percent": "95",
             "_supported": "sr-Cyrl",
             "_desired": "sr-Latn"
           }
@@ -973,7 +1139,7 @@
         },
         {
           "languageMatch": {
-            "_percent": "75",
+            "_percent": "81",
             "_supported": "*-Hans",
             "_oneway": "true",
             "_desired": "*-Hant"
@@ -982,48 +1148,97 @@
         {
           "languageMatch": {
             "_percent": "97",
+            "_supported": "zh-Hant-MO",
+            "_desired": "zh-Hant-HK"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "pt-*-US",
+            "_desired": "pt-*-BR"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "92",
+            "_supported": "pt-*-*",
+            "_desired": "pt-*-US"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "92",
+            "_supported": "pt-*-*",
+            "_desired": "pt-*-BR"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "pt-*-*",
+            "_desired": "pt-*-*"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "94",
             "_supported": "en-*-*",
             "_desired": "en-*-US"
           }
         },
         {
           "languageMatch": {
-            "_percent": "99",
+            "_percent": "96",
+            "_supported": "en-*-*",
+            "_desired": "en-*-GB"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "en-*-*",
+            "_desired": "en-*-001"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "95",
             "_supported": "en-*-*",
             "_desired": "en-*-*"
           }
         },
         {
           "languageMatch": {
-            "_percent": "97",
+            "_percent": "92",
             "_supported": "es-*-*",
             "_desired": "es-*-ES"
           }
         },
         {
           "languageMatch": {
-            "_percent": "99",
+            "_percent": "96",
             "_supported": "es-*-*",
             "_desired": "es-*-419"
           }
         },
         {
           "languageMatch": {
-            "_percent": "98",
+            "_percent": "95",
             "_supported": "es-*-*",
             "_desired": "es-*-*"
           }
         },
         {
           "languageMatch": {
-            "_percent": "1",
+            "_percent": "20",
             "_supported": "*",
             "_desired": "*"
           }
         },
         {
           "languageMatch": {
-            "_percent": "20",
+            "_percent": "60",
             "_supported": "*-*",
             "_desired": "*-*"
           }

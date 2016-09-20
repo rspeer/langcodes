@@ -3,11 +3,8 @@
     "hu": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
-        },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+          "_number": "$Revision: 12293 $",
+          "_cldrVersion": "29"
         },
         "language": "hu"
       },
@@ -45,13 +42,12 @@
           "419": "Latin-Amerika",
           "AC": "Ascension-sziget",
           "AD": "Andorra",
-          "AE": "Egyesült Arab Emirátus",
+          "AE": "Egyesült Arab Emírségek",
           "AF": "Afganisztán",
           "AG": "Antigua és Barbuda",
           "AI": "Anguilla",
           "AL": "Albánia",
           "AM": "Örményország",
-          "AN": "Holland Antillák",
           "AO": "Angola",
           "AQ": "Antarktisz",
           "AR": "Argentína",
@@ -70,7 +66,7 @@
           "BH": "Bahrein",
           "BI": "Burundi",
           "BJ": "Benin",
-          "BL": "Saint Barthélemy",
+          "BL": "Saint-Barthélemy",
           "BM": "Bermuda",
           "BN": "Brunei",
           "BO": "Bolívia",
@@ -122,7 +118,7 @@
           "ET": "Etiópia",
           "EU": "Európai Unió",
           "FI": "Finnország",
-          "FJ": "Fidzsi-szigetek",
+          "FJ": "Fidzsi",
           "FK": "Falkland-szigetek",
           "FK-alt-variant": "Falkland-szigetek (Malvin-szigetek)",
           "FM": "Mikronézia",
@@ -146,7 +142,7 @@
           "GS": "Déli-Georgia és Déli-Sandwich-szigetek",
           "GT": "Guatemala",
           "GU": "Guam",
-          "GW": "Guinea-Bissau",
+          "GW": "Bissau-Guinea",
           "GY": "Guyana",
           "HK": "Hongkong SAR Kína",
           "HK-alt-short": "Hongkong",

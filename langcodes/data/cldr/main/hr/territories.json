@@ -3,11 +3,8 @@
     "hr": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
-        },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+          "_number": "$Revision: 12307 $",
+          "_cldrVersion": "29"
         },
         "language": "hr"
       },
@@ -33,7 +30,7 @@
           "039": "Južna Europa",
           "053": "Australazija",
           "054": "Melanezija",
-          "057": "Mikronezki oblast",
+          "057": "Mikronezijsko područje",
           "061": "Polinezija",
           "142": "Azija",
           "143": "Srednja Azija",
@@ -51,7 +48,6 @@
           "AI": "Angvila",
           "AL": "Albanija",
           "AM": "Armenija",
-          "AN": "Nizozemski Antili",
           "AO": "Angola",
           "AQ": "Antarktika",
           "AR": "Argentina",
@@ -84,8 +80,8 @@
           "BZ": "Belize",
           "CA": "Kanada",
           "CC": "Kokosovi (Keeling) Otoci",
-          "CD": "Kongo (DRK)",
-          "CD-alt-variant": "CD",
+          "CD": "Kongo - Kinshasa",
+          "CD-alt-variant": "Kongo (DRK)",
           "CF": "Srednjoafrička Republika",
           "CG": "Kongo - Brazzaville",
           "CG-alt-variant": "Kongo (RK)",
@@ -120,7 +116,7 @@
           "ER": "Eritreja",
           "ES": "Španjolska",
           "ET": "Etiopija",
-          "EU": "Europska Unija",
+          "EU": "Europska unija",
           "FI": "Finska",
           "FJ": "Fidži",
           "FK": "Falklandski Otoci",

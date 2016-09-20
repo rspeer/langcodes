@@ -3,13 +3,10 @@
     "sv": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12366 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "sv"
       },
       "localeDisplayNames": {
         "territories": {
@@ -51,7 +48,6 @@
           "AI": "Anguilla",
           "AL": "Albanien",
           "AM": "Armenien",
-          "AN": "Nederländska Antillerna",
           "AO": "Angola",
           "AQ": "Antarktis",
           "AR": "Argentina",
@@ -148,7 +144,7 @@
           "GU": "Guam",
           "GW": "Guinea-Bissau",
           "GY": "Guyana",
-          "HK": "Hongkong (S.A.R. Kina)",
+          "HK": "Hongkong, S.A.R. Kina",
           "HK-alt-short": "Hongkong",
           "HM": "Heardön och McDonaldöarna",
           "HN": "Honduras",
@@ -200,11 +196,11 @@
           "MG": "Madagaskar",
           "MH": "Marshallöarna",
           "MK": "Makedonien",
-          "MK-alt-variant": "Makedonien (FYROM)",
+          "MK-alt-variant": "f.d. jugoslaviska republiken Makedonien",
           "ML": "Mali",
           "MM": "Myanmar (Burma)",
           "MN": "Mongoliet",
-          "MO": "Macao (S.A.R. Kina)",
+          "MO": "Macao, S.A.R. Kina",
           "MO-alt-short": "Macao",
           "MP": "Nordmarianerna",
           "MQ": "Martinique",

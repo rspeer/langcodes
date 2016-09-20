@@ -3,34 +3,36 @@
     "tr": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12373 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "tr"
       },
       "localeDisplayNames": {
         "variants": {
-          "1606NICT": "1606'ya Dek Geç Ortaçağ Fransızcası",
-          "1694ACAD": "Erken Modern Fransızca",
           "1901": "Geleneksel Almanca Yazım Kuralları",
-          "1959ACAD": "Akademik",
           "1994": "Standart Resia Yazım Kuralları",
           "1996": "1996 Almanca Yazım Kuralları",
+          "1606NICT": "1606‘ya Dek Geç Ortaçağ Fransızcası",
+          "1694ACAD": "Erken Modern Fransızca",
+          "1959ACAD": "Akademik",
+          "ABL1943": "ABL1943",
           "ALALC97": "ALALC97",
           "ALUKU": "ALUKU",
+          "AO1990": "AO1990",
           "AREVELA": "Doğu Ermenicesi",
           "AREVMDA": "Batı Ermenicesi",
           "BAKU1926": "Birleştirilmiş Yeni Türk Alfabesi",
           "BALANKA": "BALANKA",
           "BARLA": "BARLA",
+          "BASICENG": "BASICENG",
           "BAUDDHA": "BAUDDHA",
           "BISCAYAN": "BISCAYAN",
           "BISKE": "San Giorgio/Bila Lehçesi",
           "BOHORIC": "BOHORIC",
           "BOONT": "Boontling",
+          "COLB1945": "COLB1945",
+          "CORNU": "CORNU",
           "DAJNKO": "DAJNKO",
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
@@ -44,6 +46,7 @@
           "JAUER": "JAUER",
           "JYUTPING": "JYUTPING",
           "KKCOR": "Ortak Yazım Kuralları",
+          "KOCIEWIE": "KOCIEWIE",
           "KSCOR": "KSCOR",
           "LAUKIKA": "LAUKIKA",
           "LIPAW": "Resia Lipovaz Lehçesi",
@@ -52,9 +55,11 @@
           "MONOTON": "Monotonik",
           "NDYUKA": "NDYUKA",
           "NEDIS": "Natisone Lehçesi",
+          "NEWFOUND": "NEWFOUND",
           "NJIVA": "Gniva/Njiva Lehçesi",
           "NULIK": "NULIK",
           "OSOJS": "Oseacco/Osojane Lehçesi",
+          "OXENDICT": "OXENDICT",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "Pinyin (Latin Alfabesinde Yazımı)",
@@ -68,6 +73,7 @@
           "SAAHO": "Saho",
           "SCOTLAND": "Standart İskoç İngilizcesi",
           "SCOUSE": "Scouse",
+          "SIMPLE": "SIMPLE",
           "SOLBA": "Stolvizza/Solbica Lehçesi",
           "SOTAV": "SOTAV",
           "SURMIRAN": "SURMIRAN",

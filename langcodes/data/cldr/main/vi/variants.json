@@ -3,34 +3,36 @@
     "vi": {
       "identity": {
         "version": {
-          "_cldrVersion": "25",
-          "_number": "$Revision: 91 $"
+          "_number": "$Revision: 12312 $",
+          "_cldrVersion": "29"
         },
-        "generation": {
-          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
-        },
-        "language": "root"
+        "language": "vi"
       },
       "localeDisplayNames": {
         "variants": {
-          "1606NICT": "Tiếng Pháp từ Cuối thời Trung cổ đến 1606",
-          "1694ACAD": "Tiếng Pháp Hiện đại Thời kỳ đầu",
           "1901": "Phép chính tả Tiếng Đức Truyền thống",
-          "1959ACAD": "Hàn lâm",
           "1994": "Phép chính tả Resian Chuẩn hóa",
           "1996": "Phép chính tả Tiếng Đức năm 1996",
+          "1606NICT": "Tiếng Pháp từ Cuối thời Trung cổ đến 1606",
+          "1694ACAD": "Tiếng Pháp Hiện đại Thời kỳ đầu",
+          "1959ACAD": "Hàn lâm",
+          "ABL1943": "ABL1943",
           "ALALC97": "La Mã hóa ALA-LC, ấn bản năm 1997",
           "ALUKU": "Phương ngữ Aluku",
+          "AO1990": "AO1990",
           "AREVELA": "Tiếng Armenia Miền Đông",
           "AREVMDA": "Tiếng Armenia Miền Tây",
           "BAKU1926": "Bảng chữ cái La-tinh Tiếng Turk Hợp nhất",
           "BALANKA": "BALANKA",
           "BARLA": "BARLA",
+          "BASICENG": "BASICENG",
           "BAUDDHA": "BAUDDHA",
           "BISCAYAN": "BISCAYAN",
           "BISKE": "Phương ngữ San Giorgio/Bila",
           "BOHORIC": "Bảng chữ cái Bohorič",
           "BOONT": "Tiếng Boontling",
+          "COLB1945": "COLB1945",
+          "CORNU": "CORNU",
           "DAJNKO": "Bảng chữ cái Dajnko",
           "EKAVSK": "EKAVSK",
           "EMODENG": "Tiếng Anh Hiện đại Thời kỳ đầu",
@@ -44,6 +46,7 @@
           "JAUER": "JAUER",
           "JYUTPING": "JYUTPING",
           "KKCOR": "Phép chính tả Chung",
+          "KOCIEWIE": "KOCIEWIE",
           "KSCOR": "Phép chính tả Chuẩn",
           "LAUKIKA": "LAUKIKA",
           "LIPAW": "Phương ngữ Lipovaz của người Resian",
@@ -52,9 +55,11 @@
           "MONOTON": "Đơn âm",
           "NDYUKA": "Phương ngữ Ndyuka",
           "NEDIS": "Phương ngữ Natisone",
+          "NEWFOUND": "NEWFOUND",
           "NJIVA": "Phương ngữ Gniva/Njiva",
           "NULIK": "Tiếng Volapük Hiện đại",
           "OSOJS": "Phương ngữ Oseacco/Osojane",
+          "OXENDICT": "OXENDICT",
           "PAMAKA": "Phương ngữ Pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "La Mã hóa Bính âm",
@@ -68,6 +73,7 @@
           "SAAHO": "Tiếng Saho",
           "SCOTLAND": "Tiếng Anh chuẩn tại Scotland",
           "SCOUSE": "Phương ngữ Liverpool",
+          "SIMPLE": "SIMPLE",
           "SOLBA": "Phương ngữ Stolvizza/Solbica",
           "SOTAV": "SOTAV",
           "SURMIRAN": "SURMIRAN",
