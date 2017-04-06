@@ -3,8 +3,8 @@
     "sk": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12411 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "sk"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "kalendár",
-          "cf": "cf",
+          "cf": "formát meny",
           "colAlternate": "Ignorovať radenie symbolov",
           "colBackwards": "Obrátené radenie akcentov",
           "colCaseFirst": "Radenie veľkých a malých písmen",
           "colCaseLevel": "Rozlišovanie veľkých a malých písmen pri radení",
-          "colHiraganaQuaternary": "Radenie podľa slabičných písiem (kana)",
           "collation": "zoradenie",
           "colNormalization": "Normalizované radenie",
           "colNumeric": "Číselné radenie",
@@ -33,7 +32,6 @@
           "numbers": "čísla",
           "timezone": "Časové pásmo",
           "va": "Variant miestneho nastavenia",
-          "variableTop": "Radiť ako symboly",
           "x": "Súkromné použitie"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "čínsky republikánsky kalendár"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "účtovný formát meny",
+            "standard": "štandardný formát meny"
           },
           "colAlternate": {
             "non-ignorable": "Radiť symboly",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Pri radení nerozlišovať veľké a malé písmená",
             "yes": "Pri radení rozlišovať veľké a malé písmená"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Radiť slabičné písma (kana) samostatne",
-            "yes": "Radiť slabičné písma (kana) inak"
           },
           "collation": {
             "big5han": "Tradičný čínsky Big5",
@@ -117,6 +111,11 @@
             "secondary": "Radiť akcenty",
             "tertiary": "Radiť akcenty/veľké a malé písmená/šírku"
           },
+          "d0": {
+            "fwidth": "Celá šírka",
+            "hwidth": "Polovičná šírka",
+            "npinyin": "Číslice"
+          },
           "hc": {
             "h11": "12-hodinový cyklus (0 – 11)",
             "h12": "12-hodinový cyklus (1 – 12)",
@@ -127,6 +126,10 @@
             "loose": "voľný štýl koncov riadka",
             "normal": "bežný štýl koncov riadka",
             "strict": "presný štýl koncov riadka"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "metrická sústava",

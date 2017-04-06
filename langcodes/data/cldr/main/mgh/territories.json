@@ -3,8 +3,8 @@
     "mgh": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "mgh"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Ukuprosi",
           "CZ": "Ucheki",
+          "CZ-alt-variant": "CZ",
           "DE": "DE",
           "DG": "DG",
           "DJ": "Ujibuti",
@@ -117,6 +118,7 @@
           "ES": "Uhispania",
           "ET": "Uhabeshi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Ufini",
           "FJ": "Ufiji",
           "FK": "FK",
@@ -290,6 +292,7 @@
           "UA": "UA",
           "UG": "UG",
           "UM": "UM",
+          "UN": "UN",
           "US": "Umarekani",
           "US-alt-short": "US",
           "UY": "UY",

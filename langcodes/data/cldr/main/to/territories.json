@@ -3,8 +3,8 @@
     "to": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12379 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12798 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "to"
       },
@@ -101,6 +101,7 @@
           "CX": "Motu Kilisimasi",
           "CY": "Saipalesi",
           "CZ": "Lipapilika Seki",
+          "CZ-alt-variant": "Sēkia",
           "DE": "Siamane",
           "DG": "Tieko Kāsia",
           "DJ": "Siputi",
@@ -117,6 +118,7 @@
           "ES": "Sipeini",
           "ET": "ʻĪtiōpia",
           "EU": "ʻIulope fakatahataha",
+          "EZ": "EZ",
           "FI": "Finilani",
           "FJ": "Fisi",
           "FK": "ʻOtumotu Fokulani",
@@ -235,7 +237,7 @@
           "PL": "Polani",
           "PM": "Sā Piea mo Mikeloni",
           "PN": "ʻOtumotu Pitikeni",
-          "PR": "Pueto Liko",
+          "PR": "Puēto Liko",
           "PS": "Potu Palesitaine",
           "PS-alt-short": "Palesitaine",
           "PT": "Potukali",
@@ -269,7 +271,7 @@
           "SX": "Sā Mātini (fakahōlani)",
           "SY": "Sīlia",
           "SZ": "Suasilani",
-          "TA": "Tulisiteni ta Kunuha",
+          "TA": "Tulisitani ta Kunuha",
           "TC": "ʻOtumotu Tuki mo Kaikosi",
           "TD": "Sāti",
           "TF": "Potu fonua tonga fakafalanisē",
@@ -290,6 +292,7 @@
           "UA": "ʻŪkalaʻine",
           "UG": "ʻIukanitā",
           "UM": "ʻOtumotu siʻi ʻo ʻAmelika",
+          "UN": "UN",
           "US": "Puleʻanga fakatahataha ʻAmelika",
           "US-alt-short": "ʻAmelika",
           "UY": "ʻUlukuai",

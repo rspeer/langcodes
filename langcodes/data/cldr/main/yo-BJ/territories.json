@@ -3,8 +3,8 @@
     "yo-BJ": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12417 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12954 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "yo",
         "territory": "BJ"
@@ -102,6 +102,7 @@
           "CX": "CX",
           "CY": "Orílɛ́ède Kúrúsì",
           "CZ": "Orílɛ́ède shɛ́ɛ́kì",
+          "CZ-alt-variant": "CZ",
           "DE": "Orílɛ́ède Gemani",
           "DG": "DG",
           "DJ": "Orílɛ́ède Díbɔ́ótì",
@@ -118,6 +119,7 @@
           "ES": "Orílɛ́ède Sipani",
           "ET": "Orílɛ́ède Etopia",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Orílɛ́ède Filandi",
           "FJ": "Orílɛ́ède Fiji",
           "FK": "Orílɛ́ède Etikun Fakalandi",
@@ -291,6 +293,7 @@
           "UA": "Orílɛ́ède Ukarini",
           "UG": "Orílɛ́ède Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Orílɛ́ède Orilɛede Amerika",
           "US-alt-short": "US",
           "UY": "Orílɛ́ède Nruguayi",

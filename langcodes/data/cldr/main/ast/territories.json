@@ -3,8 +3,8 @@
     "ast": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12411 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ast"
       },
@@ -87,7 +87,7 @@
           "CG-alt-variant": "Congu (República del)",
           "CH": "Suiza",
           "CI": "Costa de Marfil",
-          "CI-alt-variant": "CI",
+          "CI-alt-variant": "Costa del Marfil",
           "CK": "Islles Cook",
           "CL": "Chile",
           "CM": "Camerún",
@@ -101,6 +101,7 @@
           "CX": "Islla Christmas",
           "CY": "Xipre",
           "CZ": "Chequia",
+          "CZ-alt-variant": "CZ",
           "DE": "Alemaña",
           "DG": "Diego Garcia",
           "DJ": "Xibuti",
@@ -117,6 +118,7 @@
           "ES": "España",
           "ET": "Etiopía",
           "EU": "Xunión Europea",
+          "EZ": "EZ",
           "FI": "Finlandia",
           "FJ": "Islles Fixi",
           "FK": "Falkland Islands",
@@ -290,6 +292,7 @@
           "UA": "Ucraína",
           "UG": "Uganda",
           "UM": "Islles Perifériques Menores de los EE.XX.",
+          "UN": "UN",
           "US": "Estaos Xuníos",
           "US-alt-short": "EE.XX.",
           "UY": "Uruguái",

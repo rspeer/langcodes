@@ -3,8 +3,8 @@
     "eu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12920 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "eu"
       },
@@ -101,6 +101,7 @@
           "CX": "Christmas uhartea",
           "CY": "Zipre",
           "CZ": "Txekiar Errepublika",
+          "CZ-alt-variant": "Txekia",
           "DE": "Alemania",
           "DG": "Diego Garcia",
           "DJ": "Djibuti",
@@ -117,6 +118,7 @@
           "ES": "Espainia",
           "ET": "Etiopia",
           "EU": "Europar Batasuna",
+          "EZ": "EZ",
           "FI": "Finlandia",
           "FJ": "Fiji",
           "FK": "Malvinak",
@@ -192,13 +194,13 @@
           "MC": "Monako",
           "MD": "Moldavia",
           "ME": "Montenegro",
-          "MF": "Saint Martin",
+          "MF": "San Martin",
           "MG": "Madagaskar",
           "MH": "Marshall uharteak",
           "MK": "Mazedonia",
           "MK-alt-variant": "Mazedonia (Mazedoniako Yugoslaviar Errepublika ohia)",
           "ML": "Mali",
-          "MM": "Myanmar",
+          "MM": "Myanmar (Birmania)",
           "MN": "Mongolia",
           "MO": "Macau AEB Txina",
           "MO-alt-short": "Macau",
@@ -254,7 +256,7 @@
           "SD": "Sudan",
           "SE": "Suedia",
           "SG": "Singapur",
-          "SH": "Saint Helena",
+          "SH": "Santa Helena",
           "SI": "Eslovenia",
           "SJ": "Svalbard eta Jan Mayen uharteak",
           "SK": "Eslovakia",
@@ -270,7 +272,7 @@
           "SY": "Siria",
           "SZ": "Swazilandia",
           "TA": "Tristan da Cunha",
-          "TC": "Turk eta Caicos uharteak",
+          "TC": "Turk eta Caico uharteak",
           "TD": "Txad",
           "TF": "Hegoaldeko lurralde frantsesak",
           "TG": "Togo",
@@ -290,6 +292,7 @@
           "UA": "Ukraina",
           "UG": "Uganda",
           "UM": "Ameriketako Estatu Batuetako Kanpoaldeko Uharte Txikiak",
+          "UN": "UN",
           "US": "Ameriketako Estatu Batuak",
           "US-alt-short": "AEB",
           "UY": "Uruguai",

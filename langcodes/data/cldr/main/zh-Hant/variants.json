@@ -3,8 +3,8 @@
     "zh-Hant": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12390 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "zh",
         "script": "Hant"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "早期現代英語",
           "FONIPA": "IPA 拼音",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA 拼音",
           "FONXSAMP": "X-SAMPA 音標",
           "HEPBURN": "平文式羅馬字",

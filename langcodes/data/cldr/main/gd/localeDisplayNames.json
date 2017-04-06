@@ -3,8 +3,8 @@
     "gd": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "gd"
       },
@@ -68,6 +68,11 @@
             "unihan": "Òrdugh an fhreumha ’s nan stràcan",
             "zhuyin": "Òrdugh seòrsachaidh Zhuyin"
           },
+          "d0": {
+            "fwidth": "Làn-Leud",
+            "hwidth": "Leth-Leud",
+            "npinyin": "Àireamhach"
+          },
           "hc": {
             "h11": "Cleoc 12 uair a thìde (0–11)",
             "h12": "Cleoc 12 uair a thìde (1–12)",
@@ -78,6 +83,10 @@
             "loose": "Brisidhean-loidhe fuasgailte",
             "normal": "Brisidhean-loidhe àbhaisteach",
             "strict": "Brisidhean-loidhe teanna"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Tomhas meatrach",

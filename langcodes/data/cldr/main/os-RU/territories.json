@@ -3,8 +3,8 @@
     "os-RU": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12147 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "os",
         "territory": "RU"
@@ -102,6 +102,7 @@
           "CX": "CX",
           "CY": "CY",
           "CZ": "CZ",
+          "CZ-alt-variant": "CZ",
           "DE": "Герман",
           "DG": "DG",
           "DJ": "DJ",
@@ -118,6 +119,7 @@
           "ES": "ES",
           "ET": "ET",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "FI",
           "FJ": "FJ",
           "FK": "FK",
@@ -291,6 +293,7 @@
           "UA": "UA",
           "UG": "UG",
           "UM": "UM",
+          "UN": "UN",
           "US": "АИШ",
           "US-alt-short": "US",
           "UY": "UY",

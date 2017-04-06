@@ -3,8 +3,8 @@
     "br": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "br"
       },
@@ -101,6 +101,7 @@
           "CX": "Enez Christmas",
           "CY": "Kiprenez",
           "CZ": "Republik Tchek",
+          "CZ-alt-variant": "CZ",
           "DE": "Alamagn",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Spagn",
           "ET": "Etiopia",
           "EU": "Unaniezh Europa",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fidji",
           "FK": "Inizi Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ukraina",
           "UG": "Ouganda",
           "UM": "Inizi diabell ar Stadoù-Unanet",
+          "UN": "UN",
           "US": "Stadoù-Unanet",
           "US-alt-short": "SU",
           "UY": "Uruguay",

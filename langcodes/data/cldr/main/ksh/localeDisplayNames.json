@@ -3,8 +3,8 @@
     "ksh": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ksh"
       },
@@ -27,13 +27,13 @@
         "types": {
           "calendar": {
             "buddhist": "buddistesche Kaländer",
-            "chinese": "schineesesche Kaländer",
+            "chinese": "schinehsesche Kalännder",
             "coptic": "kopttesche Kaländer",
-            "dangi": "dangi",
-            "ethiopic": "ätejoopesche Kaländer",
+            "dangi": "Dangikalännder",
+            "ethiopic": "ätejohpesche Kalännder",
             "ethiopic-amete-alem": "ätejoopesche Amete Alem Kaländer",
-            "gregorian": "jrejorejaanesche Kaländer",
-            "hebrew": "jüdesche Kaländer",
+            "gregorian": "jrejorejahnesche Kalännder",
+            "hebrew": "jühdesche Kalännder",
             "indian": "indesche Nazjonahl-Kaländer",
             "islamic": "ißlaamesche Kaländer",
             "islamic-civil": "wältlesche islaamesche Kaländer",
@@ -52,8 +52,8 @@
           "collation": {
             "big5han": "zoteert nohm tradizjonäll schineesesch Big5",
             "compat": "compat",
-            "dictionary": "zoteert wi em Wööterbooch",
-            "ducet": "standattmääßesch zoteert nohm Unicode",
+            "dictionary": "zotehrt wi em Wööterbohch",
+            "ducet": "standattmähßesch zotehrt nohm Unicode",
             "emoji": "emoji",
             "eor": "eor",
             "gb2312han": "zoteert nohm eijfacher schineesesch GB2312",
@@ -161,9 +161,9 @@
           }
         },
         "codePatterns": {
-          "language": "de Schprooch afjekööz met „{0}“",
+          "language": "de Schprohch afjekööz met „{0}“",
           "script": "de Schreff afjekööz met „{0}“",
-          "territory": "de Jääjend afjekööz met „{0}“"
+          "territory": "de Jähjend afjekööz met „{0}“"
         }
       }
     }

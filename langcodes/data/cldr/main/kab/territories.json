@@ -3,8 +3,8 @@
     "kab": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "kab"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Cipr",
           "CZ": "Čček",
+          "CZ-alt-variant": "CZ",
           "DE": "Lalman",
           "DG": "DG",
           "DJ": "Ǧibuti",
@@ -117,6 +118,7 @@
           "ES": "Spanya",
           "ET": "Utyupi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlund",
           "FJ": "Fiji",
           "FK": "Tigzirin n Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ukran",
           "UG": "Uɣanda",
           "UM": "UM",
+          "UN": "UN",
           "US": "WDM",
           "US-alt-short": "US",
           "UY": "Urugway",

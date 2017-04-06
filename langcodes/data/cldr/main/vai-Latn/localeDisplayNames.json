@@ -3,8 +3,8 @@
     "vai-Latn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "vai",
         "script": "Latn"

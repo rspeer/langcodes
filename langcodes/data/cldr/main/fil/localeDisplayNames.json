@@ -3,8 +3,8 @@
     "fil": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "fil"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Kalendaryo",
-          "cf": "cf",
+          "cf": "Format ng Pera",
           "colAlternate": "Pag-uuri-uri ng Mga Ignore Symbol",
           "colBackwards": "Pag-uuri-uri ng Baliktad na Accent",
           "colCaseFirst": "Uppercase/Lowercase na Pagsusunud-sunod",
           "colCaseLevel": "Case Sensitive na Pag-uuri-uri",
-          "colHiraganaQuaternary": "Pag-uuri-uri ng Kana",
           "collation": "Pagkakasunud-sunod ng Ayos",
           "colNormalization": "Normalized na Pag-uuri-uri",
           "colNumeric": "Numeric na Pag-uuri-uri",
@@ -33,7 +32,6 @@
           "numbers": "Mga Numero",
           "timezone": "Time Zone",
           "va": "Lokal na Variant",
-          "variableTop": "Pag-uri-uriin Bilang Mga Simbolo",
           "x": "Pribadong Paggamit"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Kalendaryong Minguo"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Format ng Pera sa Accounting",
+            "standard": "Karaniwang Format ng Pera"
           },
           "colAlternate": {
             "non-ignorable": "Pag-uri-uriin ang Mga Simbolo",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Pag-uri-uriin ang Hindi Case Sensitive",
             "yes": "Pag-uri-uriin ang Case Sensitive"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Pag-uri-uriin ang Kana nang Hiwalay",
-            "yes": "Pag-uri-uriin ang Kana nang Naiiba"
           },
           "collation": {
             "big5han": "Pagkakasunod-sunod ng Pag-uuri ng Tradisyunal na Chinese - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Pag-uri-uriin ang Mga Accent",
             "tertiary": "Pag-uri-uriin ang Mga Accent/Case/Lapad"
           },
+          "d0": {
+            "fwidth": "Fullwidth",
+            "hwidth": "Halfwidth",
+            "npinyin": "Numeric"
+          },
           "hc": {
             "h11": "12 Oras na Sistema (0–11)",
             "h12": "12 Oras na Sistema (1–12)",
@@ -127,6 +126,10 @@
             "loose": "Loose na Estilo ng Putol ng Linya",
             "normal": "Normal na Estilo ng Putol ng Linya",
             "strict": "Mahigpit na Estilo ng Putol ng Linya"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Metrikong Sistema",

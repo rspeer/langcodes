@@ -3,8 +3,8 @@
     "gsw-LI": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "gsw",
         "territory": "LI"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "Foneetisch (IPA)",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Foneetisch (UPA)",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

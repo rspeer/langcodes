@@ -3,8 +3,8 @@
     "fa-AF": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12217 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12944 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "fa",
         "territory": "AF"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "فونتیک IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "فونتیک UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

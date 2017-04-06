@@ -3,8 +3,8 @@
     "bs-Latn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "bs",
         "script": "Latn"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "IPA fonetika",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA fonetika",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

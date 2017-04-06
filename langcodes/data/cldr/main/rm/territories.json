@@ -3,8 +3,8 @@
     "rm": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "rm"
       },
@@ -101,6 +101,7 @@
           "CX": "Insla da Christmas",
           "CY": "Cipra",
           "CZ": "Republica Tscheca",
+          "CZ-alt-variant": "CZ",
           "DE": "Germania",
           "DG": "DG",
           "DJ": "Dschibuti",
@@ -117,6 +118,7 @@
           "ES": "Spagna",
           "ET": "Etiopia",
           "EU": "Uniun europeica",
+          "EZ": "EZ",
           "FI": "Finlanda",
           "FJ": "Fidschi",
           "FK": "Inslas dal Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ucraina",
           "UG": "Uganda",
           "UM": "Inslas pitschnas perifericas dals Stadis Unids da l’America",
+          "UN": "UN",
           "US": "Stadis Unids da l’America",
           "US-alt-short": "US",
           "UY": "Uruguay",

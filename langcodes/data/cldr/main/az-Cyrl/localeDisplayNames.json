@@ -3,8 +3,8 @@
     "az-Cyrl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "az",
         "script": "Cyrl"
@@ -162,9 +162,9 @@
           }
         },
         "codePatterns": {
-          "language": "{0}",
-          "script": "{0}",
-          "territory": "{0}"
+          "language": "Дил: {0}",
+          "script": "Скрипт: {0}",
+          "territory": "Реҝион: {0}"
         }
       }
     }

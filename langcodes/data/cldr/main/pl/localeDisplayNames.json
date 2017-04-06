@@ -3,8 +3,8 @@
     "pl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "pl"
       },
@@ -16,13 +16,12 @@
         },
         "keys": {
           "calendar": "kalendarz",
-          "cf": "cf",
+          "cf": "format waluty",
           "colAlternate": "Sortowanie ignorujące symbole",
           "colBackwards": "Odwrotne sortowanie ze znakami akcentowanymi",
           "colCaseFirst": "Porządek wielkie/małe litery",
           "colCaseLevel": "Sortowanie uwzględniające wielkość liter",
-          "colHiraganaQuaternary": "Sortowanie Kana",
-          "collation": "Porządek sortowania",
+          "collation": "porządek sortowania",
           "colNormalization": "Sortowanie znormalizowane",
           "colNumeric": "Sortowanie numeryczne",
           "colStrength": "Siła sortowania",
@@ -33,7 +32,6 @@
           "numbers": "cyfry",
           "timezone": "Strefa czasowa",
           "va": "Wariant regionalny",
-          "variableTop": "Sortuj jak symbole",
           "x": "Do prywatnego użytku"
         },
         "types": {
@@ -42,7 +40,7 @@
             "chinese": "kalendarz chiński",
             "coptic": "Kalendarz koptyjski",
             "dangi": "kalendarz dangi",
-            "ethiopic": "Kalendarz etiopski",
+            "ethiopic": "kalendarz etiopski",
             "ethiopic-amete-alem": "Kalendarz etiopski Amete Alem",
             "gregorian": "kalendarz gregoriański",
             "hebrew": "kalendarz hebrajski",
@@ -54,12 +52,12 @@
             "islamic-umalqura": "kalendarz islamski (Umm al-Kura)",
             "iso8601": "kalendarz ISO-8601",
             "japanese": "kalendarz japoński",
-            "persian": "Kalendarz perski",
+            "persian": "kalendarz perski",
             "roc": "kalendarz Republiki Chińskiej"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "księgowy format waluty",
+            "standard": "standardowy format waluty"
           },
           "colAlternate": {
             "non-ignorable": "Sortowanie symboli",
@@ -78,15 +76,11 @@
             "no": "Sortowanie bez rozróżniania wielkości liter",
             "yes": "Sortowanie z rozróżnianiem wielkości liter"
           },
-          "colHiraganaQuaternary": {
-            "no": "Osobne sortowanie kana",
-            "yes": "Inne sortowanie kana"
-          },
           "collation": {
             "big5han": "chiński tradycyjny porządek sortowania - Big5",
             "compat": "compat",
             "dictionary": "sortowanie słownikowe",
-            "ducet": "Domyślna kolejność sortowania Unicode",
+            "ducet": "domyślne sortowanie Unicode",
             "emoji": "emoji",
             "eor": "europejskie reguły określania kolejności",
             "gb2312han": "chiński uproszczony porządek sortowania - GB2312",
@@ -94,7 +88,7 @@
             "phonetic": "sortowanie fonetyczne",
             "pinyin": "porządek sortowania pinyin",
             "reformed": "sortowanie zreformowane",
-            "search": "uniwersalny porządek sortowania",
+            "search": "wyszukiwanie ogólnego użytku",
             "searchjl": "Wyszukiwanie według początkowej spółgłoski hangul",
             "standard": "sortowanie standardowe",
             "stroke": "porządek akcentów",
@@ -117,16 +111,25 @@
             "secondary": "Sortowanie znaków akcentowanych",
             "tertiary": "Sortowanie znaków akcentowanych/wielkości liter/szerokości"
           },
+          "d0": {
+            "fwidth": "Pełna szerokość",
+            "hwidth": "Połowa szerokości",
+            "npinyin": "Liczbowe"
+          },
           "hc": {
-            "h11": "system 12-godzinny (0-11)",
-            "h12": "system 12-godzinny (1-12)",
-            "h23": "system 24-godzinny (0-23)",
-            "h24": "system 24-godzinny (1-24)"
+            "h11": "system 12-godzinny (0–11)",
+            "h12": "system 12-godzinny (1–12)",
+            "h23": "system 24-godzinny (0–23)",
+            "h24": "system 24-godzinny (1–24)"
           },
           "lb": {
             "loose": "luźny styl podziału wiersza",
             "normal": "normalny styl podziału wiersza",
             "strict": "ścisły styl podziału wiersza"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "system metryczny",
@@ -201,7 +204,7 @@
             "sund": "sund",
             "takr": "takr",
             "talu": "talu",
-            "taml": "cyfry tamilskie",
+            "taml": "tradycyjne cyfry tamilskie",
             "tamldec": "cyfry tamilskie",
             "telu": "cyfry telugu",
             "thai": "cyfry tajskie",

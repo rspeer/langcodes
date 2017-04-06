@@ -3,8 +3,8 @@
     "hr-BA": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12799 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "hr",
         "territory": "BA"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "kalendar",
-          "cf": "cf",
+          "cf": "Format valute",
           "colAlternate": "Zanemarivanje poredavanja simbola",
           "colBackwards": "Obrnuto poredavanje po naglasku",
           "colCaseFirst": "Poredavanje po velikim/malim slovima",
           "colCaseLevel": "Poredavanje u skladu s veličinom slova",
-          "colHiraganaQuaternary": "Poredavanje po pismu kana",
           "collation": "Redoslijed razvrstavanja",
           "colNormalization": "Normalizirano poredavanje",
           "colNumeric": "Numeričko poredavanje",
@@ -34,7 +33,6 @@
           "numbers": "brojevi",
           "timezone": "Vremenska zona",
           "va": "Varijanta zemlje/jezika",
-          "variableTop": "Poredaj kao simbole",
           "x": "Privatna upotreba"
         },
         "types": {
@@ -59,8 +57,8 @@
             "roc": "kalendar Republike Kine"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Računovodstveni format valute",
+            "standard": "Standardni format valute"
           },
           "colAlternate": {
             "non-ignorable": "Poredaj simbole",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Poredaj zanemarujući veličinu",
             "yes": "Poredaj u skladu s veličinom slova"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Poredaj pismo kana zasebno",
-            "yes": "Poredaj pismo kana drugačije"
           },
           "collation": {
             "big5han": "razvrstavanje prema tradicionalnom kineskom - Big5",
@@ -118,6 +112,11 @@
             "secondary": "Poredaj po naglasku",
             "tertiary": "Poredaj po naglascima/veličini/širini"
           },
+          "d0": {
+            "fwidth": "Široki",
+            "hwidth": "Uski",
+            "npinyin": "Numerički"
+          },
           "hc": {
             "h11": "12-satni format (0-11)",
             "h12": "12-satni format (1-12)",
@@ -128,6 +127,10 @@
             "loose": "slobodni stil prijeloma retka",
             "normal": "normalni stil prijeloma retka",
             "strict": "strogi stil prijeloma retka"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "metrički sustav",

@@ -3,8 +3,8 @@
     "kk": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "kk"
       },
@@ -16,7 +16,7 @@
         },
         "keys": {
           "calendar": "Күнтізбе",
-          "cf": "cf",
+          "cf": "Валюта пішімі",
           "collation": "Сұрыптау реті",
           "currency": "Валюта",
           "hc": "Уақыт пішімі (12 не 24)",
@@ -46,8 +46,8 @@
             "roc": "Мингуо күнтізбесі"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Есептік валюта пішімі",
+            "standard": "Стандартты валюта пішімі"
           },
           "collation": {
             "big5han": "big5han",
@@ -82,7 +82,7 @@
           "ms": {
             "metric": "Метрлік жүйе",
             "uksystem": "Империялық өлшемдер жүйесі",
-            "ussystem": "Американдық өлшемдер жүйесі"
+            "ussystem": "Америкалық өлшемдер жүйесі"
           },
           "numbers": {
             "ahom": "ahom",

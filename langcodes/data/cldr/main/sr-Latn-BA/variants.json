@@ -3,8 +3,8 @@
     "sr-Latn-BA": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12417 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12933 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "sr",
         "script": "Latn",
@@ -39,6 +39,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "IPA fonetika",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA fonetika",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

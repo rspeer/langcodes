@@ -3,8 +3,8 @@
     "nl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12381 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "nl"
       },
@@ -16,16 +16,16 @@
           "1606NICT": "Laat Middelfrans tot 1606",
           "1694ACAD": "Vroeg modern Frans",
           "1959ACAD": "Academisch",
-          "ABL1943": "ABL1943",
+          "ABL1943": "Spellingsformulering van 1943",
           "ALALC97": "Romanisering ALA-LC, editie 1997",
           "ALUKU": "Aloekoe-dialect",
-          "AO1990": "AO1990",
+          "AO1990": "Portugese spellingsovereenkomst van 1990",
           "AREVELA": "Oost-Armeens",
           "AREVMDA": "West-Armeens",
           "BAKU1926": "Eenvormig Turkse Latijnse alfabet",
           "BALANKA": "Balanka-dialect van Anii",
           "BARLA": "Barlavento-dialectgroep van Kabuverdianu",
-          "BASICENG": "BASICENG",
+          "BASICENG": "Standaard Engels",
           "BAUDDHA": "Bauddha",
           "BISCAYAN": "Biskajaans",
           "BISKE": "San Giorgio/Bila-dialect",
@@ -37,6 +37,7 @@
           "EKAVSK": "Servisch met Ekaviaanse uitspraak",
           "EMODENG": "Vroegmodern Engels",
           "FONIPA": "Internationaal Fonetisch Alfabet",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Oeralisch Fonetisch Alfabet",
           "FONXSAMP": "Transcriptie volgens X-SAMPA",
           "HEPBURN": "Hepburn-romanisering",
@@ -73,7 +74,7 @@
           "SAAHO": "Saho",
           "SCOTLAND": "Schots standaard-Engels",
           "SCOUSE": "Liverpools (Scouse)",
-          "SIMPLE": "SIMPLE",
+          "SIMPLE": "Simpel",
           "SOLBA": "Stolvizza/Solbica-dialect",
           "SOTAV": "Sotavento-dialectgroep van Kabuverdianu",
           "SURMIRAN": "Surmiran",

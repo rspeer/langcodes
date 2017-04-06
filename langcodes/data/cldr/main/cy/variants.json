@@ -3,8 +3,8 @@
     "cy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13006 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "cy"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "Saesneg Modern Cynnar",
           "FONIPA": "Seineg IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Seineg UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

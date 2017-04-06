@@ -3,8 +3,8 @@
     "as": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "as"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "FONIPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "FONUPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

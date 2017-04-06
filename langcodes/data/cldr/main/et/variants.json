@@ -3,8 +3,8 @@
     "et": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "et"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "štokavi e-line murrak",
           "EMODENG": "EMODENG",
           "FONIPA": "IPA foneetika",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA foneetika",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "Hepburni latinisatsioon",

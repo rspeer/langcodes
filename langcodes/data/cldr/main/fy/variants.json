@@ -3,8 +3,8 @@
     "fy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12944 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "fy"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "Vroegmodern Engels",
           "FONIPA": "Internationaal Fonetysk Alfabet",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Oeralysk Fonetysk Alfabet",
           "FONXSAMP": "Fonxsamp",
           "HEPBURN": "Hepburn-romanisering",

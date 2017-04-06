@@ -3,8 +3,8 @@
     "se-FI": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12778 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "se",
         "territory": "FI"

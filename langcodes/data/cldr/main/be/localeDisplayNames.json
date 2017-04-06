@@ -3,8 +3,8 @@
     "be": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12966 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "be"
       },
@@ -16,10 +16,10 @@
         },
         "keys": {
           "calendar": "каляндар",
-          "cf": "cf",
-          "collation": "сартаванне",
+          "cf": "фармат валюты",
+          "collation": "парадак сартавання",
           "currency": "валюта",
-          "hc": "часавы цыкл (12 і 24)",
+          "hc": "гадзінны цыкл (12 або 24)",
           "lb": "правілы разрыву радка",
           "ms": "сістэма мер",
           "numbers": "лічбы"
@@ -46,14 +46,14 @@
             "roc": "каляндар Міньго"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "бухгалтарскі фармат валюты",
+            "standard": "стандартны фармат валюты"
           },
           "collation": {
             "big5han": "big5han",
             "compat": "compat",
             "dictionary": "dictionary",
-            "ducet": "стандартнае сартаванне Unicode",
+            "ducet": "стандартны парадак сартавання Унікод",
             "emoji": "emoji",
             "eor": "eor",
             "gb2312han": "gb2312han",
@@ -62,7 +62,7 @@
             "reformed": "reformed",
             "search": "універсальны пошук",
             "searchjl": "searchjl",
-            "standard": "стандартнае сартаванне",
+            "standard": "стандартны парадак сартавання",
             "stroke": "stroke",
             "traditional": "traditional",
             "unihan": "unihan",
@@ -75,8 +75,8 @@
             "h24": "24-гадзінны фармат часу (1-24)"
           },
           "lb": {
-            "loose": "гібкія правілы разрыву радка",
-            "normal": "стандартныя правілы разрыву радка",
+            "loose": "нястрогія правілы разрыву радка",
+            "normal": "звычайныя правілы разрыву радка",
             "strict": "строгія правілы разрыву радка"
           },
           "ms": {
@@ -115,8 +115,8 @@
             "jpan": "японскія лічбы",
             "jpanfin": "японскія лічбы (фінансы)",
             "kali": "kali",
-            "khmr": "хмерскія лічбы",
-            "knda": "лічбы каннада",
+            "khmr": "кхмерскія лічбы",
+            "knda": "лічбы канада",
             "lana": "lana",
             "lanatham": "lanatham",
             "laoo": "лаоскія лічбы",

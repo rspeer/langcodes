@@ -3,8 +3,8 @@
     "eo": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12354 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "eo"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Kipro",
           "CZ": "Ĉeĥujo",
+          "CZ-alt-variant": "CZ",
           "DE": "Germanujo",
           "DG": "DG",
           "DJ": "Ĝibutio",
@@ -117,6 +118,7 @@
           "ES": "Hispanujo",
           "ET": "Etiopujo",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finnlando",
           "FJ": "Fiĝoj",
           "FK": "FK",
@@ -290,6 +292,7 @@
           "UA": "Ukrajno",
           "UG": "Ugando",
           "UM": "Usonaj malgrandaj insuloj",
+          "UN": "UN",
           "US": "Usono",
           "US-alt-short": "US",
           "UY": "Urugvajo",

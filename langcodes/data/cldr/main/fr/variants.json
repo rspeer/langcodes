@@ -3,8 +3,8 @@
     "fr": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12379 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "fr"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "alphabet phonétique international",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "alphabet phonétique ouralique",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

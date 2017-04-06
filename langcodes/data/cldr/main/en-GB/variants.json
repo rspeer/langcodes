@@ -3,8 +3,8 @@
     "en-GB": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12217 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12924 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "en",
         "territory": "GB"
@@ -38,6 +38,7 @@
           "EKAVSK": "Serbian with Ekavian pronunciation",
           "EMODENG": "Early Modern English",
           "FONIPA": "IPA Phonetics",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA Phonetics",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "Hepburn romanization",

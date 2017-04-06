@@ -3,8 +3,8 @@
     "sl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "sl"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "mednarodna fonetična pisava IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "uralska fonetska pisava UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

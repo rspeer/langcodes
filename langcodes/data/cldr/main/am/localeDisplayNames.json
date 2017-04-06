@@ -3,8 +3,8 @@
     "am": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "am"
       },
@@ -16,24 +16,22 @@
         },
         "keys": {
           "calendar": "የቀን አቆጣጠር",
-          "cf": "cf",
+          "cf": "የምንዛሪ ቅርጸት",
           "colAlternate": "የምልክቶች ድርደራ ችላ በለው",
           "colBackwards": "የኋሊዮሽ የፊደል ጭረት ድርደራ",
           "colCaseFirst": "የአቢይ/ንዑስ ሆሄ ቅደም ተከተል",
           "colCaseLevel": "የመልከፊደል ትብ ድርደራ",
-          "colHiraganaQuaternary": "የካና ድርደራ",
           "collation": "አቀማመጥ ደርድር",
           "colNormalization": "መደበኛ ድርደራ",
           "colNumeric": "የቁጥር ድርደራ",
           "colStrength": "የድርደራ አቅም",
-          "currency": "ገንዘብ",
+          "currency": "ምንዛሪ",
           "hc": "የሰዓት ዑደት (12 ወይም 24)",
           "lb": "መስመር መስበሪያ ቅጥ",
           "ms": "የመለኪያ ስርዓት",
           "numbers": "ቁጥሮች",
           "timezone": "የሰዓት ሰቅ",
           "va": "የአካባቢ አይነት",
-          "variableTop": "እንደምልክቶች ደርድር",
           "x": "ለግል ጥቅም"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "የሚንጉ የቀን አቆጣጠር"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "የሂሳብ ምንዛሪ ቅርጸት",
+            "standard": "መደበኛ የምንዛሪ ቅርጸት"
           },
           "colAlternate": {
             "non-ignorable": "ምልክቶችን ደርድር",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "ያለመልከፊደል ትብ ደርድር",
             "yes": "በመልከፊደል ትብ ደርድር"
-          },
-          "colHiraganaQuaternary": {
-            "no": "ካና ለይተህ ደርድር",
-            "yes": "ካና ለይተህ ደርድር"
           },
           "collation": {
             "big5han": "የባህላዊ ቻይንኛ የድርድር ቅደም ተከተል - ትልቅ5",
@@ -117,6 +111,11 @@
             "secondary": "የፊደል ጭረቶችን ደርድር",
             "tertiary": "የፊደል ጭረቶች/መልከፊደል/ስፋት ደርድር"
           },
+          "d0": {
+            "fwidth": "ሙሉ ወርድ",
+            "hwidth": "ሃልፍዊድዝ",
+            "npinyin": "አሃዛዊ"
+          },
           "hc": {
             "h11": "የ12 ሰዓት ስርዓት (0–11)",
             "h12": "የ12 ሰዓት ስርዓት (1–12)",
@@ -127,6 +126,10 @@
             "loose": "ላላ ያለ መስመር መስበሪያ ቅጥ",
             "normal": "መደበኛ መስመር መስበሪያ ቅጥ",
             "strict": "ጠበቅ ያለ መስመር መስበሪያ ቅጥ"
+          },
+          "m0": {
+            "bgn": "ቢ ጂ ኤን",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "የልኬት ስርዓት",

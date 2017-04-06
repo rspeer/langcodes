@@ -3,8 +3,8 @@
     "af": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12944 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "af"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Kalender",
-          "cf": "cf",
+          "cf": "Geldeenheidformaat",
           "colAlternate": "Ignoreer simboolsortering",
           "colBackwards": "Omgekeerde aksentsortering",
           "colCaseFirst": "Hoofletters/kleinletters-sortering",
           "colCaseLevel": "Kassensitiewe sortering",
-          "colHiraganaQuaternary": "Kana-sortering",
           "collation": "Sorteervolgorde",
           "colNormalization": "Genormaliseerde sortering",
           "colNumeric": "Numeriese sortering",
@@ -33,7 +32,6 @@
           "numbers": "Syfers",
           "timezone": "Tydsone",
           "va": "Lokaalvariant",
-          "variableTop": "Sorteer as simbole",
           "x": "Privaat gebruik"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Minguo-kalender"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Rekeningkundige geldeenheidformaat",
+            "standard": "Standaard Geldeenheidformaat"
           },
           "colAlternate": {
             "non-ignorable": "Sorteer simbole",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Sorteer nie kassensitief nie",
             "yes": "Sorteer kassensitief"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Sorteer Kana afsonderlik",
-            "yes": "Sorteer Kana anders"
           },
           "collation": {
             "big5han": "Tradisionele Chinese sorteervolgorde - Groot5",
@@ -117,10 +111,15 @@
             "secondary": "Sorteer aksente",
             "tertiary": "Sorteer aksente/kas/breedte"
           },
+          "d0": {
+            "fwidth": "Vollewydte",
+            "hwidth": "halfwydte",
+            "npinyin": "Numeries"
+          },
           "hc": {
             "h11": "12-uur-stelsel (0-11)",
-            "h12": "112-uur-stelsel (1-12)",
-            "h23": "24-uur-stelsel",
+            "h12": "12-uur-stelsel (1-12)",
+            "h23": "24-uur-stelsel (0-23)",
             "h24": "24-uur-stelsel (1-24)"
           },
           "lb": {
@@ -128,8 +127,12 @@
             "normal": "Normale reëlbreek-styl",
             "strict": "Streng reëlbreek-styl"
           },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
+          },
           "ms": {
-            "metric": "Metriese stelsel",
+            "metric": "Metrieke stelsel",
             "uksystem": "Imperiale meetstelsel",
             "ussystem": "VS-meetstelsel"
           },
@@ -154,7 +157,7 @@
             "greklow": "Griekse kleinletter-syfers",
             "gujr": "Goedjarati-syfers",
             "guru": "Gurmukhi-syfers",
-            "hanidec": "Chinese desimale syfers",
+            "hanidec": "Sjinese desimale syfers",
             "hans": "Vereenvoudigde Sjinese syfers",
             "hansfin": "Vereenvoudigde Sjinese finansiële syfers",
             "hant": "Tradisionele Sjinese syfers",
@@ -189,7 +192,7 @@
             "native": "Inheemse syfers",
             "nkoo": "nkoo",
             "olck": "olck",
-            "orya": "Oriya-syfers",
+            "orya": "Odia-syfers",
             "osma": "osma",
             "roman": "Romeinse syfers",
             "romanlow": "Romeinse kleinletter-syfers",

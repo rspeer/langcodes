@@ -3,8 +3,8 @@
     "af-NA": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "af",
         "territory": "NA"
@@ -102,6 +102,7 @@
           "CX": "Kerseiland",
           "CY": "Siprus",
           "CZ": "Tjeggiese Republiek",
+          "CZ-alt-variant": "Tjeggië",
           "DE": "Duitsland",
           "DG": "Diego Garcia",
           "DJ": "Djiboeti",
@@ -118,6 +119,7 @@
           "ES": "Spanje",
           "ET": "Ethiopië",
           "EU": "Europese Unie",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fidji",
           "FK": "Falklandeilande",
@@ -291,6 +293,8 @@
           "UA": "Oekraïne",
           "UG": "Uganda",
           "UM": "VS klein omliggende eilande",
+          "UN": "verenigde nasies",
+          "UN-alt-short": "VN",
           "US": "Verenigde State van Amerika",
           "US-alt-short": "VSA",
           "UY": "Uruguay",

@@ -3,8 +3,8 @@
     "id": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "id"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "Fonetik IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Fonetik UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "Hepburn Latin",

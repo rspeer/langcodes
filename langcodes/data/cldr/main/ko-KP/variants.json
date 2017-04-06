@@ -3,8 +3,8 @@
     "ko-KP": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ko",
         "territory": "KP"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "FONIPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "FONUPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "헵번식 로마자 표기법",

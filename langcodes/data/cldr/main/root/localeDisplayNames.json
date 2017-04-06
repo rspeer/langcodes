@@ -3,8 +3,8 @@
     "root": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13058 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "root"
       },

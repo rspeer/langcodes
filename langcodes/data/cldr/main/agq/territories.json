@@ -3,8 +3,8 @@
     "agq": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "agq"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Saekpùlù",
           "CZ": "Chɛ̂ Lèkpubèlè",
+          "CZ-alt-variant": "CZ",
           "DE": "Dzamanè",
           "DG": "DG",
           "DJ": "Dzìbuwtì",
@@ -117,6 +118,7 @@
           "ES": "Sɨ̀kpɛ̂n",
           "ET": "Ètyǒpìa",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Fɨnlàn",
           "FJ": "Fidzi",
           "FK": "Chwɨlà fɨ Fakɨlàn",
@@ -290,6 +292,7 @@
           "UA": "Yùkɛ̀lɛ̂",
           "UG": "Yùgandà",
           "UM": "UM",
+          "UN": "UN",
           "US": "USA",
           "US-alt-short": "US",
           "UY": "Yulùgwɛ̂",

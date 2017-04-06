@@ -3,8 +3,8 @@
     "dz": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12961 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "dz"
       },

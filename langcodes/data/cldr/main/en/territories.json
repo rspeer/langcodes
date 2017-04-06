@@ -3,8 +3,8 @@
     "en": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12418 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13050 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "en"
       },
@@ -102,6 +102,7 @@
           "CX": "Christmas Island",
           "CY": "Cyprus",
           "CZ": "Czech Republic",
+          "CZ-alt-variant": "Czechia",
           "DE": "Germany",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -118,6 +119,7 @@
           "ES": "Spain",
           "ET": "Ethiopia",
           "EU": "European Union",
+          "EZ": "Eurozone",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "Falkland Islands",
@@ -292,6 +294,8 @@
           "UA": "Ukraine",
           "UG": "Uganda",
           "UM": "U.S. Outlying Islands",
+          "UN": "United Nations",
+          "UN-alt-short": "UN",
           "US": "United States",
           "US-alt-short": "US",
           "UY": "Uruguay",

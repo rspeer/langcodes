@@ -3,8 +3,8 @@
     "ga": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ga"
       },
@@ -101,6 +101,7 @@
           "CX": "Oileán na Nollag",
           "CY": "An Chipir",
           "CZ": "Poblacht na Seice",
+          "CZ-alt-variant": "CZ",
           "DE": "An Ghearmáin",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "An Spáinn",
           "ET": "An Aetóip",
           "EU": "An tAontas Eorpach",
+          "EZ": "EZ",
           "FI": "An Fhionlainn",
           "FJ": "Fidsí",
           "FK": "Oileáin Fháclainne",
@@ -290,6 +292,8 @@
           "UA": "An Úcráin",
           "UG": "Uganda",
           "UM": "Oileáin Imeallacha S.A.M.",
+          "UN": "Náisiúin Aontaithe",
+          "UN-alt-short": "NA",
           "US": "Stáit Aontaithe Mheiriceá",
           "US-alt-short": "SAM",
           "UY": "Urugua",

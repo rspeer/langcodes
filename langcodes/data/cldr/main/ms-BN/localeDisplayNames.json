@@ -3,8 +3,8 @@
     "ms-BN": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ms",
         "territory": "BN"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "Kalendar",
-          "cf": "cf",
+          "cf": "Format Mata wang",
           "colAlternate": "Abaikan Pengisihan Simbol",
           "colBackwards": "Pengisihan Aksen Terbalik",
           "colCaseFirst": "Penyusunan Huruf Besar/Huruf Kecil",
           "colCaseLevel": "Pengisihan Sensitif Atur",
-          "colHiraganaQuaternary": "Pengisihan Kana",
           "collation": "Urutan Isihan",
           "colNormalization": "Pengisihan Ternormal",
           "colNumeric": "Pengisihan Berangka",
@@ -34,7 +33,6 @@
           "numbers": "Nombor",
           "timezone": "Zon Waktu",
           "va": "Varian Tempat",
-          "variableTop": "Isih Sebagai Simbol",
           "x": "Penggunaan Peribadi"
         },
         "types": {
@@ -59,8 +57,8 @@
             "roc": "Kalendar Minguo"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Format Mata wang Perakaunan",
+            "standard": "Format Mata wang Standard"
           },
           "colAlternate": {
             "non-ignorable": "Isih Simbol",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Isih Tidak Sensitif Atur",
             "yes": "Isih Sensitif Atur"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Isih Kana Berasingan",
-            "yes": "Isih Kana Secara Berbeza"
           },
           "collation": {
             "big5han": "Aturan Isih Cina Tradisional - Big5",
@@ -118,6 +112,11 @@
             "secondary": "Isih Aksen",
             "tertiary": "Isih Aksen/Atur/Lebar"
           },
+          "d0": {
+            "fwidth": "Kelebaran penuh",
+            "hwidth": "Kelebaran separa",
+            "npinyin": "Bernombor"
+          },
           "hc": {
             "h11": "Sistem 12 Jam (0–11)",
             "h12": "Sistem 12 Jam (1–12)",
@@ -128,6 +127,10 @@
             "loose": "Gaya Pemisah Baris Bebas",
             "normal": "Gaya Pemisah Baris Biasa",
             "strict": "Gaya Pemisah Baris Ketat"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Sistem Metrik",
@@ -141,7 +144,7 @@
             "armn": "Angka Armenia",
             "armnlow": "Angka Kecil Armenia",
             "bali": "bali",
-            "beng": "Digit Bengali",
+            "beng": "Digit Benggali",
             "brah": "brah",
             "cakm": "cakm",
             "cham": "cham",
@@ -202,7 +205,7 @@
             "sund": "sund",
             "takr": "takr",
             "talu": "talu",
-            "taml": "Angka Tamil",
+            "taml": "Angka Tamil Tradisional",
             "tamldec": "Digit Tamil",
             "telu": "Digit Telugu",
             "thai": "Digit Thai",

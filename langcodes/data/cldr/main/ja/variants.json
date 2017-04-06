@@ -3,8 +3,8 @@
     "ja": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ja"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "初期近代英語",
           "FONIPA": "国際音声記号",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "ウラル音声記号",
           "FONXSAMP": "フォンクサンプ",
           "HEPBURN": "ヘボン式ローマ字",

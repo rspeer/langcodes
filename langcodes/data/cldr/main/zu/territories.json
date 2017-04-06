@@ -3,8 +3,8 @@
     "zu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12922 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "zu"
       },
@@ -44,7 +44,7 @@
           "AD": "i-Andorra",
           "AE": "i-United Arab Emirates",
           "AF": "i-Afghanistan",
-          "AG": "i-Antigua and Barbuda",
+          "AG": "i-Antigua ne-Barbuda",
           "AI": "i-Anguilla",
           "AL": "i-Albania",
           "AM": "i-Armenia",
@@ -101,6 +101,7 @@
           "CX": "i-Christmas Island",
           "CY": "i-Cyprus",
           "CZ": "i-Czech Republic",
+          "CZ-alt-variant": "i-Czechia",
           "DE": "i-Germany",
           "DG": "i-Diego Garcia",
           "DJ": "i-Djibouti",
@@ -117,6 +118,7 @@
           "ES": "i-Spain",
           "ET": "i-Ethiopia",
           "EU": "i-European Union",
+          "EZ": "EZ",
           "FI": "i-Finland",
           "FJ": "i-Fiji",
           "FK": "i-Falkland Islands",
@@ -237,7 +239,7 @@
           "PN": "i-Pitcairn Islands",
           "PR": "i-Puerto Rico",
           "PS": "i-Palestinian Territories",
-          "PS-alt-short": "i-Phalestine",
+          "PS-alt-short": "i-Palestine",
           "PT": "i-Portugal",
           "PW": "i-Palau",
           "PY": "i-Paraguay",
@@ -254,7 +256,7 @@
           "SD": "i-Sudan",
           "SE": "i-Sweden",
           "SG": "i-Singapore",
-          "SH": "i-Saint Helena",
+          "SH": "i-St. Helena",
           "SI": "i-Slovenia",
           "SJ": "i-Svalbard ne-Jan Mayen",
           "SK": "i-Slovakia",
@@ -270,7 +272,7 @@
           "SY": "i-Syria",
           "SZ": "i-Swaziland",
           "TA": "i-Tristan da Cunha",
-          "TC": "i-Turks and Caicos Islands",
+          "TC": "i-Turks ne-Caicos Islands",
           "TD": "i-Chad",
           "TF": "i-French Southern Territories",
           "TG": "i-Togo",
@@ -290,6 +292,8 @@
           "UA": "i-Ukraine",
           "UG": "i-Uganda",
           "UM": "i-U.S. Minor Outlying Islands",
+          "UN": "I-United Nations",
+          "UN-alt-short": "ifulegi",
           "US": "i-United States",
           "US-alt-short": "i-U.S",
           "UY": "i-Uruguay",

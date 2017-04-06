@@ -3,8 +3,8 @@
     "brx": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "brx"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "आईपीए फ़ोनेटीक्स",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "युपीए फ़ोनेटीक्स",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

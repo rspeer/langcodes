@@ -3,8 +3,8 @@
     "ro": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ro"
       },
@@ -101,6 +101,7 @@
           "CX": "Insula Christmas",
           "CY": "Cipru",
           "CZ": "Republica Cehă",
+          "CZ-alt-variant": "Cehia",
           "DE": "Germania",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Spania",
           "ET": "Etiopia",
           "EU": "Uniunea Europeană",
+          "EZ": "EZ",
           "FI": "Finlanda",
           "FJ": "Fiji",
           "FK": "Insulele Falkland",
@@ -195,8 +197,8 @@
           "MF": "Sfântul Martin",
           "MG": "Madagascar",
           "MH": "Insulele Marshall",
-          "MK": "Macedonia",
-          "MK-alt-variant": "Macedonia (FRIM)",
+          "MK": "Republica Macedonia",
+          "MK-alt-variant": "Republica Macedonia (FRIM)",
           "ML": "Mali",
           "MM": "Myanmar (Birmania)",
           "MN": "Mongolia",
@@ -264,7 +266,7 @@
           "SO": "Somalia",
           "SR": "Suriname",
           "SS": "Sudanul de Sud",
-          "ST": "Sao Tome și Principe",
+          "ST": "Sao Tomé și Príncipe",
           "SV": "El Salvador",
           "SX": "Sint-Maarten",
           "SY": "Siria",
@@ -290,6 +292,8 @@
           "UA": "Ucraina",
           "UG": "Uganda",
           "UM": "Insulele Îndepărtate ale S.U.A.",
+          "UN": "Națiunile Unite",
+          "UN-alt-short": "NU",
           "US": "Statele Unite ale Americii",
           "US-alt-short": "S.U.A.",
           "UY": "Uruguay",
@@ -298,7 +302,7 @@
           "VC": "Saint Vincent și Grenadinele",
           "VE": "Venezuela",
           "VG": "Insulele Virgine Britanice",
-          "VI": "Insulele Virgine S.U.A.",
+          "VI": "Insulele Virgine Americane",
           "VN": "Vietnam",
           "VU": "Vanuatu",
           "WF": "Wallis și Futuna",

@@ -3,8 +3,8 @@
     "seh": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "seh"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Chipre",
           "CZ": "República Tcheca",
+          "CZ-alt-variant": "CZ",
           "DE": "Alemanha",
           "DG": "DG",
           "DJ": "Djibuti",
@@ -117,6 +118,7 @@
           "ES": "Espanha",
           "ET": "Etiópia",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlândia",
           "FJ": "Fiji",
           "FK": "Ilhas Malvinas",
@@ -290,6 +292,7 @@
           "UA": "Ucrânia",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Estados Unidos",
           "US-alt-short": "US",
           "UY": "Uruguai",

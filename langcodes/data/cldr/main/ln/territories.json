@@ -3,8 +3,8 @@
     "ln": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ln"
       },
@@ -80,7 +80,7 @@
           "BZ": "Belizɛ",
           "CA": "Kanada",
           "CC": "CC",
-          "CD": "Repibiki demokratiki ya Kongó",
+          "CD": "Republíki ya Kongó Demokratíki",
           "CD-alt-variant": "CD",
           "CF": "Repibiki ya Afríka ya Káti",
           "CG": "Kongo",
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Sípɛlɛ",
           "CZ": "Repibiki Tsekɛ",
+          "CZ-alt-variant": "CZ",
           "DE": "Alemani",
           "DG": "DG",
           "DJ": "Dzibuti",
@@ -117,6 +118,7 @@
           "ES": "Esipanye",
           "ET": "Etsíopi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Filandɛ",
           "FJ": "Fidzi",
           "FK": "Bisanga bya Maluni",
@@ -290,6 +292,7 @@
           "UA": "Ikrɛni",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Ameriki",
           "US-alt-short": "US",
           "UY": "Irigwei",

@@ -3,8 +3,8 @@
     "zu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12922 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "zu"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "FONIPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "FONUPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

@@ -3,8 +3,8 @@
     "ks": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13006 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ks"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "آوازیات",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "یوٗ پی اے آوازِیات",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

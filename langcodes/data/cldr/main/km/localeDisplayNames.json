@@ -3,8 +3,8 @@
     "km": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "km"
       },
@@ -16,7 +16,7 @@
         },
         "keys": {
           "calendar": "ប្រតិទិន",
-          "cf": "cf",
+          "cf": "ទម្រង់រូបិយប័ណ្ណ",
           "collation": "លំដាប់​តម្រៀប",
           "currency": "រូបិយប័ណ្ណ",
           "hc": "វដ្តម៉ោង (12 vs 24)",
@@ -26,7 +26,7 @@
         },
         "types": {
           "calendar": {
-            "buddhist": "ប្រតិទិកពុទ្ធសាសនា",
+            "buddhist": "ប្រតិទិនពុទ្ធសាសនា",
             "chinese": "ប្រតិទិន​ចិន",
             "coptic": "coptic",
             "dangi": "ប្រតិទិនកូរ៉េ",
@@ -46,8 +46,8 @@
             "roc": "ប្រតិទិនមីងគ័រ"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "ទម្រង់រូបិយប័ណ្ណគណនី",
+            "standard": "ទម្រង់រូបិយប័ណ្ណបទដ្ឋាន"
           },
           "collation": {
             "big5han": "big5han",
@@ -116,7 +116,7 @@
             "jpanfin": "លេខ​ហិរញ្ញវត្ថុ​ជប៉ុន",
             "kali": "kali",
             "khmr": "លេខ​ខ្មែរ",
-            "knda": "លេខកន្នដ",
+            "knda": "លេខខាណាដា",
             "lana": "lana",
             "lanatham": "lanatham",
             "laoo": "លេខ​ឡាវ",
@@ -138,7 +138,7 @@
             "mymrtlng": "mymrtlng",
             "nkoo": "nkoo",
             "olck": "olck",
-            "orya": "លេខ​អូរីយ៉ា",
+            "orya": "លេខអូឌៀ",
             "osma": "osma",
             "roman": "លេខ​រ៉ូមាំង",
             "romanlow": "លេខ​តូច​រ៉ូមាំង",

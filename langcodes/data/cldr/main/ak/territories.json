@@ -3,8 +3,8 @@
     "ak": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ak"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Saeprɔs",
           "CZ": "Kyɛk Kurokɛse",
+          "CZ-alt-variant": "CZ",
           "DE": "Gyaaman",
           "DG": "DG",
           "DJ": "Gyibuti",
@@ -117,6 +118,7 @@
           "ES": "Spain",
           "ET": "Ithiopia",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Figyi",
           "FK": "Fɔlkman Aeland",
@@ -290,6 +292,7 @@
           "UA": "Ukren",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amɛrika",
           "US-alt-short": "US",
           "UY": "Yurugwae",

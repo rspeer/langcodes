@@ -3,8 +3,8 @@
     "lt": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "lt"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "kalendorius",
-          "cf": "cf",
+          "cf": "valiutos formatas",
           "colAlternate": "Rikiavimas nepaisant simbolių",
           "colBackwards": "Atvirkštinis rikiavimas",
           "colCaseFirst": "Didžiųjų / mažųjų raidžių tvarka",
           "colCaseLevel": "Rikiavimas skiriant didžiąsias ir mažąsias raides",
-          "colHiraganaQuaternary": "Rikiavimas pagal kanos ženklus",
           "collation": "rikiavimas",
           "colNormalization": "Normalizuotas rikiavimas",
           "colNumeric": "Skaitinis rikiavimas",
@@ -33,7 +32,6 @@
           "numbers": "skaičiai",
           "timezone": "Laiko juosta",
           "va": "Lokalės variantas",
-          "variableTop": "Rikiavimas simbolių principu",
           "x": "Naudoti privačiai"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Kinijos Respublikos kalendorius"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "apskaitos valiutos formatas",
+            "standard": "standartinis valiutos formatas"
           },
           "colAlternate": {
             "non-ignorable": "Rikiuoti simbolius",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Rikiuoti neskiriant didžiųjų ir mažųjų raidžių",
             "yes": "Rikiuoti skiriant didžiąsias ir mažąsias raides"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Rikiuoti kanos ženklus atskirai",
-            "yes": "Rikiuoti kanos ženklus kitaip"
           },
           "collation": {
             "big5han": "įprasta kiniška rūšiavimo tvarka - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Rikiuoti diakritinius ženklus",
             "tertiary": "Rikiuoti pagal diakritinius ženklus / didžiąsias ir mažąsias raides / plotį"
           },
+          "d0": {
+            "fwidth": "Viso pločio",
+            "hwidth": "Vidutinio pločio",
+            "npinyin": "Skaitinis"
+          },
           "hc": {
             "h11": "12 valandų sistema (0–11)",
             "h12": "12 valandų sistema (1–12)",
@@ -127,6 +126,10 @@
             "loose": "laisvas teksto laužymo stilius",
             "normal": "įprastas teksto laužymo stilius",
             "strict": "griežtas teksto laužymo stilius"
+          },
+          "m0": {
+            "bgn": "BGN simboliai",
+            "ungegn": "UNGEGN simboliai"
           },
           "ms": {
             "metric": "metrinė sistema",

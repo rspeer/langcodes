@@ -3,8 +3,8 @@
     "sr-Latn-ME": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12417 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12933 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "sr",
         "script": "Latn",
@@ -18,24 +18,22 @@
         },
         "keys": {
           "calendar": "kalendar",
-          "cf": "cf",
+          "cf": "format valute",
           "colAlternate": "Sortiranje uz ignorisanje simbola",
           "colBackwards": "Sortiranje prema obrnutim akcentima",
           "colCaseFirst": "Ređanje prema malom/velikom slovu",
           "colCaseLevel": "Sortiranje prema malom/velikom slovu",
-          "colHiraganaQuaternary": "Sortiranje prema kana simbolima",
           "collation": "Sortiranje",
           "colNormalization": "Normalizovano sortiranje",
           "colNumeric": "Numeričko sortiranje",
           "colStrength": "Sortiranje prema jačini",
           "currency": "valuta",
-          "hc": "hc",
+          "hc": "prikazivanje vremena (12- ili 24-časovno)",
           "lb": "stil preloma reda",
-          "ms": "ms",
+          "ms": "sistem mernih jedinica",
           "numbers": "brojevi",
           "timezone": "Vremenska zona",
           "va": "Varijanta lokaliteta",
-          "variableTop": "Sortiraj kao simbole",
           "x": "Privatna upotreba"
         },
         "types": {
@@ -60,8 +58,8 @@
             "roc": "kalendar Republike Kine"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "računovodstveni format valute",
+            "standard": "standardni format valute"
           },
           "colAlternate": {
             "non-ignorable": "Sortiraj simbole",
@@ -80,15 +78,11 @@
             "no": "Sortiraj bez obzira na velika i mala slova",
             "yes": "Sortiraj mala i velika slova"
           },
-          "colHiraganaQuaternary": {
-            "no": "Sortiraj kana simbole odvojeno",
-            "yes": "Sortiraj kana simbole drugačije"
-          },
           "collation": {
             "big5han": "Tradicionalno kinesko sortiranje",
             "compat": "compat",
             "dictionary": "Redosled sortiranja u rečniku",
-            "ducet": "Podrazumevani Unicode redosled sortiranja",
+            "ducet": "podrazumevani Unicode redosled sortiranja",
             "emoji": "emoji",
             "eor": "eor",
             "gb2312han": "Pojednostavljeno kinesko sortiranje",
@@ -119,21 +113,30 @@
             "secondary": "Sortiraj akcente",
             "tertiary": "Sortiraj akcente/mala i velika slova/širinu"
           },
+          "d0": {
+            "fwidth": "puna širina",
+            "hwidth": "pola širine",
+            "npinyin": "Numerička"
+          },
           "hc": {
-            "h11": "h11",
-            "h12": "h12",
-            "h23": "h23",
-            "h24": "h24"
+            "h11": "12-časovni sistem (0-11)",
+            "h12": "12-časovni sistem (1-12)",
+            "h23": "24-časovni sistem (0-23)",
+            "h24": "24-časovni sistem (1-24)"
           },
           "lb": {
-            "loose": "loose",
-            "normal": "normal",
-            "strict": "strict"
+            "loose": "razmaknuti stil preloma reda",
+            "normal": "normalni stil preloma reda",
+            "strict": "strogi stil preloma reda"
+          },
+          "m0": {
+            "bgn": "BGN (BGN)",
+            "ungegn": "UNGEGN (BGN)"
           },
           "ms": {
-            "metric": "metric",
-            "uksystem": "uksystem",
-            "ussystem": "ussystem"
+            "metric": "metrički",
+            "uksystem": "imperijalni",
+            "ussystem": "američki"
           },
           "numbers": {
             "ahom": "ahom",
@@ -216,7 +219,7 @@
         },
         "codePatterns": {
           "language": "Jezik: {0}",
-          "script": "pismo: {0}",
+          "script": "Pismo: {0}",
           "territory": "Region: {0}"
         }
       }

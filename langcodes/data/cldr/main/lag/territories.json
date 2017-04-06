@@ -3,8 +3,8 @@
     "lag": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "lag"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Kupuróosi",
           "CZ": "Jamuhúuri ya Chéeki",
+          "CZ-alt-variant": "CZ",
           "DE": "Ʉjerumáani",
           "DG": "DG",
           "DJ": "Jibúuti",
@@ -117,6 +118,7 @@
           "ES": "Hisipánia",
           "ET": "Ʉhabéeshi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Ufíini",
           "FJ": "Fíiji",
           "FK": "Visíiwa vya Fakulandi",
@@ -290,6 +292,7 @@
           "UA": "Ʉkɨréeni",
           "UG": "Ʉgáanda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amerɨka",
           "US-alt-short": "US",
           "UY": "Uruguáai",

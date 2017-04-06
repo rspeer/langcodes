@@ -3,8 +3,8 @@
     "ee-TG": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ee",
         "territory": "TG"
@@ -102,6 +102,7 @@
           "CX": "Kristmas ƒudomekpo nutome",
           "CY": "Saiprus nutome",
           "CZ": "Tsɛk repɔblik nutome",
+          "CZ-alt-variant": "CZ",
           "DE": "Germania nutome",
           "DG": "Diego Garsia nutome",
           "DJ": "Dzibuti nutome",
@@ -118,6 +119,7 @@
           "ES": "Spain nutome",
           "ET": "Etiopia nutome",
           "EU": "Europa Wɔɖeka nutome",
+          "EZ": "EZ",
           "FI": "Finland nutome",
           "FJ": "Fidzi nutome",
           "FK": "Falkland ƒudomekpowo nutome",
@@ -291,6 +293,7 @@
           "UA": "Ukraine nutome",
           "UG": "Uganda nutome",
           "UM": "U.S. Minor Outlaying ƒudomekpowo nutome",
+          "UN": "UN",
           "US": "USA nutome",
           "US-alt-short": "US",
           "UY": "uruguaydukɔ",

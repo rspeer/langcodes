@@ -3,8 +3,8 @@
     "ro": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ro"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "calendar",
-          "cf": "cf",
+          "cf": "Format monedă",
           "colAlternate": "Ordonare cu simbolurile ignorate",
           "colBackwards": "Ordonare inversă după accent",
           "colCaseFirst": "Ordonare după majuscule/minuscule",
           "colCaseLevel": "Ordonare care ține seama de majuscule/minuscule",
-          "colHiraganaQuaternary": "Ordonare după kana",
           "collation": "ordine de sortare",
           "colNormalization": "Ordonare normalizată",
           "colNumeric": "Ordonare numerică",
@@ -33,7 +32,6 @@
           "numbers": "numere",
           "timezone": "Fusul orar",
           "va": "Varianta locală",
-          "variableTop": "Ordonați ca simboluri",
           "x": "Utilizare privată"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "calendarul Republicii Chineze"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Format monedă contabilitate",
+            "standard": "Format monedă standard"
           },
           "colAlternate": {
             "non-ignorable": "Ordonați simbolurile",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Ordonați neținând seama de diferența dintre majuscule/minuscule",
             "yes": "Ordonați ținând seama de diferența dintre majuscule/minuscule"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Ordonați caracterele kana separat",
-            "yes": "Ordonați kana diferențiat"
           },
           "collation": {
             "big5han": "sortare pentru chineza tradițională - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Ordonați după accent",
             "tertiary": "Ordonați după accente/dimensiunea literei/lățime"
           },
+          "d0": {
+            "fwidth": "Cu lățime întreagă",
+            "hwidth": "Cu jumătate de lățime",
+            "npinyin": "Numeric"
+          },
           "hc": {
             "h11": "sistem cu 12 ore (0–11)",
             "h12": "sistem cu 12 ore (0–12)",
@@ -127,6 +126,10 @@
             "loose": "stil liber de întrerupere a liniei",
             "normal": "stil normal de întrerupere a liniei",
             "strict": "stil strict de întrerupere a liniei"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "sistemul metric",

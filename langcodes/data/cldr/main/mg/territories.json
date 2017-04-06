@@ -3,8 +3,8 @@
     "mg": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "mg"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Sypra",
           "CZ": "Repoblikan’i Tseky",
+          "CZ-alt-variant": "CZ",
           "DE": "Alemaina",
           "DG": "DG",
           "DJ": "Djiboti",
@@ -117,6 +118,7 @@
           "ES": "Espaina",
           "ET": "Ethiopia",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlandy",
           "FJ": "Fidji",
           "FK": "Nosy Falkand",
@@ -290,6 +292,7 @@
           "UA": "Okraina",
           "UG": "Oganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Etazonia",
           "US-alt-short": "US",
           "UY": "Orogoay",

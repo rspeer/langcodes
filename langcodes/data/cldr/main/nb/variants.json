@@ -3,8 +3,8 @@
     "nb": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12379 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13007 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "nb"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "serbisk med ekavisk uttale",
           "EMODENG": "tidlig moderne engelsk",
           "FONIPA": "det internasjonale fonetiske alfabet (IPA)",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "det uraliske fonetiske alfabet (UPA)",
           "FONXSAMP": "fonxsamp",
           "HEPBURN": "Hepburn-romanisering",

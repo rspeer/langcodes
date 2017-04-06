@@ -3,8 +3,8 @@
     "pt": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "pt"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Calendário",
-          "cf": "cf",
+          "cf": "Formato de moeda",
           "colAlternate": "Ignorar classificação de símbolos",
           "colBackwards": "Classificação reversa de acentos",
           "colCaseFirst": "Ordem de maiúsculas/minúsculas",
           "colCaseLevel": "Ordem com diferenciação de maiúsculas e minúsculas",
-          "colHiraganaQuaternary": "Classificação kana",
           "collation": "Ordenação",
           "colNormalization": "Classificação normalizada",
           "colNumeric": "Classificação numérica",
@@ -33,7 +32,6 @@
           "numbers": "Números",
           "timezone": "Fuso horário",
           "va": "Variante de localidade",
-          "variableTop": "Classificar como símbolos",
           "x": "Uso privado"
         },
         "types": {
@@ -42,7 +40,7 @@
             "chinese": "Calendário Chinês",
             "coptic": "Calendário Coptic",
             "dangi": "Calendário Dangi",
-            "ethiopic": "Calendário etíope",
+            "ethiopic": "Calendário Etíope",
             "ethiopic-amete-alem": "Calendário Amete Alem da Etiópia",
             "gregorian": "Calendário Gregoriano",
             "hebrew": "Calendário Hebraico",
@@ -58,8 +56,8 @@
             "roc": "Calendário da República da China"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Formato de moeda para contabilidade",
+            "standard": "Formato de moeda padrão"
           },
           "colAlternate": {
             "non-ignorable": "Classificar símbolos",
@@ -78,10 +76,6 @@
             "no": "Classificação sem diferenciação de maiúsculas e minúsculas",
             "yes": "Classificação com diferenciação de maiúsculas e minúsculas"
           },
-          "colHiraganaQuaternary": {
-            "no": "Classificar kana separadamente",
-            "yes": "Classificar kana diferentemente"
-          },
           "collation": {
             "big5han": "Ordem do Chinês Tradicional - Big5",
             "compat": "compat",
@@ -96,7 +90,7 @@
             "reformed": "Ordem reformulada",
             "search": "Pesquisa de uso geral",
             "searchjl": "Pesquisar por consonante inicial hangul",
-            "standard": "padrão",
+            "standard": "Ordem padrão",
             "stroke": "Ordem dos Traços",
             "traditional": "Ordem Tradicional",
             "unihan": "Ordem por Radical-Traços",
@@ -117,6 +111,11 @@
             "secondary": "Classificar acentos",
             "tertiary": "Classificar acentos/maiúsculas e minúsculas/largura"
           },
+          "d0": {
+            "fwidth": "Extensão total",
+            "hwidth": "Extensão total",
+            "npinyin": "Numérico"
+          },
           "hc": {
             "h11": "Sistema de 12 horas (0–11)",
             "h12": "Sistema de 12 horas (1–12)",
@@ -127,6 +126,10 @@
             "loose": "Quebra de linha com estilo solto",
             "normal": "Quebra de linha com estilo normal",
             "strict": "Quebra de linha com estilo estrito"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Sistema métrico",
@@ -140,20 +143,20 @@
             "armn": "Algarismos armênios",
             "armnlow": "Algarismos armênios minúsculos",
             "bali": "bali",
-            "beng": "Algarismos Bengali",
+            "beng": "Algarismos bengali",
             "brah": "brah",
             "cakm": "cakm",
             "cham": "cham",
             "cyrl": "cyrl",
-            "deva": "Algarismos Devanagari",
+            "deva": "Algarismos devanágari",
             "ethi": "Algarismos etiopianos",
             "finance": "Numerais financeiros",
             "fullwide": "Algarismos em extensão total",
             "geor": "Algarismos georgianos",
             "grek": "Algarismos gregos",
             "greklow": "Algarismos gregos minúsculos",
-            "gujr": "Algarismos Gujarati",
-            "guru": "Algarismos Gurmukhi",
+            "gujr": "Algarismos guzerate",
+            "guru": "Algarismos gurmukhi",
             "hanidec": "Algarismos decimais chineses",
             "hans": "Algarismos chineses simplificados",
             "hansfin": "Algarismos financeiros chineses simplificados",
@@ -165,8 +168,8 @@
             "jpan": "Algarismos japoneses",
             "jpanfin": "Algarismos financeiros japoneses",
             "kali": "kali",
-            "khmr": "Algarismos Khmer",
-            "knda": "Algarismos Kannada",
+            "khmr": "Algarismos khmer",
+            "knda": "Algarismos canareses",
             "lana": "lana",
             "lanatham": "lanatham",
             "laoo": "Algarismos laosianos",
@@ -178,18 +181,18 @@
             "mathmono": "mathmono",
             "mathsanb": "mathsanb",
             "mathsans": "mathsans",
-            "mlym": "Algarismos Malayalam",
+            "mlym": "Algarismos malaialos",
             "modi": "modi",
             "mong": "Algarismos mongóis",
             "mroo": "mroo",
             "mtei": "mtei",
-            "mymr": "Algarismos Myanmar",
+            "mymr": "Algarismos de Myanmar",
             "mymrshan": "mymrshan",
             "mymrtlng": "mymrtlng",
             "native": "Dígitos nativos",
             "nkoo": "nkoo",
             "olck": "olck",
-            "orya": "Algarismos Oriya",
+            "orya": "Algarismos oriá",
             "osma": "osma",
             "roman": "Algarismos romanos",
             "romanlow": "Algarismos romanos minúsculos",
@@ -201,9 +204,9 @@
             "sund": "sund",
             "takr": "takr",
             "talu": "talu",
-            "taml": "Algarismos Tâmil",
-            "tamldec": "Algarismos Tâmil",
-            "telu": "Algarismos Telugu",
+            "taml": "Algarismos tâmil tradicionais",
+            "tamldec": "Algarismos tâmil",
+            "telu": "Algarismos telugos",
             "thai": "Algarismos tailandeses",
             "tibt": "Algarismos tibetanos",
             "tirh": "tirh",

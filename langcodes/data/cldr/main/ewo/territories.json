@@ -3,8 +3,8 @@
     "ewo": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ewo"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Sipəlús",
           "CZ": "Ǹnam Tsɛ́g",
+          "CZ-alt-variant": "CZ",
           "DE": "Ndzáman",
           "DG": "DG",
           "DJ": "Dzibutí",
@@ -117,6 +118,7 @@
           "ES": "Kpənyá",
           "ET": "Etiopí",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finəlán",
           "FJ": "Fidzí",
           "FK": "Minlán Mi Fóləkəlan",
@@ -290,6 +292,7 @@
           "UA": "Ukərɛ́n",
           "UG": "Ugandá",
           "UM": "UM",
+          "UN": "UN",
           "US": "Ǹnam Amɛrəkə",
           "US-alt-short": "US",
           "UY": "Urugué",

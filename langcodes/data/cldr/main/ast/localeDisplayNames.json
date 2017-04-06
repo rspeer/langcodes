@@ -3,8 +3,8 @@
     "ast": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12411 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ast"
       },
@@ -16,7 +16,7 @@
         },
         "keys": {
           "calendar": "calendariu",
-          "cf": "cf",
+          "cf": "formatu monetariu",
           "collation": "orde de clasificación",
           "currency": "moneda",
           "hc": "ciclu horariu (12 o 24)",
@@ -43,11 +43,11 @@
             "iso8601": "calendariu ISO-8601",
             "japanese": "calendariu xaponés",
             "persian": "calendariu persa",
-            "roc": "calendariu Minguo"
+            "roc": "calendariu de la República de China"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "formatu monetariu contable",
+            "standard": "formatu monetariu estándar"
           },
           "collation": {
             "big5han": "orde de clasificación chinu tradicional - Big5",
@@ -85,7 +85,7 @@
             "ussystem": "sistema de midida d’EE.XX."
           },
           "numbers": {
-            "ahom": "ahom",
+            "ahom": "númberos ahom",
             "arab": "númberos arábico-índicos",
             "arabext": "númberos arábico-índicos estendíos",
             "armn": "númberos armenios",
@@ -95,7 +95,7 @@
             "brah": "númberos brahmi",
             "cakm": "númberos chakma",
             "cham": "númberos cham",
-            "cyrl": "cyrl",
+            "cyrl": "númberos cirílicos",
             "deva": "númberos devanagari",
             "ethi": "númberos etíopes",
             "fullwide": "númberos n’anchu completu",
@@ -110,7 +110,7 @@
             "hant": "númberos chinos tradicionales",
             "hantfin": "númberos chinos financieros tradicionales",
             "hebr": "númberos hebreos",
-            "hmng": "hmng",
+            "hmng": "númberos Pahawh Hmong",
             "java": "númberos xavanesos",
             "jpan": "númberos xaponeses",
             "jpanfin": "númberos financieros xaponeses",
@@ -123,29 +123,29 @@
             "latn": "númberos occidentales",
             "lepc": "númberos lepcha",
             "limb": "númberos limbu",
-            "mathbold": "mathbold",
-            "mathdbl": "mathdbl",
-            "mathmono": "mathmono",
-            "mathsanb": "mathsanb",
-            "mathsans": "mathsans",
+            "mathbold": "númberos matemáticos en negrina",
+            "mathdbl": "númberos matemáticos con trazu doble",
+            "mathmono": "númberos matemáticos monoespaciaos",
+            "mathsanb": "númberos matemáticos Sans-Serif en negrina",
+            "mathsans": "númberos matemáticos Sans-Serif",
             "mlym": "númberos malayalam",
-            "modi": "modi",
+            "modi": "númberos modi",
             "mong": "númberos mongoles",
-            "mroo": "mroo",
+            "mroo": "númberos mro",
             "mtei": "númberos Meetei Mayek",
             "mymr": "númberos de Myanmar",
             "mymrshan": "númberos Shan de Myanmar",
-            "mymrtlng": "mymrtlng",
+            "mymrtlng": "númberos Tai Laing de Myanmar",
             "nkoo": "númberos N’Ko",
             "olck": "númberos Ol Chiki",
-            "orya": "númberos oriya",
+            "orya": "númberos odia",
             "osma": "númberos osmanya",
             "roman": "númberos romanos",
             "romanlow": "númberos romanos en minúscules",
             "saur": "númberos saurashtra",
             "shrd": "númberos sharada",
-            "sind": "sind",
-            "sinh": "sinh",
+            "sind": "númberos Khudawadi",
+            "sinh": "númberos Lith cingaleses",
             "sora": "númberos Sora Sompeng",
             "sund": "númberos sondaneses",
             "takr": "númberos takri",
@@ -155,9 +155,9 @@
             "telu": "númberos telugu",
             "thai": "númberos tailandeses",
             "tibt": "númberos tibetanos",
-            "tirh": "tirh",
+            "tirh": "númberos tirhuta",
             "vaii": "númberos vai",
-            "wara": "wara"
+            "wara": "númberos Warang Citi"
           }
         },
         "codePatterns": {

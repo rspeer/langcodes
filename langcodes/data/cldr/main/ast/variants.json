@@ -3,8 +3,8 @@
     "ast": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12411 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ast"
       },
@@ -16,10 +16,10 @@
           "1606NICT": "últimu francés mediu fasta 1606",
           "1694ACAD": "francés modernu primitivu",
           "1959ACAD": "académicu",
-          "ABL1943": "ABL1943",
+          "ABL1943": "formulación ortográfica de 1943",
           "ALALC97": "romanizacion ALA-LC, edicion de 1997",
           "ALUKU": "dialectu aluku",
-          "AO1990": "AO1990",
+          "AO1990": "alcuerdu ortográficu de 1990 pa la llingua portuguesa",
           "AREVELA": "armeniu oriental",
           "AREVMDA": "armeniu occidental",
           "BAKU1926": "alfabetu turcu llatino unificáu",
@@ -31,12 +31,13 @@
           "BISKE": "dialectu San Giorgio/Bila",
           "BOHORIC": "alfabetu bohorič",
           "BOONT": "boontling",
-          "COLB1945": "COLB1945",
+          "COLB1945": "convención ortográfica brasilanu-portuguesa de 1945",
           "CORNU": "CORNU",
           "DAJNKO": "alfabetu dajnko",
           "EKAVSK": "serbiu con pronunciación ekaviana",
           "EMODENG": "inglés modernu primitivu",
           "FONIPA": "fonética IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "fonética UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "romanización de Hepburn",
@@ -59,7 +60,7 @@
           "NJIVA": "dialectu gniva/njiva",
           "NULIK": "volapük modernu",
           "OSOJS": "dialectu oseacco/osojane",
-          "OXENDICT": "OXENDICT",
+          "OXENDICT": "ortografía del diccionariu d’inglés d’Oxford",
           "PAMAKA": "dialectu pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "romanización pinyin",

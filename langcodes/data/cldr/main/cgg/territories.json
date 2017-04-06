@@ -3,8 +3,8 @@
     "cgg": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "cgg"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Saipurasi",
           "CZ": "Ripaaburika ya Zeeki",
+          "CZ-alt-variant": "CZ",
           "DE": "Bugirimaani",
           "DG": "DG",
           "DJ": "Gyibuti",
@@ -117,6 +118,7 @@
           "ES": "Sipeyini",
           "ET": "Ethiyopiya",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Bufini",
           "FJ": "Figyi",
           "FK": "Ebizinga bya Faakilanda",
@@ -290,6 +292,7 @@
           "UA": "Ukureini",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amerika",
           "US-alt-short": "US",
           "UY": "Urugwai",

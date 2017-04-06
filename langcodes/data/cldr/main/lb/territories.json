@@ -3,8 +3,8 @@
     "lb": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "lb"
       },
@@ -101,6 +101,7 @@
           "CX": "Chrëschtdagsinsel",
           "CY": "Zypern",
           "CZ": "Tschechien",
+          "CZ-alt-variant": "CZ",
           "DE": "Däitschland",
           "DG": "Diego Garcia",
           "DJ": "Dschibuti",
@@ -117,6 +118,7 @@
           "ES": "Spanien",
           "ET": "Ethiopien",
           "EU": "Europäesch Unioun",
+          "EZ": "EZ",
           "FI": "Finnland",
           "FJ": "Fidschi",
           "FK": "Falklandinselen",
@@ -290,6 +292,7 @@
           "UA": "Ukrain",
           "UG": "Uganda",
           "UM": "Amerikanesch-Ozeanien",
+          "UN": "UN",
           "US": "Vereenegt Staate vun Amerika",
           "US-alt-short": "US",
           "UY": "Uruguay",

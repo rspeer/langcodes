@@ -3,8 +3,8 @@
     "es-US": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12217 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12799 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "es",
         "territory": "US"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "calendario",
-          "cf": "cf",
+          "cf": "formato de moneda",
           "colAlternate": "Orden ignorando símbolos",
           "colBackwards": "Orden de acentos con inversión",
           "colCaseFirst": "Orden de mayúsculas/minúsculas",
           "colCaseLevel": "Orden con distinción entre mayúsculas y minúsculas",
-          "colHiraganaQuaternary": "Orden de kana",
           "collation": "orden",
           "colNormalization": "Orden con normalización",
           "colNumeric": "Orden numérico",
@@ -34,7 +33,6 @@
           "numbers": "números",
           "timezone": "Zona horaria",
           "va": "Variante local",
-          "variableTop": "Ordenar como símbolos",
           "x": "Uso privado"
         },
         "types": {
@@ -59,8 +57,8 @@
             "roc": "calendario de la República de China"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "formato de moneda de contabilidad",
+            "standard": "formato de moneda estándar"
           },
           "colAlternate": {
             "non-ignorable": "Ordenar símbolos",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Ordenar sin distinguir entre mayúsculas y minúsculas",
             "yes": "Ordenar distinguiendo entre mayúsculas y minúsculas"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Ordenar caracteres kana por separado",
-            "yes": "Ordenar diferenciando caracteres kana"
           },
           "collation": {
             "big5han": "orden del chino tradicional - Big5",
@@ -118,6 +112,11 @@
             "secondary": "Ordenar acentos",
             "tertiary": "Ordenar acentos/mayúsculas y minúsculas/ancho"
           },
+          "d0": {
+            "fwidth": "Ancho completo",
+            "hwidth": "Ancho medio",
+            "npinyin": "Numérico"
+          },
           "hc": {
             "h11": "sistema de 12 horas (0–11)",
             "h12": "sistema de 12 horas (1–12)",
@@ -129,6 +128,10 @@
             "normal": "salto de línea normal",
             "strict": "salto de línea estricto"
           },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
+          },
           "ms": {
             "metric": "sistema métrico",
             "uksystem": "sistema imperial",
@@ -139,7 +142,7 @@
             "arab": "dígitos indoarábigos",
             "arabext": "dígitos indoarábigos extendidos",
             "armn": "números en armenio",
-            "armnlow": "números en minúscula en armenio",
+            "armnlow": "números en armenio en minúscula",
             "bali": "bali",
             "beng": "dígitos en bengalí",
             "brah": "brah",

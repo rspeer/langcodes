@@ -3,8 +3,8 @@
     "lb": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "lb"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "Serbesch mat Ekavian-Aussprooch",
           "EMODENG": "Fréit Modernt Englesch",
           "FONIPA": "Phonetesch (IPA)",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Phonetesch (UPA)",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "Hepburn-Romaniséierung",

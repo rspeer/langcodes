@@ -3,8 +3,8 @@
     "et": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "et"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "kalender",
-          "cf": "cf",
+          "cf": "rahavorming",
           "colAlternate": "sümbolite eiramine järjestuses",
           "colBackwards": "diakriitikute pöördjärjestus",
           "colCaseFirst": "suur- ja väiketähe järjestus",
           "colCaseLevel": "järjestuse tõstutundlikkus",
-          "colHiraganaQuaternary": "kana kirja järjestus",
           "collation": "sortimisjärjestus",
           "colNormalization": "normaliseeritud järjestus",
           "colNumeric": "numbrite järjestus",
@@ -33,7 +32,6 @@
           "numbers": "numbrid",
           "timezone": "ajavöönd",
           "va": "lokaadi variant",
-          "variableTop": "sümbolite alusel järjestamine",
           "x": "erakasutus"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Hiina Vabariigi kalender"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "arvelduse rahavorming",
+            "standard": "standardne rahavorming"
           },
           "colAlternate": {
             "non-ignorable": "järjesta sümbolid",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "tõstutundetu järjestus",
             "yes": "tõstutundlik järjestus"
-          },
-          "colHiraganaQuaternary": {
-            "no": "järjesta kana eraldi",
-            "yes": "järjesta kana erinevalt"
           },
           "collation": {
             "big5han": "hiina traditsiooniline sortimisjärjestus (Big5)",
@@ -117,6 +111,11 @@
             "secondary": "järjesta diakriitikud",
             "tertiary": "järjesta diakriitikud, algustähed ja laius"
           },
+          "d0": {
+            "fwidth": "Täislaius",
+            "hwidth": "Poolaius",
+            "npinyin": "Numbriline"
+          },
           "hc": {
             "h11": "12-tunnine süsteem (0–11)",
             "h12": "12-tunnine süsteem (1–12)",
@@ -127,6 +126,10 @@
             "loose": "paindlik reavahetuse laad",
             "normal": "harilik reavahetuse laad",
             "strict": "jäik reavahetuse laad"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "meetermõõdustik",

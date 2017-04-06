@@ -3,8 +3,8 @@
     "kkj": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "kkj"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "CY",
           "CZ": "CZ",
+          "CZ-alt-variant": "CZ",
           "DE": "DE",
           "DG": "DG",
           "DJ": "DJ",
@@ -117,6 +118,7 @@
           "ES": "ES",
           "ET": "ET",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "FI",
           "FJ": "FJ",
           "FK": "FK",
@@ -290,6 +292,7 @@
           "UA": "UA",
           "UG": "UG",
           "UM": "UM",
+          "UN": "UN",
           "US": "US",
           "US-alt-short": "US",
           "UY": "UY",

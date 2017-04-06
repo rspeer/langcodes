@@ -3,8 +3,8 @@
     "br": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "br"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "saozneg rakvodern",
           "FONIPA": "lizherenneg fonetek etrebroadel",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "lizherenneg fonetek ouralek",
           "FONXSAMP": "treuzskrivadur X-SAMPA",
           "HEPBURN": "romanekadur Hepburn",

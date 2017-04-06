@@ -3,8 +3,8 @@
     "ff": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ff"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Siipar",
           "CZ": "Ndenndaandi Cek",
+          "CZ-alt-variant": "CZ",
           "DE": "Almaañ",
           "DG": "DG",
           "DJ": "Jibutii",
@@ -117,6 +118,7 @@
           "ES": "Espaañ",
           "ET": "Ecoppi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Fenland",
           "FJ": "Fijji",
           "FK": "Duuɗe Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ukereen",
           "UG": "Unganndaa",
           "UM": "UM",
+          "UN": "UN",
           "US": "Dowlaaji Dentuɗi Amerik",
           "US-alt-short": "US",
           "UY": "Uruguwaay",

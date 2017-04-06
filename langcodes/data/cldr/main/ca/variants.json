@@ -3,15 +3,15 @@
     "ca": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ca"
       },
       "localeDisplayNames": {
         "variants": {
           "1901": "ortografia alemanya tradicional",
-          "1994": "ortofrafia resiana estandarditzada",
+          "1994": "ortografia resiana estandarditzada",
           "1996": "ortografia alemanya de 1996",
           "1606NICT": "francès mitjà tardà fins el 1606",
           "1694ACAD": "francès modern primerenc",
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "alfabet fonètic internacional",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "sistema fonètic UPA",
           "FONXSAMP": "sistema X-SAMPA",
           "HEPBURN": "romanització Hepburn",

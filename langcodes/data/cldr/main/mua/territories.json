@@ -3,8 +3,8 @@
     "mua": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "mua"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Syipriya",
           "CZ": "Sǝr Syek",
+          "CZ-alt-variant": "CZ",
           "DE": "Germaniya",
           "DG": "DG",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Espaŋiya",
           "ET": "Etiopia",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Sǝr Finland",
           "FJ": "Sǝr Fiji",
           "FK": "Sǝr malouniya ma laŋne",
@@ -290,6 +292,7 @@
           "UA": "Ukraiŋ",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amerika",
           "US-alt-short": "US",
           "UY": "Urugwai",

@@ -3,8 +3,8 @@
     "uk": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12938 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "uk"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "Міжнародний фонетичний алфавіт",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Уральський фонетичний алфавіт",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

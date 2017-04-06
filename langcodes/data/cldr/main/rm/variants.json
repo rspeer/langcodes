@@ -3,8 +3,8 @@
     "rm": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "rm"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "alfabet fonetic internaziunal (IPA)",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "alfabet fonetic da l’Ural (UPA)",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

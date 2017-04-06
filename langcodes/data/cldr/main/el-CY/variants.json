@@ -3,8 +3,8 @@
     "el-CY": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "el",
         "territory": "CY"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "Διεθνής φωνητική αλφάβητος",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Ουραλική φωνητική αλφάβητος",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

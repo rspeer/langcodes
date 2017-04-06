@@ -3,8 +3,8 @@
     "ka": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12920 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ka"
       },
@@ -16,7 +16,7 @@
         },
         "keys": {
           "calendar": "კალენდარი",
-          "cf": "cf",
+          "cf": "ვალუტის ფორმატი",
           "collation": "დახარისხების თანმიმდევრობა",
           "currency": "ვალუტა",
           "hc": "დროის სისტემა (12 ან 24)",
@@ -46,8 +46,8 @@
             "roc": "ჩინეთის რესპუბლიკის კალენდარი"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "ვალუტის ბუღალტრული ფორმატი",
+            "standard": "ვალუტის სტანდარტული ფორმატი"
           },
           "collation": {
             "big5han": "ტრადიციული ჩინური",

@@ -3,8 +3,8 @@
     "it": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "it"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Calendario",
-          "cf": "cf",
+          "cf": "Formato valuta",
           "colAlternate": "Ordinamento Ignora simboli",
           "colBackwards": "Ordinamento Accento capovolto",
           "colCaseFirst": "Ordinamento Maiuscole/Minuscole",
           "colCaseLevel": "Ordinamento Distinzione fra maiuscole e minuscole",
-          "colHiraganaQuaternary": "Ordinamento Kana",
           "collation": "Ordinamento",
           "colNormalization": "Ordinamento normalizzato",
           "colNumeric": "Ordinamento numerico",
@@ -33,7 +32,6 @@
           "numbers": "Numeri",
           "timezone": "Fuso orario",
           "va": "Variante lingua",
-          "variableTop": "Ordina come simboli",
           "x": "Uso privato"
         },
         "types": {
@@ -41,7 +39,7 @@
             "buddhist": "Calendario buddista",
             "chinese": "Calendario cinese",
             "coptic": "Calendario copto",
-            "dangi": "Calendario Dangi",
+            "dangi": "Calendario dangi",
             "ethiopic": "Calendario etiope",
             "ethiopic-amete-alem": "Calendario etiope Amete Alem",
             "gregorian": "Calendario gregoriano",
@@ -55,11 +53,11 @@
             "iso8601": "Calendario ISO-8601",
             "japanese": "Calendario giapponese",
             "persian": "Calendario persiano",
-            "roc": "Calendario Minguo"
+            "roc": "Calendario minguo"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Formato valuta contabile",
+            "standard": "Formato valuta standard"
           },
           "colAlternate": {
             "non-ignorable": "Ordina simboli",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Ordina senza distinzione tra maiuscole e minuscole",
             "yes": "Ordina distinzione tra maiuscole e minuscole"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Ordina Kana separatamente",
-            "yes": "Ordina Kana diversamente"
           },
           "collation": {
             "big5han": "cinese tradizionale",
@@ -117,6 +111,11 @@
             "secondary": "Ordina accenti",
             "tertiary": "Ordina accenti/lettere/larghezza"
           },
+          "d0": {
+            "fwidth": "Larghezza intera",
+            "hwidth": "Metà larghezza",
+            "npinyin": "Numerica"
+          },
           "hc": {
             "h11": "Sistema orario a 12 ore (0–11)",
             "h12": "Sistema orario a 12 ore (1–12)",
@@ -127,6 +126,10 @@
             "loose": "Interruzione di riga facoltativa",
             "normal": "Interruzione di riga normale",
             "strict": "Interruzione di riga forzata"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Sistema metrico",

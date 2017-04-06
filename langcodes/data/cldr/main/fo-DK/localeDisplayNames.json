@@ -3,8 +3,8 @@
     "fo-DK": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "fo",
         "territory": "DK"
@@ -17,7 +17,7 @@
         },
         "keys": {
           "calendar": "kalendari",
-          "cf": "cf",
+          "cf": "gjaldoyra format",
           "collation": "raðskipan",
           "currency": "gjaldoyra",
           "hc": "klokkuskipan (12 ímóti 24)",
@@ -33,7 +33,7 @@
             "dangi": "dangi kalendari",
             "ethiopic": "etiopiskur kalendari",
             "ethiopic-amete-alem": "ethiopic-amete-alem",
-            "gregorian": "Gregorianskur kalendari",
+            "gregorian": "gregorianskur kalendari",
             "hebrew": "hebraiskur kalendari",
             "indian": "indian",
             "islamic": "islamiskur kalendari",
@@ -47,8 +47,8 @@
             "roc": "minguo kalendari"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "gjaldoyras roknskaparførsla format",
+            "standard": "vanlig gjaldoyra format"
           },
           "collation": {
             "big5han": "big5han",
@@ -82,7 +82,7 @@
           },
           "ms": {
             "metric": "metralag",
-            "uksystem": "mátingareind (Imperial)",
+            "uksystem": "mátingareind (UK)",
             "ussystem": "mátingareind (USA)"
           },
           "numbers": {

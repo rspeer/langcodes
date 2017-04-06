@@ -3,8 +3,8 @@
     "ca": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "ca"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "calendari",
-          "cf": "cf",
+          "cf": "format de moneda",
           "colAlternate": "Ordenació sense tenir en compte els símbols",
           "colBackwards": "Ordenació per accents invertida",
           "colCaseFirst": "Ordenació per majúscules i minúscules",
           "colCaseLevel": "Ordenació per detecció de majúscules",
-          "colHiraganaQuaternary": "Ordenació per kana",
           "collation": "ordenació",
           "colNormalization": "Ordenació normalitzada",
           "colNumeric": "Ordenació numèrica",
@@ -33,7 +32,6 @@
           "numbers": "xifres",
           "timezone": "Zona horària",
           "va": "Variant local",
-          "variableTop": "Ordena com a símbols",
           "x": "ús privat"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "calendari de la República de Xina"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "format de moneda comptable",
+            "standard": "format de moneda estàndard"
           },
           "colAlternate": {
             "non-ignorable": "Ordena els símbols",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Ordena sense distingir majúscules i minúscules",
             "yes": "Ordena amb detecció de majúscules i minúscules"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Ordena els caràcters kana de manera independent",
-            "yes": "Ordena els caràcters kana de manera diferent"
           },
           "collation": {
             "big5han": "ordre del xinès tradicional - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Ordena els accents",
             "tertiary": "Ordena per accent/majúscules/amplada"
           },
+          "d0": {
+            "fwidth": "Amplada completa",
+            "hwidth": "Amplada mitjana",
+            "npinyin": "Numèric"
+          },
           "hc": {
             "h11": "sistema de 12 hores (0–11)",
             "h12": "sistema de 12 hores (1–12)",
@@ -127,6 +126,10 @@
             "loose": "salt de línia flexible",
             "normal": "salt de línia normal",
             "strict": "salt de línia estricte"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "sistema mètric",

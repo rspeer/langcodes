@@ -3,8 +3,8 @@
     "sv": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12366 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13007 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "sv"
       },
@@ -101,6 +101,7 @@
           "CX": "Julön",
           "CY": "Cypern",
           "CZ": "Tjeckien",
+          "CZ-alt-variant": "CZ",
           "DE": "Tyskland",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,10 +118,11 @@
           "ES": "Spanien",
           "ET": "Etiopien",
           "EU": "Europeiska unionen",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "Falklandsöarna",
-          "FK-alt-variant": "Falklandsöarna (Malvinerna)",
+          "FK-alt-variant": "FK",
           "FM": "Mikronesien",
           "FO": "Färöarna",
           "FR": "Frankrike",
@@ -192,7 +194,7 @@
           "MC": "Monaco",
           "MD": "Moldavien",
           "ME": "Montenegro",
-          "MF": "S:t Martin",
+          "MF": "Saint-Martin",
           "MG": "Madagaskar",
           "MH": "Marshallöarna",
           "MK": "Makedonien",
@@ -290,6 +292,8 @@
           "UA": "Ukraina",
           "UG": "Uganda",
           "UM": "USA:s yttre öar",
+          "UN": "Förenta Nationerna",
+          "UN-alt-short": "FN",
           "US": "USA",
           "US-alt-short": "USA",
           "UY": "Uruguay",

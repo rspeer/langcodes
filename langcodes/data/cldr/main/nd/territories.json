@@ -3,8 +3,8 @@
     "nd": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12765 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "nd"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Cyprus",
           "CZ": "Czech Republic",
+          "CZ-alt-variant": "CZ",
           "DE": "Germany",
           "DG": "DG",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Spain",
           "ET": "Ethiopia",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "Falkland Islands",
@@ -290,6 +292,7 @@
           "UA": "Yukreini",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amelika",
           "US-alt-short": "US",
           "UY": "Yurugwai",

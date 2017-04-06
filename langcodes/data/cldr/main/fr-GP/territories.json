@@ -3,8 +3,8 @@
     "fr-GP": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "fr",
         "territory": "GP"
@@ -102,6 +102,7 @@
           "CX": "Île Christmas",
           "CY": "Chypre",
           "CZ": "République tchèque",
+          "CZ-alt-variant": "Tchéquie",
           "DE": "Allemagne",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -118,6 +119,7 @@
           "ES": "Espagne",
           "ET": "Éthiopie",
           "EU": "Union européenne",
+          "EZ": "EZ",
           "FI": "Finlande",
           "FJ": "Fidji",
           "FK": "Îles Malouines",
@@ -291,6 +293,8 @@
           "UA": "Ukraine",
           "UG": "Ouganda",
           "UM": "Îles mineures éloignées des États-Unis",
+          "UN": "Nations Unies",
+          "UN-alt-short": "NU",
           "US": "États-Unis",
           "US-alt-short": "É.-U.",
           "UY": "Uruguay",

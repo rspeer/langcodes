@@ -3,8 +3,8 @@
     "uz-Cyrl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12798 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "uz",
         "script": "Cyrl"

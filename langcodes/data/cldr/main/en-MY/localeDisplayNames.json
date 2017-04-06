@@ -3,8 +3,8 @@
     "en-MY": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "en",
         "territory": "MY"
@@ -22,28 +22,33 @@
           "colBackwards": "Reversed Accent Sorting",
           "colCaseFirst": "Uppercase/Lowercase Ordering",
           "colCaseLevel": "Case Sensitive Sorting",
-          "colHiraganaQuaternary": "Kana Sorting",
           "collation": "Sort Order",
-          "colNormalization": "Normalized Sorting",
+          "colNormalization": "Normalised Sorting",
           "colNumeric": "Numeric Sorting",
           "colReorder": "Script/Block Reordering",
           "colStrength": "Sorting Strength",
           "currency": "Currency",
+          "d0": "Transform Destination",
           "em": "Emoji Presentation Style",
           "fw": "First day of week",
           "hc": "Hour Cycle (12 vs 24)",
+          "i0": "Input Method",
+          "k0": "Keyboard",
           "kv": "Highest Ignored",
           "lb": "Line Break Style",
           "lw": "Line Breaks In Words Setting",
+          "m0": "Transform Rules",
           "ms": "Measurement System",
           "numbers": "Numbers",
           "rg": "Region For Supplemental Data",
+          "s0": "Transform Source",
           "sd": "Region Subdivision",
           "ss": "Sentence Break Suppressions Type",
+          "t0": "Machine Translated",
           "timezone": "Time Zone",
           "va": "Locale Variant",
-          "variableTop": "Sort As Symbols",
-          "x": "Private-Use"
+          "x": "Private-Use",
+          "x0": "Private-Use Transform"
         },
         "types": {
           "calendar": {
@@ -87,10 +92,6 @@
             "no": "Sort Case Insensitive",
             "yes": "Sort Case Sensitive"
           },
-          "colHiraganaQuaternary": {
-            "no": "Sort Kana Separately",
-            "yes": "Sort Kana Differently"
-          },
           "collation": {
             "big5han": "Traditional Chinese Sort Order - Big5",
             "compat": "Previous Sort Order, for compatibility",
@@ -112,8 +113,8 @@
             "zhuyin": "Zhuyin Sort Order"
           },
           "colNormalization": {
-            "no": "Sort Without Normalization",
-            "yes": "Sort Unicode Normalized"
+            "no": "Sort Without Normalisation",
+            "yes": "Sort Unicode Normalised"
           },
           "colNumeric": {
             "no": "Sort Digits Individually",
@@ -125,6 +126,21 @@
             "quaternary": "Sort Accents/Case/Width/Kana",
             "secondary": "Sort Accents",
             "tertiary": "Sort Accents/Case/Width"
+          },
+          "d0": {
+            "ascii": "To ASCII",
+            "charname": "To Unicode Character Names",
+            "fwidth": "To Fullwidth",
+            "hex": "To Hexadecimal Codes",
+            "hwidth": "To Halfwidth",
+            "lower": "To Lowercase",
+            "nfc": "To Unicode NFC",
+            "nfd": "To Unicode NFD",
+            "nfkc": "To Unicode NFKC",
+            "nfkd": "To Unicode NFKD",
+            "npinyin": "To Pinyin With Numeric Tones",
+            "title": "To Titlecase",
+            "upper": "To Uppercase"
           },
           "em": {
             "default": "Use Default Presentation For Emoji Characters",
@@ -146,6 +162,19 @@
             "h23": "24 Hour System (0–23)",
             "h24": "24 Hour System (1–24)"
           },
+          "kr": {
+            "currency": "Currency",
+            "digit": "Digits",
+            "punct": "Punctuation",
+            "space": "Whitespace",
+            "symbol": "Symbol"
+          },
+          "kv": {
+            "currency": "Ignore Symbols affects spaces, punctuation, all symbols",
+            "punct": "Ignore Symbols affects spaces and punctuation only",
+            "space": "Ignore Symbols affects spaces only",
+            "symbol": "Ignore Symbols affects spaces, punctuation, non-currency symbols"
+          },
           "lb": {
             "loose": "Loose Line Break Style",
             "normal": "Normal Line Break Style",
@@ -156,12 +185,17 @@
             "keepall": "Prevent Line Breaks In All Words",
             "normal": "Normal Line Breaks For Words"
           },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
+          },
           "ms": {
             "metric": "Metric System",
             "uksystem": "Imperial Measurement System",
             "ussystem": "US Measurement System"
           },
           "numbers": {
+            "adlm": "Adlam Digits",
             "ahom": "Ahom Digits",
             "arab": "Arabic-Indic Digits",
             "arabext": "Extended Arabic-Indic Digits",
@@ -169,7 +203,8 @@
             "armn": "Armenian Numerals",
             "armnlow": "Armenian Lowercase Numerals",
             "bali": "Balinese Digits",
-            "beng": "Bengali Digits",
+            "beng": "Bangla Digits",
+            "bhks": "Bhaiksuki Digits",
             "brah": "Brahmi Digits",
             "cakm": "Chakma Digits",
             "cham": "Cham Digits",
@@ -217,9 +252,10 @@
             "mymrshan": "Myanmar Shan Digits",
             "mymrtlng": "Myanmar Tai Laing Digits",
             "native": "Native Digits",
+            "newa": "Newa Digits",
             "nkoo": "N’Ko Digits",
             "olck": "Ol Chiki Digits",
-            "orya": "Oriya Digits",
+            "orya": "Odia Digits",
             "osma": "Osmanya Digits",
             "roman": "Roman Numerals",
             "romanlow": "Roman Lowercase Numerals",

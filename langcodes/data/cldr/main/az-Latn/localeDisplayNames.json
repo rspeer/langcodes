@@ -3,8 +3,8 @@
     "az-Latn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "az",
         "script": "Latn"
@@ -17,8 +17,8 @@
         },
         "keys": {
           "calendar": "Təqvim",
-          "cf": "cf",
-          "collation": "Çeşidləmə",
+          "cf": "Valyuta Formatı",
+          "collation": "Sıralama",
           "currency": "Valyuta",
           "hc": "Saat Sikli (12 / 24)",
           "lb": "Sətirdən sətrə keçirmə üslubu",
@@ -47,14 +47,14 @@
             "roc": "Minquo Təqvimi"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Uçot Valyuta Formatı",
+            "standard": "Standart Valyuta Formatı"
           },
           "collation": {
             "big5han": "big5han",
             "compat": "compat",
             "dictionary": "dictionary",
-            "ducet": "Defolt Unicode Çeşidləmə",
+            "ducet": "Standart Unicode Sıralama",
             "emoji": "emoji",
             "eor": "eor",
             "gb2312han": "gb2312han",
@@ -63,7 +63,7 @@
             "reformed": "reformed",
             "search": "Ümumi Məqsədli Axtarış",
             "searchjl": "searchjl",
-            "standard": "Standart Çeşidləmə",
+            "standard": "Standart Sıralama",
             "stroke": "stroke",
             "traditional": "traditional",
             "unihan": "unihan",

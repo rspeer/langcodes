@@ -3,8 +3,8 @@
     "is": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12965 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "is"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Dagatal",
-          "cf": "cf",
+          "cf": "Gjaldmiðilssnið",
           "colAlternate": "Röðun óháð táknum",
           "colBackwards": "Röðun með viðsnúnum áherslum",
           "colCaseFirst": "Röðun eftir hástöfum/lágstöfum",
           "colCaseLevel": "Stafrétt röðun",
-          "colHiraganaQuaternary": "Kana-röðun",
           "collation": "Röðun",
           "colNormalization": "Stöðluð röðun",
           "colNumeric": "Talnaröðun",
@@ -33,7 +32,6 @@
           "numbers": "Tölur",
           "timezone": "Tímabelti",
           "va": "Landsstaðalsafbrigði",
-          "variableTop": "Raða sem táknum",
           "x": "Einkanotkun"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Minguo dagatal"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Bókhaldsgjaldmiðill",
+            "standard": "Staðlað gjaldmiðilssnið"
           },
           "colAlternate": {
             "non-ignorable": "Raða táknum",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Raða óháð hástöfum og lágstöfum",
             "yes": "Raða stafrétt"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Raða Kana sér",
-            "yes": "Raða Kana öðruvísi"
           },
           "collation": {
             "big5han": "hefðbundin kínversk röðun - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Raða áherslum",
             "tertiary": "Raða áherslum/hástaf eða lágstaf/breidd"
           },
+          "d0": {
+            "fwidth": "Full breidd",
+            "hwidth": "Hálf breidd",
+            "npinyin": "Tölulegur"
+          },
           "hc": {
             "h11": "12 tíma kerfi (0–11)",
             "h12": "12 tíma kerfi (1–12)",
@@ -127,6 +126,10 @@
             "loose": "Laus línuskipting",
             "normal": "Venjuleg línuskipting",
             "strict": "Ströng línuskipting"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Metrakerfi",

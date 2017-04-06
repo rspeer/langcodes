@@ -3,8 +3,8 @@
     "tr": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12373 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "tr"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "IPA Ses Bilimi",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA Ses Bilimi",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

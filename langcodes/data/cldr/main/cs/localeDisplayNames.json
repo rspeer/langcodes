@@ -3,8 +3,8 @@
     "cs": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "cs"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Kalendář",
-          "cf": "cf",
+          "cf": "Měnový formát",
           "colAlternate": "Ignorovat řazení symbolů",
           "colBackwards": "Obrácené řazení akcentů",
           "colCaseFirst": "Řazení velkých a malých písmen",
           "colCaseLevel": "Rozlišovaní velkých a malých písmen při řazení",
-          "colHiraganaQuaternary": "Řazení podle slabičných písem (kana)",
           "collation": "Řazení",
           "colNormalization": "Normalizované řazení",
           "colNumeric": "Číselné řazení",
@@ -33,7 +32,6 @@
           "numbers": "Čísla",
           "timezone": "Časové pásmo",
           "va": "Varianta národního prostředí",
-          "variableTop": "Řadit jako symboly",
           "x": "Soukromé použití"
         },
         "types": {
@@ -47,7 +45,7 @@
             "gregorian": "Gregoriánský kalendář",
             "hebrew": "Hebrejský kalendář",
             "indian": "Indický národní kalendář",
-            "islamic": "Muslimský kalendář",
+            "islamic": "Islámský kalendář",
             "islamic-civil": "Muslimský občanský kalendář",
             "islamic-rgsa": "islamic-rgsa",
             "islamic-tbla": "islamic-tbla",
@@ -58,8 +56,8 @@
             "roc": "Kalendář Čínské republiky"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Účetní měnový formát",
+            "standard": "Standardní měnový formát"
           },
           "colAlternate": {
             "non-ignorable": "Řadit symboly",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Nerozlišovat při řazení velká a malá písmena",
             "yes": "Rozlišovat při řazení velká a malá písmena"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Řadit slabičná písma (kana) samostatně",
-            "yes": "Řadit jednotlivé typy slabičných písem (kana) různě"
           },
           "collation": {
             "big5han": "Řazení pro tradiční čínštinu – Big5",
@@ -117,6 +111,11 @@
             "secondary": "Řadit akcenty",
             "tertiary": "Řadit akcenty/velká a malá písmena/šířku"
           },
+          "d0": {
+            "fwidth": "Plná šířka",
+            "hwidth": "Poloviční šířka",
+            "npinyin": "Numerický"
+          },
           "hc": {
             "h11": "12hodinový systém (0–11)",
             "h12": "12hodinový systém (1–12)",
@@ -127,6 +126,10 @@
             "loose": "Volný styl zalamování řádků",
             "normal": "Běžný styl zalamování řádků",
             "strict": "Striktní styl zalamování řádků"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Metrická soustava",

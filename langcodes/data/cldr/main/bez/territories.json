@@ -3,8 +3,8 @@
     "bez": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "bez"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Hukuprosi",
           "CZ": "Ijamhuri ya Cheki",
+          "CZ-alt-variant": "CZ",
           "DE": "Huujerumani",
           "DG": "DG",
           "DJ": "Hujibuti",
@@ -117,6 +118,7 @@
           "ES": "Huhispania",
           "ET": "Huuhabeshi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Huufini",
           "FJ": "Hufiji",
           "FK": "Ifisima fya Falkland",
@@ -290,6 +292,7 @@
           "UA": "Huukraini",
           "UG": "Huuganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Humalekani",
           "US-alt-short": "US",
           "UY": "Huulugwai",

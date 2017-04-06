@@ -3,8 +3,8 @@
     "fy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12944 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "fy"
       },
@@ -21,7 +21,6 @@
           "colBackwards": "Omgekeerd sortearje op accenten",
           "colCaseFirst": "Yndiele op haad/lytse letters",
           "colCaseLevel": "Haadlettergefoelich sortearje",
-          "colHiraganaQuaternary": "Kana sortearje",
           "collation": "Sortearfolgorde",
           "colNormalization": "Genormaliseerd sortearje",
           "colNumeric": "Numeriek sortearje",
@@ -33,7 +32,6 @@
           "numbers": "Sifers",
           "timezone": "Tijdzone",
           "va": "Landvariant",
-          "variableTop": "sortearje als symbolen",
           "x": "Privégebruik"
         },
         "types": {
@@ -78,10 +76,6 @@
             "no": "Net haadlettergefoelich sortearje",
             "yes": "Hoofdlettergevoelig sortearje"
           },
-          "colHiraganaQuaternary": {
-            "no": "Kana apart sortearje",
-            "yes": "Kana oars sortearje"
-          },
           "collation": {
             "big5han": "Tradisjonele-Sineeske soartear oarder - Big5",
             "compat": "compat",
@@ -117,6 +111,11 @@
             "secondary": "Sortearje op accenten",
             "tertiary": "sortearje neffens aksinten/haadletterbrûkme/breedte"
           },
+          "d0": {
+            "fwidth": "Volledige breedte",
+            "hwidth": "Halve breedte",
+            "npinyin": "Numeriek"
+          },
           "hc": {
             "h11": "h11",
             "h12": "h12",
@@ -127,6 +126,10 @@
             "loose": "loose",
             "normal": "normal",
             "strict": "strict"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "metric",

@@ -3,8 +3,8 @@
     "it-SM": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "it",
         "territory": "SM"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "primo inglese moderno",
           "FONIPA": "alfabeto fonetico internazionale IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "alfabeto fonetico uralico UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "romanizzazione Hepburn",

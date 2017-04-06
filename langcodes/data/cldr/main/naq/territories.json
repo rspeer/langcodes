@@ -3,8 +3,8 @@
     "naq": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "naq"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Cyprus",
           "CZ": "Czech Republiki",
+          "CZ-alt-variant": "CZ",
           "DE": "Duitslandi",
           "DG": "DG",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Spanieb",
           "ET": "Ethiopiab",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlandi",
           "FJ": "Fijib",
           "FK": "Falkland Islands",
@@ -290,6 +292,7 @@
           "UA": "Ukraine",
           "UG": "Ugandab",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amerikab",
           "US-alt-short": "US",
           "UY": "Uruguaib",

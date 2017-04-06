@@ -3,8 +3,8 @@
     "tzm": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "tzm"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Qubrus",
           "CZ": "Tagduda n Čik",
+          "CZ-alt-variant": "CZ",
           "DE": "Almanya",
           "DG": "DG",
           "DJ": "Ǧibuti",
@@ -117,6 +118,7 @@
           "ES": "Sbanya",
           "ET": "Ityupya",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlanḍa",
           "FJ": "Fiji",
           "FK": "Tigzirin n Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ukranya",
           "UG": "Uɣanda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Iwunak Idduklen n Amirika",
           "US-alt-short": "US",
           "UY": "Urugway",

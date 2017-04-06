@@ -3,8 +3,8 @@
     "da": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12387 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "da"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "tidlig moderne engelsk",
           "FONIPA": "det internationale fonetiske alfabet",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "det uraliske fonetiske alfabet",
           "FONXSAMP": "fonxsamp",
           "HEPBURN": "Hepburn-romanisering",

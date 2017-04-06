@@ -3,8 +3,8 @@
     "rof": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "rof"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Kuprosi",
           "CZ": "Jamhuri ya Cheki",
+          "CZ-alt-variant": "CZ",
           "DE": "Ujerumani",
           "DG": "DG",
           "DJ": "Jibuti",
@@ -117,6 +118,7 @@
           "ES": "Hispania",
           "ET": "Uhabeshi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Ufini",
           "FJ": "Fiji",
           "FK": "Visiwa vya Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ukraini",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Marekani",
           "US-alt-short": "US",
           "UY": "Urugwai",

@@ -3,8 +3,8 @@
     "cs": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "cs"
       },
@@ -101,6 +101,7 @@
           "CX": "Vánoční ostrov",
           "CY": "Kypr",
           "CZ": "Česká republika",
+          "CZ-alt-variant": "Česko",
           "DE": "Německo",
           "DG": "Diego García",
           "DJ": "Džibutsko",
@@ -117,6 +118,7 @@
           "ES": "Španělsko",
           "ET": "Etiopie",
           "EU": "Evropská unie",
+          "EZ": "EZ",
           "FI": "Finsko",
           "FJ": "Fidži",
           "FK": "Falklandské ostrovy",
@@ -125,8 +127,8 @@
           "FO": "Faerské ostrovy",
           "FR": "Francie",
           "GA": "Gabon",
-          "GB": "Velká Británie",
-          "GB-alt-short": "VB",
+          "GB": "Spojené království",
+          "GB-alt-short": "GB",
           "GD": "Grenada",
           "GE": "Gruzie",
           "GF": "Francouzská Guyana",
@@ -290,6 +292,8 @@
           "UA": "Ukrajina",
           "UG": "Uganda",
           "UM": "Menší odlehlé ostrovy USA",
+          "UN": "OSN",
+          "UN-alt-short": "OSN",
           "US": "Spojené státy",
           "US-alt-short": "USA",
           "UY": "Uruguay",

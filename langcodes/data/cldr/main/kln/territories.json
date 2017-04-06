@@ -3,8 +3,8 @@
     "kln": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12740 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "kln"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Emetab Cyprus",
           "CZ": "Emetab Czech Republic",
+          "CZ-alt-variant": "CZ",
           "DE": "Emetab Geruman",
           "DG": "DG",
           "DJ": "Emetab Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Emetab Spain",
           "ET": "Emetab Ethiopia",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Emetab Finland",
           "FJ": "Emetab Fiji",
           "FK": "Ikwembeyotab Falkland",
@@ -290,6 +292,7 @@
           "UA": "Emetab Ukrainie",
           "UG": "Emetab Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Emetab amerika",
           "US-alt-short": "US",
           "UY": "Emetab Uruguay",

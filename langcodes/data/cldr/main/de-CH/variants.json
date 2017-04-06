@@ -3,8 +3,8 @@
     "de-CH": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11987 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12933 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "de",
         "territory": "CH"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "IPA Phonetisch",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Phonetisch (UPA)",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

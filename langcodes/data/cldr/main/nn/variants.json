@@ -3,8 +3,8 @@
     "nn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12366 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12876 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "nn"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "det internasjonale fonetiske alfabetet (IPA)",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "det uralske fonetiske alfabetet UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",

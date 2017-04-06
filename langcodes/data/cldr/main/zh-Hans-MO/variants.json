@@ -3,8 +3,8 @@
     "zh-Hans-MO": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12799 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "zh",
         "script": "Hans",
@@ -39,6 +39,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "国际音标",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA 音标",
           "FONXSAMP": "X-SAMPA 音标",
           "HEPBURN": "赫伯恩罗马字",

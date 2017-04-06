@@ -3,8 +3,8 @@
     "vi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12312 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 12879 $",
+          "_cldrVersion": "30.0.3"
         },
         "language": "vi"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "Tiếng Anh Hiện đại Thời kỳ đầu",
           "FONIPA": "Ngữ âm học IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Ngữ âm học UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "La mã hóa Hepburn",
