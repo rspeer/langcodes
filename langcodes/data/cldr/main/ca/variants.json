@@ -3,8 +3,8 @@
     "ca": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "ca"
       },
@@ -61,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "dialecte d’Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "dialecte pamaka",
           "PETR1708": "ortografia russa 1708–1917",
           "PINYIN": "romanització Pinyin",

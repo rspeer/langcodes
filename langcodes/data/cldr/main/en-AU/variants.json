@@ -3,8 +3,8 @@
     "en-AU": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13050 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13262 $",
+          "_cldrVersion": "31"
         },
         "language": "en",
         "territory": "AU"
@@ -62,6 +62,9 @@
           "NULIK": "Modern Volapük",
           "OSOJS": "Oseacco/Osojane dialect",
           "OXENDICT": "Oxford English Dictionary spelling",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Pamaka dialect",
           "PETR1708": "PETR1708",
           "PINYIN": "Pinyin Romanization",

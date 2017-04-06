@@ -3,8 +3,8 @@
     "ne": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12920 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "ne"
       },
@@ -100,8 +100,8 @@
           "CW": "कुराकाओ",
           "CX": "क्रिष्टमस टापु",
           "CY": "साइप्रस",
-          "CZ": "चेक गणतन्त्र",
-          "CZ-alt-variant": "चेचिया",
+          "CZ": "चेचिया",
+          "CZ-alt-variant": "चेक गणतन्त्र",
           "DE": "जर्मनी",
           "DG": "डियगो गार्सिया",
           "DJ": "डिजिबुटी",

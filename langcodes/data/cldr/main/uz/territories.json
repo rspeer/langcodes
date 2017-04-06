@@ -3,8 +3,8 @@
     "uz": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12944 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13260 $",
+          "_cldrVersion": "31"
         },
         "language": "uz"
       },
@@ -100,8 +100,8 @@
           "CW": "Kyurasao",
           "CX": "Rojdestvo oroli",
           "CY": "Kipr",
-          "CZ": "Chexiya Respublikasi",
-          "CZ-alt-variant": "Chexiya",
+          "CZ": "Chexiya",
+          "CZ-alt-variant": "Chexiya Respublikasi",
           "DE": "Germaniya",
           "DG": "Diyego-Garsiya",
           "DJ": "Jibuti",

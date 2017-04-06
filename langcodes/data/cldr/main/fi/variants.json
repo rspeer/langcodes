@@ -3,8 +3,8 @@
     "fi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12988 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "fi"
       },
@@ -62,6 +62,9 @@
           "NULIK": "nykyvolapük",
           "OSOJS": "sloveenin resian Oseaccon/Osojanen alamurre",
           "OXENDICT": "englannin Oxfordin sanakirjan oikeinkirjoitus",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "pamakan kreolimurre",
           "PETR1708": "venäjän Pietarin siviiliaakkosto 1708",
           "PINYIN": "kiinan pinyin-latinaistus",

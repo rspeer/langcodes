@@ -3,8 +3,8 @@
     "lo": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "lo"
       },
@@ -100,8 +100,8 @@
           "CW": "ຄູຣາຊາວ",
           "CX": "ເກາະຄຣິສມາດ",
           "CY": "ໄຊປຣັສ",
-          "CZ": "ສາທາລະນະລັດເຊັກ",
-          "CZ-alt-variant": "ເຊັກເຊຍ",
+          "CZ": "ເຊັກເຊຍ",
+          "CZ-alt-variant": "ສາທາລະນະລັດເຊັກ",
           "DE": "ເຢຍລະມັນ",
           "DG": "ດິເອໂກ ກາເຊຍ",
           "DJ": "ຈິບູຕິ",

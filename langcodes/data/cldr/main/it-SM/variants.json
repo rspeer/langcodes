@@ -3,8 +3,8 @@
     "it-SM": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12740 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "it",
         "territory": "SM"
@@ -62,6 +62,9 @@
           "NULIK": "volapük moderno",
           "OSOJS": "dialetto Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "dialetto Pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "romanizzazione Pinyin",

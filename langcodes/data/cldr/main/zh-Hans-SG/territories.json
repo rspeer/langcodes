@@ -3,8 +3,8 @@
     "zh-Hans-SG": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12799 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "zh",
         "script": "Hans",
@@ -102,8 +102,8 @@
           "CW": "库拉索",
           "CX": "圣诞岛",
           "CY": "塞浦路斯",
-          "CZ": "捷克共和国",
-          "CZ-alt-variant": "捷克",
+          "CZ": "捷克",
+          "CZ-alt-variant": "捷克共和国",
           "DE": "德国",
           "DG": "迪戈加西亚岛",
           "DJ": "吉布提",

@@ -3,8 +3,8 @@
     "sv-AX": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12740 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "sv",
         "territory": "AX"
@@ -62,6 +62,9 @@
           "NULIK": "nulik-stavning",
           "OSOJS": "Osojane-dialekt",
           "OXENDICT": "Oxford-stavning",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Pamaka-dialekt",
           "PETR1708": "1708 års stavning",
           "PINYIN": "pinyin",

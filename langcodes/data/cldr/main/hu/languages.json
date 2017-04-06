@@ -3,8 +3,8 @@
     "hu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "hu"
       },
@@ -341,7 +341,7 @@
           "nan": "min nan kínai",
           "nap": "nápolyi",
           "naq": "nama",
-          "nb": "norvég (bokmál)",
+          "nb": "norvég (bokmål)",
           "nd": "északi ndebele",
           "nds": "alsónémet",
           "nds-NL": "alsószász",
@@ -353,7 +353,7 @@
           "nl": "holland",
           "nl-BE": "flamand",
           "nmg": "ngumba",
-          "nn": "norvég (nynrosk)",
+          "nn": "norvég (nynorsk)",
           "nnh": "ngiemboon",
           "no": "norvég",
           "nog": "nogaj",

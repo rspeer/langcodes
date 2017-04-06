@@ -3,8 +3,8 @@
     "ka": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12920 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "ka"
       },
@@ -100,8 +100,8 @@
           "CW": "კიურასაო",
           "CX": "შობის კუნძული",
           "CY": "კვიპროსი",
-          "CZ": "ჩეხეთის რესპუბლიკა",
-          "CZ-alt-variant": "ჩეხეთი",
+          "CZ": "ჩეხეთი",
+          "CZ-alt-variant": "ჩეხეთის რესპუბლიკა",
           "DE": "გერმანია",
           "DG": "დიეგო-გარსია",
           "DJ": "ჯიბუტი",

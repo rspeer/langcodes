@@ -3,8 +3,8 @@
     "gu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "gu"
       },
@@ -100,8 +100,8 @@
           "CW": "ક્યુરાસાઓ",
           "CX": "ક્રિસમસ આઇલેન્ડ",
           "CY": "સાયપ્રસ",
-          "CZ": "ચેક રીપબ્લિક",
-          "CZ-alt-variant": "ચેકીયા",
+          "CZ": "ચેકીયા",
+          "CZ-alt-variant": "ચેક રીપબ્લિક",
           "DE": "જર્મની",
           "DG": "ડિએગો ગારસિઆ",
           "DJ": "જીબૌટી",

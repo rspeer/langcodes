@@ -3,8 +3,8 @@
     "ar": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13286 $",
+          "_cldrVersion": "31"
         },
         "language": "ar"
       },
@@ -100,8 +100,8 @@
           "CW": "كوراساو",
           "CX": "جزيرة الكريسماس",
           "CY": "قبرص",
-          "CZ": "جمهورية التشيك",
-          "CZ-alt-variant": "التشيك",
+          "CZ": "التشيك",
+          "CZ-alt-variant": "جمهورية التشيك",
           "DE": "ألمانيا",
           "DG": "دييغو غارسيا",
           "DJ": "جيبوتي",

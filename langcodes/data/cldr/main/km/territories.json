@@ -3,8 +3,8 @@
     "km": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13174 $",
+          "_cldrVersion": "31"
         },
         "language": "km"
       },
@@ -100,8 +100,8 @@
           "CW": "កូរ៉ាកៅ",
           "CX": "កោះ​គ្រីស្មាស",
           "CY": "ស៊ីប",
-          "CZ": "សាធារណរដ្ឋឆេក",
-          "CZ-alt-variant": "ឆេគា",
+          "CZ": "ឆេគា",
+          "CZ-alt-variant": "សាធារណរដ្ឋឆេក",
           "DE": "អាល្លឺម៉ង់",
           "DG": "ឌៀហ្គោហ្គាស៊ី",
           "DJ": "ជីប៊ូទី",

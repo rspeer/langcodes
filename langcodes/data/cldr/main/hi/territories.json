@@ -3,8 +3,8 @@
     "hi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "hi"
       },
@@ -100,8 +100,8 @@
           "CW": "क्यूरासाओ",
           "CX": "क्रिसमस द्वीप",
           "CY": "साइप्रस",
-          "CZ": "चेक गणराज्य",
-          "CZ-alt-variant": "चेकिया",
+          "CZ": "चेकिया",
+          "CZ-alt-variant": "चेक गणराज्य",
           "DE": "जर्मनी",
           "DG": "डिएगो गार्सिया",
           "DJ": "जिबूती",

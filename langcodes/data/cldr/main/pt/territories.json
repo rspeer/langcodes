@@ -3,8 +3,8 @@
     "pt": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "pt"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Ilha Christmas",
           "CY": "Chipre",
-          "CZ": "República Tcheca",
-          "CZ-alt-variant": "Tchéquia",
+          "CZ": "Tchéquia",
+          "CZ-alt-variant": "República Tcheca",
           "DE": "Alemanha",
           "DG": "Diego Garcia",
           "DJ": "Djibuti",

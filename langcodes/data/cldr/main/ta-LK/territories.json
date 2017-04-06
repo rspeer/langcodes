@@ -3,8 +3,8 @@
     "ta-LK": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12740 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "ta",
         "territory": "LK"
@@ -101,8 +101,8 @@
           "CW": "குராகவ்",
           "CX": "கிறிஸ்துமஸ் தீவு",
           "CY": "சைப்ரஸ்",
-          "CZ": "செக் குடியரசு",
-          "CZ-alt-variant": "செசியா",
+          "CZ": "செசியா",
+          "CZ-alt-variant": "செக் குடியரசு",
           "DE": "ஜெர்மனி",
           "DG": "டியகோ கார்ஷியா",
           "DJ": "ஜிபௌட்டி",

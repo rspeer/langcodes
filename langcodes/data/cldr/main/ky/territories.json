@@ -3,8 +3,8 @@
     "ky": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "ky"
       },
@@ -100,8 +100,8 @@
           "CW": "Кюрасао",
           "CX": "Крисмас аралы",
           "CY": "Кипр",
-          "CZ": "Чех Республикасы",
-          "CZ-alt-variant": "Чехия",
+          "CZ": "Чехия",
+          "CZ-alt-variant": "Чех Республикасы",
           "DE": "Германия",
           "DG": "Диего Гарсия",
           "DJ": "Джибути",

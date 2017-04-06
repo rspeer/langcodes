@@ -3,8 +3,8 @@
     "th": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "th"
       },
@@ -61,6 +61,9 @@
           "NULIK": "โวลาพึคสมัยใหม่",
           "OSOJS": "ภาษาพื้นเมืองโอเซียคโค/โอโซยาเน",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "ภาษาพื้นเมืองพามาคา",
           "PETR1708": "พีท 1708",
           "PINYIN": "พินอิน",

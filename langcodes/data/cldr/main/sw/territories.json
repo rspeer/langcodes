@@ -3,8 +3,8 @@
     "sw": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13328 $",
+          "_cldrVersion": "31"
         },
         "language": "sw"
       },
@@ -100,8 +100,8 @@
           "CW": "Kurakao",
           "CX": "Kisiwa cha Krismasi",
           "CY": "Cyprus",
-          "CZ": "Jamhuri ya Cheki",
-          "CZ-alt-variant": "CZ",
+          "CZ": "Chechia",
+          "CZ-alt-variant": "Jamhuri ya Cheki",
           "DE": "Ujerumani",
           "DG": "Diego Garcia",
           "DJ": "Jibuti",

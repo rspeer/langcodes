@@ -3,8 +3,8 @@
     "kn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "kn"
       },
@@ -100,8 +100,8 @@
           "CW": "ಕುರಾಕಾವ್",
           "CX": "ಕ್ರಿಸ್ಮಸ್ ದ್ವೀಪ",
           "CY": "ಸೈಪ್ರಸ್",
-          "CZ": "ಝೆಕ್ ರಿಪಬ್ಲಿಕ್",
-          "CZ-alt-variant": "ಝೆಕಿಯಾ",
+          "CZ": "ಝೆಕಿಯಾ",
+          "CZ-alt-variant": "ಝೆಕ್ ರಿಪಬ್ಲಿಕ್",
           "DE": "ಜರ್ಮನಿ",
           "DG": "ಡೈಗೋ ಗಾರ್ಸಿಯ",
           "DJ": "ಜಿಬೋಟಿ",

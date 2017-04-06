@@ -3,8 +3,8 @@
     "zh-Hans": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12740 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "zh",
         "script": "Hans"
@@ -62,6 +62,9 @@
           "NULIK": "NULIK",
           "OSOJS": "Oseacco/Osojane 方言",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Pamaka 方言",
           "PETR1708": "俄文拼字（1708年）",
           "PINYIN": "拼音罗马字",

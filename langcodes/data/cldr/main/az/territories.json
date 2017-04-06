@@ -3,8 +3,8 @@
     "az": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "az"
       },
@@ -100,8 +100,8 @@
           "CW": "Kurasao",
           "CX": "Milad adası",
           "CY": "Kipr",
-          "CZ": "Çex Respublikası",
-          "CZ-alt-variant": "Çexiya",
+          "CZ": "Çexiya",
+          "CZ-alt-variant": "Çex Respublikası",
           "DE": "Almaniya",
           "DG": "Dieqo Qarsiya",
           "DJ": "Cibuti",

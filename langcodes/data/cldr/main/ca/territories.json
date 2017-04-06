@@ -3,8 +3,8 @@
     "ca": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "ca"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Illa Christmas",
           "CY": "Xipre",
-          "CZ": "República Txeca",
-          "CZ-alt-variant": "Txèquia",
+          "CZ": "Txèquia",
+          "CZ-alt-variant": "República Txeca",
           "DE": "Alemanya",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",

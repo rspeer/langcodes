@@ -3,8 +3,8 @@
     "vi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "vi"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Đảo Giáng Sinh",
           "CY": "Síp",
-          "CZ": "Cộng hòa Séc",
-          "CZ-alt-variant": "Czechia",
+          "CZ": "Czechia",
+          "CZ-alt-variant": "Cộng hòa Séc",
           "DE": "Đức",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",

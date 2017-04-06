@@ -3,8 +3,8 @@
     "sk": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "sk"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Vianočný ostrov",
           "CY": "Cyprus",
-          "CZ": "Česká republika",
-          "CZ-alt-variant": "Česko",
+          "CZ": "Česko",
+          "CZ-alt-variant": "Česká republika",
           "DE": "Nemecko",
           "DG": "Diego Garcia",
           "DJ": "Džibutsko",

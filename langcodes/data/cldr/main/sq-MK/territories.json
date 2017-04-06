@@ -3,8 +3,8 @@
     "sq-MK": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12740 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "sq",
         "territory": "MK"
@@ -101,8 +101,8 @@
           "CW": "Kuraçao",
           "CX": "Ishulli i Krishtlindjes",
           "CY": "Qipro",
-          "CZ": "Republika Çeke",
-          "CZ-alt-variant": "Çeki",
+          "CZ": "Çeki",
+          "CZ-alt-variant": "Republika Çeke",
           "DE": "Gjermani",
           "DG": "Diego-Garsia",
           "DJ": "Xhibuti",

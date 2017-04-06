@@ -3,8 +3,8 @@
     "to": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12798 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13174 $",
+          "_cldrVersion": "31"
         },
         "language": "to"
       },
@@ -100,8 +100,8 @@
           "CW": "Kulasao",
           "CX": "Motu Kilisimasi",
           "CY": "Saipalesi",
-          "CZ": "Lipapilika Seki",
-          "CZ-alt-variant": "Sēkia",
+          "CZ": "Sēkia",
+          "CZ-alt-variant": "Lipapilika Seki",
           "DE": "Siamane",
           "DG": "Tieko Kāsia",
           "DJ": "Siputi",

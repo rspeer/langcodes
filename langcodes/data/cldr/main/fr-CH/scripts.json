@@ -3,8 +3,8 @@
     "fr-CH": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12796 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13248 $",
+          "_cldrVersion": "31"
         },
         "language": "fr",
         "territory": "CH"

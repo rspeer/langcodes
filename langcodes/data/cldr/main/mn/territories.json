@@ -3,8 +3,8 @@
     "mn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "mn"
       },
@@ -100,8 +100,8 @@
           "CW": "Куракао",
           "CX": "Зул сарын арал",
           "CY": "Кипр",
-          "CZ": "Бүгд Найрамдах Чех Улс",
-          "CZ-alt-variant": "Чех",
+          "CZ": "Чех",
+          "CZ-alt-variant": "Бүгд Найрамдах Чех Улс",
           "DE": "Герман",
           "DG": "Диего Гарсиа",
           "DJ": "Джибути",

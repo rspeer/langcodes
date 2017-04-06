@@ -3,8 +3,8 @@
     "it": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13260 $",
+          "_cldrVersion": "31"
         },
         "language": "it"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Isola Christmas",
           "CY": "Cipro",
-          "CZ": "Repubblica Ceca",
-          "CZ-alt-variant": "Cèchia",
+          "CZ": "Cèchia",
+          "CZ-alt-variant": "Repubblica Ceca",
           "DE": "Germania",
           "DG": "Diego Garcia",
           "DJ": "Gibuti",
@@ -279,8 +279,8 @@
           "TH": "Thailandia",
           "TJ": "Tagikistan",
           "TK": "Tokelau",
-          "TL": "Timor Leste",
-          "TL-alt-variant": "Timor Est",
+          "TL": "Timor Est",
+          "TL-alt-variant": "Timor Leste",
           "TM": "Turkmenistan",
           "TN": "Tunisia",
           "TO": "Tonga",

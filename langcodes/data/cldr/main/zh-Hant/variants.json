@@ -3,8 +3,8 @@
     "zh-Hant": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "zh",
         "script": "Hant"
@@ -62,6 +62,9 @@
           "NULIK": "NULIK",
           "OSOJS": "雷西亞歐西亞柯方言",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "蘇利南帕馬卡方言",
           "PETR1708": "俄羅斯文拼字（1708 年）",
           "PINYIN": "漢語拼音",

@@ -3,8 +3,8 @@
     "te": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "te"
       },
@@ -100,8 +100,8 @@
           "CW": "కురాకవో",
           "CX": "క్రిస్మస్ దీవి",
           "CY": "సైప్రస్",
-          "CZ": "చెక్ రిపబ్లిక్",
-          "CZ-alt-variant": "చెక్‌చియ",
+          "CZ": "చెక్‌చియ",
+          "CZ-alt-variant": "చెక్ రిపబ్లిక్",
           "DE": "జర్మనీ",
           "DG": "డియాగో గార్సియా",
           "DJ": "జిబౌటి",

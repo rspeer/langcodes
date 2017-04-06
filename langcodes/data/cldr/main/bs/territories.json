@@ -3,8 +3,8 @@
     "bs": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "bs"
       },
@@ -100,8 +100,8 @@
           "CW": "Kurasao",
           "CX": "Božićna Ostrva",
           "CY": "Kipar",
-          "CZ": "Češka Republika",
-          "CZ-alt-variant": "Češka",
+          "CZ": "Češka",
+          "CZ-alt-variant": "Češka Republika",
           "DE": "Njemačka",
           "DG": "Dijego Garsija",
           "DJ": "Džibuti",

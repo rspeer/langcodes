@@ -3,8 +3,8 @@
     "nb-SJ": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12740 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "nb",
         "territory": "SJ"
@@ -62,6 +62,9 @@
           "NULIK": "moderne volapük",
           "OSOJS": "oseacco- og osojanedialekt",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Pamaka-dialekt",
           "PETR1708": "PETR1708",
           "PINYIN": "pinyin",

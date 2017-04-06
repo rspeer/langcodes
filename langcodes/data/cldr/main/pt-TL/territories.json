@@ -3,8 +3,8 @@
     "pt-TL": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12740 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31"
         },
         "language": "pt",
         "territory": "TL"
@@ -102,7 +102,7 @@
           "CX": "Ilha do Natal",
           "CY": "Chipre",
           "CZ": "República Checa",
-          "CZ-alt-variant": "Tchéquia",
+          "CZ-alt-variant": "República Tcheca",
           "DE": "Alemanha",
           "DG": "Diego Garcia",
           "DJ": "Jibuti",

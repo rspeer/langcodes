@@ -3,8 +3,8 @@
     "cy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13006 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "cy"
       },
@@ -61,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "tafodiaith Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "tafodiaith Pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "PINYIN",

@@ -3,8 +3,8 @@
     "eu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12920 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "eu"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Christmas uhartea",
           "CY": "Zipre",
-          "CZ": "Txekiar Errepublika",
-          "CZ-alt-variant": "Txekia",
+          "CZ": "Txekia",
+          "CZ-alt-variant": "Txekiar Errepublika",
           "DE": "Alemania",
           "DG": "Diego Garcia",
           "DJ": "Djibuti",

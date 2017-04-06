@@ -3,8 +3,8 @@
     "ms": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "ms"
       },
@@ -100,8 +100,8 @@
           "CW": "Curacao",
           "CX": "Pulau Krismas",
           "CY": "Cyprus",
-          "CZ": "Republik Czech",
-          "CZ-alt-variant": "Czechia",
+          "CZ": "Czechia",
+          "CZ-alt-variant": "Republik Czech",
           "DE": "Jerman",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",

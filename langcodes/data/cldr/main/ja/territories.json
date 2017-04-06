@@ -3,8 +3,8 @@
     "ja": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "ja"
       },
@@ -100,8 +100,8 @@
           "CW": "キュラソー",
           "CX": "クリスマス島",
           "CY": "キプロス",
-          "CZ": "チェコ共和国",
-          "CZ-alt-variant": "チェコ",
+          "CZ": "チェコ",
+          "CZ-alt-variant": "チェコ共和国",
           "DE": "ドイツ",
           "DG": "ディエゴガルシア島",
           "DJ": "ジブチ",

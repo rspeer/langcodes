@@ -3,8 +3,8 @@
     "si": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13328 $",
+          "_cldrVersion": "31"
         },
         "language": "si"
       },
@@ -100,8 +100,8 @@
           "CW": "කුරකාවෝ",
           "CX": "ක්‍රිස්මස් දූපත",
           "CY": "සයිප්‍රසය",
-          "CZ": "චෙක් ජනරජය",
-          "CZ-alt-variant": "චෙක්",
+          "CZ": "චෙක්",
+          "CZ-alt-variant": "චෙක් ජනරජය",
           "DE": "ජර්මනිය",
           "DG": "දියාගෝ ගාර්සියා",
           "DJ": "ජිබුටි",

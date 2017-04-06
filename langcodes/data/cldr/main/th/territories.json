@@ -3,8 +3,8 @@
     "th": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "th"
       },
@@ -100,8 +100,8 @@
           "CW": "คูราเซา",
           "CX": "เกาะคริสต์มาส",
           "CY": "ไซปรัส",
-          "CZ": "สาธารณรัฐเช็ก",
-          "CZ-alt-variant": "เช็ก",
+          "CZ": "เช็ก",
+          "CZ-alt-variant": "สาธารณรัฐเช็ก",
           "DE": "เยอรมนี",
           "DG": "ดิเอโกการ์เซีย",
           "DJ": "จิบูตี",

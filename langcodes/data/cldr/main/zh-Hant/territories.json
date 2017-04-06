@@ -3,8 +3,8 @@
     "zh-Hant": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "zh",
         "script": "Hant"
@@ -101,8 +101,8 @@
           "CW": "庫拉索",
           "CX": "聖誕島",
           "CY": "賽普勒斯",
-          "CZ": "捷克共和國",
-          "CZ-alt-variant": "捷克",
+          "CZ": "捷克",
+          "CZ-alt-variant": "捷克共和國",
           "DE": "德國",
           "DG": "迪亞哥加西亞島",
           "DJ": "吉布地",

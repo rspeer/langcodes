@@ -3,8 +3,8 @@
     "zu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12922 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13174 $",
+          "_cldrVersion": "31"
         },
         "language": "zu"
       },
@@ -100,8 +100,8 @@
           "CW": "i-Curaçao",
           "CX": "i-Christmas Island",
           "CY": "i-Cyprus",
-          "CZ": "i-Czech Republic",
-          "CZ-alt-variant": "i-Czechia",
+          "CZ": "i-Czechia",
+          "CZ-alt-variant": "i-Czech Republic",
           "DE": "i-Germany",
           "DG": "i-Diego Garcia",
           "DJ": "i-Djibouti",

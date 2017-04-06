@@ -3,8 +3,8 @@
     "cy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13006 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "cy"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Ynys y Nadolig",
           "CY": "Cyprus",
-          "CZ": "Gweriniaeth Tsiec",
-          "CZ-alt-variant": "Tsiecia",
+          "CZ": "Tsiecia",
+          "CZ-alt-variant": "Gweriniaeth Tsiec",
           "DE": "Yr Almaen",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",

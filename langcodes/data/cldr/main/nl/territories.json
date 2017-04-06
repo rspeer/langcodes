@@ -3,8 +3,8 @@
     "nl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "nl"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Christmaseiland",
           "CY": "Cyprus",
-          "CZ": "Tsjechië",
-          "CZ-alt-variant": "Tsjechische Republiek",
+          "CZ": "Tsjechische Republiek",
+          "CZ-alt-variant": "Tsjechië",
           "DE": "Duitsland",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",

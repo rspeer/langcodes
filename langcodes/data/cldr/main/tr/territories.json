@@ -3,8 +3,8 @@
     "tr": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "tr"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Christmas Adası",
           "CY": "Kıbrıs",
-          "CZ": "Çek Cumhuriyeti",
-          "CZ-alt-variant": "Çekya",
+          "CZ": "Çekya",
+          "CZ-alt-variant": "Çek Cumhuriyeti",
           "DE": "Almanya",
           "DG": "Diego Garcia",
           "DJ": "Cibuti",

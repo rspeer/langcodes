@@ -3,8 +3,8 @@
     "ta": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13204 $",
+          "_cldrVersion": "31"
         },
         "language": "ta"
       },
@@ -61,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "OSOJS",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "பின்யின் ரோமானைசெஷன்",

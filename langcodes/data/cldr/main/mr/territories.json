@@ -3,8 +3,8 @@
     "mr": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31"
         },
         "language": "mr"
       },
@@ -100,8 +100,8 @@
           "CW": "क्युरासाओ",
           "CX": "ख्रिसमस बेट",
           "CY": "सायप्रस",
-          "CZ": "झेक प्रजासत्ताक",
-          "CZ-alt-variant": "झेकिया",
+          "CZ": "झेकिया",
+          "CZ-alt-variant": "झेक प्रजासत्ताक",
           "DE": "जर्मनी",
           "DG": "दिएगो गार्सिया",
           "DJ": "जिबौटी",

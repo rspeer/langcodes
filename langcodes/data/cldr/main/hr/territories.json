@@ -3,8 +3,8 @@
     "hr": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "hr"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Božićni otok",
           "CY": "Cipar",
-          "CZ": "Češka Republika",
-          "CZ-alt-variant": "Češka",
+          "CZ": "Češka",
+          "CZ-alt-variant": "Češka Republika",
           "DE": "Njemačka",
           "DG": "Diego Garcia",
           "DJ": "Džibuti",

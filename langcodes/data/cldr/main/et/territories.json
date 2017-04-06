@@ -3,8 +3,8 @@
     "et": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "et"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Jõulusaar",
           "CY": "Küpros",
-          "CZ": "Tšehhi",
-          "CZ-alt-variant": "Tšehhia",
+          "CZ": "Tšehhia",
+          "CZ-alt-variant": "Tšehhi",
           "DE": "Saksamaa",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",

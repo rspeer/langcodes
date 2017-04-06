@@ -3,8 +3,8 @@
     "lv": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12879 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31"
         },
         "language": "lv"
       },
@@ -100,8 +100,8 @@
           "CW": "Kirasao",
           "CX": "Ziemsvētku sala",
           "CY": "Kipra",
-          "CZ": "Čehijas Republika",
-          "CZ-alt-variant": "Čehija",
+          "CZ": "Čehija",
+          "CZ-alt-variant": "Čehijas Republika",
           "DE": "Vācija",
           "DG": "Djego Garsijas atols",
           "DJ": "Džibutija",
@@ -162,7 +162,7 @@
           "IO": "Indijas okeāna Britu teritorija",
           "IQ": "Irāka",
           "IR": "Irāna",
-          "IS": "Īslande",
+          "IS": "Islande",
           "IT": "Itālija",
           "JE": "Džērsija",
           "JM": "Jamaika",

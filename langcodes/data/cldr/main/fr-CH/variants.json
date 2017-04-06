@@ -3,8 +3,8 @@
     "fr-CH": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12796 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13248 $",
+          "_cldrVersion": "31"
         },
         "language": "fr",
         "territory": "CH"
@@ -62,6 +62,9 @@
           "NULIK": "NULIK",
           "OSOJS": "dialecte d’Oseacco / Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "pinyin",
