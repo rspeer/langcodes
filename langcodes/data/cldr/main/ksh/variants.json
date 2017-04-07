@@ -3,8 +3,8 @@
     "ksh": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12876 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ksh"
       },
@@ -61,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "oseacco’sche uder osojanesche reijanesche Dijaläk",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "pamakanesche Dijaläk",
           "PETR1708": "PETR1708",
           "PINYIN": "Pinjin-Ömschreff",

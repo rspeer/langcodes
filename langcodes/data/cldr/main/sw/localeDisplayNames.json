@@ -3,8 +3,8 @@
     "sw": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13328 $",
-          "_cldrVersion": "31"
+          "_number": "$Revision: 13373 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "sw"
       },

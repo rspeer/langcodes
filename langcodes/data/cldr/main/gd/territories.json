@@ -3,8 +3,8 @@
     "gd": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12876 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "gd"
       },
@@ -100,8 +100,8 @@
           "CW": "Curaçao",
           "CX": "Eilean na Nollaig",
           "CY": "Cìopras",
-          "CZ": "Poblachd na Seice",
-          "CZ-alt-variant": "An t-Seic",
+          "CZ": "An t-Seic",
+          "CZ-alt-variant": "Poblachd na Seice",
           "DE": "A’ Ghearmailt",
           "DG": "Diego Garcia",
           "DJ": "Diobùtaidh",

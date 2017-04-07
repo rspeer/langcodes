@@ -3,8 +3,8 @@
     "ug": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12876 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ug"
       },
@@ -61,6 +61,9 @@
           "NULIK": "زامانىۋى ۋولاپۇكچە",
           "OSOJS": "ئوسېئاككو/ئوسوجەن شىۋەسى",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "پاماكا شىۋەسى",
           "PETR1708": "PETR1708",
           "PINYIN": "پىنيىن لاتىنلاشتۇرۇش",

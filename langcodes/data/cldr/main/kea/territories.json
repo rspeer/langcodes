@@ -3,8 +3,8 @@
     "kea": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12746 $",
-          "_cldrVersion": "30.0.3"
+          "_number": "$Revision: 13174 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "kea"
       },
@@ -100,8 +100,8 @@
           "CW": "Kurasau",
           "CX": "Ilha di Natal",
           "CY": "Xipri",
-          "CZ": "Repúblika Txeka",
-          "CZ-alt-variant": "Txékia",
+          "CZ": "Txékia",
+          "CZ-alt-variant": "Repúblika Txeka",
           "DE": "Alimanha",
           "DG": "Diegu Garsia",
           "DJ": "Djibuti",

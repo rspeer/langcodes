@@ -3,8 +3,8 @@
     "bg": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13259 $",
-          "_cldrVersion": "31"
+          "_number": "$Revision: 13375 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "bg"
       },

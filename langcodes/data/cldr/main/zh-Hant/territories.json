@@ -3,8 +3,8 @@
     "zh-Hant": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13259 $",
-          "_cldrVersion": "31"
+          "_number": "$Revision: 13394 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "zh",
         "script": "Hant"
