@@ -15,22 +15,62 @@ from collections import defaultdict, Counter
 #   a language. And this is why we have codes.
 #
 #   These names include:
-#   
-#    - "America" (019 or US)
-#    - "North America" (003 or 021)
-#    - "Micronesia" (057 or FM)
-#    - "Congo" (CD or CG)
-#    - "Swiss German" (de-CH or gsw)
-#    - "Tagalog" and "Filipino" (tl or fil)
 #
-# - Genuine ambiguities in naming things that span languages. The terms
-#   "America", "North America", "Micronesia", "Swiss German", "Tagalog",
-#   
+#   - "America" (019 or US)
+#   - "North America" (003 or 021)
+#   - "Micronesia" (057 or FM)
+#   - "Congo" (CD or CG)
+#   - "Swiss German" (de-CH or gsw)
+#   - "Tagalog" and "Filipino" (tl or fil)
+#   - "Mbundu" (umb or kmb)
+#   - "Tamazight" (tzm or zgh)
+#
+# - Names that just happen to be ambiguous between different things with
+#   with different etymologies, such as 'Tonga'.
 
-INCLUSIONS = {
-    ('021', '003'),     # Prefer to exclude the Caribbean from North America
-    ('FM', '057'),      # Prefer Micronesia to be a specific country
-    ('de-CH', 'gsw'),   # Prefer Swiss German to be a specific language
+
+AMBIGUOUS_PREFERENCES = {
+    # Prefer America to be the United States when ambiguous (it literally
+    # means this in some languages, and there are other words for the Americas)
+    'US': {'019'},
+
+    # Prefer Micronesia to be the Federated States of Micronesia
+    'FM': {'057'},
+
+    # Prefer to exclude the Caribbean from North America
+    '003': {'021'},
+
+    # Prefer Swiss German to be a specific language
+    'gsw': {'de-CH'},
+
+    # Of the two countries named 'Congo', prefer the one with Kinshasa
+    'CD': {'CG'},
+
+    # Prefer Han script to not include bopomofo
+    'Hani': {'Hanb'},
+
+    # 'Tonga' could be Tongan, the language of Tonga, or it could be one of
+    # three African languages that also have other names. When ambiguous,
+    # prefer Tongan.
+    'to': {'tog', 'toh', 'toi'},
+
+    # 'Sango' is the primary language of the Central African Republic. In
+    # some languages, this is ambiguous with 'Sangu', which is one of two
+    # other languages.
+    'sg': {'sbp', 'snq'},
+
+    # Prefer Umbundu over Kimbundu for the name 'Mbundu'
+    'umb': {'kmb'},
+
+    # Prefer Kinyarwanda over Rwa
+    'rw': {'rwk'},
+
+    # Prefer the specific language Tagalog over standard Filipino, because
+    # the ambiguous name was probably some form of 'Tagalog'
+    'tl': {'fil'},
+
+    # Prefer Central Atlas Tamazight over Standard Moroccan Tamazight
+    'tzm': {'zgh'},
 }
 
 OVERRIDES = {
@@ -50,45 +90,10 @@ OVERRIDES = {
     ("be", "ssy"): "сахо",
 
     # 'интерлингве' should be 'ie', not 'ia', which is 'интерлингва'
-    ("uz-Cyrl", "ia"): "интерлингва",
+    ("az-Cyrl", "ia"): "интерлингва",
 
-    # Remove some overly-literal translations of 'Swiss German'
-    ("uz-Cyrl", "de-CH"): None,
-    ("seh", "de-CH"): None,
-
-    # I don't think that the Balkans actually disagree on whether North America
-    # includes the Caribbean, I just think the data files are inconsistent
-    ("sr-Latn", "003"): "severna amerika",
-    ("sr-Latn-BA", "003"): "severna amerika",
-    ("sr-Latn-ME", "003"): "severna amerika",
-    ("sr-Latn-XK", "003"): "severna amerika",
-    ("hr", "003"): "sjeverna amerika",
-    ("hr-BA", "003"): "sjeverna amerika",
-    ("bg", "003"): "северна америка",
-    ("bs-Cyrl", "003"): "северна америка",
-    ("mk", "003"): "северна америка",
-    ("sr", "003"): "северна америка",
-    ("sr-Cyrl", "003"): "северна америка",
-    ("sr-Cyrl-BA", "003"): "северна америка",
-    ("sr-Cyrl-ME", "003"): "северна америка",
-    ("sr-Cyrl-XK", "003"): "северна америка",
-
-    # Micronesia-related ambiguity
-    ("ce", "FM"): "микронези",
-
-    # America-related ambiguity
-    ("ur", "019"): "امریکا",
-    ("ur-IN", "019"): "امریکا",
-
-    # Sango/Sangu ambiguity
-    ("ur", "sbp"): None,
-    ("ur-IN", "sbp"): None,
-
-    # Han does not inherently include Bopomofo in Ukrainian
-    ("uk", "Hanb"): None,
-
-    # I don't think this language calls Lithuania 'Letoni', the name
-    # for Latvia
+    # Is the name 'Letoni' really ambiguous between Lithuania and Latvia?
+    ("mzn", "lt"): None,
     ("mzn", "LT"): None,
 }
 
@@ -103,29 +108,43 @@ def normalize_name(name):
     return name
 
 
+def resolve_name(key, vals, debug=False):
+    val_count = Counter([val[0] for val in vals])
+    if len(val_count) == 1:
+        unanimous = val_count.most_common(1)
+        return unanimous[0][0]
+
+    for pkey in val_count:
+        if pkey in AMBIGUOUS_PREFERENCES:
+            if debug:
+                print("Resolved: {} -> {}".format(key, pkey))
+            return pkey
+
+    # In debug mode, show which languages vote for which name
+    if debug:
+        votes = defaultdict(list)
+        for val, voter in vals:
+            votes[val].append(voter)
+
+        print("{}:".format(key))
+        for val, voters in sorted(votes.items()):
+            print("\t{}: {}".format(val, ' '.join(voters)))
+
+    # Popularity contest
+    top_two = val_count.most_common(2)
+
+    # Make sure there isn't a tie
+    if len(top_two) == 2:
+        assert (top_two[0][1] != top_two[1][1]), top_two
+
+    # Use the unique most common value
+    return top_two[0][0]
+
+
 def resolve_names(name_dict, debug=False):
     resolved = {}
     for key, vals in sorted(name_dict.items()):
-        val_count = Counter([val[0] for val in vals])
-
-        # In debug mode, show which languages vote for which name
-        if debug and len(val_count) > 1:
-            votes = defaultdict(list)
-            for val, voter in vals:
-                votes[val].append(voter)
-
-            print("{}:".format(key))
-            for val, voters in sorted(votes.items()):
-                print("\t{}: {}".format(val, ' '.join(voters)))
-
-        top_two = val_count.most_common(2)
-
-        # Make sure there isn't a tie
-        if len(top_two) == 2:
-            assert (top_two[0][1] != top_two[1][1]), top_two
-
-        # Use the unique most common value
-        resolved[key] = top_two[0][0]
+        resolved[key] = resolve_name(key, vals, debug=debug)
     return resolved
 
 
@@ -151,12 +170,10 @@ def load_cldr_name_file(typ, name_fwd, name_rev, langcode, path):
             # Giving the name "zh (Hans)" to "zh-Hans" is still lazy
             continue
 
-        subtag = subtag.casefold()
-
         if '-alt-' in subtag:
             subtag, _ = subtag.split('-alt-', 1)
         if subtag not in name_fwd:
-            name_fwd[subtag] = name
+            name_fwd[subtag.casefold()] = name
         name_rev[name_norm].append((subtag, langcode))
 
 
