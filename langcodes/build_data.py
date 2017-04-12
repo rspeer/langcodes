@@ -1,7 +1,7 @@
 import marisa_trie
 import json
 from langcodes.util import data_filename
-from langcodes.names import OVERRIDES, normalize_name
+from langcodes.names import OVERRIDES, normalize_name, read_cldr_names
 from pathlib import Path
 from collections import defaultdict, Counter
 
@@ -126,9 +126,8 @@ def resolve_names(name_dict, debug=False):
     return resolved
 
 
-def load_cldr_name_file(langcode, typ):
-    name_rev = defaultdict(list)
-    data = load_cldr_names(langcode, typ)
+def load_cldr_name_file(name_rev, langcode, typ):
+    data = read_cldr_names(langcode, typ)
     for subtag, name in data.items():
         if (langcode, subtag) in OVERRIDES:
             name = OVERRIDES[langcode, subtag]
@@ -152,8 +151,6 @@ def load_cldr_name_file(langcode, typ):
             subtag, _ = subtag.split('-alt-', 1)
         name_rev[name_norm].append((subtag, langcode))
 
-    return name_rev
-
 
 def save_trie(mapping, filename):
     trie = marisa_trie.BytesTrie(
@@ -175,18 +172,13 @@ def build_tries():
             langcode = subpath.name
             if (subpath / 'languages.json').exists():
                 load_cldr_name_file(
-                    'languages', language_names_rev,
-                    langcode, subpath / 'languages.json'
+                    language_names_rev, langcode, 'languages'
                 )
-            if (subpath / 'territories.json').exists():
                 load_cldr_name_file(
-                    'territories', region_names_rev,
-                    langcode, subpath / 'territories.json'
+                    region_names_rev, langcode, 'territories'
                 )
-            if (subpath / 'scripts.json').exists():
                 load_cldr_name_file(
-                    'scripts', script_names_rev,
-                    langcode, subpath / 'scripts.json'
+                    script_names_rev, langcode, 'scripts'
                 )
 
     save_trie(

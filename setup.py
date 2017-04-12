@@ -27,7 +27,7 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes",
-    version='1.3.0',
+    version='1.4',
     maintainer='Luminoso Technologies, Inc.',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
@@ -36,6 +36,7 @@ setup(
     description="Labels and compares human languages in a standardized way",
     long_description=LONG_DESC,
     packages=['langcodes'],
+    install_requires=['marisa-trie'],
     include_package_data=True,
     zip_safe=False,
     classifiers=[

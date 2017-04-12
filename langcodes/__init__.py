@@ -9,8 +9,6 @@ https://github.com/LuminosoInsight/langcodes/ . For more specific documentation
 on the functions in langcodes, scroll down and read the docstrings.
 """
 from .tag_parser import parse_tag
-from .db import DB
-from .distance import raw_distance
 import warnings
 
 # When we're getting natural language information *about* languages, it's in

@@ -47,9 +47,10 @@ def read_cldr_names(language, category):
     """
     Read CLDR's names for things in a particular language.
     """
-    path = data_filename('cldr/main/{}/')
-    fulldata = json.load(path.open(encoding='utf-8'))
-    data = fulldata['main'][langcode]['localeDisplayNames'][typ]
+    filename = data_filename('cldr/main/{}/{}.json'.format(language, category))
+    fulldata = json.load(open(filename, encoding='utf-8'))
+    data = fulldata['main'][language]['localeDisplayNames'][category]
+    return data
 
 
 
