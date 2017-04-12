@@ -1,6 +1,4 @@
 import sqlite3
-import json
-from .util import data_filename
 
 
 # Load some small amounts of data from .json that it's okay to reload on each

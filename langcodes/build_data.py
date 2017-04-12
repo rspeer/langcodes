@@ -1,6 +1,7 @@
 import marisa_trie
 import json
 from langcodes.util import data_filename
+from langcodes.names import OVERRIDES, normalize_name
 from pathlib import Path
 from collections import defaultdict, Counter
 
@@ -26,21 +27,30 @@ from collections import defaultdict, Counter
 #   - "Tamazight" (tzm or zgh)
 #
 # - Names that just happen to be ambiguous between different things with
-#   with different etymologies, such as 'Tonga'.
+#   different etymologies. Most of these have standard ways to disambiguate
+#   them in CLDR, but names such as 'Tonga' and 'Sango' have complex
+#   inter-language ambiguities.
 
 
 AMBIGUOUS_PREFERENCES = {
-    # Prefer America to be the United States when ambiguous (it literally
-    # means this in some languages, and there are other words for the Americas)
+    # Prefer 'America' to be the United States when ambiguous. Yes, this is
+    # overly specific in some languages (such as Spanish), but in other
+    # languages (such as Hindi) it's correct.
+    #
+    # When dealing with language codes, it seems unlikely that there would
+    # be a need to get a code referring to the two continents of the Americas,
+    # and to expect to find it under a vague name like 'America'.
     'US': {'019'},
 
-    # Prefer Micronesia to be the Federated States of Micronesia
+    # Prefer Micronesia to be the Federated States of Micronesia, by similar
+    # reasoning to 'America'
     'FM': {'057'},
 
-    # Prefer to exclude the Caribbean from North America
-    '003': {'021'},
+    # Prefer region 021 for 'North America', which includes Central America
+    # and the Caribbean, over region 003, which excludes them
+    '021': {'003'},
 
-    # Prefer Swiss German to be a specific language
+    # Prefer 'Swiss German' to be a specific language
     'gsw': {'de-CH'},
 
     # Of the two countries named 'Congo', prefer the one with Kinshasa
@@ -73,39 +83,7 @@ AMBIGUOUS_PREFERENCES = {
     'tzm': {'zgh'},
 }
 
-OVERRIDES = {
-    # "Breatnais" is Scots Gaelic for Welsh, not Breton, which is "Breatannais"
-    ("gd", "br"): "Breatannais",
-
-    # 'tagaloga' should be 'tl', not 'fil'
-    ("eu", "tl"): "Tagaloga",
-    ("eu", "fil"): "Filipinera",
-
-    # 'Dakota' should be 'dak', not 'dar', which is "Dargwa"
-    ("af", "dar"): "Dargwa",
-    ("af-NA", "dar"): "Dargwa",
-
-    # No evidence that language 'ssy' is called "саха" in Belarusian, and that
-    # name belongs to 'sah'
-    ("be", "ssy"): "сахо",
-
-    # 'интерлингве' should be 'ie', not 'ia', which is 'интерлингва'
-    ("az-Cyrl", "ia"): "интерлингва",
-
-    # Is the name 'Letoni' really ambiguous between Lithuania and Latvia?
-    ("mzn", "lt"): None,
-    ("mzn", "LT"): None,
-}
-
-
-def normalize_name(name):
-    name = name.casefold()
-    name = name.replace("’", "'")
-    name = name.replace("-", " ")
-    name = name.replace("(", "")
-    name = name.replace(")", "")
-    name = name.replace(",", "")
-    return name
+# See also OVERRIDES in names.py.
 
 
 def resolve_name(key, vals, debug=False):
@@ -148,9 +126,9 @@ def resolve_names(name_dict, debug=False):
     return resolved
 
 
-def load_cldr_name_file(typ, name_fwd, name_rev, langcode, path):
-    fulldata = json.load(path.open(encoding='utf-8'))
-    data = fulldata['main'][langcode]['localeDisplayNames'][typ]
+def load_cldr_name_file(langcode, typ):
+    name_rev = defaultdict(list)
+    data = load_cldr_names(langcode, typ)
     for subtag, name in data.items():
         if (langcode, subtag) in OVERRIDES:
             name = OVERRIDES[langcode, subtag]
@@ -172,24 +150,21 @@ def load_cldr_name_file(typ, name_fwd, name_rev, langcode, path):
 
         if '-alt-' in subtag:
             subtag, _ = subtag.split('-alt-', 1)
-        if subtag not in name_fwd:
-            name_fwd[subtag.casefold()] = name
         name_rev[name_norm].append((subtag, langcode))
 
+    return name_rev
 
-def make_trie(mapping):
+
+def save_trie(mapping, filename):
     trie = marisa_trie.BytesTrie(
-        (key, value.encode('utf-8')) for (key, value) in mapping.items()
+        (key, value.encode('utf-8')) for (key, value) in sorted(mapping.items())
     )
-    return trie
+    trie.save(filename)
 
 
-def build_data():
-    language_names = {}
+def build_tries():
     language_names_rev = defaultdict(list)
-    region_names = {}
     region_names_rev = defaultdict(list)
-    script_names = {}
     script_names_rev = defaultdict(list)
     language_replacements = {}
     region_replacements = {}
@@ -200,29 +175,33 @@ def build_data():
             langcode = subpath.name
             if (subpath / 'languages.json').exists():
                 load_cldr_name_file(
-                    'languages', language_names, language_names_rev,
+                    'languages', language_names_rev,
                     langcode, subpath / 'languages.json'
                 )
             if (subpath / 'territories.json').exists():
                 load_cldr_name_file(
-                    'territories', region_names, region_names_rev,
+                    'territories', region_names_rev,
                     langcode, subpath / 'territories.json'
                 )
             if (subpath / 'scripts.json').exists():
                 load_cldr_name_file(
-                    'scripts', script_names, script_names_rev,
+                    'scripts', script_names_rev,
                     langcode, subpath / 'scripts.json'
                 )
 
-    language_name_trie = make_trie(resolve_names(language_names_rev, debug=True))
-    language_name_trie.save(data_filename('trie/language_names.marisa'))
-
-    region_name_trie = make_trie(resolve_names(region_names_rev, debug=True))
-    region_name_trie.save(data_filename('trie/region_names.marisa'))
-
-    script_name_trie = make_trie(resolve_names(script_names_rev, debug=True))
-    script_name_trie.save(data_filename('trie/script_names.marisa'))
+    save_trie(
+        resolve_names(language_names_rev, debug=True),
+        data_filename('trie/language_names.marisa')
+    )
+    save_trie(
+        resolve_names(region_names_rev, debug=True),
+        data_filename('trie/region_names.marisa')
+    )
+    save_trie(
+        resolve_names(script_names_rev, debug=True),
+        data_filename('trie/script_names.marisa')
+    )
 
 
 if __name__ == '__main__':
-    build_data()
+    build_tries()
