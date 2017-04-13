@@ -8,8 +8,10 @@ See README.md for the main documentation, or read it on GitHub at
 https://github.com/LuminosoInsight/langcodes/ . For more specific documentation
 on the functions in langcodes, scroll down and read the docstrings.
 """
-from .tag_parser import parse_tag
 import warnings
+
+from langcodes.tag_parser import parse_tag
+from langcodes import cldr
 
 # When we're getting natural language information *about* languages, it's in
 # U.S. English if you don't specify the language.
@@ -215,8 +217,8 @@ class Language:
         # normalization right away. Smash case when checking, because the
         # case normalization that comes from parse_tag() hasn't been applied
         # yet.
-        if normalize and tag.lower() in DB.normalized_languages:
-            tag = DB.normalized_languages[tag.lower()]
+        if normalize:
+            tag = cldr.normalize_language(tag.lower())
 
         components = parse_tag(tag)
 
@@ -224,8 +226,8 @@ class Language:
             if typ == 'extlang' and normalize and 'language' in data:
                 # smash extlangs when possible
                 minitag = '%s-%s' % (data['language'], value)
-                if minitag in DB.normalized_languages:
-                    norm = DB.normalized_languages[minitag]
+                norm = cldr.normalize_language(minitag)
+                if norm != minitag:
                     data.update(
                         Language.get(norm, normalize).to_dict()
                     )
@@ -236,24 +238,28 @@ class Language:
             elif typ == 'language':
                 if value == 'und':
                     pass
-                elif normalize and value in DB.normalized_languages:
-                    replacement = DB.normalized_languages[value]
-                    # parse the replacement if necessary -- this helps with
-                    # Serbian and Moldovan
-                    data.update(
-                        Language.get(replacement, normalize).to_dict()
-                    )
+                elif normalize:
+                    replacement = cldr.normalize_language(value)
+                    if replacement != value:
+                        # parse the replacement if necessary -- this helps with
+                        # Serbian and Moldovan
+                        data.update(
+                            Language.get(replacement, normalize).to_dict()
+                        )
+                    else:
+                        data['language'] = value
                 else:
                     data['language'] = value
             elif typ == 'region':
-                if normalize and value in DB.normalized_regions:
-                    data['region'] = DB.normalized_regions[value]
+                if normalize:
+                    data['region'] = cldr.normalize_region(value)
                 else:
                     data['region'] = value
             elif typ == 'grandfathered':
                 # If we got here, we got a grandfathered tag but we were asked
-                # not to normalize it, or the DB doesn't know how to normalize
-                # it. The best we can do is set the entire tag as the language.
+                # not to normalize it, or the CLDR data doesn't know how to
+                # normalize it. The best we can do is set the entire tag as the
+                # language.
                 data['language'] = value
             else:
                 data[typ] = value

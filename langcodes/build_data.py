@@ -1,7 +1,7 @@
 import marisa_trie
 import json
 from langcodes.util import data_filename
-from langcodes.names import OVERRIDES, normalize_name, read_cldr_names
+from langcodes.cldr import OVERRIDES, normalize_name, read_cldr_names
 from pathlib import Path
 from collections import defaultdict, Counter
 
@@ -87,7 +87,7 @@ AMBIGUOUS_PREFERENCES = {
 
 
 def resolve_name(key, vals, debug=False):
-    val_count = Counter([val[0] for val in vals])
+    val_count = Counter([val[1] for val in vals])
     if len(val_count) == 1:
         unanimous = val_count.most_common(1)
         return unanimous[0][0]
@@ -101,7 +101,7 @@ def resolve_name(key, vals, debug=False):
     # In debug mode, show which languages vote for which name
     if debug:
         votes = defaultdict(list)
-        for val, voter in vals:
+        for voter, val in vals:
             votes[val].append(voter)
 
         print("{}:".format(key))
@@ -126,8 +126,9 @@ def resolve_names(name_dict, debug=False):
     return resolved
 
 
-def load_cldr_name_file(name_rev, langcode, typ):
-    data = read_cldr_names(langcode, typ)
+def load_cldr_name_file(langcode, category):
+    data = read_cldr_names(langcode, category)
+    name_triples = []
     for subtag, name in data.items():
         if (langcode, subtag) in OVERRIDES:
             name = OVERRIDES[langcode, subtag]
@@ -142,14 +143,23 @@ def load_cldr_name_file(name_rev, langcode, typ):
         # CLDR assigns multiple names to one code by adding -alt-* to
         # the end of the code. For example, the English name of 'az' is
         # Azerbaijani, but the English name of 'az-alt-short' is Azeri.
-        name_norm = normalize_name(name)
-        if name_norm == normalize_name(subtag):
+        if normalize_name(name) == normalize_name(subtag):
             # Giving the name "zh (Hans)" to "zh-Hans" is still lazy
             continue
 
         if '-alt-' in subtag:
             subtag, _ = subtag.split('-alt-', 1)
-        name_rev[name_norm].append((subtag, langcode))
+
+        name_triples.append((langcode, subtag, name))
+    return name_triples
+
+
+def update_names(names_fwd, names_rev, name_triples):
+    for name_language, referent, name in name_triples:
+        names_rev.setdefault(normalize_name(name), []).append((name_language, referent))
+        fwd_key = '{}@{}'.format(normalize_name(referent), name_language)
+        if fwd_key not in names_fwd:
+            names_fwd[fwd_key] = name
 
 
 def save_trie(mapping, filename):
@@ -163,36 +173,39 @@ def build_tries():
     language_names_rev = defaultdict(list)
     region_names_rev = defaultdict(list)
     script_names_rev = defaultdict(list)
-    language_replacements = {}
-    region_replacements = {}
+    language_names_fwd = {}
+    region_names_fwd = {}
+    script_names_fwd = {}
 
     cldr_path = Path(data_filename('cldr/main'))
     for subpath in sorted(cldr_path.iterdir()):
         if subpath.is_dir():
             langcode = subpath.name
             if (subpath / 'languages.json').exists():
-                load_cldr_name_file(
-                    language_names_rev, langcode, 'languages'
-                )
-                load_cldr_name_file(
-                    region_names_rev, langcode, 'territories'
-                )
-                load_cldr_name_file(
-                    script_names_rev, langcode, 'scripts'
-                )
+                language_data = load_cldr_name_file(langcode, 'languages')
+                update_names(language_names_fwd, language_names_rev, language_data)
+
+                script_data = load_cldr_name_file(langcode, 'scripts')
+                update_names(script_names_fwd, script_names_rev, script_data)
+
+                region_data = load_cldr_name_file(langcode, 'territories')
+                update_names(region_names_fwd, region_names_rev, region_data)
 
     save_trie(
         resolve_names(language_names_rev, debug=True),
-        data_filename('trie/language_names.marisa')
+        data_filename('trie/name_to_language.marisa')
     )
     save_trie(
         resolve_names(region_names_rev, debug=True),
-        data_filename('trie/region_names.marisa')
+        data_filename('trie/name_to_region.marisa')
     )
     save_trie(
         resolve_names(script_names_rev, debug=True),
-        data_filename('trie/script_names.marisa')
+        data_filename('trie/name_to_script.marisa')
     )
+    save_trie(language_names_fwd, data_filename('trie/language_to_name.marisa'))
+    save_trie(script_names_fwd, data_filename('trie/script_to_name.marisa'))
+    save_trie(region_names_fwd, data_filename('trie/region_to_name.marisa'))
 
 
 if __name__ == '__main__':
