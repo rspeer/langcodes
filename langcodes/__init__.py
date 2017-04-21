@@ -11,7 +11,12 @@ on the functions in langcodes, scroll down and read the docstrings.
 import warnings
 
 from langcodes.tag_parser import parse_tag
-from langcodes import cldr
+from langcodes.names import code_to_names, name_to_code
+from langcodes.distance import raw_distance
+from langcodes.data_dicts import (
+    DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
+    REGION_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
+)
 
 # When we're getting natural language information *about* languages, it's in
 # U.S. English if you don't specify the language.
@@ -217,17 +222,18 @@ class Language:
         # normalization right away. Smash case when checking, because the
         # case normalization that comes from parse_tag() hasn't been applied
         # yet.
-        if normalize:
-            tag = cldr.normalize_language(tag.lower())
+        tag_lower = tag.lower()
+        if normalize and tag_lower in LANGUAGE_REPLACEMENTS:
+            tag = LANGUAGE_REPLACEMENTS[tag_lower]
 
         components = parse_tag(tag)
 
         for typ, value in components:
             if typ == 'extlang' and normalize and 'language' in data:
                 # smash extlangs when possible
-                minitag = '%s-%s' % (data['language'], value)
-                norm = cldr.normalize_language(minitag)
-                if norm != minitag:
+                minitag = ('%s-%s' % (data['language'], value))
+                norm = LANGUAGE_REPLACEMENTS.get(minitag.lower())
+                if norm is not None:
                     data.update(
                         Language.get(norm, normalize).to_dict()
                     )
@@ -239,8 +245,8 @@ class Language:
                 if value == 'und':
                     pass
                 elif normalize:
-                    replacement = cldr.normalize_language(value)
-                    if replacement != value:
+                    replacement = LANGUAGE_REPLACEMENTS.get(value.lower())
+                    if replacement is not None:
                         # parse the replacement if necessary -- this helps with
                         # Serbian and Moldovan
                         data.update(
@@ -252,7 +258,7 @@ class Language:
                     data['language'] = value
             elif typ == 'region':
                 if normalize:
-                    data['region'] = cldr.normalize_region(value)
+                    data['region'] = REGION_REPLACEMENTS.get(value.lower(), value)
                 else:
                     data['region'] = value
             elif typ == 'grandfathered':
@@ -326,7 +332,7 @@ class Language:
             return self._simplified
 
         if self.language and self.script:
-            if DB.default_scripts.get(self.language) == self.script:
+            if DEFAULT_SCRIPTS.get(self.language) == self.script:
                 result = self.update_dict({'script': None})
                 self._simplified = result
                 return self._simplified
@@ -366,7 +372,7 @@ class Language:
             return self._assumed
         if self.language and not self.script:
             try:
-                self._assumed = self.update_dict({'script': DB.default_scripts[self.language]})
+                self._assumed = self.update_dict({'script': DEFAULT_SCRIPTS[self.language]})
             except KeyError:
                 self._assumed = self
         else:
@@ -403,9 +409,9 @@ class Language:
         if self._macrolanguage is not None:
             return self._macrolanguage
         language = self.language or 'und'
-        if language in DB.normalized_macrolanguages:
+        if language in NORMALIZED_MACROLANGUAGES:
             self._macrolanguage = self.update_dict({
-                'language': DB.normalized_macrolanguages[language]
+                'language': NORMALIZED_MACROLANGUAGES[language]
             })
         else:
             self._macrolanguage = self
@@ -491,15 +497,15 @@ class Language:
 
         for broader in self.broaden():
             tag = broader.to_tag()
-            if tag in DB.likely_subtags:
-                result = Language.get(DB.likely_subtags[tag], normalize=False)
+            if tag in LIKELY_SUBTAGS:
+                result = Language.get(LIKELY_SUBTAGS[tag], normalize=False)
                 result = result.update(self)
                 self._filled = result
                 return result
 
         raise RuntimeError(
             "Couldn't fill in likely values. This represents a problem with "
-            "DB.likely_subtags."
+            "the LIKELY_SUBTAGS data."
         )
 
     # Support an old, wordier name for the method
@@ -542,7 +548,10 @@ class Language:
         if isinstance(language, Language):
             language = language.to_tag()
 
-        names = DB.names_for(attribute, getattr(self, attribute))
+        attr_value = getattr(self, attribute)
+        if attr_value is None:
+            return None
+        names = code_to_names(attribute, attr_value)
         names['und'] = getattr(self, attribute)
         return self._best_name(names, language, min_score)
 
@@ -631,7 +640,7 @@ class Language:
         """
         names = []
         for variant in self.variants:
-            var_names = DB.names_for('variant', variant)
+            var_names = code_to_names('variant', variant)
             names.append(self._best_name(var_names, language, min_score))
         return names
 
@@ -663,7 +672,7 @@ class Language:
         {'language': 'inglês', 'region': 'Reino Unido', 'script': 'shaviano'}
 
         >>> pprint(shaw.describe('uk'))
-        {'language': 'англійська', 'region': 'Велика Британія', 'script': 'Шоу'}
+        {'language': 'англійська', 'region': 'Велика Британія', 'script': 'шоу'}
 
         >>> pprint(shaw.describe('arb'))
         {'language': 'الإنجليزية', 'region': 'المملكة المتحدة', 'script': 'الشواني'}
@@ -672,7 +681,7 @@ class Language:
         {'language': 'อังกฤษ', 'region': 'สหราชอาณาจักร', 'script': 'ซอเวียน'}
 
         >>> pprint(shaw.describe('zh-Hans'))
-        {'language': '英文', 'region': '英国', 'script': '萧伯纳式文'}
+        {'language': '英语', 'region': '英国', 'script': '萧伯纳式文'}
 
         >>> pprint(shaw.describe('zh-Hant'))
         {'language': '英文', 'region': '英國', 'script': '簫柏納字符'}
@@ -690,18 +699,6 @@ class Language:
 
         >>> pprint(Language.get('lol').maximize().describe())
         {'language': 'Mongo', 'region': 'Congo - Kinshasa', 'script': 'Latin'}
-
-        Sometimes the normalized and un-normalized versions of a language code
-        have different descriptions:
-
-        >>> Language.get('mo')
-        Language.make(language='ro', region='MD')
-
-        >>> pprint(Language.get('mo').describe())
-        {'language': 'Romanian', 'region': 'Moldova'}
-
-        >>> pprint(Language.get('mo', normalize=False).describe())
-        {'language': 'Moldavian'}
         """
         names = {}
         if self.language:
@@ -741,10 +738,13 @@ class Language:
         >>> Language.find_name('language', 'norsk bokmål')
         Language.make(language='nb')
 
-        >>> Language.find_name('language', 'norsk bokmal')
+        >>> Language.find_name('language', 'norsk')
+        Language.make(language='no')
+        
+        >>> Language.find_name('language', 'whatever')
         Traceback (most recent call last):
             ...
-        LookupError: Can't find any language named 'norsk bokmal'
+        LookupError: Can't find any language named 'whatever'
 
         Some langauge names resolve to more than a language. For example,
         the name 'Brazilian Portuguese' resolves to a language and a region,
@@ -762,7 +762,9 @@ class Language:
                 PendingDeprecationWarning
             )
 
-        code = DB.lookup_name(tagtype, name)
+        code = name_to_code(tagtype, name)
+        if code is None:
+            raise LookupError("Can't find any %s named %r" % (tagtype, name))
         if '-' in code:
             return Language.get(code)
         else:
