@@ -323,6 +323,20 @@ def read_csv_names(filename):
     return triples
 
 
+def read_wiktionary_names(filename, language):
+    data = open(filename, encoding='utf-8')
+    triples = []
+    for line in data:
+        parts = line.rstrip().split('\t')
+        code = parts[0]
+        names = [parts[1]]
+        #if len(parts) > 4 and parts[4]:
+        #    names.extend(parts[4].split(', '))
+        for name in names:
+            triples.append((language, code, name))
+    return triples
+
+
 def update_names(names_fwd, names_rev, name_triples):
     for name_language, referent, name in name_triples:
         names_rev.setdefault(normalize_name(name), []).append((name_language, referent))
@@ -364,6 +378,9 @@ def build_tries():
     update_names(language_names_fwd, language_names_rev, iana_languages)
     update_names(script_names_fwd, script_names_rev, iana_scripts)
     update_names(region_names_fwd, region_names_rev, iana_regions)
+
+    wiktionary_data = read_wiktionary_names(data_filename('wiktionary/codes-en.csv'), 'en')
+    update_names(language_names_fwd, language_names_rev, wiktionary_data)
 
     extra_language_data = read_csv_names(data_filename('extra_language_names.csv'))
     update_names(language_names_fwd, language_names_rev, extra_language_data)
