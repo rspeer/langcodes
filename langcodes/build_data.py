@@ -126,6 +126,9 @@ AMBIGUOUS_PREFERENCES = {
 
     # Korean script (including Han)
     'Kore': {'Hang'},
+
+    'ms': {'mbp'},
+    'fa': {'prp'},
 }
 
 OVERRIDES = {
@@ -178,7 +181,8 @@ OVERRIDES = {
 }
 
 def resolve_name(key, vals, debug=False):
-    val_count = Counter([val[1] for val in vals])
+    max_priority = max([val[2] for val in vals])
+    val_count = Counter([val[1] for val in vals if val[2] == max_priority])
     if len(val_count) == 1:
         unanimous = val_count.most_common(1)
         return unanimous[0][0]
@@ -190,10 +194,11 @@ def resolve_name(key, vals, debug=False):
             return pkey
 
     # In debug mode, show which languages vote for which name
-    if debug:
+    if debug and max_priority >= 0:
         votes = defaultdict(list)
-        for voter, val in vals:
-            votes[val].append(voter)
+        for voter, val, prio in vals:
+            if prio == max_priority:
+                votes[val].append(voter)
 
         print("{}:".format(key))
         for val, voters in sorted(votes.items()):
@@ -234,7 +239,7 @@ def read_cldr_supplemental(dataname):
 
 def read_cldr_name_file(langcode, category):
     data = read_cldr_names(langcode, category)
-    name_triples = []
+    name_quads = []
     for subtag, name in sorted(data.items()):
         if (langcode, subtag) in OVERRIDES:
             name = OVERRIDES[langcode, subtag]
@@ -253,37 +258,44 @@ def read_cldr_name_file(langcode, category):
             # Giving the name "zh (Hans)" to "zh-Hans" is still lazy
             continue
 
+        priority = 1
+        if langcode == 'en':
+            priority = 3
         if '-alt-' in subtag:
             subtag, _ = subtag.split('-alt-', 1)
+            priority = 0
 
-        name_triples.append((langcode, subtag, name))
-    return name_triples
+        name_quads.append((langcode, subtag, name, priority))
+    return name_quads
 
 
 def read_iana_registry_names():
-    language_triples = []
-    script_triples = []
-    region_triples = []
+    language_quads = []
+    script_quads = []
+    region_quads = []
     for entry in parse_registry():
         target = None
         if entry['Type'] == 'language':
-            target = language_triples
+            target = language_quads
         elif entry['Type'] == 'script':
-            target = script_triples
+            target = script_quads
         elif entry['Type'] == 'region':
-            target = region_triples
-        if target is not None and 'Deprecated' not in entry:
+            target = region_quads
+        if target is not None:
             subtag = entry['Subtag']
+            priority = 2
+            if 'Deprecated' in entry:
+                priority = 0
             if ('en', subtag) in OVERRIDES:
                 target.append(
-                    ('en', subtag, OVERRIDES['en', subtag])
+                    ('en', subtag, OVERRIDES['en', subtag], priority)
                 )
             else:
                 for desc in entry['Description']:
                     target.append(
-                        ('en', subtag, desc)
+                        ('en', subtag, desc, priority)
                     )
-    return language_triples, script_triples, region_triples
+    return language_quads, script_quads, region_quads
 
 
 def read_iana_registry_scripts():
@@ -316,30 +328,31 @@ def read_iana_registry_replacements():
 
 def read_csv_names(filename):
     data = open(filename, encoding='utf-8')
-    triples = []
+    quads = []
     for line in data:
-        triple = line.rstrip().split(',', 3)
-        triples.append(triple)
-    return triples
+        quad = line.rstrip().split(',', 3) + [True]
+        quads.append(tuple(quad))
+    return quads
 
 
 def read_wiktionary_names(filename, language):
     data = open(filename, encoding='utf-8')
-    triples = []
+    quads = []
     for line in data:
         parts = line.rstrip().split('\t')
         code = parts[0]
+        quads.append((language, code, parts[1], -1))
         names = [parts[1]]
-        #if len(parts) > 4 and parts[4]:
-        #    names.extend(parts[4].split(', '))
-        for name in names:
-            triples.append((language, code, name))
-    return triples
+        if len(parts) > 4 and parts[4]:
+            names = parts[4].split(', ')
+            for name in names:
+                quads.append((language, code, name, -2))
+    return quads
 
 
-def update_names(names_fwd, names_rev, name_triples):
-    for name_language, referent, name in name_triples:
-        names_rev.setdefault(normalize_name(name), []).append((name_language, referent))
+def update_names(names_fwd, names_rev, name_quads):
+    for name_language, referent, name, priority in name_quads:
+        names_rev.setdefault(normalize_name(name), []).append((name_language, referent, priority))
         fwd_key = '{}@{}'.format(referent.lower(), name_language)
         if fwd_key not in names_fwd:
             names_fwd[fwd_key] = name
