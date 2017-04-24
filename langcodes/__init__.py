@@ -716,15 +716,28 @@ class Language:
         """
         Find the subtag of a particular `tagtype` that has the given `name`.
 
-        This is not a particularly powerful full-text search. It ignores case, but
-        otherwise it expects the name to appear exactly the way it does in one of
-        the databases that langcodes uses. If the exact name isn't found, you get a
-        LookupError.
+        The default language, "und", will allow matching names in any language,
+        so you can get the code 'fr' by looking up "French", "Français", or
+        "francés".
 
-        This method used to require a `language` parameter, when it was possible to
-        get different results based on what language the name you were looking up
-        was in. Names are now an unambiguous many-to-one mapping, and the `language`
-        parameter is ignored and causes a PendingDeprecationWarning.
+        A small amount of fuzzy matching is supported: if the name can be
+        shortened or lengthened to match a single language name, you get that
+        language. This allows, for example, "Hakka Chinese" to match "Hakka".
+
+        Occasionally, names are ambiguous in a way that can be resolved by
+        specifying what name the language is supposed to be in. For example,
+        there is a language named 'Malayo' in English, but it's different from
+        the language named 'Malayo' in Spanish (which is Malay). Specifying the
+        language will look up the name in a trie that is only in that language.
+
+        In a previous version, we thought we were going to deprecate the
+        `language` parameter, as there weren't significant cases of conflicts
+        in names of things between languages. Well, we got more data, and
+        conflicts in names are everywhere.
+        
+        Specifying the language that the name should be in is still not
+        required, but it will help to make sure that names can be
+        round-tripped.
 
         >>> Language.find_name('language', 'francés')
         Language.make(language='fr')
@@ -741,11 +754,20 @@ class Language:
         >>> Language.find_name('language', 'norsk')
         Language.make(language='no')
         
-        >>> Language.find_name('language', 'whatever')
+        >>> Language.find_name('language', 'norsk', 'en')
         Traceback (most recent call last):
             ...
-        LookupError: Can't find any language named 'whatever'
+        LookupError: Can't find any language named 'norsk'
 
+        >>> Language.find_name('language', 'norsk', 'no')
+        Language.make(language='no')
+        
+        >>> Language.find_name('language', 'malayo', 'en')
+        Language.make(language='mbp')
+        
+        >>> Language.find_name('language', 'malayo', 'es')
+        Language.make(language='ms')
+        
         Some langauge names resolve to more than a language. For example,
         the name 'Brazilian Portuguese' resolves to a language and a region,
         and 'Simplified Chinese' resolves to a language and a script. In these
@@ -753,16 +775,21 @@ class Language:
 
         >>> Language.find_name('language', 'Brazilian Portuguese', 'en')
         Language.make(language='pt', region='BR')
+
         >>> Language.find_name('language', 'Simplified Chinese', 'en')
         Language.make(language='zh', script='Hans')
         """
-        if language is not None:
-            warnings.warn(
-                "find_name no longer requires or uses the `language` parameter.",
-                PendingDeprecationWarning
-            )
 
-        code = name_to_code(tagtype, name)
+        # No matter what form of language we got, normalize it to a single
+        # language subtag
+        if isinstance(language, Language):
+            language = language.language
+        elif isinstance(language, str):
+            language = get(language).language
+        if language is None:
+            language = 'und'
+
+        code = name_to_code(tagtype, name, language)
         if code is None:
             raise LookupError("Can't find any %s named %r" % (tagtype, name))
         if '-' in code:

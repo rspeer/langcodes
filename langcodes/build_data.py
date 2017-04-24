@@ -1,20 +1,26 @@
 import marisa_trie
 import json
+import os
 from pathlib import Path
 from collections import defaultdict, Counter
 
+import langcodes
 from langcodes.util import data_filename
 from langcodes.names import normalize_name
 from langcodes.registry_parser import parse_registry
 
-
+# Naming things is hard, especially languages
+# ===========================================
+#
 # CLDR is supposed to avoid ambiguous language names, particularly among its
 # core languages. But there is no complete solution to this problem.
 #
 # While it may seem like a solid plan to separate language names by the
 # language they are being named in, for the types of names that conflict, this
 # would often simply hide the problem under each annotator's arbitrary
-# decisions about what a name means.
+# decisions about what a name means. This would increase the amount of storage
+# required for the lookup table of names, make it less convenient to get a
+# language by name, and possibly not even increase accuracy.
 #
 # Ambiguous names can arise from:
 #
@@ -26,7 +32,7 @@ from langcodes.registry_parser import parse_registry
 #   different etymologies.
 #
 # Most doubly-claimed language names have standard ways to disambiguate
-# them in CLDR, but names such as 'Tonga' and 'Sango' have complex
+# them in CLDR, but names such as 'Tonga' and 'Fala' have complex
 # inter-language ambiguities.
 #
 # Our approach is:
@@ -39,10 +45,17 @@ from langcodes.registry_parser import parse_registry
 #   a region that doesn't. In any such conflict, we choose to include Central
 #   America.
 #
+# - Avoid ambiguities between different sources of data, by using an order
+#   of precedence. CLDR data takes priority over IANA data, which takes priority
+#   over Wiktionary data.
+#
 # - When ambiguity remains, that name is not resolvable to a language code.
 #   Every official English name in the CLDR, as well as the vast majority of
 #   other names, can be resolved. An ambiguous name such as 'Tonga' can be
 #   resolved by using a different name ("Tongan" or "Tonga Nyasa").
+#
+# The drawback to this approach is that some names for lesser-known languages
+# can't successfully be round-tripped, particularly "Fala" and "Malayo".
 
 
 AMBIGUOUS_PREFERENCES = {
@@ -72,20 +85,6 @@ AMBIGUOUS_PREFERENCES = {
     # Prefer Han script to not include bopomofo
     'Hani': {'Hanb'},
 
-    # Prefer Umbundu over Kimbundu for the name 'Mbundu'
-    'umb': {'kmb'},
-
-    # Prefer village Kwasio over nomadic Gyele (some sources consider them
-    # dialects of the same language)
-    'nmg': {'gyi'},
-
-    # Prefer Kinyarwanda over Rwa
-    'rw': {'rwk'},
-
-    # Can't tell why Catalan says Bulu is named "Seki", but let's keep Bulu
-    # and Seki separate
-    'syi': {'bum'},
-
     # Prefer the specific language Tagalog over standard Filipino, because
     # the ambiguous name was probably some form of 'Tagalog'
     'tl': {'fil'},
@@ -100,7 +99,7 @@ AMBIGUOUS_PREFERENCES = {
     'cmn': {'zh'},
 
     # Prefer the regionally-specific definition of Dari
-    'fa-AF': {'prs'},
+    'fa-AF': {'prs', 'fa'},
 
     # Flemish: specific
     'nl-BE': {'nl'},
@@ -112,23 +111,14 @@ AMBIGUOUS_PREFERENCES = {
     # language in the IANA file
     'sw-CD': {'swc'},
 
-    # Prefer the macrolanguage for Pulaar
-    'ff': {'fuc'},
-
-    # Prefer the macrolanguage for Tamasheq
-    'tmh': {'taq'},
-
     # 'Kiswahili' is Swahili for Swahili
     'sw': {'swh'},
 
-    # Chinook
+    # Ambiguity in the scope of Chinook
     'chn': {'chh'},
 
-    # Korean script (including Han)
+    # Ambiguity in the scope of Korean script (whether to include Han characters)
     'Kore': {'Hang'},
-
-    'ms': {'mbp'},
-    'fa': {'prp'},
 }
 
 OVERRIDES = {
@@ -180,6 +170,7 @@ OVERRIDES = {
     ("fur", "lad"): None
 }
 
+
 def resolve_name(key, vals, debug=False):
     max_priority = max([val[2] for val in vals])
     val_count = Counter([val[1] for val in vals if val[2] == max_priority])
@@ -189,9 +180,12 @@ def resolve_name(key, vals, debug=False):
 
     for pkey in val_count:
         if pkey in AMBIGUOUS_PREFERENCES:
-            if debug:
-                print("Resolved: {} -> {}".format(key, pkey))
-            return pkey
+            others = set(val_count)
+            others.remove(pkey)
+            if others == others & AMBIGUOUS_PREFERENCES[pkey]:
+                if debug:
+                    print("Resolved: {} -> {}".format(key, pkey))
+                return pkey
 
     # In debug mode, show which languages vote for which name
     if debug and max_priority >= 0:
@@ -258,12 +252,10 @@ def read_cldr_name_file(langcode, category):
             # Giving the name "zh (Hans)" to "zh-Hans" is still lazy
             continue
 
-        priority = 1
-        if langcode == 'en':
-            priority = 3
+        priority = 3
         if '-alt-' in subtag:
             subtag, _ = subtag.split('-alt-', 1)
-            priority = 0
+            priority = 1
 
         name_quads.append((langcode, subtag, name, priority))
     return name_quads
@@ -352,7 +344,13 @@ def read_wiktionary_names(filename, language):
 
 def update_names(names_fwd, names_rev, name_quads):
     for name_language, referent, name, priority in name_quads:
-        names_rev.setdefault(normalize_name(name), []).append((name_language, referent, priority))
+        # Get just the language from name_language, not the region or script.
+        short_language = langcodes.get(name_language).language
+        rev_all = names_rev.setdefault('und', {})
+        rev_language = names_rev.setdefault(short_language, {})
+        for rev_dict in (rev_all, rev_language):
+            rev_dict.setdefault(normalize_name(name), []).append((name_language, referent, priority))
+
         fwd_key = '{}@{}'.format(referent.lower(), name_language)
         if fwd_key not in names_fwd:
             names_fwd[fwd_key] = name
@@ -365,10 +363,20 @@ def save_trie(mapping, filename):
     trie.save(filename)
 
 
+def save_reverse_name_tables(category, rev_dict):
+    for language, lang_dict in rev_dict.items():
+        if language is not None:
+            os.makedirs(data_filename('trie/{}'.format(language)), exist_ok=True)
+            save_trie(
+                resolve_names(lang_dict, debug=True),
+                data_filename('trie/{}/name_to_{}.marisa'.format(language, category))
+            )
+
+
 def build_tries():
-    language_names_rev = defaultdict(list)
-    region_names_rev = defaultdict(list)
-    script_names_rev = defaultdict(list)
+    language_names_rev = {}
+    region_names_rev = {}
+    script_names_rev = {}
     language_names_fwd = {}
     region_names_fwd = {}
     script_names_fwd = {}
@@ -398,18 +406,9 @@ def build_tries():
     extra_language_data = read_csv_names(data_filename('extra_language_names.csv'))
     update_names(language_names_fwd, language_names_rev, extra_language_data)
 
-    save_trie(
-        resolve_names(language_names_rev, debug=True),
-        data_filename('trie/name_to_language.marisa')
-    )
-    save_trie(
-        resolve_names(region_names_rev, debug=True),
-        data_filename('trie/name_to_region.marisa')
-    )
-    save_trie(
-        resolve_names(script_names_rev, debug=True),
-        data_filename('trie/name_to_script.marisa')
-    )
+    save_reverse_name_tables('language', language_names_rev)
+    save_reverse_name_tables('script', script_names_rev)
+    save_reverse_name_tables('region', region_names_rev)
     save_trie(language_names_fwd, data_filename('trie/language_to_name.marisa'))
     save_trie(script_names_fwd, data_filename('trie/script_to_name.marisa'))
     save_trie(region_names_fwd, data_filename('trie/region_to_name.marisa'))
