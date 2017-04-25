@@ -734,7 +734,7 @@ class Language:
         `language` parameter, as there weren't significant cases of conflicts
         in names of things between languages. Well, we got more data, and
         conflicts in names are everywhere.
-        
+
         Specifying the language that the name should be in is still not
         required, but it will help to make sure that names can be
         round-tripped.
@@ -753,7 +753,7 @@ class Language:
 
         >>> Language.find_name('language', 'norsk')
         Language.make(language='no')
-        
+
         >>> Language.find_name('language', 'norsk', 'en')
         Traceback (most recent call last):
             ...
@@ -761,7 +761,7 @@ class Language:
 
         >>> Language.find_name('language', 'norsk', 'no')
         Language.make(language='no')
-        
+
         >>> Language.find_name('language', 'malayo', 'en')
         Language.make(language='mbp')
         
@@ -799,10 +799,11 @@ class Language:
             return Language.make(**data)
 
     @staticmethod
-    def find(name: str):
+    def find(name: str, language: {str, 'Language', None}=None):
         """
         A concise version of `find_name`, used to get a language tag by its
-        name in any natural language.
+        name in a natural language. The language can be omitted in the large
+        majority of cases, where the language name is not ambiguous.
 
         >>> Language.find('Türkçe')
         Language.make(language='tr')
@@ -810,8 +811,18 @@ class Language:
         Language.make(language='pt', region='BR')
         >>> Language.find('simplified chinese')
         Language.make(language='zh', script='Hans')
+
+        Some language names are ambiguous: for example, there is a language
+        named 'Fala' in English (with code 'fax'), but 'Fala' is also the
+        Kwasio word for French. In this case, specifying the language that
+        the name is in is necessary for disambiguation.
+
+        >>> Language.find('fala')
+        Language.make(language='fr')
+        >>> Language.find('fala', 'en')
+        Language.make(language='fax')
         """
-        return Language.find_name('language', name)
+        return Language.find_name('language', name, language)
 
     def to_dict(self):
         """
@@ -1177,10 +1188,6 @@ def best_match(desired_language: str, supported_languages: list,
     ('es', 90)
     >>> best_match('eu', ['el', 'en', 'es'], min_score=92)
     ('und', 0)
-
-    TODO:
-
-        - let parentLocales divert the way languages match
     """
     # Quickly return if the desired language is directly supported
     if desired_language in supported_languages:
