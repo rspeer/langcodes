@@ -37,7 +37,6 @@ def _make_simple_distances():
         one(desired, supported, 10)
 
     sym('no', 'nb', 1)
-    sym('ku', 'ckb', 1)
     sym('hr', 'bs', 4)
     sym('sh', 'bs', 4)
     sym('sr', 'bs', 4)
@@ -49,7 +48,6 @@ def _make_simple_distances():
     one('lb', 'de', 4)
     sym('da', 'no', 8)
     sym('da', 'nb', 8)
-    sym('ckb', 'ku', 8)
     ok('ab', 'ru')
     ok('ach', 'en')
     ok('af', 'nl')
