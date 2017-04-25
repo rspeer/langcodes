@@ -13,14 +13,14 @@ from langcodes.registry_parser import parse_registry
 # ===========================================
 #
 # CLDR is supposed to avoid ambiguous language names, particularly among its
-# core languages. But there is no complete solution to this problem.
+# core languages. But it seems that languages are incompletely disambiguated.
 #
-# While it may seem like a solid plan to separate language names by the
-# language they are being named in, for the types of names that conflict, this
-# would often simply hide the problem under each annotator's arbitrary
-# decisions about what a name means. This would increase the amount of storage
-# required for the lookup table of names, make it less convenient to get a
-# language by name, and possibly not even increase accuracy.
+# It's convenient to be able to get a language by its name, without having to
+# also refer to the language that the name is in. In most cases, we can do this
+# unambiguously. With the disambiguations and overrides here, this will work
+# in a lot of cases. However, some names such as 'Dongo', 'Fala', 'Malayo', and
+# 'Tonga' are ambiguous in ways that can only be disambiguated by specifying
+# the language the name is in.
 #
 # Ambiguous names can arise from:
 #
@@ -38,7 +38,7 @@ from langcodes.registry_parser import parse_registry
 # Our approach is:
 #
 # - Fix conflicts that seem to arise simply from errors in the data, by
-#   overriding the data
+#   overriding the data.
 #
 # - Fix ambiguities in scope by preferring one scope over another. For example,
 #   "North America" could refer to a region that includes Central America or
@@ -50,22 +50,15 @@ from langcodes.registry_parser import parse_registry
 #   over Wiktionary data.
 #
 # - When ambiguity remains, that name is not resolvable to a language code.
-#   Every official English name in the CLDR, as well as the vast majority of
-#   other names, can be resolved. An ambiguous name such as 'Tonga' can be
-#   resolved by using a different name ("Tongan" or "Tonga Nyasa").
-#
-# The drawback to this approach is that some names for lesser-known languages
-# can't successfully be round-tripped, particularly "Fala" and "Malayo".
+#   Resolving the name might require a more specific name, or specifying the
+#   language that the name is in.
 
 
 AMBIGUOUS_PREFERENCES = {
     # Prefer 'America' to be the United States when ambiguous. Yes, this is
     # overly specific in some languages (such as Spanish), but in other
-    # languages (such as Hindi) it's correct.
-    #
-    # When dealing with language codes, it seems unlikely that there would
-    # be a need to get a code referring to the two continents of the Americas,
-    # and to expect to find it under a vague name like 'America'.
+    # languages (such as Hindi) it's correct. You can get the Spanish default
+    # meaning of 'América' by setting the language code specifically to 'es'.
     'US': {'019'},
 
     # Prefer 'Micronesia' to be the Federated States of Micronesia, not the
@@ -139,17 +132,6 @@ OVERRIDES = {
     # 'интерлингве' should be 'ie', not 'ia', which is 'интерлингва'
     ("az-Cyrl", "ia"): "интерлингва",
 
-    # 'لتونی' is Persian for "Latvia". Is it really also Mazanderani for
-    # "Lithuania"? This seems unlikely, given that Mazanderani is closely
-    # related to Persian. But as Mazanderani is far from a core language, we
-    # fix the immediate problem by just removing its name for Lithuania.
-    ("mzn", "lt"): None,
-    ("mzn", "LT"): None,
-
-    # Hungarian seems to have "Ilokano" where it should have a name for
-    # Hiligaynon, a different language from Ilokano
-    ("hu", "hil"): None,
-
     # Don't confuse Samaritan Hebrew with Samaritan Aramaic
     ("en", "smp"): "Samaritan Hebrew",
 
@@ -172,6 +154,17 @@ OVERRIDES = {
 
 
 def resolve_name(key, vals, debug=False):
+    """
+    Given a name, and a number of possible values it could resolve to,
+    find the single value it should resolve to, in the following way:
+
+    - Apply the priority order
+    - If names with the highest priority all agree, use that name
+    - If there is disagreement that can be resolved by AMBIGUOUS_PREFERENCES,
+      use that
+    - Otherwise, don't resolve the name (and possibly show a debugging message
+      when building the data)
+    """
     max_priority = max([val[2] for val in vals])
     val_count = Counter([val[1] for val in vals if val[2] == max_priority])
     if len(val_count) == 1:
