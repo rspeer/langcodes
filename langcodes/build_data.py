@@ -55,19 +55,18 @@ from langcodes.registry_parser import parse_registry
 
 
 AMBIGUOUS_PREFERENCES = {
-    # Prefer 'America' to be the United States when ambiguous. Yes, this is
-    # overly specific in some languages (such as Spanish), but in other
-    # languages (such as Hindi) it's correct. You can get the Spanish default
-    # meaning of 'América' by setting the language code specifically to 'es'.
-    'US': {'019'},
-
-    # Prefer 'Micronesia' to be the Federated States of Micronesia, not the
-    # geographical region, by similar reasoning to 'America'
+    # Prefer 'Micronesia' to refer to the Federated States of Micronesia -
+    # this seems to be poorly disambiguated in many languages, but we can't
+    # do much with a code for the general region of Micronesia
     'FM': {'057'},
 
     # Prefer region 003 for 'North America', which includes Central America
     # and the Caribbean, over region 021, which excludes them
     '003': {'021'},
+
+    # Prefer region 005 for 'Lulli-Amerihkká' (South America), over region
+    # 419, which includes Central America
+    '005': {'419'},
 
     # Prefer 'Swiss German' to be a specific language
     'gsw': {'de-CH'},
@@ -93,22 +92,6 @@ AMBIGUOUS_PREFERENCES = {
 
     # Prefer the regionally-specific definition of Dari
     'fa-AF': {'prs', 'fa'},
-
-    # Flemish: specific
-    'nl-BE': {'nl'},
-
-    # Moldovan: specific
-    'ro-MD': {'ro'},
-
-    # Congo Swahili: define it as a region, as it's only listed as a separate
-    # language in the IANA file
-    'sw-CD': {'swc'},
-
-    # 'Kiswahili' is Swahili for Swahili
-    'sw': {'swh'},
-
-    # Ambiguity in the scope of Chinook
-    'chn': {'chh'},
 
     # Ambiguity in the scope of Korean script (whether to include Han characters)
     'Kore': {'Hang'},
