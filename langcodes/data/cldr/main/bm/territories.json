@@ -3,8 +3,8 @@
     "bm": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "bm"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Cipri",
           "CZ": "Ceki republiki",
+          "CZ-alt-variant": "CZ",
           "DE": "Alimaɲi",
           "DG": "DG",
           "DJ": "Jibuti",
@@ -117,6 +118,7 @@
           "ES": "Esipaɲi",
           "ET": "Etiopi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finilandi",
           "FJ": "Fiji",
           "FK": "Maluwini Gun",
@@ -290,6 +292,7 @@
           "UA": "Ukɛrɛni",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Ameriki",
           "US-alt-short": "US",
           "UY": "Urugwayi",

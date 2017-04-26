@@ -3,8 +3,8 @@
     "ur-IN": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12217 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ur",
         "territory": "IN"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "کیلنڈر",
-          "cf": "cf",
+          "cf": "کرنسی فارمیٹ",
           "colAlternate": "علامات کی چھٹائی نظرانداز کریں",
           "colBackwards": "معکوس تلفظ کی چھٹائی",
           "colCaseFirst": "بڑے حروف/ چھوٹے حروف کی ترتیب بندی",
           "colCaseLevel": "حروف کے تئیں حساس چھٹائی",
-          "colHiraganaQuaternary": "Kena چھٹائی",
           "collation": "چھٹائی کی ترتیب",
           "colNormalization": "معمول کی چھٹائی",
           "colNumeric": "عددی چھٹائی",
@@ -34,7 +33,6 @@
           "numbers": "اعداد",
           "timezone": "منطقۂ وقت",
           "va": "مقام کا متغیرہ",
-          "variableTop": "بطور علامات چھٹائی کریں",
           "x": "نجی-استعمال"
         },
         "types": {
@@ -59,8 +57,8 @@
             "roc": "منگوو کیلنڈر"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "اکاؤنٹنگ کرنسی فارمیٹ",
+            "standard": "اسٹینڈرڈ کرنسی فارمیٹ"
           },
           "colAlternate": {
             "non-ignorable": "علامات کی چھٹائی کریں",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "حروف کی عدم حساسیت کی چھٹائی کریں",
             "yes": "حروف کے تئیں حساس کی چھٹائی کریں"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Kana کی چھٹائی الگ الگ کریں",
-            "yes": "Kana کی مختلف طریقے سے چھٹائی کریں"
           },
           "collation": {
             "big5han": "روایتی چینی کی چھٹائی کی ترتیب - Big5",
@@ -118,6 +112,11 @@
             "secondary": "لہجوں کی چھٹائی کریں",
             "tertiary": "لہجوں/حروف/چوڑائی کی چھٹائی کریں"
           },
+          "d0": {
+            "fwidth": "پورا عرض",
+            "hwidth": "نصف عرض",
+            "npinyin": "عددی"
+          },
           "hc": {
             "h11": "12 گھنٹے کا نظام (0–11)",
             "h12": "12 گھنٹے کا نظام (1–12)",
@@ -129,8 +128,12 @@
             "normal": "عمومی لائن بریک انداز",
             "strict": "سخت لائن بریک انداز"
           },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
+          },
           "ms": {
-            "metric": "metric",
+            "metric": "میٹرک نظام",
             "uksystem": "پیمائش کا امپیریل نظام",
             "ussystem": "پیمائش کا برطانوی نظام"
           },

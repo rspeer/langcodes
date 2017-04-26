@@ -3,8 +3,8 @@
     "bs-Cyrl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13272 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "bs",
         "script": "Cyrl"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "ИПА фонетика",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "УПА фонетика",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",
@@ -61,6 +62,9 @@
           "NULIK": "NULIK",
           "OSOJS": "Осеако/Осојане дијалект",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "PINYIN",

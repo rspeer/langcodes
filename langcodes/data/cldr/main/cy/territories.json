@@ -3,8 +3,8 @@
     "cy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "cy"
       },
@@ -81,7 +81,7 @@
           "CA": "Canada",
           "CC": "Ynysoedd Cocos (Keeling)",
           "CD": "Y Congo - Kinshasa",
-          "CD-alt-variant": "y Congo (G.Dd.C.)",
+          "CD-alt-variant": "Y Congo (G.Dd.C.)",
           "CF": "Gweriniaeth Canolbarth Affrica",
           "CG": "Y Congo - Brazzaville",
           "CG-alt-variant": "Y Congo (Gweriniaeth)",
@@ -100,7 +100,8 @@
           "CW": "Curaçao",
           "CX": "Ynys y Nadolig",
           "CY": "Cyprus",
-          "CZ": "Gweriniaeth Tsiec",
+          "CZ": "Tsiecia",
+          "CZ-alt-variant": "Gweriniaeth Tsiec",
           "DE": "Yr Almaen",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Sbaen",
           "ET": "Ethiopia",
           "EU": "Yr Undeb Ewropeaidd",
+          "EZ": "EZ",
           "FI": "Y Ffindir",
           "FJ": "Fiji",
           "FK": "Ynysoedd y Falkland/Malvinas",
@@ -290,6 +292,8 @@
           "UA": "Wcráin",
           "UG": "Uganda",
           "UM": "Ynysoedd Pellennig UDA",
+          "UN": "Cenhedloedd Unedig",
+          "UN-alt-short": "UN",
           "US": "Yr Unol Daleithiau",
           "US-alt-short": "UDA",
           "UY": "Uruguay",

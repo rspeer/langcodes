@@ -3,8 +3,8 @@
     "qu-BO": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "qu",
         "territory": "BO"
@@ -102,6 +102,7 @@
           "CX": "Isla Christmas",
           "CY": "Chipre",
           "CZ": "CZ",
+          "CZ-alt-variant": "CZ",
           "DE": "Alemania",
           "DG": "DG",
           "DJ": "Yibuti",
@@ -118,6 +119,7 @@
           "ES": "España",
           "ET": "Etiopía",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlandia",
           "FJ": "Fiyi",
           "FK": "FK",
@@ -291,6 +293,7 @@
           "UA": "UA",
           "UG": "Uganda",
           "UM": "Islas menores alejadas de los EE.UU.",
+          "UN": "UN",
           "US": "Estados Unidos",
           "US-alt-short": "US",
           "UY": "Uruguay",

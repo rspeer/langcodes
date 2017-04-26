@@ -3,8 +3,8 @@
     "eu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "eu"
       },
@@ -16,24 +16,22 @@
         },
         "keys": {
           "calendar": "Egutegia",
-          "cf": "cf",
+          "cf": "Moneta-formatua",
           "colAlternate": "Egin ez ikusi ikurren ordenari",
           "colBackwards": "Azentuen alderantzizko ordena",
           "colCaseFirst": "Maiuskula/Minuskula ordena",
           "colCaseLevel": "Maiuskulak eta minuskulak bereizten dituen ordena",
-          "colHiraganaQuaternary": "Kana ordena",
           "collation": "Ordenatzeko irizpidea",
           "colNormalization": "Araututako ordena",
           "colNumeric": "Zenbakizko ordena",
           "colStrength": "Ordenaren sendotasuna",
           "currency": "Moneta",
-          "hc": "hc",
-          "lb": "lb",
-          "ms": "ms",
+          "hc": "Ordu-zikloa (12 vs 24)",
+          "lb": "Lerro-jauziaren estiloa",
+          "ms": "Neurketa-sistema",
           "numbers": "Zenbakiak",
           "timezone": "Ordu-zona",
           "va": "Eskualdeko ezarpenen aldaera",
-          "variableTop": "Ordenatu ikur gisa",
           "x": "Erabilera pribatua"
         },
         "types": {
@@ -55,11 +53,11 @@
             "iso8601": "ISO-8601 egutegia",
             "japanese": "Japoniar egutegia",
             "persian": "Egutegi persiarra",
-            "roc": "Txinako Errepublikako egutegia"
+            "roc": "Minguo egutegia"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Kontabilitateko moneta-formatua",
+            "standard": "Moneta-formatu estandarra"
           },
           "colAlternate": {
             "non-ignorable": "Ordenatu ikurrak",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Ordenatu maiuskulak eta minuskulak bereizi gabe",
             "yes": "Ordenatu maiuskulak eta minuskulak bereizita"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Ordenatu kanak bereizita",
-            "yes": "Ordenatu kanak desberdin"
           },
           "collation": {
             "big5han": "Txinera tradizionalaren alfabetoa-Big5",
@@ -117,21 +111,30 @@
             "secondary": "Ordenatu azentuak",
             "tertiary": "Ordenatu azentuak / maiuskula eta minuskulak / zabalera"
           },
+          "d0": {
+            "fwidth": "Zabalera osoko karaktere-bihurketa",
+            "hwidth": "Zabalera erdiko karaktere-bihurketa",
+            "npinyin": "Zenbakizko bihurketa"
+          },
           "hc": {
-            "h11": "h11",
-            "h12": "h12",
-            "h23": "h23",
-            "h24": "h24"
+            "h11": "12 orduko sistema (0–11)",
+            "h12": "12 orduko sistema (1–12)",
+            "h23": "24 orduko sistema (0–23)",
+            "h24": "24 orduko sistema (1–24)"
           },
           "lb": {
-            "loose": "loose",
-            "normal": "normal",
-            "strict": "strict"
+            "loose": "Lerro-jauziaren estilo malgua",
+            "normal": "Lerro-jauziaren estilo arrunta",
+            "strict": "Lerro-jauziaren estilo zorrotza"
+          },
+          "m0": {
+            "bgn": "BGN bihurketa",
+            "ungegn": "UNGEGN bihurketa"
           },
           "ms": {
-            "metric": "metric",
-            "uksystem": "uksystem",
-            "ussystem": "ussystem"
+            "metric": "Sistema metrikoa",
+            "uksystem": "Neurketa-sistema inperiala",
+            "ussystem": "Neurketa-sistema anglosaxoia"
           },
           "numbers": {
             "ahom": "ahom",

@@ -3,8 +3,8 @@
     "yav": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "yav"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "síplɛ",
           "CZ": "kitɔŋ kí cɛ́k",
+          "CZ-alt-variant": "CZ",
           "DE": "nsáman",
           "DG": "DG",
           "DJ": "síputí",
@@ -117,6 +118,7 @@
           "ES": "panyá",
           "ET": "etiopí",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "fɛnlánd",
           "FJ": "físi",
           "FK": "maluwín",
@@ -290,6 +292,7 @@
           "UA": "ukilɛ́ɛn",
           "UG": "ukánda",
           "UM": "UM",
+          "UN": "UN",
           "US": "amálíka",
           "US-alt-short": "US",
           "UY": "ulukuéy",

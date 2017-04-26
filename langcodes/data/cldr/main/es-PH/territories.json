@@ -3,8 +3,8 @@
     "es-PH": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "es",
         "territory": "PH"
@@ -87,8 +87,8 @@
           "CG": "República del Congo",
           "CG-alt-variant": "Congo (República)",
           "CH": "Suiza",
-          "CI": "Costa de Marfil",
-          "CI-alt-variant": "CI",
+          "CI": "Côte d’Ivoire",
+          "CI-alt-variant": "Costa de Marfil",
           "CK": "Islas Cook",
           "CL": "Chile",
           "CM": "Camerún",
@@ -101,7 +101,8 @@
           "CW": "Curazao",
           "CX": "Isla de Navidad",
           "CY": "Chipre",
-          "CZ": "República Checa",
+          "CZ": "Chequia",
+          "CZ-alt-variant": "República Checa",
           "DE": "Alemania",
           "DG": "Diego García",
           "DJ": "Yibuti",
@@ -118,6 +119,7 @@
           "ES": "España",
           "ET": "Etiopía",
           "EU": "Unión Europea",
+          "EZ": "EZ",
           "FI": "Finlandia",
           "FJ": "Fiyi",
           "FK": "Islas Malvinas",
@@ -270,7 +272,7 @@
           "SX": "Sint Maarten",
           "SY": "Siria",
           "SZ": "Suazilandia",
-          "TA": "Tristán da Cunha",
+          "TA": "Tristán de Acuña",
           "TC": "Islas Turcas y Caicos",
           "TD": "Chad",
           "TF": "Territorios Australes Franceses",
@@ -278,8 +280,8 @@
           "TH": "Tailandia",
           "TJ": "Tayikistán",
           "TK": "Tokelau",
-          "TL": "Timor Oriental",
-          "TL-alt-variant": "TL",
+          "TL": "Timor-Leste",
+          "TL-alt-variant": "Timor Oriental",
           "TM": "Turkmenistán",
           "TN": "Túnez",
           "TO": "Tonga",
@@ -291,6 +293,7 @@
           "UA": "Ucrania",
           "UG": "Uganda",
           "UM": "Islas menores alejadas de EE. UU.",
+          "UN": "UN",
           "US": "Estados Unidos",
           "US-alt-short": "EE. UU.",
           "UY": "Uruguay",

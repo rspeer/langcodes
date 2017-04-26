@@ -3,8 +3,8 @@
     "pt-PT": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12413 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "pt",
         "territory": "PT"
@@ -17,10 +17,10 @@
           "1606NICT": "francês antigo de 1606",
           "1694ACAD": "francês da idade moderna",
           "1959ACAD": "acadêmico",
-          "ABL1943": "ABL1943",
+          "ABL1943": "Formulário Ortográfico de 1943",
           "ALALC97": "ALALC97",
           "ALUKU": "ALUKU",
-          "AO1990": "AO1990",
+          "AO1990": "Acordo Ortográfico da Língua Portuguesa de 1990",
           "AREVELA": "arménio oriental",
           "AREVMDA": "arménio ocidental",
           "BAKU1926": "alfabeto latino turco unificado",
@@ -32,12 +32,13 @@
           "BISKE": "dialeto san giorgio/bila",
           "BOHORIC": "BOHORIC",
           "BOONT": "boontling",
-          "COLB1945": "COLB1945",
+          "COLB1945": "Convenção Ortográfica Luso-Brasileira de 1945",
           "CORNU": "CORNU",
           "DAJNKO": "DAJNKO",
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "fonética do Alfabeto Fonético Internacional",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "fonética do Alfabeto Fonético Urálico",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "romanização hepburn",
@@ -61,6 +62,9 @@
           "NULIK": "NULIK",
           "OSOJS": "dialeto oseacco/osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "dialeto pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "romanização Pinyin",

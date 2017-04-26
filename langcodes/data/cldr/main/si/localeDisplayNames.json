@@ -3,8 +3,8 @@
     "si": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12384 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13328 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "si"
       },
@@ -16,7 +16,7 @@
         },
         "keys": {
           "calendar": "දින දර්ශනය",
-          "cf": "cf",
+          "cf": "මුදල් ආකෘති",
           "collation": "පෙළගැස්ම",
           "currency": "විනිමය",
           "hc": "පැය චක්‍රය",
@@ -46,8 +46,8 @@
             "roc": "මින්ගා දින දර්ශනය"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "ගිණුම්කරණ මුදල් ආකෘති",
+            "standard": "සම්මත මුදල් ආකෘති"
           },
           "collation": {
             "big5han": "big5han",

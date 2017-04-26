@@ -3,8 +3,8 @@
     "se-SE": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "se",
         "territory": "SE"
@@ -102,6 +102,7 @@
           "CX": "Juovllat-sullot",
           "CY": "Kypros",
           "CZ": "Čeahkka",
+          "CZ-alt-variant": "CZ",
           "DE": "Duiska",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -118,6 +119,7 @@
           "ES": "Spánia",
           "ET": "Etiopia",
           "EU": "Eurohpa Uniovdna",
+          "EZ": "EZ",
           "FI": "Suopma",
           "FJ": "Fijisullot",
           "FK": "Falklandsullot",
@@ -291,6 +293,7 @@
           "UA": "Ukraina",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amerihká ovttastuvvan stáhtat",
           "US-alt-short": "USA",
           "UY": "Uruguay",

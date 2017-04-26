@@ -3,8 +3,8 @@
     "id": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "id"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "Fonetik IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Fonetik UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "Hepburn Latin",
@@ -60,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "Dialek Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Dialek Pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "Pinyin Latin",

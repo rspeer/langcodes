@@ -3,8 +3,8 @@
     "br": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "br"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "saozneg rakvodern",
           "FONIPA": "lizherenneg fonetek etrebroadel",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "lizherenneg fonetek ouralek",
           "FONXSAMP": "treuzskrivadur X-SAMPA",
           "HEPBURN": "romanekadur Hepburn",
@@ -60,6 +61,9 @@
           "NULIK": "volapük modern",
           "OSOJS": "rannyezh Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "rannyezh Pamaka",
           "PETR1708": "reizhskrivadur rusianek 1708 Pêr I",
           "PINYIN": "romanekadur pinyin",

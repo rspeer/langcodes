@@ -3,8 +3,8 @@
     "ca-IT": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ca",
         "territory": "IT"
@@ -12,7 +12,7 @@
       "localeDisplayNames": {
         "variants": {
           "1901": "ortografia alemanya tradicional",
-          "1994": "ortofrafia resiana estandarditzada",
+          "1994": "ortografia resiana estandarditzada",
           "1996": "ortografia alemanya de 1996",
           "1606NICT": "francès mitjà tardà fins el 1606",
           "1694ACAD": "francès modern primerenc",
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "alfabet fonètic internacional",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "sistema fonètic UPA",
           "FONXSAMP": "sistema X-SAMPA",
           "HEPBURN": "romanització Hepburn",
@@ -61,6 +62,9 @@
           "NULIK": "NULIK",
           "OSOJS": "dialecte d’Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "dialecte pamaka",
           "PETR1708": "ortografia russa 1708–1917",
           "PINYIN": "romanització Pinyin",

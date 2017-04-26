@@ -3,8 +3,8 @@
     "sw-CD": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12197 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "sw",
         "territory": "CD"
@@ -17,24 +17,22 @@
         },
         "keys": {
           "calendar": "Kalenda",
-          "cf": "cf",
+          "cf": "Mpangilio wa Sarafu",
           "colAlternate": "Puuza Upangaji Alama",
           "colBackwards": "Upangaji Uliogeuzwa wa Kiinitoni",
           "colCaseFirst": "Upangaji wa Herufi kubwa/Herufi ndogo",
           "colCaseLevel": "Upangaji Unaoathiriwa na Herufi",
-          "colHiraganaQuaternary": "Upangaji wa Kana",
           "collation": "Mpangilio",
           "colNormalization": "Upangaji wa Kawaida",
           "colNumeric": "Upangaji wa Namba",
           "colStrength": "Nguvu ya Upangaji",
           "currency": "Sarafu",
-          "hc": "hc",
+          "hc": "Kipindi cha saa (12 au 24)",
           "lb": "lb",
-          "ms": "ms",
+          "ms": "Mfumo wa Vipimo",
           "numbers": "Nambari",
           "timezone": "Ukanda Saa",
           "va": "Tofauti ya Mandhari",
-          "variableTop": "Panga Kama Alama",
           "x": "Matumizi ya Kibinafsi"
         },
         "types": {
@@ -59,8 +57,8 @@
             "roc": "Kalenda ya Minguo"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Mpangilio wa Kihasibu wa Sarafu",
+            "standard": "Mpangilio wa Kawaida wa Sarafu"
           },
           "colAlternate": {
             "non-ignorable": "Panga Alama",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Panga Isiyoathiriwa na Herufi",
             "yes": "Panga kwa Inayoathiriwa na Herufi"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Panga Kana Kando",
-            "yes": "Panga Kana Kitofauti"
           },
           "collation": {
             "big5han": "Mpangilio wa Kichina cha Jadi - Big5",
@@ -118,19 +112,28 @@
             "secondary": "Panga Viinitoni",
             "tertiary": "Panga Viinitoni/Herufi/Upana"
           },
+          "d0": {
+            "fwidth": "Upana kamili",
+            "hwidth": "Nusu upana",
+            "npinyin": "Ya Nambari"
+          },
           "hc": {
-            "h11": "h11",
-            "h12": "h12",
-            "h23": "h23",
-            "h24": "h24"
+            "h11": "Kipindi cha saa 12 (0–11)",
+            "h12": "Kipindi cha saa 12 (1–12)",
+            "h23": "Kipindi cha saa 24 (0–23)",
+            "h24": "Kipindi cha saa 24 (1–24)"
           },
           "lb": {
             "loose": "loose",
             "normal": "normal",
             "strict": "strict"
           },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
+          },
           "ms": {
-            "metric": "metriki",
+            "metric": "Mfumo wa Metriki",
             "uksystem": "mfumo wa UK",
             "ussystem": "Mfumo wa US"
           },
@@ -150,23 +153,23 @@
             "ethi": "Nambari za Kiethiopia",
             "finance": "Tarakimu za Kifedha",
             "fullwide": "Nambari za Upana Kamili",
-            "geor": "Nambari za Georgia",
+            "geor": "Nambari za Kijojia",
             "grek": "Nambari za Kigiriki",
             "greklow": "Nambari Ndogo za Kigiriki",
             "gujr": "Nambari za Kigujarati",
-            "guru": "Nambari za Kigurumukhi",
+            "guru": "Nambari za Kigurmukhi",
             "hanidec": "Nambari za Desimali za Kichina",
             "hans": "Nambari za Kichina Rahisi",
             "hansfin": "Nambari za Kifedha za Kichina Rahisi",
             "hant": "Nambari za Kichina cha Jadi",
-            "hantfin": "Nambari za Kichina za Fedha",
+            "hantfin": "Nambari za Kifedha za Kichina cha Jadi",
             "hebr": "Nambari za Kiebrania",
             "hmng": "hmng",
             "java": "java",
             "jpan": "Nambari za Kijapani",
             "jpanfin": "Nambari za Kifedha za Kijapani",
             "kali": "kali",
-            "khmr": "Nambari za Kikhmeri",
+            "khmr": "Nambari za Kikhmer",
             "knda": "Nambari za Kikannada",
             "lana": "lana",
             "lanatham": "lanatham",
@@ -179,12 +182,12 @@
             "mathmono": "mathmono",
             "mathsanb": "mathsanb",
             "mathsans": "mathsans",
-            "mlym": "Nambari za Kimalayamu",
+            "mlym": "Nambari za Malayalam",
             "modi": "modi",
             "mong": "Nambari za Kimongolia",
             "mroo": "mroo",
             "mtei": "mtei",
-            "mymr": "Nambari za Myama",
+            "mymr": "Nambari za Myanmar",
             "mymrshan": "mymrshan",
             "mymrtlng": "mymrtlng",
             "native": "Digiti Asili",
@@ -202,10 +205,10 @@
             "sund": "sund",
             "takr": "takr",
             "talu": "talu",
-            "taml": "Nambari za Kitamili",
-            "tamldec": "Nambari za Kitamili",
+            "taml": "Nambari za Kitamil cha Jadi",
+            "tamldec": "Nambari za Kitamil",
             "telu": "Nambari za Kitelugu",
-            "thai": "Nambari za Kitai",
+            "thai": "Nambari za Kithai",
             "tibt": "Nambari za Kitibeti",
             "tirh": "tirh",
             "traditional": "Tarakimu za Jadi",

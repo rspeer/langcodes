@@ -3,8 +3,8 @@
     "da": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12387 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "da"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "kalender",
-          "cf": "cf",
+          "cf": "valutaformat",
           "colAlternate": "Ignorer symboler under sortering",
           "colBackwards": "Omvendt sortering efter accenter",
           "colCaseFirst": "Sortering efter store/små bogstaver",
           "colCaseLevel": "Sortering med forskel på små og store bogstaver",
-          "colHiraganaQuaternary": "Sortering efter kana",
           "collation": "sorteringsrækkefølge",
           "colNormalization": "Normaliseret sortering",
           "colNumeric": "Numerisk sortering",
@@ -33,7 +32,6 @@
           "numbers": "tal",
           "timezone": "Tidszone",
           "va": "Sprogvariant",
-          "variableTop": "Sortér som symboler",
           "x": "Privatbrug"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "kalender for Republikken Kina"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "format for regnskabsvaluta",
+            "standard": "format for standardvaluta"
           },
           "colAlternate": {
             "non-ignorable": "Sortér efter symboler",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Sortér uden forskel på store og små bogstaver",
             "yes": "Sortér med skelnen mellem store og små bogstaver"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Sortér kana separat",
-            "yes": "Sortér kana med forskel på varianter"
           },
           "collation": {
             "big5han": "sorteringsrækkefølge uforkortet kinesisk - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Sortér efter accenter",
             "tertiary": "Sortér efter accenter/store og små bogstaver/bredde"
           },
+          "d0": {
+            "fwidth": "Fuld bredde",
+            "hwidth": "Halv bredde",
+            "npinyin": "Numerisk"
+          },
           "hc": {
             "h11": "12-timersur (0-11)",
             "h12": "12-timersur (1-12)",
@@ -127,6 +126,10 @@
             "loose": "løst linjeskift",
             "normal": "normalt linjeskift",
             "strict": "hårdt linjeskift"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "metersystem",
@@ -156,14 +159,14 @@
             "guru": "gurmukhi tal",
             "hanidec": "kinesiske decimaltal",
             "hans": "forenklede kinesiske tal",
-            "hansfin": "forenklede kinesiske financielle tal",
+            "hansfin": "forenklede kinesiske finansielle tal",
             "hant": "traditionelle kinesiske tal",
             "hantfin": "traditionelle kinesiske finansielle tal",
             "hebr": "hebræiske tal",
             "hmng": "hmng",
             "java": "Javanesiske tal",
             "jpan": "japanske tal",
-            "jpanfin": "japanske financielle tal",
+            "jpanfin": "japanske finansielle tal",
             "kali": "Kayah Li-tal",
             "khmr": "khmer tal",
             "knda": "kannada tal",
@@ -178,7 +181,7 @@
             "mathmono": "mathmono",
             "mathsanb": "mathsanb",
             "mathsans": "mathsans",
-            "mlym": "Malayalamske tal",
+            "mlym": "malayalamske tal",
             "modi": "modi",
             "mong": "Mongolske tal",
             "mroo": "mroo",
@@ -192,7 +195,7 @@
             "orya": "Oriya tal",
             "osma": "Osmanya-tal",
             "roman": "romertal",
-            "romanlow": "romertal i små bogstaver",
+            "romanlow": "romertal med små bogstaver",
             "saur": "Saurashtra-tal",
             "shrd": "Sharada-tal",
             "sind": "sind",
@@ -203,7 +206,7 @@
             "talu": "Nye Tai Lue-tal",
             "taml": "traditionelle tamilske tal",
             "tamldec": "tamilske tal",
-            "telu": "Telugu tal",
+            "telu": "telugu-tal",
             "thai": "thailandske tal",
             "tibt": "tibetanske tal",
             "tirh": "tirh",

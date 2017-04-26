@@ -3,8 +3,8 @@
     "nl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12381 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "nl"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "kalender",
-          "cf": "cf",
+          "cf": "valutanotatie",
           "colAlternate": "Sorteren van symbolen negeren",
           "colBackwards": "Omgekeerd sorteren op accenten",
           "colCaseFirst": "Indelen op hoofdletters/kleine letters",
           "colCaseLevel": "Hoofdlettergevoelig sorteren",
-          "colHiraganaQuaternary": "Kana sorteren",
           "collation": "sorteervolgorde",
           "colNormalization": "Genormaliseerd sorteren",
           "colNumeric": "Numeriek sorteren",
@@ -33,7 +32,6 @@
           "numbers": "cijfers",
           "timezone": "Tijdzone",
           "va": "Landvariant",
-          "variableTop": "Sorteren als symbolen",
           "x": "Privégebruik"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Kalender van de Chinese Republiek"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "financiële valutanotatie",
+            "standard": "standaard valutanotatie"
           },
           "colAlternate": {
             "non-ignorable": "Symbolen sorteren",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Niet hoofdlettergevoelig sorteren",
             "yes": "Hoofdlettergevoelig sorteren"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Kana afzonderlijk sorteren",
-            "yes": "Kana anders sorteren"
           },
           "collation": {
             "big5han": "Traditioneel-Chinese sorteervolgorde - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Sorteren op accenten",
             "tertiary": "Sorteren op accenten/hoofdlettergebruik/breedte"
           },
+          "d0": {
+            "fwidth": "Volledige breedte",
+            "hwidth": "Halve breedte",
+            "npinyin": "Numeriek"
+          },
           "hc": {
             "h11": "12-uursysteem (0-11)",
             "h12": "12-uursysteem (1-12)",
@@ -127,6 +126,10 @@
             "loose": "losse stijl regelafbreking",
             "normal": "normale stijl regelafbreking",
             "strict": "strikte stijl regelafbreking"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "metriek stelsel",

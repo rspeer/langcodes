@@ -3,8 +3,8 @@
     "so": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13376 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "so"
       },

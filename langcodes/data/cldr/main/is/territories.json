@@ -3,8 +3,8 @@
     "is": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "is"
       },
@@ -101,6 +101,7 @@
           "CX": "Jólaey",
           "CY": "Kýpur",
           "CZ": "Tékkland",
+          "CZ-alt-variant": "CZ",
           "DE": "Þýskaland",
           "DG": "Diego Garcia",
           "DJ": "Djíbútí",
@@ -117,6 +118,7 @@
           "ES": "Spánn",
           "ET": "Eþíópía",
           "EU": "Evrópusambandið",
+          "EZ": "EZ",
           "FI": "Finnland",
           "FJ": "Fídjíeyjar",
           "FK": "Falklandseyjar",
@@ -290,6 +292,8 @@
           "UA": "Úkraína",
           "UG": "Úganda",
           "UM": "Smáeyjar Bandaríkjanna",
+          "UN": "Sameinuðu þjóðirnar",
+          "UN-alt-short": "Sameinuðu þjóðirnar",
           "US": "Bandaríkin",
           "US-alt-short": "BNA",
           "UY": "Úrúgvæ",

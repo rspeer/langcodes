@@ -3,8 +3,8 @@
     "gsw-FR": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "gsw",
         "territory": "FR"
@@ -102,6 +102,7 @@
           "CX": "Wienachts-Insle",
           "CY": "Zypere",
           "CZ": "Tschechischi Republik",
+          "CZ-alt-variant": "CZ",
           "DE": "Tüütschland",
           "DG": "DG",
           "DJ": "Tschibuuti",
@@ -118,6 +119,7 @@
           "ES": "Schpanie",
           "ET": "Äthiopie",
           "EU": "Europääischi Unioon",
+          "EZ": "EZ",
           "FI": "Finnland",
           "FJ": "Fitschi",
           "FK": "Falkland-Insle",
@@ -291,6 +293,7 @@
           "UA": "Ukraiine",
           "UG": "Uganda",
           "UM": "Amerikanisch-Ozeaanie",
+          "UN": "UN",
           "US": "Veräinigti Schtaate",
           "US-alt-short": "US",
           "UY": "Uruguay",

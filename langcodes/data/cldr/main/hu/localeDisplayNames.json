@@ -3,8 +3,8 @@
     "hu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "hu"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Naptár",
-          "cf": "cf",
+          "cf": "Pénznemformátum",
           "colAlternate": "Szimbólumokat figyelmen kívül hagyó rendezés",
           "colBackwards": "Ékezetek fordított rendezése",
           "colCaseFirst": "Rendezés nagy- vagy kisbetűk szerint",
           "colCaseLevel": "Kisbetű-nagybetű érzékeny rendezés",
-          "colHiraganaQuaternary": "Kanák szerinti rendezés",
           "collation": "Rendezési sorrend",
           "colNormalization": "Normalizált rendezés",
           "colNumeric": "Numerikus rendezés",
@@ -33,7 +32,6 @@
           "numbers": "Számok",
           "timezone": "Időzóna",
           "va": "Földrajzi helyvariáns",
-          "variableTop": "Rendezés szimbólumok szerint",
           "x": "Privát használatra"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Kínai köztársasági naptár"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Könyvelési pénznemformátum",
+            "standard": "Normál pénznemformátum"
           },
           "colAlternate": {
             "non-ignorable": "Szimbólumok rendezése",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Kis- és nagybetűket meg nem különböztető rendezés",
             "yes": "Rendezés kisbetű-nagybetű szerint"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Kanák rendezése külön",
-            "yes": "Kanák megkülönböztető rendezése"
           },
           "collation": {
             "big5han": "Hagyományos kínai sorrend - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Ékezetek rendezése",
             "tertiary": "Ékezetek/kisbetű-nagybetű/szélesség rendezése"
           },
+          "d0": {
+            "fwidth": "Teljes szélesség",
+            "hwidth": "Fél szélesség",
+            "npinyin": "Szám"
+          },
           "hc": {
             "h11": "12 órás rendszer (0–11)",
             "h12": "12 órás rendszer (0–12)",
@@ -127,6 +126,10 @@
             "loose": "Tág stílusú sortörés",
             "normal": "Normál stílusú sortörés",
             "strict": "Szűk stílusú sortörés"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Méterrendszer",

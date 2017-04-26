@@ -3,8 +3,8 @@
     "vai-Latn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "vai",
         "script": "Latn"
@@ -102,6 +102,7 @@
           "CX": "CX",
           "CY": "Saɛpurɔ",
           "CZ": "Chɛki Boloe",
+          "CZ-alt-variant": "CZ",
           "DE": "Jamáĩ",
           "DG": "DG",
           "DJ": "Jibhuti",
@@ -118,6 +119,7 @@
           "ES": "Panyɛĩ",
           "ET": "Ítiyópiya",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Fiŋlɛŋ",
           "FJ": "Fíji",
           "FK": "Fáháki Luma Tiŋŋɛ",
@@ -291,6 +293,7 @@
           "UA": "Yukuréŋ",
           "UG": "Yuganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Poo",
           "US-alt-short": "US",
           "UY": "Yuwegɔwe",

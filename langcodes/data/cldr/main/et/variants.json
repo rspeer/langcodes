@@ -3,8 +3,8 @@
     "et": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "et"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "štokavi e-line murrak",
           "EMODENG": "EMODENG",
           "FONIPA": "IPA foneetika",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA foneetika",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "Hepburni latinisatsioon",
@@ -60,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "Oseacco/Osojane murre",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "pinyin",

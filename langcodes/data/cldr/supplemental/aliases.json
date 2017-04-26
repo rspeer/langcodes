@@ -1,9 +1,9 @@
 {
   "supplemental": {
     "version": {
-      "_number": "$Revision: 12404 $",
-      "_unicodeVersion": "8.0.0",
-      "_cldrVersion": "29"
+      "_number": "$Revision: 13291 $",
+      "_unicodeVersion": "9.0.0",
+      "_cldrVersion": "31.0.1"
     },
     "metadata": {
       "alias": {
@@ -124,9 +124,13 @@
             "_reason": "overlong",
             "_replacement": "bn"
           },
+          "bh": {
+            "_reason": "macrolanguage",
+            "_replacement": "bho"
+          },
           "bih": {
             "_reason": "overlong",
-            "_replacement": "bh"
+            "_replacement": "bho"
           },
           "bis": {
             "_reason": "overlong",
@@ -936,6 +940,10 @@
             "_reason": "overlong",
             "_replacement": "pt"
           },
+          "prs": {
+            "_reason": "overlong",
+            "_replacement": "fa-AF"
+          },
           "pus": {
             "_reason": "overlong",
             "_replacement": "ps"
@@ -1099,6 +1107,10 @@
           "swa": {
             "_reason": "overlong",
             "_replacement": "sw"
+          },
+          "swc": {
+            "_reason": "overlong",
+            "_replacement": "sw-CD"
           },
           "swe": {
             "_reason": "overlong",
@@ -1271,6 +1283,14 @@
           "yor": {
             "_reason": "overlong",
             "_replacement": "yo"
+          },
+          "yue-CN": {
+            "_reason": "legacy",
+            "_replacement": "yue-Hans-CN"
+          },
+          "yue-HK": {
+            "_reason": "legacy",
+            "_replacement": "yue-Hant-HK"
           },
           "zai": {
             "_reason": "macrolanguage",

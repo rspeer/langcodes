@@ -3,8 +3,8 @@
     "cs": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "cs"
       },
@@ -35,7 +35,7 @@
           "ar": "arabština",
           "ar-001": "arabština (moderní standardní)",
           "arc": "aramejština",
-          "arn": "araukánština",
+          "arn": "mapudungun",
           "aro": "araonština",
           "arp": "arapažština",
           "arq": "arabština (alžírská)",
@@ -116,6 +116,7 @@
           "cps": "kapiznonština",
           "cr": "kríjština",
           "crh": "turečtina (krymská)",
+          "crs": "kreolština (seychelská)",
           "cs": "čeština",
           "csb": "kašubština",
           "cu": "staroslověnština",
@@ -189,7 +190,7 @@
           "frr": "fríština (severní)",
           "frs": "fríština (východní)",
           "fur": "furlanština",
-          "fy": "fríština",
+          "fy": "fríština (západní)",
           "ga": "irština",
           "gaa": "gaština",
           "gag": "gagauzština",
@@ -352,7 +353,6 @@
           "mas": "masajština",
           "mde": "maba",
           "mdf": "mokšanština",
-          "mdh": "mdh",
           "mdr": "mandar",
           "men": "mende",
           "mer": "meru",
@@ -365,7 +365,6 @@
           "mi": "maorština",
           "mic": "micmac",
           "min": "minangkabau",
-          "mis": "mis",
           "mk": "makedonština",
           "ml": "malajálamština",
           "mn": "mongolština",
@@ -435,6 +434,7 @@
           "pap": "papiamento",
           "pau": "palauština",
           "pcd": "picardština",
+          "pcm": "nigerijský pidžin",
           "pdc": "němčina (pensylvánská)",
           "pdt": "němčina (plautdietsch)",
           "peo": "staroperština",
@@ -499,7 +499,7 @@
           "sga": "irština (stará)",
           "sgs": "žemaitština",
           "sh": "srbochorvatština",
-          "shi": "tachelhit",
+          "shi": "tašelhit",
           "shn": "šanština",
           "shu": "arabština (čadská)",
           "si": "sinhálština",

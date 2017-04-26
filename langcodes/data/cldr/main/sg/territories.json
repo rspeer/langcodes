@@ -3,8 +3,8 @@
     "sg": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "sg"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Sîpri",
           "CZ": "Ködörösêse tî Tyêki",
+          "CZ-alt-variant": "CZ",
           "DE": "Zâmani",
           "DG": "DG",
           "DJ": "Dibutùii",
@@ -117,6 +118,7 @@
           "ES": "Espânye",
           "ET": "Etiopïi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Fëlânde",
           "FJ": "Fidyïi",
           "FK": "Âzûâ tî Mälüîni",
@@ -290,6 +292,7 @@
           "UA": "Ukrêni",
           "UG": "Ugandäa",
           "UM": "UM",
+          "UN": "UN",
           "US": "ÂLeaa-Ôko tî Amerika",
           "US-alt-short": "US",
           "UY": "Uruguëe",

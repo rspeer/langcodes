@@ -3,8 +3,8 @@
     "th": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "th"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "อังกฤษสมัยใหม่ตอนต้น",
           "FONIPA": "สัทอักษรสากล",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "สัทอักษร UPA",
           "FONXSAMP": "ฟอนซ์แซมพ์",
           "HEPBURN": "การถอดอักษรแบบเฮปเบิร์น",
@@ -60,6 +61,9 @@
           "NULIK": "โวลาพึคสมัยใหม่",
           "OSOJS": "ภาษาพื้นเมืองโอเซียคโค/โอโซยาเน",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "ภาษาพื้นเมืองพามาคา",
           "PETR1708": "พีท 1708",
           "PINYIN": "พินอิน",

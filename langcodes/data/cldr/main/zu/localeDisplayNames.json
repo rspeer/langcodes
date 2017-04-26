@@ -3,8 +3,8 @@
     "zu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13174 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "zu"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Ikhalenda",
-          "cf": "cf",
+          "cf": "Ifomethi yemali",
           "colAlternate": "Ziba Ukuhlelwa Kwezimpawu",
           "colBackwards": "Ukuhlelwa Kwendlela Yokubiza Okuhlehlisiwe",
           "colCaseFirst": "Ukuhlelwa Ngokwezinhlamvu Ezinkulu/Ezincane",
           "colCaseLevel": "Ukuhlelwa Okuncike Ezinkinobhweni",
-          "colHiraganaQuaternary": "Ukuhlela ngokwe-Kana",
           "collation": "Uhlelo lokuhlunga",
           "colNormalization": "Ukuhlelwa Okulinganisiwe",
           "colNumeric": "Ukuhlelwa Ngezinombolo",
@@ -33,7 +32,6 @@
           "numbers": "Izinombolo",
           "timezone": "Izoni yesikhathi:",
           "va": "Okokwehlukanisa Kwasendaweni",
-          "variableTop": "Hlela Njengezimpawu",
           "x": "i-Private-Use"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "ikhalenda lesi-Minguo"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Ifomethi yemali ye-Accounting",
+            "standard": "Ifomethi yemali ejwayelekile"
           },
           "colAlternate": {
             "non-ignorable": "Hlela Izimpawu",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Hlela Okungancikile Ezinkinobhweni",
             "yes": "Hlela Okuncike Ekumeni Kwezinkinobho"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Hlela i-Kana Eceleni",
-            "yes": "Hlela i-Kana Ngendlela Ehlukile"
           },
           "collation": {
             "big5han": "Ukuhlunga kwe-Traditional Chinese - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Hlela Ukuphimisela",
             "tertiary": "Hlela Ukuphimisela/Ukuma kwezinhlamvu/Ububanzi"
           },
+          "d0": {
+            "fwidth": "i-Fullwidth",
+            "hwidth": "Ubude obuhhafu",
+            "npinyin": "Okwezinombolo"
+          },
           "hc": {
             "h11": "isistimu yamahora angu-12 (0-11)",
             "h12": "isistimu yamahora angu-12 (1-12)",
@@ -127,6 +126,10 @@
             "loose": "i-Line Break Style exegayo",
             "normal": "i-Line Break Style ekahle",
             "strict": "i-Line Break Style enomthetho oqinile"
+          },
+          "m0": {
+            "bgn": "I-BGN",
+            "ungegn": "I-UNGEGN"
           },
           "ms": {
             "metric": "isistimu ye-Metric",
@@ -189,7 +192,7 @@
             "native": "Izinkinobho Zasendaweni",
             "nkoo": "nkoo",
             "olck": "olck",
-            "orya": "amadijithi esi-Oriya",
+            "orya": "Amadijithi ase-Odia",
             "osma": "osma",
             "roman": "izinombolo zesi-Roman",
             "romanlow": "izinombolo zesi-Tamil",

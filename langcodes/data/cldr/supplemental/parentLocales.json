@@ -1,9 +1,9 @@
 {
   "supplemental": {
     "version": {
-      "_number": "$Revision: 12447 $",
-      "_unicodeVersion": "8.0.0",
-      "_cldrVersion": "29"
+      "_number": "$Revision: 13254 $",
+      "_unicodeVersion": "9.0.0",
+      "_cldrVersion": "31.0.1"
     },
     "parentLocales": {
       "parentLocale": {
@@ -104,6 +104,7 @@
         "es-AR": "es-419",
         "es-BO": "es-419",
         "es-BR": "es-419",
+        "es-BZ": "es-419",
         "es-CL": "es-419",
         "es-CO": "es-419",
         "es-CR": "es-419",

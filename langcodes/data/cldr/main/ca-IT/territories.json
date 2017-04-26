@@ -3,8 +3,8 @@
     "ca-IT": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ca",
         "territory": "IT"
@@ -101,7 +101,8 @@
           "CW": "Curaçao",
           "CX": "Illa Christmas",
           "CY": "Xipre",
-          "CZ": "República Txeca",
+          "CZ": "Txèquia",
+          "CZ-alt-variant": "República Txeca",
           "DE": "Alemanya",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -118,6 +119,7 @@
           "ES": "Espanya",
           "ET": "Etiòpia",
           "EU": "Unió Europea",
+          "EZ": "EZ",
           "FI": "Finlàndia",
           "FJ": "Fiji",
           "FK": "Illes Malvines",
@@ -127,7 +129,7 @@
           "FR": "França",
           "GA": "Gabon",
           "GB": "Regne Unit",
-          "GB-alt-short": "GB",
+          "GB-alt-short": "RU",
           "GD": "Grenada",
           "GE": "Geòrgia",
           "GF": "Guaiana Francesa",
@@ -237,7 +239,7 @@
           "PM": "Saint-Pierre-et-Miquelon",
           "PN": "Illes Pitcairn",
           "PR": "Puerto Rico",
-          "PS": "Palestina",
+          "PS": "territoris palestins",
           "PS-alt-short": "Palestina",
           "PT": "Portugal",
           "PW": "Palau",
@@ -291,6 +293,8 @@
           "UA": "Ucraïna",
           "UG": "Uganda",
           "UM": "Illes Perifèriques Menors dels EUA",
+          "UN": "Nacions Unides",
+          "UN-alt-short": "ONU",
           "US": "Estats Units",
           "US-alt-short": "EUA",
           "UY": "Uruguai",

@@ -3,8 +3,8 @@
     "lo": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "lo"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "ສັດທະສາດອັກສອນສາກົນ",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "ສັດທະສາດອັກສອນ UPA",
           "FONXSAMP": "ຟອນແຊມ",
           "HEPBURN": "ການຖອດອັກສອນແບບເຮບເບິນ",
@@ -60,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "ພາສາພື້ນເມືອງໂອຊຽກໂຄ/ໂອໂຊຍາເນ",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "ພາສາພື້ນເມືອງພາມາຄາ",
           "PETR1708": "ພີທ໌1708",
           "PINYIN": "ພິນຢິນ",

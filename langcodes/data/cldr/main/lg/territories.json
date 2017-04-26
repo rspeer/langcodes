@@ -3,8 +3,8 @@
     "lg": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "lg"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Sipuriya",
           "CZ": "Lipubulika ya Ceeka",
+          "CZ-alt-variant": "CZ",
           "DE": "Budaaki",
           "DG": "DG",
           "DJ": "Jjibuti",
@@ -117,6 +118,7 @@
           "ES": "Sipeyini",
           "ET": "Esyopya",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finilandi",
           "FJ": "Fiji",
           "FK": "Bizinga by’eFalikalandi",
@@ -290,6 +292,7 @@
           "UA": "Yukurayine",
           "UG": "Yuganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amerika",
           "US-alt-short": "US",
           "UY": "Wurugwayi",

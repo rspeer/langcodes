@@ -3,8 +3,8 @@
     "fy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "fy"
       },
@@ -101,6 +101,7 @@
           "CX": "Krysteilan",
           "CY": "Syprus",
           "CZ": "Tsjechje",
+          "CZ-alt-variant": "CZ",
           "DE": "Dútslân",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Spanje",
           "ET": "Ethiopië",
           "EU": "Europeeske Unie",
+          "EZ": "EZ",
           "FI": "Finlân",
           "FJ": "Fiji",
           "FK": "Falklâneilannen",
@@ -290,6 +292,7 @@
           "UA": "Oekraïne",
           "UG": "Oeganda",
           "UM": "Lyts ôflizzen eilannen fan de Ferienigde Staten",
+          "UN": "UN",
           "US": "Ferienigde Staten",
           "US-alt-short": "VS",
           "UY": "Uruguay",

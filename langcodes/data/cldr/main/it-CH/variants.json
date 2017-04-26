@@ -3,8 +3,8 @@
     "it-CH": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12415 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "it",
         "territory": "CH"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "primo inglese moderno",
           "FONIPA": "alfabeto fonetico internazionale IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "alfabeto fonetico uralico UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "romanizzazione Hepburn",
@@ -61,6 +62,9 @@
           "NULIK": "volapük moderno",
           "OSOJS": "dialetto Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "dialetto Pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "romanizzazione Pinyin",

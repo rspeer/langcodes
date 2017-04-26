@@ -3,8 +3,8 @@
     "pt-GW": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "pt",
         "territory": "GW"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "Calendário",
-          "cf": "cf",
+          "cf": "Formato monetário",
           "colAlternate": "Ignorar classificação de símbolos",
           "colBackwards": "Ordenação de acentos invertida",
           "colCaseFirst": "Ordem de maiúsculas/minúsculas",
           "colCaseLevel": "Ordenação sensível a maiúsculas e minúsculas",
-          "colHiraganaQuaternary": "Ordenação kana",
           "collation": "Ordenação",
           "colNormalization": "Ordenação normalizada",
           "colNumeric": "Ordenação numérica",
@@ -34,7 +33,6 @@
           "numbers": "Números",
           "timezone": "Fuso horário",
           "va": "Variante de localidade",
-          "variableTop": "Ordenar como símbolos",
           "x": "Utilização privada"
         },
         "types": {
@@ -59,8 +57,8 @@
             "roc": "Calendário da República da China"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Formato monetário contabilístico",
+            "standard": "Formato monetário padrão"
           },
           "colAlternate": {
             "non-ignorable": "Ordenar símbolos",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Ordenar insensível a maiúsculas/minúsculas",
             "yes": "Ordenar sensível a maiúsculas/minúsculas"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Ordenar kana separadamente",
-            "yes": "Ordenar kana diferentemente"
           },
           "collation": {
             "big5han": "Ordem do Chinês Tradicional - Big5",
@@ -118,6 +112,11 @@
             "secondary": "Ordenar acentos",
             "tertiary": "Ordenar acentos/tipo de letra/largura"
           },
+          "d0": {
+            "fwidth": "Largura completa",
+            "hwidth": "Meia largura",
+            "npinyin": "Numérico"
+          },
           "hc": {
             "h11": "Sistema de 12 horas (0–11)",
             "h12": "Sistema de 12 horas (1–12)",
@@ -125,9 +124,13 @@
             "h24": "Sistema de 24 horas (1–24)"
           },
           "lb": {
-            "loose": "Estilo solto de quebra de linha",
+            "loose": "Estilo flexível de quebra de linha",
             "normal": "Estilo padrão de quebra de linha",
             "strict": "Estilo estrito de quebra de linha"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Sistema métrico",
@@ -190,7 +193,7 @@
             "native": "Dígitos nativos",
             "nkoo": "nkoo",
             "olck": "olck",
-            "orya": "Algarismos de oriya",
+            "orya": "Algarismos de odia",
             "osma": "osma",
             "roman": "Numeração romana",
             "romanlow": "Numeração romana minúscula",

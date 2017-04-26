@@ -3,8 +3,8 @@
     "mk": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12411 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "mk"
       },
@@ -16,7 +16,7 @@
         },
         "keys": {
           "calendar": "Календар",
-          "cf": "cf",
+          "cf": "Формат на валута",
           "collation": "Подредување",
           "currency": "Валута",
           "hc": "Часовен циклус (12 или 24)",
@@ -46,8 +46,8 @@
             "roc": "Мингуо-календар"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Сметководствен формат на валута",
+            "standard": "Стандарден формат на валута"
           },
           "collation": {
             "big5han": "Традиционално кинеско сортирање",
@@ -96,7 +96,7 @@
             "cakm": "cakm",
             "cham": "cham",
             "cyrl": "cyrl",
-            "deva": "деванагарски цифри",
+            "deva": "Деванагарски цифри",
             "ethi": "Етиопски броеви",
             "fullwide": "Цифри со целосна ширина",
             "geor": "Грузиски броеви",
@@ -138,7 +138,7 @@
             "mymrtlng": "mymrtlng",
             "nkoo": "nkoo",
             "olck": "olck",
-            "orya": "Оријски цифри",
+            "orya": "Одиски цифри",
             "osma": "osma",
             "roman": "Римски броеви",
             "romanlow": "Римски мали броеви",

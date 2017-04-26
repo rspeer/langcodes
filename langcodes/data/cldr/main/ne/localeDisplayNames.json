@@ -3,8 +3,8 @@
     "ne": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ne"
       },
@@ -40,14 +40,14 @@
             "islamic-rgsa": "islamic-rgsa",
             "islamic-tbla": "islamic-tbla",
             "islamic-umalqura": "islamic-umalqura",
-            "iso8601": "iso8601",
+            "iso8601": "ISO-8601 Calendar",
             "japanese": "जापानी पात्रो",
             "persian": "फारसी पात्रो",
-            "roc": "चिनिँया गणतन्त्र पात्रो"
+            "roc": "चिनिँया गणतन्त्रको पात्रो"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "cf-account",
+            "standard": "cf-standard"
           },
           "collation": {
             "big5han": "परम्परागत चिनिँया क्रमबद्धता पद्दति - बिग फाइभ",
@@ -60,19 +60,19 @@
             "phonebook": "टेलिफोन पुस्तिका क्रमबद्धतापद्दति",
             "pinyin": "पिनयिन क्रमबद्धता पद्दति",
             "reformed": "reformed",
-            "search": "सामान्य खोजी",
+            "search": "सामान्य उद्देशीय खोजी",
             "searchjl": "searchjl",
-            "standard": "स्तर",
+            "standard": "मानक क्रमबद्धता",
             "stroke": "स्ट्रोक क्रमबद्धता पद्दति",
             "traditional": "परम्परागत क्रमबद्धता पद्दति",
             "unihan": "unihan",
             "zhuyin": "zhuyin"
           },
           "hc": {
-            "h11": "h11",
-            "h12": "h12",
-            "h23": "h23",
-            "h24": "h24"
+            "h11": "hc-h11",
+            "h12": "hc-h12",
+            "h23": "hc-h23",
+            "h24": "hc-h24"
           },
           "lb": {
             "loose": "loose",
@@ -89,7 +89,7 @@
             "arab": "अरबी भारतीय अङ्कहरू",
             "arabext": "विस्तृत अरबी भारतीय अङ्कहरू",
             "armn": "आर्मेनियाली अङ्कहरू",
-            "armnlow": "आर्मनियाली साना अङ्कहरू",
+            "armnlow": "आर्मेनियाली साना अङ्कहरू",
             "bali": "bali",
             "beng": "बङ्गाली अङ्कहरू",
             "brah": "brah",
@@ -98,7 +98,7 @@
             "cyrl": "cyrl",
             "deva": "देवनागरी अङ्कहरू",
             "ethi": "इथियोपाली अङ्कहरू",
-            "fullwide": "पुरा चौडाईका अङ्कहरू",
+            "fullwide": "पूरा चौडाईका अङ्कहरू",
             "geor": "जर्जियाली अङ्कहरू",
             "grek": "ग्रीक अङ्कहरू",
             "greklow": "ग्रीक साना अङ्कहरू",

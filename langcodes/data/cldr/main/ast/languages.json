@@ -3,8 +3,8 @@
     "ast": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12411 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ast"
       },
@@ -116,6 +116,7 @@
           "cps": "capiznon",
           "cr": "cree",
           "crh": "turcu de Crimea",
+          "crs": "francés criollu seselwa",
           "cs": "checu",
           "csb": "kashubianu",
           "cu": "eslávicu eclesiásticu",
@@ -352,7 +353,6 @@
           "mas": "masái",
           "mde": "maba",
           "mdf": "moksha",
-          "mdh": "mdh",
           "mdr": "mandar",
           "men": "mende",
           "mer": "meru",
@@ -365,7 +365,6 @@
           "mi": "maorí",
           "mic": "micmac",
           "min": "minangkabau",
-          "mis": "mis",
           "mk": "macedoniu",
           "ml": "malayalam",
           "mn": "mongol",
@@ -426,7 +425,7 @@
           "om": "oromo",
           "or": "oriya",
           "os": "oséticu",
-          "osa": "Osage",
+          "osa": "osage",
           "ota": "turcu otomanu",
           "pa": "punyabí",
           "pag": "pangasinan",
@@ -435,6 +434,7 @@
           "pap": "papiamento",
           "pau": "palauanu",
           "pcd": "pícaru",
+          "pcm": "nixerianu simplificáu",
           "pdc": "alemán de Pennsylvania",
           "pdt": "plautdietsch",
           "peo": "persa antiguu",
@@ -488,7 +488,7 @@
           "sco": "scots",
           "sd": "sindhi",
           "sdc": "sardu sassarés",
-          "sdh": "Kurdu del sur",
+          "sdh": "kurdu del sur",
           "se": "sami del norte",
           "see": "séneca",
           "seh": "sena",
@@ -531,7 +531,7 @@
           "sux": "sumeriu",
           "sv": "suecu",
           "sw": "suaḥili",
-          "sw-CD": "swahili del Congu",
+          "sw-CD": "suaḥili del Congu",
           "swb": "comorianu",
           "syc": "siriacu clásicu",
           "syr": "siriacu",

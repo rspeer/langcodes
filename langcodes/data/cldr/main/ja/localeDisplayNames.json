@@ -3,8 +3,8 @@
     "ja": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ja"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "暦法",
-          "cf": "cf",
+          "cf": "通貨フォーマット",
           "colAlternate": "記号を無視した並べ替え",
           "colBackwards": "アクセント（逆方向）による並べ替え",
           "colCaseFirst": "大文字順/小文字順による並べ替え",
           "colCaseLevel": "大文字小文字を区別した並べ替え",
-          "colHiraganaQuaternary": "仮名による並べ替え",
           "collation": "並べ替え順序",
           "colNormalization": "正規化による並べ替え",
           "colNumeric": "数値による並べ替え",
@@ -33,12 +32,11 @@
           "numbers": "数値書式",
           "timezone": "タイムゾーン",
           "va": "ロケールのバリアント",
-          "variableTop": "記号として並べ替え",
           "x": "私用"
         },
         "types": {
           "calendar": {
-            "buddhist": "タイ仏教暦",
+            "buddhist": "仏暦",
             "chinese": "中国暦",
             "coptic": "コプト暦",
             "dangi": "ダンギ暦",
@@ -58,8 +56,8 @@
             "roc": "中華民国暦"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "会計通貨フォーマット",
+            "standard": "標準通貨フォーマット"
           },
           "colAlternate": {
             "non-ignorable": "記号で並べ替え",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "大文字小文字を区別しないで並べ替え",
             "yes": "大文字小文字を区別して並べ替え"
-          },
-          "colHiraganaQuaternary": {
-            "no": "仮名を区別しないで並べ替え",
-            "yes": "仮名を区別して並べ替え"
           },
           "collation": {
             "big5han": "繁体字中国語順(Big5)",
@@ -117,6 +111,11 @@
             "secondary": "アクセントで並べ替え",
             "tertiary": "アクセント/大文字小文字/全角半角で並べ替え"
           },
+          "d0": {
+            "fwidth": "全角",
+            "hwidth": "半角",
+            "npinyin": "数字"
+          },
           "hc": {
             "h11": "12時間制(0〜11)",
             "h12": "12時間制(1〜12)",
@@ -127,6 +126,10 @@
             "loose": "禁則処理(弱)",
             "normal": "禁則処理(標準)",
             "strict": "禁則処理(強)"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "メートル法",

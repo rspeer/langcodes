@@ -237,7 +237,7 @@ LANGUAGE_NAMES['en'] = [
     "Ugaritic",
     "Sundanese",
     # Old East Slavic
-    "Fala",
+    # Fala
     # Elfdalian
     "Tamil",
     "Pijin",

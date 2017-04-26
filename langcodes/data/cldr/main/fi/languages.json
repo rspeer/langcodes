@@ -3,8 +3,8 @@
     "fi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "fi"
       },
@@ -26,7 +26,7 @@
           "akk": "akkadi",
           "akz": "alabama",
           "ale": "aleutti",
-          "aln": "geg",
+          "aln": "gegi",
           "alt": "altai",
           "am": "amhara",
           "an": "aragonia",
@@ -117,6 +117,7 @@
           "cr": "cree",
           "crh": "krimintataari",
           "crh-alt-secondary": "kriminturkki",
+          "crs": "seychellienkreoli",
           "cs": "tšekki",
           "csb": "kašubi",
           "cu": "kirkkoslaavi",
@@ -356,7 +357,6 @@
           "mas": "maasai",
           "mde": "maba",
           "mdf": "mokša",
-          "mdh": "mdh",
           "mdr": "mandar",
           "men": "mende",
           "mer": "meru",
@@ -369,7 +369,6 @@
           "mi": "maori",
           "mic": "micmac",
           "min": "minangkabau",
-          "mis": "mis",
           "mk": "makedonia",
           "ml": "malajalam",
           "mn": "mongoli",
@@ -382,7 +381,7 @@
           "ms": "malaiji",
           "mt": "malta",
           "mua": "mundang",
-          "mul": "monia kieliä",
+          "mul": "useita kieliä",
           "mus": "creek",
           "mwl": "mirandeesi",
           "mwr": "marwari",
@@ -439,6 +438,7 @@
           "pap": "papiamentu",
           "pau": "palau",
           "pcd": "picardi",
+          "pcm": "nigerianpidgin",
           "pdc": "pennsylvaniansaksa",
           "pdt": "plautdietsch",
           "peo": "muinaispersia",
@@ -584,7 +584,7 @@
           "uga": "ugarit",
           "uk": "ukraina",
           "umb": "mbundu",
-          "und": "määrittämätön kieli",
+          "und": "tuntematon kieli",
           "ur": "urdu",
           "uz": "uzbekki",
           "vai": "vai",

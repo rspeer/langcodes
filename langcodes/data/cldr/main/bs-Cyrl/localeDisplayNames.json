@@ -3,8 +3,8 @@
     "bs-Cyrl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13272 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "bs",
         "script": "Cyrl"
@@ -70,6 +70,11 @@
             "unihan": "Редослед сортирања радикалним цртицама",
             "zhuyin": "zhuyin"
           },
+          "d0": {
+            "fwidth": "пуна ширина",
+            "hwidth": "пола ширине",
+            "npinyin": "Нумеричка"
+          },
           "hc": {
             "h11": "h11",
             "h12": "h12",
@@ -80,6 +85,10 @@
             "loose": "loose",
             "normal": "normal",
             "strict": "strict"
+          },
+          "m0": {
+            "bgn": "БГН (BGN)",
+            "ungegn": "УНГЕГН (BGN)"
           },
           "ms": {
             "metric": "metric",

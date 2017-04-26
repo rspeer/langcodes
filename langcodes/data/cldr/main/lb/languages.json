@@ -3,8 +3,8 @@
     "lb": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "lb"
       },
@@ -68,7 +68,6 @@
           "bfd": "Bafut",
           "bfq": "Badaga",
           "bg": "Bulgaresch",
-          "bgn": "bgn",
           "bho": "Bhodschpuri",
           "bi": "Bislama",
           "bik": "Bikol-Sprooch",
@@ -116,6 +115,7 @@
           "cps": "Capiznon",
           "cr": "Cree",
           "crh": "Krimtataresch",
+          "crs": "crs",
           "cs": "Tschechesch",
           "csb": "Kaschubesch",
           "cu": "Kiercheslawesch",
@@ -352,7 +352,6 @@
           "mas": "Massai-Sprooch",
           "mde": "Maba",
           "mdf": "Moksha",
-          "mdh": "mdh",
           "mdr": "Mandaresesch",
           "men": "Mende-Sprooch",
           "mer": "Meru-Sprooch",
@@ -365,7 +364,6 @@
           "mi": "Maori",
           "mic": "Micmac-Sprooch",
           "min": "Minangkabau-Sprooch",
-          "mis": "mis",
           "mk": "Mazedonesch",
           "ml": "Malayalam",
           "mn": "Mongolesch",
@@ -435,6 +433,7 @@
           "pap": "Papiamento",
           "pau": "Palau",
           "pcd": "Picardesch",
+          "pcm": "pcm",
           "pdc": "Pennsylvaniadäitsch",
           "pdt": "Plattdäitsch",
           "peo": "Alpersesch",
@@ -488,7 +487,6 @@
           "sco": "Schottesch",
           "sd": "Sindhi",
           "sdc": "Sassaresesch",
-          "sdh": "sdh",
           "se": "Nordsamesch",
           "see": "Seneca",
           "seh": "Sena",
@@ -599,7 +597,6 @@
           "wal": "Walamo-Sprooch",
           "war": "Waray",
           "was": "Washo-Sprooch",
-          "wbp": "wbp",
           "wo": "Wolof",
           "wuu": "Wu-Chinesesch",
           "xal": "Kalmückesch",

@@ -3,8 +3,8 @@
     "uk": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13260 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "uk"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "Міжнародний фонетичний алфавіт",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Уральський фонетичний алфавіт",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",
@@ -60,6 +61,9 @@
           "NULIK": "NULIK",
           "OSOJS": "Осоянський діалект",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "Романізація піньїн",

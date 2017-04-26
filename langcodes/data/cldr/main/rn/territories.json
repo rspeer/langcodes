@@ -3,8 +3,8 @@
     "rn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "rn"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Izinga rya Shipure",
           "CZ": "Repubulika ya Ceke",
+          "CZ-alt-variant": "CZ",
           "DE": "Ubudage",
           "DG": "DG",
           "DJ": "Jibuti",
@@ -117,6 +118,7 @@
           "ES": "Hisipaniya",
           "ET": "Etiyopiya",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finilandi",
           "FJ": "Fiji",
           "FK": "Izinga rya Filikilandi",
@@ -290,6 +292,7 @@
           "UA": "Ikerene",
           "UG": "Ubugande",
           "UM": "UM",
+          "UN": "UN",
           "US": "Leta Zunze Ubumwe za Amerika",
           "US-alt-short": "US",
           "UY": "Irigwe",

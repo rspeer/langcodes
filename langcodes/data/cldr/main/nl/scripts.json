@@ -3,14 +3,14 @@
     "nl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12381 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "nl"
       },
       "localeDisplayNames": {
         "scripts": {
-          "Adlm": "Adlm",
+          "Adlm": "Adlam",
           "Afak": "Defaka",
           "Aghb": "Kaukasisch Albanees",
           "Ahom": "Ahom",
@@ -24,7 +24,7 @@
           "Bass": "Bassa Vah",
           "Batk": "Batak",
           "Beng": "Bengaals",
-          "Bhks": "Bhks",
+          "Bhks": "Bhaiksuki",
           "Blis": "Blissymbolen",
           "Bopo": "Bopomofo",
           "Brah": "Brahmi",
@@ -103,7 +103,7 @@
           "Mahj": "Mahajani",
           "Mand": "Mandaeans",
           "Mani": "Manicheaans",
-          "Marc": "Marc",
+          "Marc": "Marchen",
           "Maya": "Mayahiërogliefen",
           "Mend": "Mende",
           "Merc": "Meroitisch cursief",
@@ -118,7 +118,7 @@
           "Mymr": "Birmaans",
           "Narb": "Oud Noord-Arabisch",
           "Nbat": "Nabateaans",
-          "Newa": "Newa",
+          "Newa": "Newari",
           "Nkgb": "Naxi Geba",
           "Nkoo": "N’Ko",
           "Nshu": "Nüshu",
@@ -126,7 +126,7 @@
           "Olck": "Ol Chiki",
           "Orkh": "Orkhon",
           "Orya": "Odia",
-          "Osge": "Osge",
+          "Osge": "Osage",
           "Osma": "Osmanya",
           "Palm": "Palmyreens",
           "Pauc": "Pau Cin Hau",
@@ -146,7 +146,6 @@
           "Qaaf": "Qaaf",
           "Qaag": "Qaag",
           "Qaah": "Qaah",
-          "Qaaj": "Qaaj",
           "Qaak": "Qaak",
           "Qaal": "Qaal",
           "Qaam": "Qaam",
@@ -232,7 +231,7 @@
           "Yiii": "Yi",
           "Zinh": "Overgeërfd",
           "Zmth": "Wiskundige notatie",
-          "Zsye": "Zsye",
+          "Zsye": "emoji",
           "Zsym": "Symbolen",
           "Zxxx": "ongeschreven",
           "Zyyy": "algemeen",

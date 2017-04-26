@@ -3,8 +3,8 @@
     "ms-BN": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ms",
         "territory": "BN"
@@ -101,7 +101,8 @@
           "CW": "Curacao",
           "CX": "Pulau Krismas",
           "CY": "Cyprus",
-          "CZ": "Republik Czech",
+          "CZ": "Czechia",
+          "CZ-alt-variant": "Republik Czech",
           "DE": "Jerman",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -118,6 +119,7 @@
           "ES": "Sepanyol",
           "ET": "Ethiopia",
           "EU": "Kesatuan Eropah",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "Kepulauan Falkland",
@@ -291,6 +293,8 @@
           "UA": "Ukraine",
           "UG": "Uganda",
           "UM": "Kepulauan Terpencil A.S.",
+          "UN": "Bangsa-bangsa Bersatu",
+          "UN-alt-short": "PBB",
           "US": "Amerika Syarikat",
           "US-alt-short": "A.S",
           "UY": "Uruguay",

@@ -14,7 +14,7 @@ for let1 in string.ascii_lowercase:
         for let3 in [''] + list(string.ascii_lowercase):
             code = let1 + let2 + let3
             lcode = langcodes.get(code)
-            autonym = lcode.autonym()
+            autonym = lcode.autonym(min_score=91)
             name = lcode.language_name()
             if autonym != lcode.language:
                 print('%-3s %-3s %-30s %s' % (code, lcode.language, name, autonym))

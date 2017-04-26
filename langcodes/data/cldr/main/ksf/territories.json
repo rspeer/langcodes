@@ -3,8 +3,8 @@
     "ksf": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ksf"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "cíprɛ",
           "CZ": "cɛ́k",
+          "CZ-alt-variant": "CZ",
           "DE": "djɛrman",
           "DG": "DG",
           "DJ": "dyibutí",
@@ -117,6 +118,7 @@
           "ES": "kpanyá",
           "ET": "ɛtyɔpí",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "fínlan",
           "FJ": "fíji",
           "FK": "zǝ maalwín",
@@ -290,6 +292,7 @@
           "UA": "ukrain",
           "UG": "uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "amɛrika",
           "US-alt-short": "US",
           "UY": "urugwɛ́",

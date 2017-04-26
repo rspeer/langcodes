@@ -3,8 +3,8 @@
     "mt": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "mt"
       },
@@ -162,7 +162,7 @@
         },
         "codePatterns": {
           "language": "Lingwa: {0}",
-          "script": "Skritt: {0}",
+          "script": "Skript: {0}",
           "territory": "Reġjun: {0}"
         }
       }

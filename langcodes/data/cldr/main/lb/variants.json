@@ -3,8 +3,8 @@
     "lb": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "lb"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "Serbesch mat Ekavian-Aussprooch",
           "EMODENG": "Fréit Modernt Englesch",
           "FONIPA": "Phonetesch (IPA)",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Phonetesch (UPA)",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "Hepburn-Romaniséierung",
@@ -60,6 +61,9 @@
           "NULIK": "Modernt Volapük",
           "OSOJS": "Osojane-Dialekt",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Pamaka-Dialekt",
           "PETR1708": "PETR1708",
           "PINYIN": "Pinyin",

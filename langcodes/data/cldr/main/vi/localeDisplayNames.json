@@ -3,8 +3,8 @@
     "vi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12312 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "vi"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "Lịch",
-          "cf": "cf",
+          "cf": "Định dạng tiền tệ",
           "colAlternate": "Bỏ qua sắp xếp biểu tượng",
           "colBackwards": "Sắp xếp dấu trọng âm đảo ngược",
           "colCaseFirst": "Sắp xếp chữ hoa/chữ thường",
           "colCaseLevel": "Sắp xếp phân biệt chữ hoa/chữ thường",
-          "colHiraganaQuaternary": "Sắp xếp chữ Kana",
           "collation": "Thứ tự sắp xếp",
           "colNormalization": "Sắp xếp theo chuẩn hóa",
           "colNumeric": "Sắp xếp theo số",
@@ -33,7 +32,6 @@
           "numbers": "Số",
           "timezone": "Múi giờ",
           "va": "Biến thể ngôn ngữ",
-          "variableTop": "Sắp xếp dưới dạng biểu tượng",
           "x": "Sử dụng cá nhân"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Lịch Trung Hoa Dân Quốc"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Định dạng tiền tệ kế toán",
+            "standard": "Định dạng tiền tệ chuẩn"
           },
           "colAlternate": {
             "non-ignorable": "Sắp xếp biểu tượng",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Sắp xếp không phân biệt chữ hoa/chữ thường",
             "yes": "Sắp xếp phân biệt chữ hoa/chữ thường"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Sắp xếp chữ Kana riêng biệt",
-            "yes": "Sắp xếp chữ Kana khác nhau"
           },
           "collation": {
             "big5han": "Thứ tự sắp xếp theo tiếng Trung phồn thể - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Sắp xếp dấu trọng âm",
             "tertiary": "Sắp xếp dấu trọng âm/chữ cái/độ rộng"
           },
+          "d0": {
+            "fwidth": "Độ rộng tối đa",
+            "hwidth": "Nửa độ rộng",
+            "npinyin": "Số"
+          },
           "hc": {
             "h11": "Hệ thống 12 giờ (0–11)",
             "h12": "Hệ thống 12 giờ (1–12)",
@@ -127,6 +126,10 @@
             "loose": "Kiểu xuống dòng thoáng",
             "normal": "Kiểu xuống dòng thường",
             "strict": "Kiểu xuống dòng hẹp"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "Hệ mét",
@@ -189,7 +192,7 @@
             "native": "Chữ số tự nhiên",
             "nkoo": "Chữ số N’Ko",
             "olck": "Chữ số Ol Chiki",
-            "orya": "Chữ số Oriya",
+            "orya": "Chữ số Odia",
             "osma": "Chữ số Osmanya",
             "roman": "Chữ số La mã",
             "romanlow": "Chữ số La Mã viết thường",

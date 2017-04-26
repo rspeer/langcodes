@@ -3,8 +3,8 @@
     "nl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12381 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "nl"
       },
@@ -100,7 +100,8 @@
           "CW": "Curaçao",
           "CX": "Christmaseiland",
           "CY": "Cyprus",
-          "CZ": "Tsjechië",
+          "CZ": "Tsjechische Republiek",
+          "CZ-alt-variant": "Tsjechië",
           "DE": "Duitsland",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Spanje",
           "ET": "Ethiopië",
           "EU": "Europese Unie",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "Falklandeilanden",
@@ -290,6 +292,8 @@
           "UA": "Oekraïne",
           "UG": "Oeganda",
           "UM": "Kleine afgelegen eilanden van de Verenigde Staten",
+          "UN": "verenigde naties",
+          "UN-alt-short": "vn",
           "US": "Verenigde Staten",
           "US-alt-short": "VS",
           "UY": "Uruguay",

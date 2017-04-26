@@ -3,8 +3,8 @@
     "da": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12387 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "da"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "tidlig moderne engelsk",
           "FONIPA": "det internationale fonetiske alfabet",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "det uraliske fonetiske alfabet",
           "FONXSAMP": "fonxsamp",
           "HEPBURN": "Hepburn-romanisering",
@@ -60,6 +61,9 @@
           "NULIK": "moderne volapük",
           "OSOJS": "Oseacco-/Osojane-dialekt",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Pamaka-dialekt",
           "PETR1708": "PETR1708",
           "PINYIN": "pinyin",

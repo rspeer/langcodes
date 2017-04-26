@@ -3,8 +3,8 @@
     "fi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "fi"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "kalenteri",
-          "cf": "cf",
+          "cf": "valuuttojen esitysmuoto",
           "colAlternate": "symbolien lajittelu",
           "colBackwards": "painomerkkien lajittelu",
           "colCaseFirst": "isojen ja pienten kirjainten järjestys",
           "colCaseLevel": "aakkoslajien lajittelu",
-          "colHiraganaQuaternary": "kana-merkkien lajittelu",
           "collation": "lajittelujärjestys",
           "colNormalization": "lajittelun normalisointi",
           "colNumeric": "numeroiden lajittelu",
@@ -33,7 +32,6 @@
           "numbers": "numerot",
           "timezone": "aikavyöhyke",
           "va": "maavalinnan muunnelma",
-          "variableTop": "lajittelu symboleina",
           "x": "yksityiskäyttö"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "Kiinan tasavallan kalenteri"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "valuuttojen laskentatoimen esitysmuoto",
+            "standard": "valuuttojen vakioesitysmuoto"
           },
           "colAlternate": {
             "non-ignorable": "symbolit huomioiva lajittelu",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "isojen ja pienten kirjainten lajittelu yhdessä",
             "yes": "isojen ja pienten kirjainten lajittelu erikseen"
-          },
-          "colHiraganaQuaternary": {
-            "no": "kana-merkkien lajittelu erillisinä",
-            "yes": "kana-merkkien lajittelu tyypin mukaan"
           },
           "collation": {
             "big5han": "perinteinen kiinalainen järjestys Big5",
@@ -117,6 +111,11 @@
             "secondary": "painomerkit huomioiva lajittelu",
             "tertiary": "painomerkit ja aakkoslajit tai merkkileveydet huomioiva lajittelu"
           },
+          "d0": {
+            "fwidth": "ideogrammin levyinen",
+            "hwidth": "ideogrammin puolikkaan levyinen",
+            "npinyin": "numeerinen muunnos"
+          },
           "hc": {
             "h11": "12 tunnin järjestelmä (0–11)",
             "h12": "12 tunnin järjestelmä (1–12)",
@@ -128,13 +127,17 @@
             "normal": "normaali rivinvaihto",
             "strict": "tarkka rivinvaihto"
           },
+          "m0": {
+            "bgn": "BGN-latinaistus",
+            "ungegn": "UNGEGN-latinaistus"
+          },
           "ms": {
             "metric": "metrijärjestelmä",
             "uksystem": "brittiläinen mittajärjestelmä",
             "ussystem": "yhdysvaltalainen mittajärjestelmä"
           },
           "numbers": {
-            "ahom": "ahom",
+            "ahom": "ahom-numerot",
             "arab": "arabialaiset numerot",
             "arabext": "laajennetut arabialaiset numerot",
             "armn": "armenialaiset numerot",
@@ -144,7 +147,7 @@
             "brah": "brahmilaiset numerot",
             "cakm": "chakmalaiset numerot",
             "cham": "cham-numerot",
-            "cyrl": "cyrl",
+            "cyrl": "kyrilliset numerot",
             "deva": "devanagarinumerot",
             "ethi": "etiopialaiset numerot",
             "finance": "talousnumerot",
@@ -160,7 +163,7 @@
             "hant": "perinteiset kiinalaiset numerot",
             "hantfin": "perinteiset kiinalaiset talousnumerot",
             "hebr": "heprealaiset numerot",
-            "hmng": "hmng",
+            "hmng": "pahawh hmong -numerot",
             "java": "jaavalaiset numerot",
             "jpan": "japanilaiset numerot",
             "jpanfin": "japanilaiset talousnumerot",
@@ -173,19 +176,19 @@
             "latn": "länsimaiset numerot",
             "lepc": "lepchanumerot",
             "limb": "limbunumerot",
-            "mathbold": "mathbold",
-            "mathdbl": "mathdbl",
-            "mathmono": "mathmono",
-            "mathsanb": "mathsanb",
-            "mathsans": "mathsans",
+            "mathbold": "matemaattiset lihavoidut numerot",
+            "mathdbl": "matemaattiset kaksoislyöntinumerot",
+            "mathmono": "matemaattiset tasalevyiset numerot",
+            "mathsanb": "matemaattiset pääteviivattomat lihavoidut numerot",
+            "mathsans": "matemaattiset pääteviivattomat numerot",
             "mlym": "malajalamilaiset numerot",
-            "modi": "modi",
+            "modi": "modi-numerot",
             "mong": "mongolialaiset numerot",
-            "mroo": "mroo",
+            "mroo": "mro-numerot",
             "mtei": "meetei mayek -numerot",
             "mymr": "burmalaiset numerot",
             "mymrshan": "myanmarin shan-numerot",
-            "mymrtlng": "mymrtlng",
+            "mymrtlng": "myanmarin tai laing -numerot",
             "native": "kielen omat numerot",
             "nkoo": "n’ko-numerot",
             "olck": "ol chiki -numerot",
@@ -194,9 +197,9 @@
             "roman": "roomalaiset numerot",
             "romanlow": "roomalaiset piennumerot",
             "saur": "saurashtra-numerot",
-            "shrd": "šarida-numerot",
-            "sind": "sind",
-            "sinh": "sinh",
+            "shrd": "šarada-numerot",
+            "sind": "khutabadi-numerot",
+            "sinh": "sinhalan lith-numerot",
             "sora": "sora sompeng -numerot",
             "sund": "sundalaiset numerot",
             "takr": "takri-numerot",
@@ -206,10 +209,10 @@
             "telu": "telugulaiset numerot",
             "thai": "thainumerot",
             "tibt": "tiibetiläiset numerot",
-            "tirh": "tirh",
+            "tirh": "tirhuta-numerot",
             "traditional": "perinteiset numerot",
             "vaii": "vai-numerot",
-            "wara": "wara"
+            "wara": "varang kshiti -numerot"
           }
         },
         "codePatterns": {

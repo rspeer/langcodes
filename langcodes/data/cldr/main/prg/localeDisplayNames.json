@@ -3,8 +3,8 @@
     "prg": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12313 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "prg"
       },

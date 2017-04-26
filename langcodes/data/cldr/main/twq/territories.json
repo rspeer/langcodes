@@ -3,8 +3,8 @@
     "twq": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "twq"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Šiipur",
           "CZ": "Cek labo",
+          "CZ-alt-variant": "CZ",
           "DE": "Almaaɲe",
           "DG": "DG",
           "DJ": "Jibuuti",
@@ -117,6 +118,7 @@
           "ES": "Espaaɲe",
           "ET": "Ecioopi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlandu",
           "FJ": "Fiji",
           "FK": "Kalkan gungey",
@@ -290,6 +292,7 @@
           "UA": "Ukreen",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Ameriki Laabu Margantey",
           "US-alt-short": "US",
           "UY": "Uruguwey",

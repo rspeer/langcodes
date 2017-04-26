@@ -3,8 +3,8 @@
     "nb-SJ": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "nb",
         "territory": "SJ"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "kalender",
-          "cf": "cf",
+          "cf": "valutaformat",
           "colAlternate": "Ignorer sortering etter symboler",
           "colBackwards": "omvendt sortering etter aksent",
           "colCaseFirst": "Organisering av store og små bokstaver",
           "colCaseLevel": "Sortering av store og små bokstaver",
-          "colHiraganaQuaternary": "Sortering av kana",
           "collation": "sorteringsrekkefølge",
           "colNormalization": "Normalisert sortering",
           "colNumeric": "Numerisk sortering",
@@ -34,7 +33,6 @@
           "numbers": "tall",
           "timezone": "tidssone",
           "va": "Språkvariant",
-          "variableTop": "Sortér som symboler",
           "x": "privat bruk"
         },
         "types": {
@@ -56,11 +54,11 @@
             "iso8601": "ISO 8601-kalender",
             "japanese": "japansk kalender",
             "persian": "persisk kalender",
-            "roc": "kalender for Republikken Kina"
+            "roc": "minguo-kalender"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "valutaformat for regnskapsføring",
+            "standard": "standard valutaformat"
           },
           "colAlternate": {
             "non-ignorable": "sortér symboler",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Sortér uavhengig av store og små bokstaver.",
             "yes": "Sortér med skille mellom små og store bokstaver"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Sortér kana separat",
-            "yes": "Sortér med skille mellom forskjellige varianter av kana"
           },
           "collation": {
             "big5han": "tradisjonell kinesisk sortering - Big 5",
@@ -118,6 +112,11 @@
             "secondary": "Sortér aksenttegn",
             "tertiary": "Sortér aksenttegn / små og store bokstaver / bredde"
           },
+          "d0": {
+            "fwidth": "Full bredde",
+            "hwidth": "Halv bredde",
+            "npinyin": "Numerisk"
+          },
           "hc": {
             "h11": "12-timers system (0–11)",
             "h12": "12-timers system (1–12)",
@@ -129,6 +128,10 @@
             "normal": "normal linjeskiftstil",
             "strict": "streng linjeskiftstil"
           },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
+          },
           "ms": {
             "metric": "metrisk system",
             "uksystem": "britisk målesystem",
@@ -138,8 +141,8 @@
             "ahom": "ahom",
             "arab": "arabisk-indiske sifre",
             "arabext": "utvidede arabisk-indiske sifre",
-            "armn": "armenske tallsymboler",
-            "armnlow": "små armenske tallsymboler",
+            "armn": "armenske tall",
+            "armnlow": "små armenske tall",
             "bali": "baliske tall",
             "beng": "bengalske sifre",
             "brah": "brahmiske tall",
@@ -147,24 +150,24 @@
             "cham": "cham-tall",
             "cyrl": "cyrl",
             "deva": "devanagari-sifre",
-            "ethi": "etiopiske tallsymboler",
+            "ethi": "etiopiske tall",
             "finance": "Finansielle tall",
             "fullwide": "sifre med full bredde",
-            "geor": "georgiske tallsymboler",
-            "grek": "greske tallsymboler",
-            "greklow": "små greske tallsymboler",
+            "geor": "georgiske tall",
+            "grek": "greske tall",
+            "greklow": "små greske tall",
             "gujr": "gujarati-sifre",
             "guru": "gurmukhi-sifre",
-            "hanidec": "kinesiske desimaltallsymboler",
-            "hans": "forenklede kinesiske tallsymboler",
-            "hansfin": "forenklede kinesiske finanstallsymboler",
-            "hant": "tradisjonelle kinesiske tallsymboler",
-            "hantfin": "tradisjonelle kinesiske finanstallsymboler",
-            "hebr": "hebraiske tallsymboler",
+            "hanidec": "kinesiske desimaltall",
+            "hans": "forenklede kinesiske tall",
+            "hansfin": "forenklede kinesiske finanstall",
+            "hant": "tradisjonelle kinesiske tall",
+            "hantfin": "tradisjonelle kinesiske finanstall",
+            "hebr": "hebraiske tall",
             "hmng": "hmng",
             "java": "java-tall",
-            "jpan": "japanske tallsymboler",
-            "jpanfin": "japanske finanstallsymboler",
+            "jpan": "japanske tall",
+            "jpanfin": "japanske finanstall",
             "kali": "kayah li-tall",
             "khmr": "khmer-sifre",
             "knda": "kannada-sifre",
@@ -184,7 +187,7 @@
             "mong": "mongolske tall",
             "mroo": "mroo",
             "mtei": "meetei mayek-tall",
-            "mymr": "myanmar-sifre",
+            "mymr": "myanmarske sifre",
             "mymrshan": "myanmar shan-tall",
             "mymrtlng": "mymrtlng",
             "native": "Språkspesifikke sifre",
@@ -202,7 +205,7 @@
             "sund": "sundanese-tall",
             "takr": "takri-tall",
             "talu": "ny tai lue-tall",
-            "taml": "tamilske tallsymboler",
+            "taml": "tamilske tall",
             "tamldec": "tamilske sifre",
             "telu": "telugu-sifre",
             "thai": "thailandske sifre",

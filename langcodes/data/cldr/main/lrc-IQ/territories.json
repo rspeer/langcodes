@@ -3,8 +3,8 @@
     "lrc-IQ": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "lrc",
         "territory": "IQ"
@@ -102,6 +102,7 @@
           "CX": "CX",
           "CY": "CY",
           "CZ": "CZ",
+          "CZ-alt-variant": "CZ",
           "DE": "آلمان",
           "DG": "DG",
           "DJ": "DJ",
@@ -118,6 +119,7 @@
           "ES": "ES",
           "ET": "ET",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "FI",
           "FJ": "FJ",
           "FK": "FK",
@@ -291,6 +293,7 @@
           "UA": "UA",
           "UG": "UG",
           "UM": "UM",
+          "UN": "UN",
           "US": "ڤولاتیا یأکاگئرتە",
           "US-alt-short": "US",
           "UY": "UY",

@@ -3,8 +3,8 @@
     "sl": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "sl"
       },
@@ -16,12 +16,11 @@
         },
         "keys": {
           "calendar": "koledar",
-          "cf": "cf",
+          "cf": "oblika zapisa valute",
           "colAlternate": "Razvrščanje s prezrtimi znaki",
           "colBackwards": "Razvrščanje z obratnimi naglasi",
           "colCaseFirst": "Razvrščanje velike črke/male črke",
           "colCaseLevel": "Razvrščanje, občutljivo na velike/male črke",
-          "colHiraganaQuaternary": "Razvrščanje kana",
           "collation": "razvrščanje",
           "colNormalization": "Normalizirano razvrščanje",
           "colNumeric": "Številsko razvrščanje",
@@ -33,7 +32,6 @@
           "numbers": "številke",
           "timezone": "Časovni pas",
           "va": "Različica območnih nastavitev",
-          "variableTop": "Razvrščanje kot simboli",
           "x": "Private-Use"
         },
         "types": {
@@ -58,8 +56,8 @@
             "roc": "kitajski državni koledar"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "oblika zapisa valute v računovodstvu",
+            "standard": "standardna oblika zapisa valute"
           },
           "colAlternate": {
             "non-ignorable": "Razvrščanje simbolov",
@@ -77,10 +75,6 @@
           "colCaseLevel": {
             "no": "Razvrščanje ne glede na velike/male črke",
             "yes": "Razvrščanje ob upoštevanju velikih/malih črk"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Razvrščanje kana ločeno",
-            "yes": "Razvrščanje kana različno"
           },
           "collation": {
             "big5han": "razvrščanje po sistemu tradicionalne kitajščine - Big5",
@@ -117,6 +111,11 @@
             "secondary": "Razvrščanje naglasov",
             "tertiary": "Razvrščanje po naglasih/velikih črkah/malih črkah/širini"
           },
+          "d0": {
+            "fwidth": "Polna širina",
+            "hwidth": "Polovična širina",
+            "npinyin": "Številsko"
+          },
           "hc": {
             "h11": "12-urni sistem (0–11)",
             "h12": "12-urni sistem (1–12)",
@@ -127,6 +126,10 @@
             "loose": "Prosti slog preloma vrstic",
             "normal": "Običajni slog preloma vrstic",
             "strict": "Strogi slog preloma vrstic"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "metrični sistem",
@@ -140,13 +143,13 @@
             "armn": "armenske številke",
             "armnlow": "armenske majhne številke",
             "bali": "bali",
-            "beng": "Bengalske števke",
+            "beng": "bengalske števke",
             "brah": "brah",
             "cakm": "cakm",
             "cham": "cham",
             "cyrl": "cyrl",
             "deva": "devangarske števke",
-            "ethi": "Etiopijske številke",
+            "ethi": "etiopijske številke",
             "finance": "Finančne številke",
             "fullwide": "števke polne širine",
             "geor": "gruzijske številke",
@@ -166,7 +169,7 @@
             "jpanfin": "japonske finančne številke",
             "kali": "kali",
             "khmr": "kmerske števke",
-            "knda": "Kanaredske števke",
+            "knda": "kanaredske števke",
             "lana": "lana",
             "lanatham": "lanatham",
             "laoo": "laoške števke",
@@ -201,7 +204,7 @@
             "sund": "sund",
             "takr": "takr",
             "talu": "talu",
-            "taml": "tamilske številke",
+            "taml": "tradicionalne tamilske številke",
             "tamldec": "tamilske števke",
             "telu": "teluške števke",
             "thai": "tajske števke",
@@ -214,7 +217,7 @@
         },
         "codePatterns": {
           "language": "Jezik: {0}",
-          "script": "{0}",
+          "script": "Pisava: {0}",
           "territory": "Regija: {0}"
         }
       }

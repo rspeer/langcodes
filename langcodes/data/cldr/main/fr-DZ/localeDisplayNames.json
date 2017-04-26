@@ -3,8 +3,8 @@
     "fr-DZ": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "fr",
         "territory": "DZ"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "calendrier",
-          "cf": "cf",
+          "cf": "format de devise",
           "colAlternate": "Tri ne tenant pas compte des symboles",
           "colBackwards": "Tri inversé des caractères accentués",
           "colCaseFirst": "Classement basé sur les majuscules et les minuscules",
           "colCaseLevel": "Tri sensible à la casse",
-          "colHiraganaQuaternary": "Tri des caractères Kana",
           "collation": "ordre de tri",
           "colNormalization": "Tri normalisé",
           "colNumeric": "Tri numérique",
@@ -34,7 +33,6 @@
           "numbers": "nombres",
           "timezone": "Fuseau horaire",
           "va": "Variante locale",
-          "variableTop": "Trier en tant que symboles",
           "x": "Usage privé"
         },
         "types": {
@@ -59,8 +57,8 @@
             "roc": "calendrier républicain chinois"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "format de devise comptable",
+            "standard": "format de devise standard"
           },
           "colAlternate": {
             "non-ignorable": "Trier les symboles",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Trier sans tenir compte de la casse",
             "yes": "Trier en tenant compte de la casse"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Trier les caractères Kana séparément",
-            "yes": "Trier les caractères Kana différemment"
           },
           "collation": {
             "big5han": "Ordre chinois traditionnel - Big5",
@@ -118,6 +112,11 @@
             "secondary": "Trier en tenant compte des caractères accentués",
             "tertiary": "Trier en tenant compte des caractères accentués, de la casse et de la largeur"
           },
+          "d0": {
+            "fwidth": "Pleine chasse",
+            "hwidth": "Demi-chasse",
+            "npinyin": "Numérique"
+          },
           "hc": {
             "h11": "système horaire de 12 heures (0–11)",
             "h12": "système horaire de 12 heures (1–12)",
@@ -128,6 +127,10 @@
             "loose": "style de saut de ligne permissif",
             "normal": "style de saut de ligne normal",
             "strict": "style de saut de ligne strict"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "système métrique",

@@ -3,8 +3,8 @@
     "ja": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ja"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "初期近代英語",
           "FONIPA": "国際音声記号",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "ウラル音声記号",
           "FONXSAMP": "フォンクサンプ",
           "HEPBURN": "ヘボン式ローマ字",
@@ -60,6 +61,9 @@
           "NULIK": "現代ヴォラピュク語",
           "OSOJS": "オゼアッコ/オソヤネ方言",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "パマカ方言",
           "PETR1708": "PETR1708",
           "PINYIN": "ピン音(ローマ字表記法)",

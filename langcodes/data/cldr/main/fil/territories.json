@@ -3,8 +3,8 @@
     "fil": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "fil"
       },
@@ -100,7 +100,8 @@
           "CW": "Curaçao",
           "CX": "Christmas Island",
           "CY": "Cyprus",
-          "CZ": "Czech Republic",
+          "CZ": "Czechia",
+          "CZ-alt-variant": "Czech Republic",
           "DE": "Germany",
           "DG": "Diego Garcia",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Spain",
           "ET": "Ethiopia",
           "EU": "European Union",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "Falkland Islands",
@@ -151,7 +153,7 @@
           "HR": "Croatia",
           "HT": "Haiti",
           "HU": "Hungary",
-          "IC": "Canary Island",
+          "IC": "Canary Islands",
           "ID": "Indonesia",
           "IE": "Ireland",
           "IL": "Israel",
@@ -290,6 +292,8 @@
           "UA": "Ukraine",
           "UG": "Uganda",
           "UM": "U.S. Outlying Islands",
+          "UN": "Nagkakaisang Bansa",
+          "UN-alt-short": "UN",
           "US": "Estados Unidos",
           "US-alt-short": "U.S.",
           "UY": "Uruguay",

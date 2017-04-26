@@ -3,8 +3,8 @@
     "de-AT": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "de",
         "territory": "AT"
@@ -97,11 +97,12 @@
           "CP": "Clipperton-Insel",
           "CR": "Costa Rica",
           "CU": "Kuba",
-          "CV": "Kap Verde",
+          "CV": "Cabo Verde",
           "CW": "Curaçao",
           "CX": "Weihnachtsinsel",
           "CY": "Zypern",
-          "CZ": "Tschechische Republik",
+          "CZ": "Tschechien",
+          "CZ-alt-variant": "Tschechische Republik",
           "DE": "Deutschland",
           "DG": "Diego Garcia",
           "DJ": "Dschibuti",
@@ -118,6 +119,7 @@
           "ES": "Spanien",
           "ET": "Äthiopien",
           "EU": "Europäische Union",
+          "EZ": "EZ",
           "FI": "Finnland",
           "FJ": "Fidschi",
           "FK": "Falklandinseln",
@@ -278,8 +280,8 @@
           "TH": "Thailand",
           "TJ": "Tadschikistan",
           "TK": "Tokelau",
-          "TL": "Timor-Leste",
-          "TL-alt-variant": "Osttimor",
+          "TL": "Osttimor",
+          "TL-alt-variant": "TL",
           "TM": "Turkmenistan",
           "TN": "Tunesien",
           "TO": "Tonga",
@@ -291,6 +293,8 @@
           "UA": "Ukraine",
           "UG": "Uganda",
           "UM": "Amerikanische Überseeinseln",
+          "UN": "Vereinte Nationen",
+          "UN-alt-short": "UN",
           "US": "Vereinigte Staaten",
           "US-alt-short": "USA",
           "UY": "Uruguay",

@@ -3,8 +3,8 @@
     "de-BE": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "de",
         "territory": "BE"
@@ -17,12 +17,11 @@
         },
         "keys": {
           "calendar": "Kalender",
-          "cf": "cf",
+          "cf": "Währungsformat",
           "colAlternate": "Sortierung ohne Symbole",
           "colBackwards": "Umgekehrte Sortierung von Akzenten",
           "colCaseFirst": "Sortierung nach Groß- bzw. Kleinbuchstaben",
           "colCaseLevel": "Sortierung nach Groß- oder Kleinschreibung",
-          "colHiraganaQuaternary": "Kana-Sortierung",
           "collation": "Sortierung",
           "colNormalization": "Normierte Sortierung",
           "colNumeric": "Sortierung nach Zahlen",
@@ -34,7 +33,6 @@
           "numbers": "Zahlen",
           "timezone": "Zeitzone",
           "va": "Lokale Variante",
-          "variableTop": "Nach Symbolen sortieren",
           "x": "Privatnutzung"
         },
         "types": {
@@ -42,7 +40,7 @@
             "buddhist": "Buddhistischer Kalender",
             "chinese": "Chinesischer Kalender",
             "coptic": "Koptischer Kalender",
-            "dangi": "Dangi Kalender",
+            "dangi": "Dangi-Kalender",
             "ethiopic": "Äthiopischer Kalender",
             "ethiopic-amete-alem": "Äthiopischer Kalender \\\"Amete Alem\\\"",
             "gregorian": "Gregorianischer Kalender",
@@ -59,8 +57,8 @@
             "roc": "Kalender der Republik China"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Währungsformat (Buchhaltung)",
+            "standard": "Währungsformat (Standard)"
           },
           "colAlternate": {
             "non-ignorable": "Symbole sortieren",
@@ -78,10 +76,6 @@
           "colCaseLevel": {
             "no": "Ohne Groß-/Kleinschreibung sortieren",
             "yes": "Nach Groß-/Kleinschreibung sortieren"
-          },
-          "colHiraganaQuaternary": {
-            "no": "Kana separat sortieren",
-            "yes": "Kana anders sortieren"
           },
           "collation": {
             "big5han": "Traditionelles Chinesisch - Big5",
@@ -118,16 +112,25 @@
             "secondary": "Akzente sortieren",
             "tertiary": "Akzente/Fall/Breite sortieren"
           },
+          "d0": {
+            "fwidth": "Breit",
+            "hwidth": "Halbe Breite",
+            "npinyin": "Numerisch"
+          },
           "hc": {
             "h11": "12-Stunden-Zählung (0-11)",
             "h12": "12-Stunden-Zählung (1-12)",
             "h23": "24-Stunden-Zählung (0-23)",
-            "h24": "24-Stunden-System (1-24)"
+            "h24": "24-Stunden-Zählung (1-24)"
           },
           "lb": {
             "loose": "lockerer Zeilenumbruch",
             "normal": "normaler Zeilenumbruch",
             "strict": "fester Zeilenumbruch"
+          },
+          "m0": {
+            "bgn": "BGN",
+            "ungegn": "UNGEGN"
           },
           "ms": {
             "metric": "metrisches System",

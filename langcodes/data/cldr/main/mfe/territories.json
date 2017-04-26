@@ -3,8 +3,8 @@
     "mfe": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "mfe"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Cyprus",
           "CZ": "Repiblik Chek",
+          "CZ-alt-variant": "CZ",
           "DE": "Almagn",
           "DG": "DG",
           "DJ": "Djibouti",
@@ -117,6 +118,7 @@
           "ES": "Lespagn",
           "ET": "Letiopi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fidji",
           "FK": "Zil malwinn",
@@ -290,6 +292,7 @@
           "UA": "Ikrenn",
           "UG": "Ouganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Lamerik",
           "US-alt-short": "US",
           "UY": "Uruguay",

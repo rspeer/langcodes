@@ -3,8 +3,8 @@
     "vi": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12312 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "vi"
       },
@@ -37,6 +37,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "Tiếng Anh Hiện đại Thời kỳ đầu",
           "FONIPA": "Ngữ âm học IPA",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Ngữ âm học UPA",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "La mã hóa Hepburn",
@@ -60,6 +61,9 @@
           "NULIK": "Tiếng Volapük Hiện đại",
           "OSOJS": "Phương ngữ Oseacco/Osojane",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Phương ngữ Pamaka",
           "PETR1708": "PETR1708",
           "PINYIN": "La Mã hóa Bính âm",

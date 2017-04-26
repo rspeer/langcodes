@@ -3,8 +3,8 @@
     "sah": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "sah"
       },
@@ -15,10 +15,10 @@
           "localeKeyTypePattern": "{0}: {1}"
         },
         "keys": {
-          "calendar": "calendar",
+          "calendar": "Халандаар",
           "cf": "cf",
           "collation": "collation",
-          "currency": "currency",
+          "currency": "Уларытыы",
           "hc": "hc",
           "lb": "lb",
           "ms": "ms",
@@ -26,22 +26,22 @@
         },
         "types": {
           "calendar": {
-            "buddhist": "buddhist",
-            "chinese": "chinese",
+            "buddhist": "Буудда халандаара",
+            "chinese": "Кытай халандаара",
             "coptic": "coptic",
             "dangi": "dangi",
             "ethiopic": "ethiopic",
             "ethiopic-amete-alem": "ethiopic-amete-alem",
             "gregorian": "gregorian",
-            "hebrew": "hebrew",
+            "hebrew": "Дьэбириэй халандаара",
             "indian": "indian",
-            "islamic": "islamic",
+            "islamic": "Ислаам халандаара",
             "islamic-civil": "islamic-civil",
             "islamic-rgsa": "islamic-rgsa",
             "islamic-tbla": "islamic-tbla",
             "islamic-umalqura": "islamic-umalqura",
             "iso8601": "iso8601",
-            "japanese": "japanese",
+            "japanese": "Дьоппуон халандаара",
             "persian": "persian",
             "roc": "roc"
           },
@@ -69,10 +69,10 @@
             "zhuyin": "zhuyin"
           },
           "hc": {
-            "h11": "h11",
-            "h12": "h12",
-            "h23": "h23",
-            "h24": "h24"
+            "h11": "12 чаастаах тиһик (0–11)",
+            "h12": "12 чаастаах тиһик (0–12)",
+            "h23": "24 чаастаах тиһик (0–23)",
+            "h24": "24 чаастаах тиһик (0–24)"
           },
           "lb": {
             "loose": "loose",
@@ -161,9 +161,9 @@
           }
         },
         "codePatterns": {
-          "language": "{0}",
-          "script": "{0}",
-          "territory": "{0}"
+          "language": "Тыл: {0}",
+          "script": "Сурук: {0}",
+          "territory": "Сир: {0}"
         }
       }
     }

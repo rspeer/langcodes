@@ -3,8 +3,8 @@
     "pt-PT": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12413 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "pt",
         "territory": "PT"
@@ -102,6 +102,7 @@
           "CX": "Ilha do Natal",
           "CY": "Chipre",
           "CZ": "República Checa",
+          "CZ-alt-variant": "República Tcheca",
           "DE": "Alemanha",
           "DG": "Diego Garcia",
           "DJ": "Jibuti",
@@ -118,6 +119,7 @@
           "ES": "Espanha",
           "ET": "Etiópia",
           "EU": "União Europeia",
+          "EZ": "EZ",
           "FI": "Finlândia",
           "FJ": "Fiji",
           "FK": "Ilhas Falkland",
@@ -291,6 +293,8 @@
           "UA": "Ucrânia",
           "UG": "Uganda",
           "UM": "Ilhas Menores Afastadas dos EUA",
+          "UN": "Nações Unidas",
+          "UN-alt-short": "ONU",
           "US": "Estados Unidos",
           "US-alt-short": "EUA",
           "UY": "Uruguai",

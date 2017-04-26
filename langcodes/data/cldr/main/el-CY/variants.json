@@ -3,8 +3,8 @@
     "el-CY": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "el",
         "territory": "CY"
@@ -38,6 +38,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "Διεθνής φωνητική αλφάβητος",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "Ουραλική φωνητική αλφάβητος",
           "FONXSAMP": "FONXSAMP",
           "HEPBURN": "HEPBURN",
@@ -61,6 +62,9 @@
           "NULIK": "NULIK",
           "OSOJS": "Διάλεκτος Οσεακό/Οσοτζάν",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "PAMAKA",
           "PETR1708": "PETR1708",
           "PINYIN": "Εκλατινισμένα Πινγίν",

@@ -3,8 +3,8 @@
     "nb-SJ": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "nb",
         "territory": "SJ"
@@ -58,7 +58,7 @@
           "Grek": "gresk",
           "Gujr": "gujarati",
           "Guru": "gurmukhi",
-          "Hanb": "Hanb",
+          "Hanb": "hanb",
           "Hang": "hangul",
           "Hani": "han",
           "Hano": "hanunoo",
@@ -71,11 +71,11 @@
           "Hira": "hiragana",
           "Hluw": "anatoliske hieroglyfer",
           "Hmng": "pahawh hmong",
-          "Hrkt": "katakana eller hiragana",
+          "Hrkt": "japanske stavelsesskrifter",
           "Hung": "gammelungarsk",
           "Inds": "indus",
           "Ital": "gammelitalisk",
-          "Jamo": "Jamo",
+          "Jamo": "jamo",
           "Java": "javanesisk",
           "Jpan": "japansk",
           "Jurc": "jurchen",
@@ -147,7 +147,6 @@
           "Qaaf": "qaaf",
           "Qaag": "qaag",
           "Qaah": "qaah",
-          "Qaaj": "Qaaj",
           "Qaak": "qaak",
           "Qaal": "qaal",
           "Qaam": "qaam",
@@ -233,7 +232,7 @@
           "Yiii": "yi",
           "Zinh": "nedarvet",
           "Zmth": "matematisk notasjon",
-          "Zsye": "Zsye",
+          "Zsye": "zsye",
           "Zsym": "symboler",
           "Zxxx": "språk uten skrift",
           "Zyyy": "felles",

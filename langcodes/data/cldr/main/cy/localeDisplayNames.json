@@ -3,8 +3,8 @@
     "cy": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13186 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "cy"
       },
@@ -16,7 +16,7 @@
         },
         "keys": {
           "calendar": "Calendr",
-          "cf": "cf",
+          "cf": "Fformat Arian",
           "collation": "Trefn",
           "currency": "Arian Breiniol",
           "hc": "Cylched Awr (12 vs 24)",
@@ -46,8 +46,8 @@
             "roc": "Calendr Gweriniaeth Tseina"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "Fformat Arian Cyfrifeg",
+            "standard": "Fformat Arian Safonol"
           },
           "collation": {
             "big5han": "Trefn Traddodiadol Tsieina - Big5",

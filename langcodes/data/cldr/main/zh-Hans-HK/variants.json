@@ -3,8 +3,8 @@
     "zh-Hans-HK": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12293 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "zh",
         "script": "Hans",
@@ -39,6 +39,7 @@
           "EKAVSK": "EKAVSK",
           "EMODENG": "EMODENG",
           "FONIPA": "国际音标",
+          "FONNAPA": "FONNAPA",
           "FONUPA": "UPA 音标",
           "FONXSAMP": "X-SAMPA 音标",
           "HEPBURN": "赫伯恩罗马字",
@@ -62,6 +63,9 @@
           "NULIK": "NULIK",
           "OSOJS": "Oseacco/Osojane 方言",
           "OXENDICT": "OXENDICT",
+          "PAHAWH2": "PAHAWH2",
+          "PAHAWH3": "PAHAWH3",
+          "PAHAWH4": "PAHAWH4",
           "PAMAKA": "Pamaka 方言",
           "PETR1708": "俄文拼字（1708年）",
           "PINYIN": "拼音罗马字",

@@ -3,8 +3,8 @@
     "dyo": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "dyo"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Siipr",
           "CZ": "Mofam mati Cek",
+          "CZ-alt-variant": "CZ",
           "DE": "Almaañ",
           "DG": "DG",
           "DJ": "Jibuti",
@@ -117,6 +118,7 @@
           "ES": "Espaañ",
           "ET": "Ecoopi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "FK",
@@ -290,6 +292,7 @@
           "UA": "UA",
           "UG": "UG",
           "UM": "UM",
+          "UN": "UN",
           "US": "US",
           "US-alt-short": "US",
           "UY": "UY",

@@ -3,8 +3,8 @@
     "shi-Tfng": {
       "identity": {
         "version": {
-          "_number": "$Revision: 11914 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "shi",
         "script": "Tfng"
@@ -102,6 +102,7 @@
           "CX": "CX",
           "CY": "ⵇⵓⴱⵔⵓⵙ",
           "CZ": "ⵜⴰⴳⴷⵓⴷⴰⵏⵜ ⵜⴰⵜⵛⵉⴽⵉⵜ",
+          "CZ-alt-variant": "CZ",
           "DE": "ⴰⵍⵎⴰⵏⵢⴰ",
           "DG": "DG",
           "DJ": "ⴷⵊⵉⴱⵓⵜⵉ",
@@ -118,6 +119,7 @@
           "ES": "ⵙⴱⴰⵏⵢⴰ",
           "ET": "ⵉⵜⵢⵓⴱⵢⴰ",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "ⴼⵉⵍⵍⴰⵏⴷⴰ",
           "FJ": "ⴼⵉⴷⵊⵉ",
           "FK": "ⵜⵉⴳⵣⵉⵔⵉⵏ ⵏ ⵎⴰⵍⴰⵡⵉ",
@@ -291,6 +293,7 @@
           "UA": "ⵓⴽⵔⴰⵏⵢⴰ",
           "UG": "ⵓⵖⴰⵏⴷⴰ",
           "UM": "UM",
+          "UN": "UN",
           "US": "ⵉⵡⵓⵏⴰⴽ ⵎⵓⵏⵏⵉⵏ ⵏ ⵎⵉⵔⵉⴽⴰⵏ",
           "US-alt-short": "US",
           "UY": "ⵓⵔⵓⴳⵡⴰⵢ",

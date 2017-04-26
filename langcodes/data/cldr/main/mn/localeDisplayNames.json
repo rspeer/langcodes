@@ -3,8 +3,8 @@
     "mn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13259 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "mn"
       },
@@ -16,12 +16,12 @@
         },
         "keys": {
           "calendar": "хуанли",
-          "cf": "cf",
+          "cf": "Ханшийн формат",
           "collation": "Захиалга ялгах",
           "currency": "мөнгөн тэмдэгт",
-          "hc": "hc",
-          "lb": "lb",
-          "ms": "ms",
+          "hc": "Цагийн горим (12 эсвэл 24)",
+          "lb": "Мөрийн зайн загвар",
+          "ms": "Хэмжүүрийн систем",
           "numbers": "Тоо"
         },
         "types": {
@@ -46,8 +46,8 @@
             "roc": "минго хуанли"
           },
           "cf": {
-            "account": "account",
-            "standard": "standard"
+            "account": "нягтлангийн ханшийн формат",
+            "standard": "стандарт ханшийн формат"
           },
           "collation": {
             "big5han": "big5han",
@@ -69,27 +69,27 @@
             "zhuyin": "zhuyin"
           },
           "hc": {
-            "h11": "h11",
-            "h12": "h12",
-            "h23": "h23",
-            "h24": "h24"
+            "h11": "12 цагийн систем (0–11)",
+            "h12": "12 цагийн систем (1–12)",
+            "h23": "24 цагийн систем (0–23)",
+            "h24": "24 цагийн систем (1–24)"
           },
           "lb": {
-            "loose": "loose",
-            "normal": "normal",
-            "strict": "strict"
+            "loose": "урт мөрийн зайн загвар",
+            "normal": "энгийн мөрийн зайн загвар",
+            "strict": "шулуун мөрийн зайн загвар"
           },
           "ms": {
-            "metric": "metric",
-            "uksystem": "uksystem",
-            "ussystem": "ussystem"
+            "metric": "метрийн систем",
+            "uksystem": "английн хэмжүүрийн систем",
+            "ussystem": "америк хэмжүүрийн систем"
           },
           "numbers": {
             "ahom": "ahom",
             "arab": "араб-энэтхэг тоо",
             "arabext": "өргөтгөсөн араб-энэтхэг тоо",
-            "armn": "армен тоо",
-            "armnlow": "жижиг армен тоо",
+            "armn": "армени тоо",
+            "armnlow": "жижиг армени тоо",
             "bali": "bali",
             "beng": "бенгал тоо",
             "brah": "brah",
@@ -154,7 +154,7 @@
             "tamldec": "тамил тоо",
             "telu": "телүгү тоо",
             "thai": "тай тоо",
-            "tibt": "тибет тоо",
+            "tibt": "төвд тоо",
             "tirh": "tirh",
             "vaii": "vaii",
             "wara": "wara"

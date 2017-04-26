@@ -3,8 +3,8 @@
     "fur": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "fur"
       },
@@ -101,6 +101,7 @@
           "CX": "Isule Christmas",
           "CY": "Cipri",
           "CZ": "Republiche ceche",
+          "CZ-alt-variant": "CZ",
           "DE": "Gjermanie",
           "DG": "Diego Garcia",
           "DJ": "Gibuti",
@@ -117,6 +118,7 @@
           "ES": "Spagne",
           "ET": "Etiopie",
           "EU": "Union europeane",
+          "EZ": "EZ",
           "FI": "Finlandie",
           "FJ": "Fizi",
           "FK": "Isulis Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ucraine",
           "UG": "Uganda",
           "UM": "Isulis periferichis minôrs dai Stâts Unîts",
+          "UN": "UN",
           "US": "Stâts Unîts",
           "US-alt-short": "US",
           "UY": "Uruguay",

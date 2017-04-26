@@ -3,8 +3,8 @@
     "ha": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12128 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "ha"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Sifurus",
           "CZ": "Jamhuriyar Cak",
+          "CZ-alt-variant": "CZ",
           "DE": "Jamus",
           "DG": "DG",
           "DJ": "Jibuti",
@@ -117,6 +118,7 @@
           "ES": "Sipen",
           "ET": "Habasha",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finlan",
           "FJ": "Fiji",
           "FK": "Tsibiran Falkilan",
@@ -290,6 +292,7 @@
           "UA": "Yukaran",
           "UG": "Yuganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Amurka",
           "US-alt-short": "US",
           "UY": "Yurugai",

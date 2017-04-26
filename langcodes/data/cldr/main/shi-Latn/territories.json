@@ -3,8 +3,8 @@
     "shi-Latn": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "shi",
         "script": "Latn"
@@ -102,6 +102,7 @@
           "CX": "CX",
           "CY": "qubrus",
           "CZ": "tagdudant tatcikit",
+          "CZ-alt-variant": "CZ",
           "DE": "almanya",
           "DG": "DG",
           "DJ": "djibuti",
@@ -118,6 +119,7 @@
           "ES": "sbanya",
           "ET": "ityubya",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "fillanda",
           "FJ": "fidji",
           "FK": "tigzirin n malawi",
@@ -291,6 +293,7 @@
           "UA": "ukranya",
           "UG": "uɣanda",
           "UM": "UM",
+          "UN": "UN",
           "US": "iwunak munnin n mirikan",
           "US-alt-short": "US",
           "UY": "urugway",

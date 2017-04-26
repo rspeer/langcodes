@@ -3,8 +3,8 @@
     "bas": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "bas"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Kiprò",
           "CZ": "CZ",
+          "CZ-alt-variant": "CZ",
           "DE": "Jamân",
           "DG": "DG",
           "DJ": "Jìbutì",
@@ -117,6 +118,7 @@
           "ES": "Pànya",
           "ET": "Ètìopìà",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Fìnlând",
           "FJ": "Fiji",
           "FK": "Bìòn bi Falkland",
@@ -290,6 +292,7 @@
           "UA": "Ùkrɛ̌n",
           "UG": "Ùgandà",
           "UM": "UM",
+          "UN": "UN",
           "US": "Àdnà i Bilɔ̀ŋ bi Amerkà",
           "US-alt-short": "US",
           "UY": "Ùrùgwêy",

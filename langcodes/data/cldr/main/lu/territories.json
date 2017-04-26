@@ -3,8 +3,8 @@
     "lu": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13133 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "lu"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Shipele",
           "CZ": "Ditunga dya Tsheka",
+          "CZ-alt-variant": "CZ",
           "DE": "Alemanu",
           "DG": "DG",
           "DJ": "Djibuti",
@@ -117,6 +118,7 @@
           "ES": "Nsipani",
           "ET": "Etshiopi",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Filande",
           "FJ": "Fuji",
           "FK": "Lutanda lua Maluni",
@@ -290,6 +292,7 @@
           "UA": "Ukreni",
           "UG": "Uganda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Ameriki",
           "US-alt-short": "US",
           "UY": "Irigwei",

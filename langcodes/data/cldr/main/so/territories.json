@@ -3,8 +3,8 @@
     "so": {
       "identity": {
         "version": {
-          "_number": "$Revision: 12307 $",
-          "_cldrVersion": "29"
+          "_number": "$Revision: 13376 $",
+          "_cldrVersion": "31.0.1"
         },
         "language": "so"
       },
@@ -101,6 +101,7 @@
           "CX": "CX",
           "CY": "Qubrus",
           "CZ": "Jamhuuriyadda Jek",
+          "CZ-alt-variant": "CZ",
           "DE": "Jarmal",
           "DG": "DG",
           "DJ": "Jabuuti",
@@ -117,6 +118,7 @@
           "ES": "Isbeyn",
           "ET": "Itoobiya",
           "EU": "EU",
+          "EZ": "EZ",
           "FI": "Finland",
           "FJ": "Fiji",
           "FK": "Jaziiradaha Fooklaan",
@@ -198,7 +200,7 @@
           "MK": "Makadooniya",
           "MK-alt-variant": "MK",
           "ML": "Maali",
-          "MM": "Myanmar",
+          "MM": "Miyanmar",
           "MN": "Mongooliya",
           "MO": "MO",
           "MO-alt-short": "MO",
@@ -290,6 +292,7 @@
           "UA": "Ukrayn",
           "UG": "Ugaanda",
           "UM": "UM",
+          "UN": "UN",
           "US": "Maraykanka",
           "US-alt-short": "US",
           "UY": "Uruguwaay",
