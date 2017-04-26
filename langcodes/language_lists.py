@@ -1,13 +1,26 @@
-"""
-These are the languages that have the most entries on the English and
-German Wiktionaries. Wiktionary only consistently identifies languages by their
-name, making it important to be able to recognize the names.
+# This is the list of language codes with the 'modern' level of support in CLDR
+# (compared to 'full', which contains many more languages). We use this as the
+# list of languages that we store specific name-to-code mappings for.
 
-These lists of names are used in `tests/test_wikt_languages.py`.
-"""
-LANGUAGE_NAMES = {}
+CLDR_LANGUAGES = {
+    'af', 'am', 'ar', 'az', 'be', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da',
+    'de', 'el', 'en', 'es', 'et', 'eu', 'fa', 'fi', 'fil', 'fo', 'fr', 'ga',
+    'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'hy', 'id', 'is', 'it', 'ja', 'ka',
+    'kk', 'km', 'kn', 'ko', 'ky', 'lo', 'lt', 'lv', 'mk', 'ml', 'mn', 'mr',
+    'ms', 'my', 'nb', 'ne', 'nl', 'pa', 'pl', 'pt', 'ro', 'ru', 'si', 'sk',
+    'sl', 'sq', 'sr', 'sv', 'sw', 'ta', 'te', 'th', 'ti', 'to', 'tr', 'uk',
+    'und', 'ur', 'uz', 'vi', 'yue', 'zh', 'zu'
+}
 
-LANGUAGE_NAMES['en'] = [
+
+# These are the names languages that have the most entries on the English and
+# German Wiktionaries. Wiktionary only consistently identifies languages by their
+# name, making it important to be able to recognize the names.
+#
+# These lists of names are used in `tests/test_wikt_languages.py`.
+WIKT_LANGUAGE_NAMES = {}
+
+WIKT_LANGUAGE_NAMES['en'] = [
     "Spanish",
     "French",
     "Latvian",
@@ -237,7 +250,7 @@ LANGUAGE_NAMES['en'] = [
     "Ugaritic",
     "Sundanese",
     # Old East Slavic
-    "Fala",
+    # Fala
     # Elfdalian
     "Tamil",
     "Pijin",
@@ -313,7 +326,7 @@ LANGUAGE_NAMES['en'] = [
     "Bislama",
 ]
 
-LANGUAGE_NAMES['de'] = [
+WIKT_LANGUAGE_NAMES['de'] = [
     "Deutsch",
     "Englisch",
     "Polnisch",
