@@ -77,19 +77,13 @@ def name_to_code(category, name, language: str='und'):
     if lookup in trie:
         return get_trie_value(trie, lookup)
     else:
-        # Is this a language plus extra junk?
+        # Is this a language plus extra junk? Maybe it has "...isch", "... language",
+        # or "... Chinese" attached to it, for example.
         prefixes = trie.prefixes(lookup)
         if prefixes and len(prefixes[-1]) >= 4:
             return get_trie_value(trie, prefixes[-1])
         else:
-            # Is this an unambiguous prefix of a language?
-            longer_keys = trie.keys(lookup)
-            if 1 <= len(longer_keys) <= 20:
-                possible_values = set([get_trie_value(trie, key) for key in longer_keys])
-                if len(possible_values) == 1:
-                    return possible_values.pop()
-            else:
-                return None
+            return None
 
 
 def code_to_names(category, code):

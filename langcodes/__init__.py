@@ -720,10 +720,6 @@ class Language:
         so you can get the code 'fr' by looking up "French", "Français", or
         "francés".
 
-        A small amount of fuzzy matching is supported: if the name can be
-        shortened or lengthened to match a single language name, you get that
-        language. This allows, for example, "Hakka Chinese" to match "Hakka".
-
         Occasionally, names are ambiguous in a way that can be resolved by
         specifying what name the language is supposed to be in. For example,
         there is a language named 'Malayo' in English, but it's different from
@@ -778,6 +774,13 @@ class Language:
 
         >>> Language.find_name('language', 'Simplified Chinese', 'en')
         Language.make(language='zh', script='Hans')
+        
+        A small amount of fuzzy matching is supported: if the name can be
+        shortened to match a single language name, you get that language.
+        This allows, for example, "Hakka dialect" to match "Hakka".
+
+        >>> Language.find_name('language', 'Hakka dialect')
+        Language.make(language='hak')
         """
 
         # No matter what form of language we got, normalize it to a single
