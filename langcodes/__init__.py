@@ -593,7 +593,7 @@ class Language:
         """
         return self._get_name('language', language, min_score)
 
-    def autonym(self, min_score: int=75) -> str:
+    def autonym(self, min_score: int=95) -> str:
         """
         Give the name of this language *in* this language.
 
