@@ -231,7 +231,7 @@ class Language:
         for typ, value in components:
             if typ == 'extlang' and normalize and 'language' in data:
                 # smash extlangs when possible
-                minitag = ('%s-%s' % (data['language'], value))
+                minitag = '%s-%s' % (data['language'], value)
                 norm = LANGUAGE_REPLACEMENTS.get(minitag.lower())
                 if norm is not None:
                     data.update(
@@ -760,10 +760,10 @@ class Language:
 
         >>> Language.find_name('language', 'malayo', 'en')
         Language.make(language='mbp')
-        
+
         >>> Language.find_name('language', 'malayo', 'es')
         Language.make(language='ms')
-        
+
         Some langauge names resolve to more than a language. For example,
         the name 'Brazilian Portuguese' resolves to a language and a region,
         and 'Simplified Chinese' resolves to a language and a script. In these
@@ -774,7 +774,7 @@ class Language:
 
         >>> Language.find_name('language', 'Simplified Chinese', 'en')
         Language.make(language='zh', script='Hans')
-        
+
         A small amount of fuzzy matching is supported: if the name can be
         shortened to match a single language name, you get that language.
         This allows, for example, "Hakka dialect" to match "Hakka".

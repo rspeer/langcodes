@@ -37,6 +37,7 @@ setup(
     long_description=LONG_DESC,
     packages=['langcodes'],
     include_package_data=True,
+    install_requires=['marisa-trie'],
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
