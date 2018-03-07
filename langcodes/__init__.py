@@ -122,7 +122,7 @@ class Language:
         return instance
 
     @staticmethod
-    def get(tag: str, normalize=True) -> 'Language':
+    def get(tag: {str, 'Language'}, normalize=True) -> 'Language':
         """
         Create a Language object from a language tag string.
 
@@ -141,6 +141,11 @@ class Language:
 
         >>> Language.get('und')
         Language.make()
+
+        This function is idempotent, in case you already have a Language object:
+
+        >>> Language.get(Language.get('en-us'))
+        Language.make(language='en', region='US')
 
         The non-code 'root' is sometimes used to represent the lack of any
         language information, similar to 'und'.
@@ -214,6 +219,16 @@ class Language:
         >>> Language.get('sh-QU')
         Language.make(language='sr', script='Latn', region='EU')
         """
+        if isinstance(tag, Language):
+            if not normalize:
+                # shortcut: we have the tag already
+                return tag
+            
+            # We might need to normalize this tag. Convert it back into a
+            # string tag, to cover all the edge cases of normalization in a
+            # way that we've already solved.
+            tag = tag.to_tag()
+
         if (tag, normalize) in Language._PARSE_CACHE:
             return Language._PARSE_CACHE[tag, normalize]
 
@@ -937,7 +952,7 @@ find_name = Language.find_name
 LanguageData = Language
 
 
-def standardize_tag(tag: str, macro: bool=False) -> str:
+def standardize_tag(tag: {str, Language}, macro: bool=False) -> str:
     """
     Standardize a language tag:
 
@@ -1003,7 +1018,7 @@ def standardize_tag(tag: str, macro: bool=False) -> str:
     return langdata.simplify_script().to_tag()
 
 
-def tag_match_score(desired: str, supported: str) -> int:
+def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int:
     """
     Return a number from 0 to 100 indicating the strength of match between the
     language the user desires, D, and a supported language, S. Higher numbers
@@ -1144,7 +1159,7 @@ def tag_match_score(desired: str, supported: str) -> int:
     return desired_ld.match_score(supported_ld)
 
 
-def best_match(desired_language: str, supported_languages: list,
+def best_match(desired_language: {str, Language}, supported_languages: list,
                min_score: int=75) -> (str, int):
     """
     You have software that supports any of the `supported_languages`. You want
