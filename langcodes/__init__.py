@@ -142,7 +142,7 @@ class Language:
         >>> Language.get('und')
         Language.make()
 
-        This function is idempotent, in case you already have a language tag:
+        This function is idempotent, in case you already have a Language object:
 
         >>> Language.get(Language.get('en-us'))
         Language.make(language='en', region='US')
@@ -219,9 +219,6 @@ class Language:
         >>> Language.get('sh-QU')
         Language.make(language='sr', script='Latn', region='EU')
         """
-        if (tag, normalize) in Language._PARSE_CACHE:
-            return Language._PARSE_CACHE[tag, normalize]
-
         if isinstance(tag, Language):
             if not normalize:
                 # shortcut: we have the tag already
@@ -231,6 +228,9 @@ class Language:
             # string tag, to cover all the edge cases of normalization in a
             # way that we've already solved.
             tag = tag.to_tag()
+
+        if (tag, normalize) in Language._PARSE_CACHE:
+            return Language._PARSE_CACHE[tag, normalize]
 
         data = {}
         # if the complete tag appears as something to normalize, do the
