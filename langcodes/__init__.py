@@ -122,7 +122,7 @@ class Language:
         return instance
 
     @staticmethod
-    def get(tag: str, normalize=True) -> 'Language':
+    def get(tag: {str, 'Language'}, normalize=True) -> 'Language':
         """
         Create a Language object from a language tag string.
 
@@ -141,6 +141,11 @@ class Language:
 
         >>> Language.get('und')
         Language.make()
+
+        This function is idempotent, in case you already have a language tag:
+
+        >>> Language.get(Language.get('en-us'))
+        Language.make(language='en', region='US')
 
         The non-code 'root' is sometimes used to represent the lack of any
         language information, similar to 'und'.
@@ -216,6 +221,16 @@ class Language:
         """
         if (tag, normalize) in Language._PARSE_CACHE:
             return Language._PARSE_CACHE[tag, normalize]
+
+        if isinstance(tag, Language):
+            if not normalize:
+                # shortcut: we have the tag already
+                return tag
+            
+            # We might need to normalize this tag. Convert it back into a
+            # string tag, to cover all the edge cases of normalization in a
+            # way that we've already solved.
+            tag = tag.to_tag()
 
         data = {}
         # if the complete tag appears as something to normalize, do the
