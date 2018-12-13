@@ -60,8 +60,10 @@ It replaces overlong tags with their shortest version, and also formats them
 according to the conventions of BCP 47:
 
 ```python
+>>> from langcodes import *
 >>> standardize_tag('eng_US')
 'en-US'
+
 ```
 
 It removes script subtags that are redundant with the language:
@@ -69,6 +71,7 @@ It removes script subtags that are redundant with the language:
 ```python
 >>> standardize_tag('en-Latn')
 'en'
+
 ```
 
 It replaces deprecated values with their correct versions, if possible:
@@ -76,6 +79,7 @@ It replaces deprecated values with their correct versions, if possible:
 ```python
 >>> standardize_tag('en-uk')
 'en-GB'
+
 ```
 
 Sometimes this involves complex substitutions, such as replacing Serbo-Croatian
@@ -88,6 +92,7 @@ with `ase` (American Sign Language).
 
 >>> standardize_tag('sgn-US')
 'ase'
+
 ```
 
 If *macro* is True, it uses macrolanguage codes as a replacement for the most
@@ -96,6 +101,7 @@ common standardized language within that macrolanguage.
 ```python
 >>> standardize_tag('arb-Arab', macro=True)
 'ar'
+
 ```
 
 Even when *macro* is False, it shortens tags that contain both the
@@ -107,6 +113,7 @@ macrolanguage and the language:
 
 >>> standardize_tag('zh-cmn-hans-cn', macro=True)
 'zh-Hans-CN'
+
 ```
 
 If the tag can't be parsed according to BCP 47, this will raise a
@@ -120,6 +127,7 @@ LanguageTagError (a subclass of ValueError):
 Traceback (most recent call last):
     ...
 langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
+
 ```
 
 
@@ -206,6 +214,7 @@ scroll down and learn about the `language_name` method!)
 
 >>> best_match('ja-Latn-hepburn', ['ja', 'en'], min_score=50)
 ('ja', 60)
+
 ```
 
 ## Language objects
@@ -244,6 +253,7 @@ Language.make(language='sgn', region='US')
 
 >>> Language.get('und')
 Language.make()
+
 ```
 
 Here are some examples of replacing non-standard tags:
@@ -257,6 +267,7 @@ Language.make(language='ase')
 
 >>> Language.get('zh-cmn-Hant')  # promote extlangs to languages
 Language.make(language='cmn', script='Hant')
+
 ```
 
 Use the `str()` function on a Language object to convert it back to its
@@ -268,6 +279,7 @@ standard string form:
 
 >>> str(Language.make(region='IN'))
 'und-IN'
+
 ```
 
 ### Describing Language objects in natural language
@@ -285,6 +297,7 @@ The default language for naming things is English:
 ```python
 >>> Language.make(language='fr').language_name()
 'French'
+
 ```
 
 But you can ask for language names in numerous other languages:
@@ -295,6 +308,7 @@ But you can ask for language names in numerous other languages:
 
 >>> Language.get('fr').language_name('es')
 'francés'
+
 ```
 
 Why does everyone get Slovak and Slovenian confused? Let's ask them.
@@ -308,6 +322,7 @@ Why does everyone get Slovak and Slovenian confused? Let's ask them.
 'slovinčina'
 >>> Language.make(language='sk').language_name('sl')
 'slovaščina'
+
 ```
 
 Naming a language in itself is sometimes a useful thing to do, so the
@@ -324,6 +339,7 @@ Naming a language in itself is sometimes a useful thing to do, so the
 'srpski'
 >>> Language.get('sr-Cyrl').autonym()
 'српски'
+
 ```
 
 These names only apply to the language part of the language tag. You can
@@ -332,11 +348,12 @@ or `.variant_names()`, or get all the names at once with `.describe()`.
 
 ```python
 >>> shaw = Language.get('en-Shaw-GB')
->>> pprint(shaw.describe('en'))
-{'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
+>>> shaw.describe('en')
+{'language': 'English', 'script': 'Shavian', 'region': 'United Kingdom'}
 
->>> pprint(shaw.describe('es'))
-{'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
+>>> shaw.describe('es')
+{'language': 'inglés', 'script': 'shaviano', 'region': 'Reino Unido'}
+
 ```
 
 The names come from the Unicode CLDR data files, and in English they can
@@ -351,11 +368,13 @@ its name, converting a natural language name such as "French" to a code such as
 'fr'. The name can be in any language that CLDR supports.
 
 ```python
+>>> import langcodes
 >>> langcodes.find('french')
 Language.make(language='fr')
 
 >>> langcodes.find('francés')
 Language.make(language='fr')
+
 ```
 
 There is still room to improve this using fuzzy matching, when a language is
