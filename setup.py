@@ -6,9 +6,6 @@ if sys.version_info[0] < 3:
         """
         Sorry for the inconvenience, but langcodes is native Python 3 code,
         and you're running Python 2.
-
-        If you need to run it on Python 2, there's a backport to Python 2.7 in
-        a separate package called `langcodes-py2`.
         """
     )
     sys.exit(1)
@@ -27,8 +24,8 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes",
-    version='1.4.1',
-    maintainer='Luminoso Technologies, Inc.',
+    version='1.4.2',
+    maintainer='Robyn Speer',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
     url='http://github.com/LuminosoInsight/langcodes',
@@ -38,12 +35,16 @@ setup(
     packages=['langcodes'],
     include_package_data=True,
     install_requires=['marisa-trie'],
+    python_requires='>=3.3',
+    tests_require=['pytest'],
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries :: Python Modules",
