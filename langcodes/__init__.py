@@ -12,10 +12,10 @@ import warnings
 
 from langcodes.tag_parser import parse_tag
 from langcodes.names import code_to_names, name_to_code
-from langcodes.distance import raw_distance
+from langcodes.language_matching_old import raw_distance
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
-    REGION_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
+    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
 )
 
 # When we're getting natural language information *about* languages, it's in
@@ -31,12 +31,12 @@ class Language:
 
     - *language*: the code for the language itself.
     - *script*: the 4-letter code for the writing system being used.
-    - *region*: the 2-letter or 3-digit code for the country or similar region
-      whose usage of the language appears in this text.
+    - *territory*: the 2-letter or 3-digit code for the country or similar territory
+      of the world whose usage of the language appears in this text.
     - *extlangs*: a list of more specific language codes that follow the language
       code. (This is allowed by the language code syntax, but deprecated.)
     - *variants*: codes for specific variations of language usage that aren't
-      covered by the *script* or *region* codes.
+      covered by the *script* or *territory* codes.
     - *extensions*: information that's attached to the language code for use in
       some specific system, such as Unicode collation orders.
     - *private*: a code starting with `x-` that has no defined meaning.
@@ -45,14 +45,14 @@ class Language:
     It's also available at the top level of this module as the `get` function.
     """
 
-    ATTRIBUTES = ['language', 'extlangs', 'script', 'region',
+    ATTRIBUTES = ['language', 'extlangs', 'script', 'territory',
                   'variants', 'extensions', 'private']
 
     # When looking up "likely subtags" data, we try looking up the data for
     # increasingly less specific versions of the language code.
     BROADER_KEYSETS = [
-        {'language', 'script', 'region'},
-        {'language', 'region'},
+        {'language', 'script', 'territory'},
+        {'language', 'territory'},
         {'language', 'script'},
         {'language'},
         {'script'},
@@ -60,7 +60,7 @@ class Language:
     ]
 
     MATCHABLE_KEYSETS = [
-        {'language', 'script', 'region'},
+        {'language', 'script', 'territory'},
         {'language', 'script'},
         {'language'},
     ]
@@ -70,7 +70,7 @@ class Language:
     _PARSE_CACHE = {}
 
     def __init__(self, language=None, extlangs=None, script=None,
-                 region=None, variants=None, extensions=None, private=None):
+                 territory=None, variants=None, extensions=None, private=None):
         """
         The constructor for Language objects.
 
@@ -81,7 +81,7 @@ class Language:
         self.language = language
         self.extlangs = extlangs
         self.script = script
-        self.region = region
+        self.territory = territory
         self.variants = variants
         self.extensions = extensions
         self.private = private
@@ -102,20 +102,20 @@ class Language:
 
     @classmethod
     def make(cls, language=None, extlangs=None, script=None,
-             region=None, variants=None, extensions=None, private=None):
+             territory=None, variants=None, extensions=None, private=None):
         """
         Create a Language object by giving any subset of its attributes.
 
         If this value has been created before, return the existing value.
         """
-        values = (language, tuple(extlangs or ()), script, region,
+        values = (language, tuple(extlangs or ()), script, territory,
                   tuple(variants or ()), tuple(extensions or ()), private)
         if values in cls._INSTANCES:
             return cls._INSTANCES[values]
 
         instance = cls(
             language=language, extlangs=extlangs,
-            script=script, region=region, variants=variants,
+            script=script, territory=territory, variants=variants,
             extensions=extensions, private=private
         )
         cls._INSTANCES[values] = instance
@@ -134,7 +134,7 @@ class Language:
         pretty obscure toward the end.
 
         >>> Language.get('en-US')
-        Language.make(language='en', region='US')
+        Language.make(language='en', territory='US')
 
         >>> Language.get('zh-Hant')
         Language.make(language='zh', script='Hant')
@@ -145,7 +145,7 @@ class Language:
         This function is idempotent, in case you already have a Language object:
 
         >>> Language.get(Language.get('en-us'))
-        Language.make(language='en', region='US')
+        Language.make(language='en', territory='US')
 
         The non-code 'root' is sometimes used to represent the lack of any
         language information, similar to 'und'.
@@ -172,7 +172,7 @@ class Language:
         Language.make(language='ase')
 
         >>> Language.get('sgn-US', normalize=False)
-        Language.make(language='sgn', region='US')
+        Language.make(language='sgn', territory='US')
 
         'en-gb-oed' is a tag that's grandfathered into the standard because it
         has been used to mean "spell-check this with Oxford English Dictionary
@@ -180,7 +180,7 @@ class Language:
         new standardized tag 'en-gb-oxendict', unless asked not to normalize.
 
         >>> Language.get('en-gb-oed')
-        Language.make(language='en', region='GB', variants=['oxendict'])
+        Language.make(language='en', territory='GB', variants=['oxendict'])
 
         >>> Language.get('en-gb-oed', normalize=False)
         Language.make(language='en-gb-oed')
@@ -192,10 +192,11 @@ class Language:
         >>> Language.get('zh-min-nan')
         Language.make(language='nan')
 
-        There's not much we can do with the vague tag 'zh-min':
+        The vague tag 'zh-min' is now also interpreted as 'nan', with a private
+        extension indicating that it had a different form:
 
         >>> Language.get('zh-min')
-        Language.make(language='zh-min')
+        Language.make(language='nan', private='x-zh-min')
 
         Occasionally Wiktionary will use 'extlang' tags in strange ways, such
         as using the tag 'und-ibe' for some unspecified Iberian language.
@@ -212,18 +213,18 @@ class Language:
         be interpreted as 'sr-Latn', which the language matching rules say
         is mutually intelligible with all those languages.
 
-        We complicate the example by adding on the region tag 'QU', an old
+        We complicate the example by adding on the territory tag 'QU', an old
         provisional tag for the European Union, which is now standardized as
         'EU'.
 
         >>> Language.get('sh-QU')
-        Language.make(language='sr', script='Latn', region='EU')
+        Language.make(language='sr', script='Latn', territory='EU')
         """
         if isinstance(tag, Language):
             if not normalize:
                 # shortcut: we have the tag already
                 return tag
-            
+
             # We might need to normalize this tag. Convert it back into a
             # string tag, to cover all the edge cases of normalization in a
             # way that we've already solved.
@@ -271,11 +272,11 @@ class Language:
                         data['language'] = value
                 else:
                     data['language'] = value
-            elif typ == 'region':
+            elif typ == 'territory':
                 if normalize:
-                    data['region'] = REGION_REPLACEMENTS.get(value.lower(), value)
+                    data['territory'] = TERRITORY_REPLACEMENTS.get(value.lower(), value)
                 else:
-                    data['region'] = value
+                    data['territory'] = value
             elif typ == 'grandfathered':
                 # If we got here, we got a grandfathered tag but we were asked
                 # not to normalize it, or the CLDR data doesn't know how to
@@ -294,16 +295,16 @@ class Language:
         Convert a Language back to a standard language tag, as a string.
         This is also the str() representation of a Language object.
 
-        >>> Language.make(language='en', region='GB').to_tag()
+        >>> Language.make(language='en', territory='GB').to_tag()
         'en-GB'
 
-        >>> Language.make(language='yue', script='Hant', region='HK').to_tag()
+        >>> Language.make(language='yue', script='Hant', territory='HK').to_tag()
         'yue-Hant-HK'
 
         >>> Language.make(script='Arab').to_tag()
         'und-Arab'
 
-        >>> str(Language.make(region='IN'))
+        >>> str(Language.make(territory='IN'))
         'und-IN'
         """
         if self._str_tag is not None:
@@ -316,8 +317,8 @@ class Language:
                 subtags.append(extlang)
         if self.script:
             subtags.append(self.script)
-        if self.region:
-            subtags.append(self.region)
+        if self.territory:
+            subtags.append(self.territory)
         if self.variants:
             for variant in sorted(self.variants):
                 subtags.append(variant)
@@ -380,8 +381,8 @@ class Language:
 
         It also dosn't fill anything in when the language is unspecified.
 
-        >>> Language.make(region='US').assume_script()
-        Language.make(region='US')
+        >>> Language.make(territory='US').assume_script()
+        Language.make(territory='US')
         """
         if self._assumed is not None:
             return self._assumed
@@ -549,8 +550,8 @@ class Language:
         desired_complete = self.prefer_macrolanguage().maximize()
         supported_complete = supported.prefer_macrolanguage().maximize()
 
-        desired_triple = (desired_complete.language, desired_complete.script, desired_complete.region)
-        supported_triple = (supported_complete.language, supported_complete.script, supported_complete.region)
+        desired_triple = (desired_complete.language, desired_complete.script, desired_complete.territory)
+        supported_triple = (supported_complete.language, supported_complete.script, supported_complete.territory)
 
         return 100 - raw_distance(desired_triple, supported_triple)
 
@@ -619,7 +620,7 @@ class Language:
         >>> Language.get('ja').autonym()
         '日本語'
 
-        This doesn't give the name of the region or script, but in some cases
+        This doesn't give the name of the territory or script, but in some cases
         the language can name itself in multiple scripts:
 
         >>> Language.get('sr-Latn').autonym()
@@ -642,11 +643,11 @@ class Language:
         """
         return self._get_name('script', language, min_score)
 
-    def region_name(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> str:
+    def territory_name(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> str:
         """
-        Describe the region part of the language tag in a natural language.
+        Describe the territory part of the language tag in a natural language.
         """
-        return self._get_name('region', language, min_score)
+        return self._get_name('territory', language, min_score)
 
     def variant_names(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> list:
         """
@@ -672,56 +673,55 @@ class Language:
         script (a script devised by author George Bernard Shaw), and where you
         might find it, in various languages.
 
-        >>> from pprint import pprint
         >>> shaw = Language.make(script='Shaw').maximize()
-        >>> pprint(shaw.describe('en'))
-        {'language': 'English', 'region': 'United Kingdom', 'script': 'Shavian'}
+        >>> shaw.describe('en')
+        {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
 
-        >>> pprint(shaw.describe('fr'))
-        {'language': 'anglais', 'region': 'Royaume-Uni', 'script': 'shavien'}
+        >>> shaw.describe('fr')
+        {'language': 'anglais', 'script': 'shavien', 'territory': 'Royaume-Uni'}
 
-        >>> pprint(shaw.describe('es'))
-        {'language': 'inglés', 'region': 'Reino Unido', 'script': 'shaviano'}
+        >>> shaw.describe('es')
+        {'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
 
-        >>> pprint(shaw.describe('pt'))
-        {'language': 'inglês', 'region': 'Reino Unido', 'script': 'shaviano'}
+        >>> shaw.describe('pt')
+        {'language': 'inglês', 'script': 'shaviano', 'territory': 'Reino Unido'}
 
-        >>> pprint(shaw.describe('uk'))
-        {'language': 'англійська', 'region': 'Велика Британія', 'script': 'шоу'}
+        >>> shaw.describe('uk')
+        {'language': 'англійська', 'script': 'шоу', 'territory': 'Велика Британія'}
 
-        >>> pprint(shaw.describe('arb'))
-        {'language': 'الإنجليزية', 'region': 'المملكة المتحدة', 'script': 'الشواني'}
+        >>> shaw.describe('arb')
+        {'language': 'الإنجليزية', 'script': 'الشواني', 'territory': 'المملكة المتحدة'}
 
-        >>> pprint(shaw.describe('th'))
-        {'language': 'อังกฤษ', 'region': 'สหราชอาณาจักร', 'script': 'ซอเวียน'}
+        >>> shaw.describe('th')
+        {'language': 'อังกฤษ', 'script': 'ซอเวียน', 'territory': 'สหราชอาณาจักร'}
 
-        >>> pprint(shaw.describe('zh-Hans'))
-        {'language': '英语', 'region': '英国', 'script': '萧伯纳式文'}
+        >>> shaw.describe('zh-Hans')
+        {'language': '英语', 'script': '萧伯纳式文', 'territory': '英国'}
 
-        >>> pprint(shaw.describe('zh-Hant'))
-        {'language': '英文', 'region': '英國', 'script': '簫柏納字符'}
+        >>> shaw.describe('zh-Hant')
+        {'language': '英文', 'script': '簫柏納字符', 'territory': '英國'}
 
-        >>> pprint(shaw.describe('ja'))
-        {'language': '英語', 'region': 'イギリス', 'script': 'ショー文字'}
+        >>> shaw.describe('ja')
+        {'language': '英語', 'script': 'ショー文字', 'territory': 'イギリス'}
 
         When we don't have a localization for the language, we fall back on
         'und', which just shows the language codes.
 
-        >>> pprint(shaw.describe('lol'))
-        {'language': 'en', 'region': 'GB', 'script': 'Shaw'}
+        >>> shaw.describe('lol')
+        {'language': 'en', 'script': 'Shaw', 'territory': 'GB'}
 
         Wait, is that a real language?
 
-        >>> pprint(Language.get('lol').maximize().describe())
-        {'language': 'Mongo', 'region': 'Congo - Kinshasa', 'script': 'Latin'}
+        >>> Language.get('lol').maximize().describe()
+        {'language': 'Mongo', 'script': 'Latin', 'territory': 'Congo - Kinshasa'}
         """
         names = {}
         if self.language:
             names['language'] = self.language_name(language, min_score)
         if self.script:
             names['script'] = self.script_name(language, min_score)
-        if self.region:
-            names['region'] = self.region_name(language, min_score)
+        if self.territory:
+            names['territory'] = self.territory_name(language, min_score)
         if self.variants:
             names['variants'] = self.variant_names(language, min_score)
         return names
@@ -753,8 +753,8 @@ class Language:
         >>> Language.find_name('language', 'francés')
         Language.make(language='fr')
 
-        >>> Language.find_name('region', 'United Kingdom')
-        Language.make(region='GB')
+        >>> Language.find_name('territory', 'United Kingdom')
+        Language.make(territory='GB')
 
         >>> Language.find_name('script', 'Arabic')
         Language.make(script='Arab')
@@ -780,12 +780,12 @@ class Language:
         Language.make(language='ms')
 
         Some langauge names resolve to more than a language. For example,
-        the name 'Brazilian Portuguese' resolves to a language and a region,
+        the name 'Brazilian Portuguese' resolves to a language and a territory,
         and 'Simplified Chinese' resolves to a language and a script. In these
         cases, a Language object with multiple subtags will be returned.
 
         >>> Language.find_name('language', 'Brazilian Portuguese', 'en')
-        Language.make(language='pt', region='BR')
+        Language.make(language='pt', territory='BR')
 
         >>> Language.find_name('language', 'Simplified Chinese', 'en')
         Language.make(language='zh', script='Hans')
@@ -826,7 +826,7 @@ class Language:
         >>> Language.find('Türkçe')
         Language.make(language='tr')
         >>> Language.find('brazilian portuguese')
-        Language.make(language='pt', region='BR')
+        Language.make(language='pt', territory='BR')
         >>> Language.find('simplified chinese')
         Language.make(language='zh', script='Hans')
 
@@ -866,7 +866,7 @@ class Language:
             language=other.language or self.language,
             extlangs=other.extlangs or self.extlangs,
             script=other.script or self.script,
-            region=other.region or self.region,
+            territory=other.territory or self.territory,
             variants=other.variants or self.variants,
             extensions=other.extensions or self.extensions,
             private=other.private or self.private
@@ -880,7 +880,7 @@ class Language:
             language=newdata.get('language', self.language),
             extlangs=newdata.get('extlangs', self.extlangs),
             script=newdata.get('script', self.script),
-            region=newdata.get('region', self.region),
+            territory=newdata.get('territory', self.territory),
             variants=newdata.get('variants', self.variants),
             extensions=newdata.get('extensions', self.extensions),
             private=newdata.get('private', self.private)
@@ -909,7 +909,7 @@ class Language:
             return self._searchable
 
         self._searchable = self._filter_attributes(
-            {'language', 'script', 'region'}
+            {'language', 'script', 'territory'}
         ).simplify_script().prefer_macrolanguage()
         return self._searchable
 
@@ -1129,11 +1129,11 @@ def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int
     >>> tag_match_score('arz', 'ary')  # Egyptian Arabic to Moroccan Arabic
     76
 
-    Here's an example that has script, region, and language differences, but
+    Here's an example that has script, territory, and language differences, but
     a macrolanguage in common.
 
     Written Chinese is usually presumed to be Mandarin Chinese, but colloquial
-    Cantonese can be written as well. When it is, it probably has region,
+    Cantonese can be written as well. When it is, it probably has territory,
     script, and language differences from the usual mainland Chinese. But it is
     still part of the 'Chinese' macrolanguage, so there is more similarity
     than, say, comparing Mandarin to Hindi.

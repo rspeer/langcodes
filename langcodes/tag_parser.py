@@ -12,16 +12,16 @@ For a full description of the syntax of a language tag, see page 3 of
 [('language', 'en')]
 
 >>> parse_tag('en_US')
-[('language', 'en'), ('region', 'US')]
+[('language', 'en'), ('territory', 'US')]
 
 >>> parse_tag('en-Latn')
 [('language', 'en'), ('script', 'Latn')]
 
 >>> parse_tag('es-419')
-[('language', 'es'), ('region', '419')]
+[('language', 'es'), ('territory', '419')]
 
 >>> parse_tag('zh-hant-tw')
-[('language', 'zh'), ('script', 'Hant'), ('region', 'TW')]
+[('language', 'zh'), ('script', 'Hant'), ('territory', 'TW')]
 
 >>> parse_tag('zh-tw-hant')
 Traceback (most recent call last):
@@ -29,7 +29,7 @@ Traceback (most recent call last):
 langcodes.tag_parser.LanguageTagError: This script subtag, 'hant', is out of place. Expected variant, extension, or end of string.
 
 >>> parse_tag('de-DE-1901')
-[('language', 'de'), ('region', 'DE'), ('variant', '1901')]
+[('language', 'de'), ('territory', 'DE'), ('variant', '1901')]
 
 >>> parse_tag('ja-latn-hepburn')
 [('language', 'ja'), ('script', 'Latn'), ('variant', 'hepburn')]
@@ -83,8 +83,8 @@ EXCEPTIONS = {
 
 # Define the order of subtags as integer constants, but also give them names
 # so we can describe them in error messages
-EXTLANG, SCRIPT, REGION, VARIANT, EXTENSION = range(5)
-SUBTAG_TYPES = ['extlang', 'script', 'region', 'variant', 'extension',
+EXTLANG, SCRIPT, TERRITORY, VARIANT, EXTENSION = range(5)
+SUBTAG_TYPES = ['extlang', 'script', 'territory', 'variant', 'extension',
                 'end of string']
 
 
@@ -132,7 +132,7 @@ def parse_tag(tag):
 
 def parse_subtags(subtags, expect=EXTLANG):
     """
-    Parse everything that comes after the language tag: scripts, regions,
+    Parse everything that comes after the language tag: scripts, territories,
     variants, and assorted extensions.
     """
     # We parse the parts of a language code recursively: each step of
@@ -151,8 +151,8 @@ def parse_subtags(subtags, expect=EXTLANG):
     #
     # The primary thing that distinguishes different types of subtags is
     # length, but the subtags also come in a specified order. The 'expect'
-    # parameter keeps track of where we are in that order. expect=REGION,
-    # for example, means we're expecting a region code, or anything later
+    # parameter keeps track of where we are in that order. expect=TERRITORY,
+    # for example, means we're expecting a territory code, or anything later
     # (because everything but the language is optional).
     subtag = subtags[0]
     tag_length = len(subtag)
@@ -179,9 +179,9 @@ def parse_subtags(subtags, expect=EXTLANG):
 
     elif tag_length == 2:
         if subtag.isalpha():
-            # Two-letter alphabetic subtags are regions. These are the only
+            # Two-letter alphabetic subtags are territories. These are the only
             # two-character subtags after the language.
-            tagtype = REGION
+            tagtype = TERRITORY
 
     elif tag_length == 3:
         if subtag.isalpha():
@@ -195,9 +195,9 @@ def parse_subtags(subtags, expect=EXTLANG):
             else:
                 order_error(subtag, EXTLANG, expect)
         elif subtag.isdigit():
-            # Three-digit subtags are broad regions, such as Latin America
-            # (419).
-            tagtype = REGION
+            # Three-digit subtags are territories representing broad regions,
+            # such as Latin America (419).
+            tagtype = TERRITORY
 
     elif tag_length == 4:
         if subtag.isalpha():
@@ -225,12 +225,12 @@ def parse_subtags(subtags, expect=EXTLANG):
         order_error(subtag, tagtype, expect)
 
     else:
-        # We've recognized a subtag of a particular type. If it's a region or
+        # We've recognized a subtag of a particular type. If it's a territory or
         # script, we expect the next subtag to be a strictly later type, because
-        # there can be at most one region and one script. Otherwise, we expect
+        # there can be at most one territory and one script. Otherwise, we expect
         # the next subtag to be the type we got or later.
 
-        if tagtype in (SCRIPT, REGION):
+        if tagtype in (SCRIPT, TERRITORY):
             expect = tagtype + 1
         else:
             expect = tagtype
@@ -242,7 +242,7 @@ def parse_subtags(subtags, expect=EXTLANG):
         # those conventions.
         if tagtype == SCRIPT:
             subtag = subtag.title()
-        elif tagtype == REGION:
+        elif tagtype == TERRITORY:
             subtag = subtag.upper()
 
         # Recurse on the remaining subtags.

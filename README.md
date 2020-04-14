@@ -21,7 +21,7 @@ following?
 * `en-Latn-US` is equivalent to `en-US`, because written English must be written in the Latin alphabet to be understood.
 * The difference between `ar` and `arb` is the difference between "Arabic" and "Modern Standard Arabic", a difference that may not be relevant to you.
 * You'll find Mandarin Chinese tagged as `cmn` on Wiktionary, but many other resources would call the same language `zh`.
-* Chinese is written in different scripts in different regions. Some software distinguishes the script. Other software distinguishes the region. The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are `zh-TW` and `zh-Hant`, even though occasionally you'll need something different such as `zh-HK` or `zh-Latn-pinyin`.
+* Chinese is written in different scripts in different territories. Some software distinguishes the script. Other software distinguishes the territory. The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are `zh-TW` and `zh-Hant`, even though occasionally you'll need something different such as `zh-HK` or `zh-Latn-pinyin`.
 * The Indonesian (`id`) and Malaysian (`ms` or `zsm`) languages are mutually intelligible.
 
 One way to know is to read IETF standards and Unicode technical reports.
@@ -208,12 +208,12 @@ any of which may be unspecified:
 
 - *language*: the code for the language itself.
 - *script*: the 4-letter code for the writing system being used.
-- *region*: the 2-letter or 3-digit code for the country or similar region
+- *territory*: the 2-letter or 3-digit code for the country or similar region
   whose usage of the language appears in this text.
 - *extlangs*: a list of more specific language codes that follow the language
   code. (This is allowed by the language code syntax, but deprecated.)
 - *variants*: codes for specific variations of language usage that aren't
-  covered by the *script* or *region* codes.
+  covered by the *script* or *territory* codes.
 - *extensions*: information that's attached to the language code for use in
   some specific system, such as Unicode collation orders.
 - *private*: a code starting with `x-` that has no defined meaning.
@@ -228,10 +228,10 @@ them. To disable this feature and get the codes that literally appear in the
 language tag, use the *normalize=False* option.
 
     >>> Language.get('en-Latn-US')
-    Language.make(language='en', script='Latn', region='US')
+    Language.make(language='en', script='Latn', territory='US')
 
     >>> Language.get('sgn-US', normalize=False)
-    Language.make(language='sgn', region='US')
+    Language.make(language='sgn', territory='US')
 
     >>> Language.get('und')
     Language.make()
@@ -239,7 +239,7 @@ language tag, use the *normalize=False* option.
 Here are some examples of replacing non-standard tags:
 
     >>> Language.get('sh-QU')
-    Language.make(language='sr', script='Latn', region='EU')
+    Language.make(language='sr', script='Latn', territory='EU')
 
     >>> Language.get('sgn-US')
     Language.make(language='ase')
@@ -253,7 +253,7 @@ standard string form:
     >>> str(Language.get('sh-QU'))
     'sr-Latn-EU'
 
-    >>> str(Language.make(region='IN'))
+    >>> str(Language.make(territory='IN'))
     'und-IN'
 
 
@@ -306,15 +306,15 @@ Naming a language in itself is sometimes a useful thing to do, so the
     'српски'
 
 These names only apply to the language part of the language tag. You can
-also get names for other parts with `.script_name()`, `.region_name()`,
+also get names for other parts with `.script_name()`, `.territory_name()`,
 or `.variant_names()`, or get all the names at once with `.describe()`.
 
     >>> shaw = Language.get('en-Shaw-GB')
     >>> shaw.describe('en')
-    {'language': 'English', 'script': 'Shavian', 'region': 'United Kingdom'}
+    {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
 
     >>> shaw.describe('es')
-    {'language': 'inglés', 'script': 'shaviano', 'region': 'Reino Unido'}
+    {'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
 
 The names come from the Unicode CLDR data files, and in English they can
 also come from the IANA language subtag registry. Together, they can give
