@@ -8,11 +8,13 @@ See README.md for the main documentation, or read it on GitHub at
 https://github.com/LuminosoInsight/langcodes/ . For more specific documentation
 on the functions in langcodes, scroll down and read the docstrings.
 """
+from operator import itemgetter
 import warnings
 
 from langcodes.tag_parser import parse_tag
 from langcodes.names import code_to_names, name_to_code
 from langcodes.language_matching_old import raw_distance
+from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
     TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
@@ -21,7 +23,6 @@ from langcodes.data_dicts import (
 # When we're getting natural language information *about* languages, it's in
 # U.S. English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en-US'
-
 
 class Language:
     """
@@ -529,21 +530,14 @@ class Language:
 
     def match_score(self, supported: 'Language') -> int:
         """
-        Suppose that `self` is the language that the user desires, and
-        `supported` is a language that is actually supported. This method
-        returns a number from 0 to 100 indicating how similar the supported
-        language is (higher numbers are better). This is not a symmetric
-        relation.
-
-        The algorithm here is described (badly) in a Unicode technical report
-        at http://unicode.org/reports/tr35/#LanguageMatching. If you find these
-        results bothersome, take it up with Unicode, unless it's particular
-        tweaks we implemented such as macrolanguage matching.
-
-        See :func:`tag_match_score` for a function that works on strings,
-        instead of requiring you to instantiate Language objects first.
-        Further documentation and examples appear with that function.
+        DEPRECATED: use .distance() instead, which uses newer data and is _lower_
+        for better matching languages.
         """
+        warnings.warn(
+            "`match_score` is deprecated because it's based on deprecated CLDR info. "
+            "Use `distance` instead, which is _lower_ for better matching languages. ",
+            DeprecationWarning
+        )
         if supported == self:
             return 100
 
@@ -555,11 +549,50 @@ class Language:
 
         return 100 - raw_distance(desired_triple, supported_triple)
 
+    def distance(self, supported: 'Language') -> int:
+        """
+        Suppose that `self` is the language that the user desires, and
+        `supported` is a language that is actually supported.
+        
+        This method returns a number from 0 to 134 measuring the 'distance'
+        between the languages (lower numbers are better). This is not a
+        symmetric relation.
+
+        The language distance is not really about the linguistic similarity or
+        history of the languages; instead, it's based largely on sociopolitical
+        factors, indicating which language speakers are likely to know which
+        other languages in the present world. Much of the heuristic is about
+        finding a widespread 'world language' like English, Chinese, French, or
+        Russian that speakers of a more localized language will accept.
+
+        A version that works on language tags, as strings, is in the function
+        `tag_distance`. See that function for copious examples.
+        """
+        if supported == self:
+            return 0
+
+        # CLDR has realized that these matching rules are undermined when the
+        # unspecified language 'und' gets maximized to 'en-Latn-US', so this case
+        # is specifically not maximized:
+        if self.language is None and self.script is None and self.territory is None:
+            desired_triple = ('und', 'Zzzz', 'ZZ')
+        else:
+            desired_complete = self.prefer_macrolanguage().maximize()
+            desired_triple = (desired_complete.language, desired_complete.script, desired_complete.territory)
+        
+        if supported.language is None and supported.script is None and supported.territory is None:
+            supported_triple = ('und', 'Zzzz', 'ZZ')
+        else:
+            supported_complete = supported.prefer_macrolanguage().maximize()
+            supported_triple = (supported_complete.language, supported_complete.script, supported_complete.territory)
+
+        return tuple_distance_cached(desired_triple, supported_triple)
+
     # These methods help to show what the language tag means in natural
     # language. They actually apply the language-matching algorithm to find
     # the right language to name things in.
 
-    def _get_name(self, attribute: str, language, min_score: int):
+    def _get_name(self, attribute: str, language, max_distance: int):
         assert attribute in self.ATTRIBUTES
         if isinstance(language, Language):
             language = language.to_tag()
@@ -569,14 +602,14 @@ class Language:
             return None
         names = code_to_names(attribute, attr_value)
         names['und'] = getattr(self, attribute)
-        return self._best_name(names, language, min_score)
+        return self._best_name(names, language, max_distance)
 
-    def _best_name(self, names: dict, language: str, min_score: int):
+    def _best_name(self, names: dict, language: str, max_distance: int):
         possible_languages = sorted(names.keys())
-        target_language, score = best_match(language, possible_languages, min_score)
+        target_language, score = closest_match(language, possible_languages, max_distance)
         return names[target_language]
 
-    def language_name(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> str:
+    def language_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
         Give the name of the language (not the entire tag, just the language part)
         in a natural language. The target language can be given as a string or
@@ -607,9 +640,9 @@ class Language:
         >>> Language.get('sk').language_name('sl')
         'slovaščina'
         """
-        return self._get_name('language', language, min_score)
+        return self._get_name('language', language, max_distance)
 
-    def autonym(self, min_score: int=95) -> str:
+    def autonym(self, max_distance: int=9) -> str:
         """
         Give the name of this language *in* this language.
 
@@ -635,21 +668,21 @@ class Language:
         This only works for language codes that CLDR has locale data for. You
         can't ask for the autonym of 'ja-Latn' and get 'nihongo'.
         """
-        return self.language_name(language=self, min_score=min_score)
+        return self.language_name(language=self, max_distance=max_distance)
 
-    def script_name(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> str:
+    def script_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
         Describe the script part of the language tag in a natural language.
         """
-        return self._get_name('script', language, min_score)
+        return self._get_name('script', language, max_distance)
 
-    def territory_name(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> str:
+    def territory_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
         Describe the territory part of the language tag in a natural language.
         """
-        return self._get_name('territory', language, min_score)
+        return self._get_name('territory', language, max_distance)
 
-    def variant_names(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> list:
+    def variant_names(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> list:
         """
         Describe each of the variant parts of the language tag in a natural
         language.
@@ -657,10 +690,10 @@ class Language:
         names = []
         for variant in self.variants:
             var_names = code_to_names('variant', variant)
-            names.append(self._best_name(var_names, language, min_score))
+            names.append(self._best_name(var_names, language, max_distance))
         return names
 
-    def describe(self, language=DEFAULT_LANGUAGE, min_score: int=75) -> dict:
+    def describe(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> dict:
         """
         Return a dictionary that describes a given language tag in a specified
         natural language.
@@ -717,13 +750,13 @@ class Language:
         """
         names = {}
         if self.language:
-            names['language'] = self.language_name(language, min_score)
+            names['language'] = self.language_name(language, max_distance)
         if self.script:
-            names['script'] = self.script_name(language, min_score)
+            names['script'] = self.script_name(language, max_distance)
         if self.territory:
-            names['territory'] = self.territory_name(language, min_score)
+            names['territory'] = self.territory_name(language, max_distance)
         if self.variants:
-            names['variants'] = self.variant_names(language, min_score)
+            names['variants'] = self.variant_names(language, max_distance)
         return names
 
     @staticmethod
@@ -1020,6 +1053,9 @@ def standardize_tag(tag: {str, Language}, macro: bool=False) -> str:
 
 def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int:
     """
+    DEPRECATED: use .distance() instead, which uses newer data and is _lower_
+    for better matching languages.
+    
     Return a number from 0 to 100 indicating the strength of match between the
     language the user desires, D, and a supported language, S. Higher numbers
     are better. A reasonable cutoff for not messing with your users is to
@@ -1027,141 +1063,178 @@ def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int
 
     A score of 100 means the languages are the same, possibly after normalizing
     and filling in likely values.
-
-    >>> tag_match_score('en', 'en')
-    100
-    >>> tag_match_score('en', 'en-US')
-    100
-    >>> tag_match_score('zh-Hant', 'zh-TW')
-    100
-    >>> tag_match_score('ru-Cyrl', 'ru')
-    100
-    >>> # Serbo-Croatian is a politically contentious idea, but in practice
-    >>> # it's considered equivalent to Serbian in Latin characters.
-    >>> tag_match_score('sh', 'sr-Latn')
-    100
-
-    A score of 92 to 97 indicates a regional difference.
-
-    >>> tag_match_score('zh-HK', 'zh-MO')   # Chinese is similar in Hong Kong and Macao
-    97
-    >>> tag_match_score('en-AU', 'en-GB')   # Australian English is similar to British English
-    96
-    >>> tag_match_score('en-IN', 'en-GB')   # Indian English is also similar to British English
-    96
-    >>> tag_match_score('es-PR', 'es-419')  # Peruvian Spanish is Latin American Spanish
-    96
-    >>> tag_match_score('en-US', 'en-GB')   # American and British English are somewhat different
-    94
-    >>> tag_match_score('es-MX', 'es-ES')   # Mexican Spanish is different from Spanish Spanish
-    92
-    >>> # Serbian has two scripts, and people might prefer one but understand both
-    >>> tag_match_score('sr-Latn', 'sr-Cyrl')
-    95
-    >>> # European Portuguese is different from the most common form (Brazilian Portuguese)
-    >>> tag_match_score('pt', 'pt-PT')
-    92
-
-    A score of 86 to 90 indicates that people who use the desired language
-    are demographically likely to understand the supported language, even if
-    the languages themselves are unrelated. There are many languages that have
-    a one-way connection of this kind to English or French.
-
-    >>> tag_match_score('ta', 'en')  # Tamil to English
-    86
-    >>> tag_match_score('mg', 'fr')  # Malagasy to French
-    86
-
-    Sometimes it's more straightforward than that: people who use the desired
-    language are demographically likely to understand the supported language
-    because it's demographically relevant and highly related.
-
-    >>> tag_match_score('af', 'nl')  # Afrikaans to Dutch
-    86
-    >>> tag_match_score('ms', 'id')  # Malay to Indonesian
-    86
-    >>> tag_match_score('nn', 'nb')  # Nynorsk to Norwegian Bokmål
-    90
-    >>> tag_match_score('nb', 'da')  # Norwegian Bokmål to Danish
-    88
-
-    A score of 80 to 85 indicates a particularly contentious difference in
-    script, where people who understand one script can learn the other but
-    probably won't be happy with it. This specifically applies to Chinese.
-
-    >>> tag_match_score('zh-Hans', 'zh-Hant')
-    85
-    >>> tag_match_score('zh-CN', 'zh-HK')
-    85
-    >>> tag_match_score('zh-CN', 'zh-TW')
-    85
-    >>> tag_match_score('zh-Hant', 'zh-Hans')
-    81
-    >>> tag_match_score('zh-TW', 'zh-CN')
-    81
-
-    When the supported script is a different one than desired, this is usually
-    a major difference with score of 60 or less.
-
-    >>> tag_match_score('ja', 'ja-Latn-US-hepburn')
-    56
-
-    >>> # You can read the Shavian script, right?
-    >>> tag_match_score('en', 'en-Shaw')
-    56
-
-    When there is no indication the supported language will be understood, the
-    score will be 20 or less, to a minimum of 0.
-
-    >>> tag_match_score('es', 'fr')   # Spanish and French are different.
-    16
-    >>> tag_match_score('en', 'ta')   # English speakers generally do not know Tamil.
-    0
-
-    CLDR doesn't take into account which languages are considered part of a
-    common 'macrolanguage'. We have this data, so we can use it in matching.
-    If two languages have no other rule that would allow them to match, but
-    share a macrolanguage, they'll get a match score of 20 less than what
-    they would get if the language matched.
-
-    >>> tag_match_score('arz', 'ar')   # Egyptian Arabic to Standard Arabic
-    80
-    >>> tag_match_score('arz', 'ary')  # Egyptian Arabic to Moroccan Arabic
-    76
-
-    Here's an example that has script, territory, and language differences, but
-    a macrolanguage in common.
-
-    Written Chinese is usually presumed to be Mandarin Chinese, but colloquial
-    Cantonese can be written as well. When it is, it probably has territory,
-    script, and language differences from the usual mainland Chinese. But it is
-    still part of the 'Chinese' macrolanguage, so there is more similarity
-    than, say, comparing Mandarin to Hindi.
-
-    >>> tag_match_score('yue', 'zh')
-    36
-
-    Comparing Swiss German ('gsw') to standardized German ('de') shows how
-    these scores can be asymmetrical. Swiss German speakers will understand
-    German, so the score in that direction is 92. Most German speakers find
-    Swiss German unintelligible, and CLDR in fact assigns this a score of 16.
-
-    This seems a little bit extreme, but the asymmetry is certainly there. And
-    if your text is tagged as 'gsw', it must be that way for a reason.
-
-    >>> tag_match_score('gsw', 'de')
-    92
-    >>> tag_match_score('de', 'gsw')
-    16
     """
+    warnings.warn(
+        "tag_match_score is deprecated because it's based on deprecated CLDR info. "
+        "Use tag_distance instead, which is _lower_ for better matching languages. ",
+        DeprecationWarning
+    )
     desired_ld = Language.get(desired)
     supported_ld = Language.get(supported)
     return desired_ld.match_score(supported_ld)
 
 
-def best_match(desired_language: {str, Language}, supported_languages: list,
-               min_score: int=75) -> (str, int):
+def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     """
+    Tags that expand to the same thing when likely values are filled in get a
+    distance of 0.
+
+    >>> tag_distance('en', 'en')
+    0
+    >>> tag_distance('en', 'en-US')
+    0
+    >>> tag_distance('zh-Hant', 'zh-TW')
+    0
+    >>> tag_distance('ru-Cyrl', 'ru')
+    0
+
+    Highly similar languages get a distance of 0 to 12.
+
+    >>> tag_distance('nb', 'no')  # Norwegian is about the same as Norwegian Bokmål
+    0
+    >>> tag_distance('no', 'nn')  # Bokmål is different from Nynorsk but overlaps a lot
+    10
+    >>> tag_distance('no', 'da')
+    12
+
+    As a specific example, Serbo-Croatian is a politically contentious idea,
+    but in CLDR, it's considered equivalent to Serbian in Latin characters.
+
+    >>> tag_distance('sh', 'sr-Latn')
+    0
+
+    ... which is very similar to Croatian but sociopolitically not the same.
+    
+    ??? tag_distance('sh', 'hr')
+    4
+    
+    These distances can be asymmetrical: this data includes the fact that speakers
+    of Swiss German (gsw) know High German (de), but not at all the other way around.
+
+    The difference seems a little bit extreme, but the asymmetry is certainly
+    there. And if your text is tagged as 'gsw', it must be that way for a
+    reason.
+
+    >>> tag_distance('gsw', 'de')
+    8
+    >>> tag_distance('de', 'gsw')
+    84
+    
+    Unconnected languages get a distance of 80 to 134.
+
+    >>> tag_distance('en', 'zh')
+    134
+    >>> tag_distance('es', 'fr')
+    84
+    >>> tag_distance('fr-CH', 'de-CH')
+    80
+
+    Different local variants of the same language get a distance from 3 to 5.
+    >>> tag_distance('zh-HK', 'zh-MO')   # Chinese is similar in Hong Kong and Macao
+    4
+    >>> tag_distance('en-AU', 'en-GB')   # Australian English is similar to British English
+    3
+    >>> tag_distance('en-IN', 'en-GB')   # Indian English is also similar to British English
+    3
+    >>> tag_distance('es-PE', 'es-419')  # Peruvian Spanish is Latin American Spanish
+    1
+    >>> tag_distance('es-419', 'es-PE')  # ...but Latin American Spanish is not necessarily Peruvian
+    4
+    >>> tag_distance('es-ES', 'es-419')  # Spanish in Spain is further from Latin American Spanish
+    5
+    >>> tag_distance('en-US', 'en-GB')   # American and British English are somewhat different
+    5
+    >>> tag_distance('es-MX', 'es-ES')   # Mexican Spanish is different from Spanish Spanish
+    5
+    >>> # European Portuguese is different from the most common form (Brazilian Portuguese)
+    >>> tag_distance('pt', 'pt-PT')
+    5
+
+    >>> # Serbian has two scripts, and people might prefer one but understand both
+    >>> tag_distance('sr-Latn', 'sr-Cyrl')
+    5
+    
+    Distances of 10 to 15 are often substantially different languages, in cases where
+    speakers of the first are demographically likely to understand the second. This
+    allows matching a specific, localized language against a "world language" that
+    many people are likely to have as a second language.
+    
+    >>> tag_distance('mg', 'fr')  # Malagasy to French
+    14
+    >>> tag_distance('af', 'nl')  # Afrikaans to Dutch
+    14
+    >>> tag_distance('ms', 'id')  # Malay to Indonesian
+    14
+    >>> tag_distance('eu', 'es')  # Basque to Spanish
+    10
+    >>> tag_distance('mr', 'hi')  # Marathi to Hindi
+    10
+    >>> tag_distance('ta', 'en')  # Tamil to English
+    24
+
+    With recent versions of CLDR, this also includes cases where one language is
+    a 'macrolanguage' that encompasses the other.
+
+    >>> tag_distance('arz', 'ar')  # Egyptian Arabic to Modern Standard Arabic
+    10
+    >>> tag_distance('wuu', 'zh')  # Wu Chinese to (Mandarin) Chinese
+    10
+
+    This support doesn't go as far as you might like. We used to have a special
+    case for matching languages with the same macrolanguage, but removed it because
+    CLDR is at least somewhat addressing the case of macrolanguages now.
+
+    >>> tag_distance('arz', 'ary')  # Egyptian Arabic to Moroccan Arabic
+    84
+    
+    Higher distances can arrive due to particularly contentious differences in
+    the script for writing the language, where people who understand one script
+    can learn the other but may not be happy with it. This specifically applies
+    to Chinese.
+
+    >>> tag_distance('zh-Hans', 'zh-Hant')
+    19
+    >>> tag_distance('zh-CN', 'zh-HK')
+    19
+    >>> tag_distance('zh-CN', 'zh-TW')
+    19
+    >>> tag_distance('zh-Hant', 'zh-Hans')
+    23
+    >>> tag_distance('zh-TW', 'zh-CN')
+    23
+
+    A complex example is the tag 'yue' for Cantonese. Written Chinese is usually
+    presumed to be Mandarin Chinese, but colloquial Cantonese can be written as
+    well. (Some things could not be written any other way, such as Cantonese
+    song lyrics.)
+
+    The difference between Cantonese and Mandarin also implies script and
+    territory differences by default, adding to the distance.
+
+    >>> tag_distance('yue', 'zh')
+    64
+
+    When the supported script is a different one than desired, this is usually
+    a major difference with score of 50 or more.
+
+    >>> tag_distance('ja', 'ja-Latn-US-hepburn')
+    54
+
+    >>> # You can read the Shavian script, right?
+    >>> tag_distance('en', 'en-Shaw')
+    54
+    """
+    desired_obj = Language.get(desired)
+    supported_obj = Language.get(supported)
+    return desired_obj.distance(supported_obj)
+
+
+def best_match(desired_language: {str, Language}, supported_languages: list,
+               min_score: int=0) -> (str, int):
+    """
+    DEPRECATED: use .closest_match() instead. This function emulates the old
+    matching behavior by subtracting the language distance from 100.
+    
     You have software that supports any of the `supported_languages`. You want
     to use `desired_language`. This function lets you choose the right language,
     even if there isn't an exact match.
@@ -1170,7 +1243,8 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
 
     - The best-matching language code, which will be one of the
       `supported_languages` or 'und'
-    - The score of the match, from 0 to 100
+    - The score of the match, from -34 to 100, higher is better. (This scale is
+      weird. That's why it's deprecated.)
 
     `min_score` sets the minimum match score. If all languages match with a lower
     score than that, the result will be 'und' with a score of 0.
@@ -1193,13 +1267,13 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
     >>> best_match('pt', ['pt-BR', 'pt-PT'])
     ('pt-BR', 100)
     >>> best_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 96)
+    ('en-GB', 97)
     >>> best_match('es-MX', ['es-ES', 'es-419', 'en-US'])
-    ('es-419', 96)
-    >>> best_match('es-MX', ['es-PU', 'es-AR', 'es-PY'])
-    ('es-PU', 95)
-    >>> best_match('es-MX', ['es-AR', 'es-PU', 'es-PY'])
-    ('es-AR', 95)
+    ('es-419', 99)
+    >>> best_match('es-MX', ['es-PE', 'es-AR', 'es-PY'])
+    ('es-PE', 96)
+    >>> best_match('es-MX', ['es-AR', 'es-PE', 'es-PY'])
+    ('es-AR', 96)
     >>> best_match('zsm', ['id', 'mhp'])
     ('id', 86)
     >>> best_match('eu', ['el', 'en', 'es'])
@@ -1207,23 +1281,30 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
     >>> best_match('eu', ['el', 'en', 'es'], min_score=92)
     ('und', 0)
     """
+    max_distance = 100 - min_score
+    supported, distance = closest_match(desired_language, supported_languages, max_distance)
+    return supported, 100 - distance
+
+
+def closest_match(desired_language: {str, Language}, supported_languages: list,
+                  max_distance: {int, None}=None) -> (str, int):
     # Quickly return if the desired language is directly supported
     if desired_language in supported_languages:
-        return desired_language, 100
+        return desired_language, 0
 
     # Reduce the desired language to a standard form that could also match
     desired_language = standardize_tag(desired_language)
     if desired_language in supported_languages:
-        return desired_language, 100
+        return desired_language, 0
 
-    match_scores = [
-        (supported, tag_match_score(desired_language, supported))
+    match_distances = [
+        (supported, tag_distance(desired_language, supported))
         for supported in supported_languages
     ]
-    match_scores = [
-        (supported, score) for (supported, score) in match_scores
-        if score >= min_score
-    ] + [('und', 0)]
+    match_distances = [
+        (supported, distance) for (supported, distance) in match_distances
+        if max_distance is None or distance <= max_distance
+    ] + [('und', 100)]
 
-    match_scores.sort(key=lambda item: -item[1])
-    return match_scores[0]
+    match_distances.sort(key=itemgetter(1))
+    return match_distances[0]
