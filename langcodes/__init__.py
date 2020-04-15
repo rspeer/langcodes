@@ -1245,7 +1245,7 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
 
 
 def best_match(desired_language: {str, Language}, supported_languages: list,
-               min_score: int=0) -> (str, int):
+               min_score: int=75) -> (str, int):
     """
     DEPRECATED: use .closest_match() instead. This function emulates the old
     matching behavior by subtracting the language distance from 100.
@@ -1302,7 +1302,7 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
 
 
 def closest_match(desired_language: {str, Language}, supported_languages: list,
-                  max_distance: {int, None}=None) -> (str, int):
+                  max_distance: int=25) -> (str, int):
     """
     You have software that supports any of the `supported_languages`. You want
     to use `desired_language`. This function lets you choose the right language,
@@ -1316,9 +1316,10 @@ def closest_match(desired_language: {str, Language}, supported_languages: list,
       from there (see `tag_distance`)
 
     `max_distance` sets the maximum match distance. If all matches are farther
-    than that, the result will be 'und' with a distance of 1000. Setting
-    `max_distance` to 25 can help reduce spurious matches. The documentation
-    for `tag_distance` describes the distance values in more detail.
+    than that, the result will be 'und' with a distance of 1000. The default
+    value is 25, and raising it can cause data to be processed in significantly
+    the wrong language. The documentation for `tag_distance` describes the
+    distance values in more detail.
 
     When there is a tie for the best matching language, the first one in the
     tie will be used.
@@ -1338,7 +1339,7 @@ def closest_match(desired_language: {str, Language}, supported_languages: list,
     ]
     match_distances = [
         (supported, distance) for (supported, distance) in match_distances
-        if max_distance is None or distance <= max_distance
+        if distance <= max_distance
     ] + [('und', 1000)]
 
     match_distances.sort(key=itemgetter(1))

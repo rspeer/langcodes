@@ -113,23 +113,11 @@ LanguageTagError (a subclass of ValueError):
 
 ## Comparing and matching languages
 
-The `tag_match_score` function returns a number from 0 to 100 indicating the
-strength of match between the language the user desires and a supported
-language.
+The `tag_distance` function returns a number from 0 to 134 indicating the
+distance between the language the user desires and a supported language.
 
-This is very similar to the scale that CLDR uses, but we've added the ability
-to compare languages within macrolanguages. So this function does not purport
-to return exactly the same results as another package built on CLDR, such as
-ICU. It just uses the same source data. The specific values are only very
-vaguely standardized anyway.
-
-For example, Moroccan Arabic and Egyptian Arabic may not be fully mutually
-intelligible, but they are a far better match than Moroccan Arabic and Urdu.
-Indicating this in the match score requires looking up macrolanguages.
-
-Our match-score data comes from CLDR v30 and from IANA's list of
-macrolanguages. We didn't make any of these judgment calls ourselves, and
-there are significant omissions.
+The distance data comes from CLDR v36 and involves a lot of judgment calls
+made by the Unicode consortium.
 
 
 ### Match values
@@ -138,18 +126,16 @@ This table summarizes the match values:
 
 | Value | Meaning                                                                                                       | Example
 | ----: | :------                                                                                                       | :------
-|   100 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
-| 96-99 | These codes indicate a minor regional difference.                                                             | Australian English → British English
-| 91-95 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
-| 86-90 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
-| 81-85 | These languages are related, but the difference may be problematic.                                           | Simplified Chinese → Traditional Chinese
-| 76-80 | These languages are related by their macrolanguage.                                                           | Moroccan Arabic → Egyptian Arabic
-| 51-75 | These codes indicate a significant barrier to understanding.                                                  | Japanese → Japanese in Hepburn romanization
-| 21-50 | These codes are a poor match in multiple ways.                                                                | Hong Kong Cantonese → mainland Mandarin Chinese
-|  1-20 | These are different languages that use the same script.                                                       | English → French, Arabic → Urdu
-|     0 | These languages have nothing in common.                                                                       | English → Japanese, English → Tamil
+|     0 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
+|   1-3 | These codes indicate a minor regional difference.                                                             | Australian English → British English
+|   4-9 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
+| 10-14 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
+| 15-24 | These languages are related, but the difference may cause problems in understanding or usability.             | Simplified Chinese → Traditional Chinese
+| 25-79 | There are large barriers to understanding.                                                                    | Japanese → Japanese in Hepburn romanization
+| 80-99 | These are different languages written in the same script.                                                     | English → French, Arabic → Urdu
+|  100+ | These languages have nothing particularly in common.                                                          | English → Japanese, English → Tamil
 
-See the docstring of `tag_match_score` for more explanation and examples.
+See the docstring of `tag_distance` for more explanation and examples.
 
 
 ### Finding the best matching language
@@ -172,32 +158,32 @@ possibly mis-handling data or upsetting users.
 Here are some examples. (If you want to know what these language tags mean,
 scroll down and learn about the `language_name` method!)
 
-    >>> best_match('fr', ['de', 'en', 'fr'])
-    ('fr', 100)
+    >>> closest_match('fr', ['de', 'en', 'fr'])
+    ('fr', 0)
 
-    >>> best_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
-    ('sr-Latn', 100)
+    >>> closest_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
+    ('sr-Latn', 0)
 
-    >>> best_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
-    ('cmn-Hans', 100)
+    >>> closest_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
+    ('cmn-Hans', 0)
 
-    >>> best_match('pt', ['pt-BR', 'pt-PT'])
-    ('pt-BR', 100)
+    >>> closest_match('pt', ['pt-BR', 'pt-PT'])
+    ('pt-BR', 0)
 
-    >>> best_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 96)
+    >>> closest_match('en-AU', ['en-GB', 'en-US'])
+    ('en-GB', 3)
 
-    >>> best_match('af', ['en', 'nl', 'zu'])
-    ('nl', 86)
+    >>> closest_match('af', ['en', 'nl', 'zu'])
+    ('nl', 14)
 
-    >>> best_match('id', ['zsm', 'mhp'])
-    ('zsm', 76)
+    >>> closest_match('id', ['zsm', 'mhp'])
+    ('zsm', 14)
 
-    >>> best_match('ja-Latn-hepburn', ['ja', 'en'])
-    ('und', 0)
+    >>> closest_match('ja-Latn-hepburn', ['ja', 'en'])
+    ('und', 1000)
 
-    >>> best_match('ja-Latn-hepburn', ['ja', 'en'], min_score=50)
-    ('ja', 60)
+    >>> closest_match('ja-Latn-hepburn', ['ja', 'en'], max_distance=60)
+    ('ja', 50)
 
 
 ## Language objects

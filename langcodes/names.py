@@ -75,7 +75,6 @@ def name_to_code(category, name, language: str='und'):
     trie = TRIES[trie_name]
     lookup = normalize_name(name)
     if lookup in trie:
-        print(lookup)
         return get_trie_value(trie, lookup)
     else:
         # Is this a language name plus extra verbiage? Maybe it has "...isch",
