@@ -435,6 +435,28 @@ def read_language_distances():
             for (desired, supported) in pairs:
                 desired_distance = tag_distances.setdefault(desired, {})
                 desired_distance[supported] = int(attribs['distance'])
+
+                # The 'languageInfo' data file contains distances for the unnormalized
+                # tag 'sh', but we work mostly with normalized tags, and they don't
+                # describe at all how to cope with this.
+                #
+                # 'sh' normalizes to 'sr-Latn', and when we're matching languages we
+                # aren't matching scripts yet, so when 'sh' appears we'll add a
+                # corresponding match for 'sr'.
+                #
+                # Then because we're kind of making this plan up, add 1 to the distance
+                # so it's a worse match than ones that are actually clearly defined
+                # in languageInfo.
+                if desired == 'sh' or supported == 'sh':
+                    if desired == 'sh':
+                        desired = 'sr'
+                    if supported == 'sh':
+                        supported = 'sr'
+                    if desired != supported:
+                        # don't try to define a non-zero distance for sr <=> sr
+                        desired_distance = tag_distances.setdefault(desired, {})
+                        desired_distance[supported] = int(attribs['distance']) + 1
+
     return tag_distances
 
 

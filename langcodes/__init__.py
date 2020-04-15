@@ -1120,8 +1120,8 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
 
     ... which is very similar to Croatian but sociopolitically not the same.
 
-    ??? tag_distance('sh', 'hr')
-    4
+    >>> tag_distance('sh', 'hr')
+    9
 
     These distances can be asymmetrical: this data includes the fact that speakers
     of Swiss German (gsw) know High German (de), but not at all the other way around.
