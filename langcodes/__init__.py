@@ -1258,42 +1258,10 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
 
     - The best-matching language code, which will be one of the
       `supported_languages` or 'und'
-    - The score of the match, from 0 to 100, higher is better.
+    - The score of the match, from 0 to 100; higher is better.
 
     `min_score` sets the minimum match score. If all languages match with a lower
     score than that, the result will be 'und' with a score of 0.
-
-    When there is a tie for the best matching language, the first one in the
-    tie will be used.
-
-    Setting `min_score` lower will enable more things to match, at the cost
-    of possibly mis-handling data or upsetting users. Read the documentation
-    for :func:`tag_match_score` to understand what the numbers mean.
-
-    >>> best_match('fr', ['de', 'en', 'fr'])
-    ('fr', 100)
-    >>> best_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
-    ('sr-Latn', 100)
-    >>> best_match('zh-CN', ['zh-Hant', 'zh-Hans', 'gan', 'nan'])
-    ('zh-Hans', 100)
-    >>> best_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
-    ('cmn-Hans', 100)
-    >>> best_match('pt', ['pt-BR', 'pt-PT'])
-    ('pt-BR', 100)
-    >>> best_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 97)
-    >>> best_match('es-MX', ['es-ES', 'es-419', 'en-US'])
-    ('es-419', 99)
-    >>> best_match('es-MX', ['es-PE', 'es-AR', 'es-PY'])
-    ('es-PE', 96)
-    >>> best_match('es-MX', ['es-AR', 'es-PE', 'es-PY'])
-    ('es-AR', 96)
-    >>> best_match('zsm', ['id', 'mhp'])
-    ('id', 86)
-    >>> best_match('eu', ['el', 'en', 'es'])
-    ('es', 90)
-    >>> best_match('eu', ['el', 'en', 'es'], min_score=92)
-    ('und', 0)
     """
     max_distance = 100 - min_score
     supported, distance = closest_match(desired_language, supported_languages, max_distance)
