@@ -120,9 +120,9 @@ The distance data comes from CLDR v36 and involves a lot of judgment calls
 made by the Unicode consortium.
 
 
-### Match values
+### Distance values
 
-This table summarizes the match values:
+This table summarizes the language distance values:
 
 | Value | Meaning                                                                                                       | Example
 | ----: | :------                                                                                                       | :------
@@ -339,3 +339,41 @@ date.
 [Code with documentation][code]
 
 [code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
+
+
+## Changes in version 2.0 (April 2020)
+
+Version 2.0 involves some significant changes that may break compatibility with 1.4,
+in addition to updating to version 36.1 of the Unicode CLDR data.
+
+### Match scores replaced with distances
+
+Originally, the goodness of a match between two different language codes was defined
+in terms of a "match score" with a maximum of 100. Around 2016, Unicode started
+replacing this with a different measure, the "match distance", which was defined
+much more clearly, but we had to keep using the "match score".
+
+As of langcodes version 2.0, the "score" functions (such as
+`Language.match_score`, `tag_match_score`, and `best_match`) are deprecated.
+They'll keep using the deprecated language match tables from around CLDR 27.
+
+For a better measure of the closeness of two language codes, use `Language.distance`,
+`tag_distance`, and `closest_match`.
+
+### 'region' renamed to 'territory'
+
+We were always out of step with CLDR here. Following the example of the IANA
+database, we referred to things like the 'US' in 'en-US' as a "region code",
+but the Unicode standards consistently call it a "territory code".
+
+In langcodes 2.0, parameters, dictionary keys, and attributes named `region`
+have been renamed to `territory`.  We try to support a few common cases with
+deprecation warnings, such as looking up the `region` property of a Language
+object.
+
+### Python version support
+
+The minimum required version of Python has been raised from 3.3 to 3.5, because
+of the end-of-life of Python 3.4 and older.
+
+
