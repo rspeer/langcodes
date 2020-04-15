@@ -75,10 +75,12 @@ def name_to_code(category, name, language: str='und'):
     trie = TRIES[trie_name]
     lookup = normalize_name(name)
     if lookup in trie:
+        print(lookup)
         return get_trie_value(trie, lookup)
     else:
-        # Is this a language plus extra junk? Maybe it has "...isch", "... language",
-        # or "... Chinese" attached to it, for example.
+        # Is this a language name plus extra verbiage? Maybe it has "...isch",
+        # "... language", or "... Chinese" attached to it, for example. Look
+        # for a matching prefix of the desired name with at least 4 characters.
         prefixes = trie.prefixes(lookup)
         if prefixes and len(prefixes[-1]) >= 4:
             return get_trie_value(trie, prefixes[-1])

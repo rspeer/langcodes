@@ -63,6 +63,10 @@ AMBIGUOUS_PREFERENCES = {
     # do much with a code for the general region of Micronesia
     'FM': {'057'},
 
+    # Prefer the country of South Africa over the general region of southern
+    # Africa, in languages that don't distinguish them
+    'ZA': {'018'},
+
     # Prefer territory 003 for 'North America', which includes Central America
     # and the Caribbean, over territory 021, which excludes them
     '003': {'021'},
@@ -70,6 +74,10 @@ AMBIGUOUS_PREFERENCES = {
     # Prefer territory 005 for 'Lulli-Amerihkká' (South America), over territory
     # 419, which includes Central America
     '005': {'419'},
+
+    # If a name like "Amerika" is ambiguous between the Americas and the United
+    # States of America, choose the Americas
+    '019': {'US'},
 
     # Prefer 'Swiss German' to be a specific language
     'gsw': {'de-CH'},
@@ -221,7 +229,7 @@ def read_cldr_name_file(path, langcode, category):
 
         if subtag == name:
             # Default entries that map a language code to itself, which
-            # a lazy annotator just left there
+            # an inattentive annotator just left there
             continue
 
         # CLDR assigns multiple names to one code by adding -alt-* to
@@ -232,6 +240,12 @@ def read_cldr_name_file(path, langcode, category):
             continue
 
         priority = 3
+        if subtag.endswith('-alt-menu') and name == 'mandarin':
+            # The -alt-menu entries are supposed to do things like alphabetize
+            # "Mandarin Chinese" under "Chinese, Mandarin". A few languages
+            # just put the string "mandarin" there, which seems wrong and
+            # messes up our name lookups.
+            continue
         if '-alt-' in subtag:
             subtag, _ = subtag.split('-alt-', 1)
             priority = 1
@@ -411,7 +425,6 @@ def read_language_distances():
     tag_distances = {}
     for match in matches:
         attribs = match.attrib
-        print(attribs)
         n_parts = attribs['desired'].count('_') + 1
         if n_parts < 3:
             if attribs.get('oneway') == 'true':
