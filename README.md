@@ -344,7 +344,8 @@ date.
 ## Changes in version 2.0 (April 2020)
 
 Version 2.0 involves some significant changes that may break compatibility with 1.4,
-in addition to updating to version 36.1 of the Unicode CLDR data.
+in addition to updating to version 36.1 of the Unicode CLDR data and the April 2020
+version of the IANA subtag registry.
 
 ### Match scores replaced with distances
 
@@ -370,6 +371,10 @@ In langcodes 2.0, parameters, dictionary keys, and attributes named `region`
 have been renamed to `territory`.  We try to support a few common cases with
 deprecation warnings, such as looking up the `region` property of a Language
 object.
+
+A nice benefit of this is that when a dictionary is displayed with 'language',
+'script', and 'territory' keys in alphabetical order, they are in the same
+order as they are in a language code.
 
 ### Python version support
 
