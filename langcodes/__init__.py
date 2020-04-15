@@ -553,7 +553,7 @@ class Language:
         """
         Suppose that `self` is the language that the user desires, and
         `supported` is a language that is actually supported.
-        
+
         This method returns a number from 0 to 134 measuring the 'distance'
         between the languages (lower numbers are better). This is not a
         symmetric relation.
@@ -579,7 +579,7 @@ class Language:
         else:
             desired_complete = self.prefer_macrolanguage().maximize()
             desired_triple = (desired_complete.language, desired_complete.script, desired_complete.territory)
-        
+
         if supported.language is None and supported.script is None and supported.territory is None:
             supported_triple = ('und', 'Zzzz', 'ZZ')
         else:
@@ -682,6 +682,21 @@ class Language:
         """
         return self._get_name('territory', language, max_distance)
 
+    def region_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+        warnings.warn(
+            "`region_name` has been renamed to `territory_name` for consistency",
+            DeprecationWarning
+        )
+        return self.territory_name(language, max_distance)
+
+    @property
+    def region(self):
+        warnings.warn(
+            "The `region` property has been renamed to `territory` for consistency",
+            DeprecationWarning
+        )
+        return self.territory
+
     def variant_names(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> list:
         """
         Describe each of the variant parts of the language tag in a natural
@@ -701,10 +716,10 @@ class Language:
         See `language_name` and related methods for more specific versions of this.
 
         The desired `language` will in fact be matched against the available
-        options using the matching technique that this module provides.  We can
+        options using the matching technique that this module provides. We can
         illustrate many aspects of this by asking for a description of Shavian
-        script (a script devised by author George Bernard Shaw), and where you
-        might find it, in various languages.
+        script (a phonetic script for English devised by author George Bernard
+        Shaw), and where you might find it, in various languages.
 
         >>> shaw = Language.make(script='Shaw').maximize()
         >>> shaw.describe('en')
@@ -1055,7 +1070,7 @@ def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int
     """
     DEPRECATED: use .distance() instead, which uses newer data and is _lower_
     for better matching languages.
-    
+
     Return a number from 0 to 100 indicating the strength of match between the
     language the user desires, D, and a supported language, S. Higher numbers
     are better. A reasonable cutoff for not messing with your users is to
@@ -1104,10 +1119,10 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     0
 
     ... which is very similar to Croatian but sociopolitically not the same.
-    
+
     ??? tag_distance('sh', 'hr')
     4
-    
+
     These distances can be asymmetrical: this data includes the fact that speakers
     of Swiss German (gsw) know High German (de), but not at all the other way around.
 
@@ -1119,7 +1134,7 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     8
     >>> tag_distance('de', 'gsw')
     84
-    
+
     Unconnected languages get a distance of 80 to 134.
 
     >>> tag_distance('en', 'zh')
@@ -1153,12 +1168,12 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     >>> # Serbian has two scripts, and people might prefer one but understand both
     >>> tag_distance('sr-Latn', 'sr-Cyrl')
     5
-    
+
     Distances of 10 to 15 are often substantially different languages, in cases where
     speakers of the first are demographically likely to understand the second. This
     allows matching a specific, localized language against a "world language" that
     many people are likely to have as a second language.
-    
+
     >>> tag_distance('mg', 'fr')  # Malagasy to French
     14
     >>> tag_distance('af', 'nl')  # Afrikaans to Dutch
@@ -1186,7 +1201,7 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
 
     >>> tag_distance('arz', 'ary')  # Egyptian Arabic to Moroccan Arabic
     84
-    
+
     Higher distances can arrive due to particularly contentious differences in
     the script for writing the language, where people who understand one script
     can learn the other but may not be happy with it. This specifically applies
@@ -1234,7 +1249,7 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
     """
     DEPRECATED: use .closest_match() instead. This function emulates the old
     matching behavior by subtracting the language distance from 100.
-    
+
     You have software that supports any of the `supported_languages`. You want
     to use `desired_language`. This function lets you choose the right language,
     even if there isn't an exact match.
@@ -1243,8 +1258,7 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
 
     - The best-matching language code, which will be one of the
       `supported_languages` or 'und'
-    - The score of the match, from -34 to 100, higher is better. (This scale is
-      weird. That's why it's deprecated.)
+    - The score of the match, from 0 to 100, higher is better.
 
     `min_score` sets the minimum match score. If all languages match with a lower
     score than that, the result will be 'und' with a score of 0.
@@ -1283,11 +1297,32 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
     """
     max_distance = 100 - min_score
     supported, distance = closest_match(desired_language, supported_languages, max_distance)
-    return supported, 100 - distance
+    score = max(0, 100 - distance)
+    return supported, score
 
 
 def closest_match(desired_language: {str, Language}, supported_languages: list,
                   max_distance: {int, None}=None) -> (str, int):
+    """
+    You have software that supports any of the `supported_languages`. You want
+    to use `desired_language`. This function lets you choose the right language,
+    even if there isn't an exact match.
+
+    Returns:
+
+    - The best-matching language code, which will be one of the
+      `supported_languages` or 'und' for no match
+    - The distance of the match, which is 0 for a perfect match and increases
+      from there (see `tag_distance`)
+
+    `max_distance` sets the maximum match distance. If all matches are farther
+    than that, the result will be 'und' with a distance of 1000. Setting
+    `max_distance` to 25 can help reduce spurious matches. The documentation
+    for `tag_distance` describes the distance values in more detail.
+
+    When there is a tie for the best matching language, the first one in the
+    tie will be used.
+    """
     # Quickly return if the desired language is directly supported
     if desired_language in supported_languages:
         return desired_language, 0
@@ -1304,7 +1339,7 @@ def closest_match(desired_language: {str, Language}, supported_languages: list,
     match_distances = [
         (supported, distance) for (supported, distance) in match_distances
         if max_distance is None or distance <= max_distance
-    ] + [('und', 100)]
+    ] + [('und', 1000)]
 
     match_distances.sort(key=itemgetter(1))
     return match_distances[0]
