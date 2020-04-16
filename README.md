@@ -21,7 +21,7 @@ following?
 * `en-Latn-US` is equivalent to `en-US`, because written English must be written in the Latin alphabet to be understood.
 * The difference between `ar` and `arb` is the difference between "Arabic" and "Modern Standard Arabic", a difference that may not be relevant to you.
 * You'll find Mandarin Chinese tagged as `cmn` on Wiktionary, but many other resources would call the same language `zh`.
-* Chinese is written in different scripts in different regions. Some software distinguishes the script. Other software distinguishes the region. The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are `zh-TW` and `zh-Hant`, even though occasionally you'll need something different such as `zh-HK` or `zh-Latn-pinyin`.
+* Chinese is written in different scripts in different territories. Some software distinguishes the script. Other software distinguishes the territory. The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are `zh-TW` and `zh-Hant`, even though occasionally you'll need something different such as `zh-HK` or `zh-Latn-pinyin`.
 * The Indonesian (`id`) and Malaysian (`ms` or `zsm`) languages are mutually intelligible.
 
 One way to know is to read IETF standards and Unicode technical reports.
@@ -113,43 +113,29 @@ LanguageTagError (a subclass of ValueError):
 
 ## Comparing and matching languages
 
-The `tag_match_score` function returns a number from 0 to 100 indicating the
-strength of match between the language the user desires and a supported
-language.
+The `tag_distance` function returns a number from 0 to 134 indicating the
+distance between the language the user desires and a supported language.
 
-This is very similar to the scale that CLDR uses, but we've added the ability
-to compare languages within macrolanguages. So this function does not purport
-to return exactly the same results as another package built on CLDR, such as
-ICU. It just uses the same source data. The specific values are only very
-vaguely standardized anyway.
-
-For example, Moroccan Arabic and Egyptian Arabic may not be fully mutually
-intelligible, but they are a far better match than Moroccan Arabic and Urdu.
-Indicating this in the match score requires looking up macrolanguages.
-
-Our match-score data comes from CLDR v30 and from IANA's list of
-macrolanguages. We didn't make any of these judgment calls ourselves, and
-there are significant omissions.
+The distance data comes from CLDR v36 and involves a lot of judgment calls
+made by the Unicode consortium.
 
 
-### Match values
+### Distance values
 
-This table summarizes the match values:
+This table summarizes the language distance values:
 
 | Value | Meaning                                                                                                       | Example
 | ----: | :------                                                                                                       | :------
-|   100 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
-| 96-99 | These codes indicate a minor regional difference.                                                             | Australian English → British English
-| 91-95 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
-| 86-90 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
-| 81-85 | These languages are related, but the difference may be problematic.                                           | Simplified Chinese → Traditional Chinese
-| 76-80 | These languages are related by their macrolanguage.                                                           | Moroccan Arabic → Egyptian Arabic
-| 51-75 | These codes indicate a significant barrier to understanding.                                                  | Japanese → Japanese in Hepburn romanization
-| 21-50 | These codes are a poor match in multiple ways.                                                                | Hong Kong Cantonese → mainland Mandarin Chinese
-|  1-20 | These are different languages that use the same script.                                                       | English → French, Arabic → Urdu
-|     0 | These languages have nothing in common.                                                                       | English → Japanese, English → Tamil
+|     0 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
+|   1-3 | These codes indicate a minor regional difference.                                                             | Australian English → British English
+|   4-9 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
+| 10-14 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
+| 15-24 | These languages are related, but the difference may cause problems in understanding or usability.             | Simplified Chinese → Traditional Chinese
+| 25-79 | There are large barriers to understanding.                                                                    | Japanese → Japanese in Hepburn romanization
+| 80-99 | These are different languages written in the same script.                                                     | English → French, Arabic → Urdu
+|  100+ | These languages have nothing particularly in common.                                                          | English → Japanese, English → Tamil
 
-See the docstring of `tag_match_score` for more explanation and examples.
+See the docstring of `tag_distance` for more explanation and examples.
 
 
 ### Finding the best matching language
@@ -172,32 +158,32 @@ possibly mis-handling data or upsetting users.
 Here are some examples. (If you want to know what these language tags mean,
 scroll down and learn about the `language_name` method!)
 
-    >>> best_match('fr', ['de', 'en', 'fr'])
-    ('fr', 100)
+    >>> closest_match('fr', ['de', 'en', 'fr'])
+    ('fr', 0)
 
-    >>> best_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
-    ('sr-Latn', 100)
+    >>> closest_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
+    ('sr-Latn', 0)
 
-    >>> best_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
-    ('cmn-Hans', 100)
+    >>> closest_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
+    ('cmn-Hans', 0)
 
-    >>> best_match('pt', ['pt-BR', 'pt-PT'])
-    ('pt-BR', 100)
+    >>> closest_match('pt', ['pt-BR', 'pt-PT'])
+    ('pt-BR', 0)
 
-    >>> best_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 96)
+    >>> closest_match('en-AU', ['en-GB', 'en-US'])
+    ('en-GB', 3)
 
-    >>> best_match('af', ['en', 'nl', 'zu'])
-    ('nl', 86)
+    >>> closest_match('af', ['en', 'nl', 'zu'])
+    ('nl', 14)
 
-    >>> best_match('id', ['zsm', 'mhp'])
-    ('zsm', 76)
+    >>> closest_match('id', ['zsm', 'mhp'])
+    ('zsm', 14)
 
-    >>> best_match('ja-Latn-hepburn', ['ja', 'en'])
-    ('und', 0)
+    >>> closest_match('ja-Latn-hepburn', ['ja', 'en'])
+    ('und', 1000)
 
-    >>> best_match('ja-Latn-hepburn', ['ja', 'en'], min_score=50)
-    ('ja', 60)
+    >>> closest_match('ja-Latn-hepburn', ['ja', 'en'], max_distance=60)
+    ('ja', 50)
 
 
 ## Language objects
@@ -208,12 +194,12 @@ any of which may be unspecified:
 
 - *language*: the code for the language itself.
 - *script*: the 4-letter code for the writing system being used.
-- *region*: the 2-letter or 3-digit code for the country or similar region
+- *territory*: the 2-letter or 3-digit code for the country or similar region
   whose usage of the language appears in this text.
 - *extlangs*: a list of more specific language codes that follow the language
   code. (This is allowed by the language code syntax, but deprecated.)
 - *variants*: codes for specific variations of language usage that aren't
-  covered by the *script* or *region* codes.
+  covered by the *script* or *territory* codes.
 - *extensions*: information that's attached to the language code for use in
   some specific system, such as Unicode collation orders.
 - *private*: a code starting with `x-` that has no defined meaning.
@@ -228,10 +214,10 @@ them. To disable this feature and get the codes that literally appear in the
 language tag, use the *normalize=False* option.
 
     >>> Language.get('en-Latn-US')
-    Language.make(language='en', script='Latn', region='US')
+    Language.make(language='en', script='Latn', territory='US')
 
     >>> Language.get('sgn-US', normalize=False)
-    Language.make(language='sgn', region='US')
+    Language.make(language='sgn', territory='US')
 
     >>> Language.get('und')
     Language.make()
@@ -239,7 +225,7 @@ language tag, use the *normalize=False* option.
 Here are some examples of replacing non-standard tags:
 
     >>> Language.get('sh-QU')
-    Language.make(language='sr', script='Latn', region='EU')
+    Language.make(language='sr', script='Latn', territory='EU')
 
     >>> Language.get('sgn-US')
     Language.make(language='ase')
@@ -253,7 +239,7 @@ standard string form:
     >>> str(Language.get('sh-QU'))
     'sr-Latn-EU'
 
-    >>> str(Language.make(region='IN'))
+    >>> str(Language.make(territory='IN'))
     'und-IN'
 
 
@@ -306,15 +292,15 @@ Naming a language in itself is sometimes a useful thing to do, so the
     'српски'
 
 These names only apply to the language part of the language tag. You can
-also get names for other parts with `.script_name()`, `.region_name()`,
+also get names for other parts with `.script_name()`, `.territory_name()`,
 or `.variant_names()`, or get all the names at once with `.describe()`.
 
     >>> shaw = Language.get('en-Shaw-GB')
     >>> shaw.describe('en')
-    {'language': 'English', 'script': 'Shavian', 'region': 'United Kingdom'}
+    {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
 
     >>> shaw.describe('es')
-    {'language': 'inglés', 'script': 'shaviano', 'region': 'Reino Unido'}
+    {'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
 
 The names come from the Unicode CLDR data files, and in English they can
 also come from the IANA language subtag registry. Together, they can give
@@ -353,3 +339,46 @@ date.
 [Code with documentation][code]
 
 [code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
+
+
+## Changes in version 2.0 (April 2020)
+
+Version 2.0 involves some significant changes that may break compatibility with 1.4,
+in addition to updating to version 36.1 of the Unicode CLDR data and the April 2020
+version of the IANA subtag registry.
+
+### Match scores replaced with distances
+
+Originally, the goodness of a match between two different language codes was defined
+in terms of a "match score" with a maximum of 100. Around 2016, Unicode started
+replacing this with a different measure, the "match distance", which was defined
+much more clearly, but we had to keep using the "match score".
+
+As of langcodes version 2.0, the "score" functions (such as
+`Language.match_score`, `tag_match_score`, and `best_match`) are deprecated.
+They'll keep using the deprecated language match tables from around CLDR 27.
+
+For a better measure of the closeness of two language codes, use `Language.distance`,
+`tag_distance`, and `closest_match`.
+
+### 'region' renamed to 'territory'
+
+We were always out of step with CLDR here. Following the example of the IANA
+database, we referred to things like the 'US' in 'en-US' as a "region code",
+but the Unicode standards consistently call it a "territory code".
+
+In langcodes 2.0, parameters, dictionary keys, and attributes named `region`
+have been renamed to `territory`.  We try to support a few common cases with
+deprecation warnings, such as looking up the `region` property of a Language
+object.
+
+A nice benefit of this is that when a dictionary is displayed with 'language',
+'script', and 'territory' keys in alphabetical order, they are in the same
+order as they are in a language code.
+
+### Python version support
+
+The minimum required version of Python has been raised from 3.3 to 3.5, because
+of the end-of-life of Python 3.4 and older.
+
+

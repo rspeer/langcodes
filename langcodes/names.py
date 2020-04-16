@@ -46,7 +46,7 @@ def get_trie_value(trie, key):
 
 def name_to_code(category, name, language: str='und'):
     """
-    Get a language, script, or region by its name in some language.
+    Get a language, script, or territory by its name in some language.
 
     The language here must be a string representing a language subtag only.
     The `Language.find` method can handle other representations of a language
@@ -77,8 +77,9 @@ def name_to_code(category, name, language: str='und'):
     if lookup in trie:
         return get_trie_value(trie, lookup)
     else:
-        # Is this a language plus extra junk? Maybe it has "...isch", "... language",
-        # or "... Chinese" attached to it, for example.
+        # Is this a language name plus extra verbiage? Maybe it has "...isch",
+        # "... language", or "... Chinese" attached to it, for example. Look
+        # for a matching prefix of the desired name with at least 4 characters.
         prefixes = trie.prefixes(lookup)
         if prefixes and len(prefixes[-1]) >= 4:
             return get_trie_value(trie, prefixes[-1])
@@ -88,7 +89,7 @@ def name_to_code(category, name, language: str='und'):
 
 def code_to_names(category, code):
     """
-    Given the code for a language, script, or region, get a dictionary of its
+    Given the code for a language, script, or territory, get a dictionary of its
     names in various languages.
     """
     trie_name = '{}_to_name'.format(category)

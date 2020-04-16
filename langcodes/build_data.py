@@ -1,5 +1,6 @@
 import marisa_trie
 import json
+import xml.etree.ElementTree as ET
 import sys
 import os
 from pathlib import Path
@@ -43,8 +44,8 @@ from langcodes.registry_parser import parse_registry
 #   overriding the data.
 #
 # - Fix ambiguities in scope by preferring one scope over another. For example,
-#   "North America" could refer to a region that includes Central America or
-#   a region that doesn't. In any such conflict, we choose to include Central
+#   "North America" could refer to a territory that includes Central America or
+#   a territory that doesn't. In any such conflict, we choose to include Central
 #   America.
 #
 # - Avoid ambiguities between different sources of data, by using an order
@@ -62,13 +63,21 @@ AMBIGUOUS_PREFERENCES = {
     # do much with a code for the general region of Micronesia
     'FM': {'057'},
 
-    # Prefer region 003 for 'North America', which includes Central America
-    # and the Caribbean, over region 021, which excludes them
+    # Prefer the country of South Africa over the general region of southern
+    # Africa, in languages that don't distinguish them
+    'ZA': {'018'},
+
+    # Prefer territory 003 for 'North America', which includes Central America
+    # and the Caribbean, over territory 021, which excludes them
     '003': {'021'},
 
-    # Prefer region 005 for 'Lulli-Amerihkká' (South America), over region
+    # Prefer territory 005 for 'Lulli-Amerihkká' (South America), over territory
     # 419, which includes Central America
     '005': {'419'},
+
+    # If a name like "Amerika" is ambiguous between the Americas and the United
+    # States of America, choose the Americas
+    '019': {'US'},
 
     # Prefer 'Swiss German' to be a specific language
     'gsw': {'de-CH'},
@@ -92,7 +101,7 @@ AMBIGUOUS_PREFERENCES = {
     # Prefer the specific definition of Mandarin Chinese
     'cmn': {'zh'},
 
-    # Prefer the regionally-specific definition of Dari
+    # Prefer the territorially-specific definition of Dari
     'fa-AF': {'prs', 'fa'},
 
     # Ambiguity in the scope of Korean script (whether to include Han characters)
@@ -220,7 +229,7 @@ def read_cldr_name_file(path, langcode, category):
 
         if subtag == name:
             # Default entries that map a language code to itself, which
-            # a lazy annotator just left there
+            # an inattentive annotator just left there
             continue
 
         # CLDR assigns multiple names to one code by adding -alt-* to
@@ -231,6 +240,12 @@ def read_cldr_name_file(path, langcode, category):
             continue
 
         priority = 3
+        if subtag.endswith('-alt-menu') and name == 'mandarin':
+            # The -alt-menu entries are supposed to do things like alphabetize
+            # "Mandarin Chinese" under "Chinese, Mandarin". A few languages
+            # just put the string "mandarin" there, which seems wrong and
+            # messes up our name lookups.
+            continue
         if '-alt-' in subtag:
             subtag, _ = subtag.split('-alt-', 1)
             priority = 1
@@ -242,7 +257,7 @@ def read_cldr_name_file(path, langcode, category):
 def read_iana_registry_names():
     language_quads = []
     script_quads = []
-    region_quads = []
+    territory_quads = []
     for entry in parse_registry():
         target = None
         if entry['Type'] == 'language':
@@ -250,7 +265,8 @@ def read_iana_registry_names():
         elif entry['Type'] == 'script':
             target = script_quads
         elif entry['Type'] == 'region':
-            target = region_quads
+            # IANA's terminology is 'region' where CLDR's is 'territory'
+            target = territory_quads
         if target is not None:
             subtag = entry['Subtag']
             priority = 2
@@ -265,7 +281,7 @@ def read_iana_registry_names():
                     target.append(
                         ('en', subtag, desc, priority)
                     )
-    return language_quads, script_quads, region_quads
+    return language_quads, script_quads, territory_quads
 
 
 def read_iana_registry_scripts():
@@ -322,7 +338,7 @@ def read_wiktionary_names(filename, language):
 
 def update_names(names_fwd, names_rev, name_quads):
     for name_language, referent, name, priority in name_quads:
-        # Get just the language from name_language, not the region or script.
+        # Get just the language from name_language, not the territory or script.
         short_language = langcodes.get(name_language).language
         rev_all = names_rev.setdefault('und', {})
         rev_language = names_rev.setdefault(short_language, {})
@@ -353,10 +369,10 @@ def save_reverse_name_tables(category, rev_dict):
 
 def build_tries(cldr_path):
     language_names_rev = {}
-    region_names_rev = {}
+    territory_names_rev = {}
     script_names_rev = {}
     language_names_fwd = {}
-    region_names_fwd = {}
+    territory_names_fwd = {}
     script_names_fwd = {}
     cldr_main_path = Path(cldr_path) / 'main'
 
@@ -370,13 +386,13 @@ def build_tries(cldr_path):
                 script_data = read_cldr_name_file(cldr_main_path, langcode, 'scripts')
                 update_names(script_names_fwd, script_names_rev, script_data)
 
-                region_data = read_cldr_name_file(cldr_main_path, langcode, 'territories')
-                update_names(region_names_fwd, region_names_rev, region_data)
+                territory_data = read_cldr_name_file(cldr_main_path, langcode, 'territories')
+                update_names(territory_names_fwd, territory_names_rev, territory_data)
 
-    iana_languages, iana_scripts, iana_regions = read_iana_registry_names()
+    iana_languages, iana_scripts, iana_territories = read_iana_registry_names()
     update_names(language_names_fwd, language_names_rev, iana_languages)
     update_names(script_names_fwd, script_names_rev, iana_scripts)
-    update_names(region_names_fwd, region_names_rev, iana_regions)
+    update_names(territory_names_fwd, territory_names_rev, iana_territories)
 
     wiktionary_data = read_wiktionary_names(data_filename('wiktionary/codes-en.csv'), 'en')
     update_names(language_names_fwd, language_names_rev, wiktionary_data)
@@ -386,10 +402,10 @@ def build_tries(cldr_path):
 
     save_reverse_name_tables('language', language_names_rev)
     save_reverse_name_tables('script', script_names_rev)
-    save_reverse_name_tables('region', region_names_rev)
+    save_reverse_name_tables('territory', territory_names_rev)
     save_trie(language_names_fwd, data_filename('trie/language_to_name.marisa'))
     save_trie(script_names_fwd, data_filename('trie/script_to_name.marisa'))
-    save_trie(region_names_fwd, data_filename('trie/region_to_name.marisa'))
+    save_trie(territory_names_fwd, data_filename('trie/territory_to_name.marisa'))
 
 
 def write_python_dict(outfile, name, d):
@@ -402,10 +418,53 @@ def write_python_dict(outfile, name, d):
 GENERATED_HEADER = "# This file is generated by build_data.py."
 
 
+def read_language_distances():
+    language_info_path = data_filename('languageInfo.xml')
+    root = ET.fromstring(open(language_info_path).read())
+    matches = root.findall('./languageMatching/languageMatches[@type="written_new"]/languageMatch')
+    tag_distances = {}
+    for match in matches:
+        attribs = match.attrib
+        n_parts = attribs['desired'].count('_') + 1
+        if n_parts < 3:
+            if attribs.get('oneway') == 'true':
+                pairs = [(attribs['desired'], attribs['supported'])]
+            else:
+                pairs = [(attribs['desired'], attribs['supported']),
+                         (attribs['supported'], attribs['desired'])]
+            for (desired, supported) in pairs:
+                desired_distance = tag_distances.setdefault(desired, {})
+                desired_distance[supported] = int(attribs['distance'])
+
+                # The 'languageInfo' data file contains distances for the unnormalized
+                # tag 'sh', but we work mostly with normalized tags, and they don't
+                # describe at all how to cope with this.
+                #
+                # 'sh' normalizes to 'sr-Latn', and when we're matching languages we
+                # aren't matching scripts yet, so when 'sh' appears we'll add a
+                # corresponding match for 'sr'.
+                #
+                # Then because we're kind of making this plan up, add 1 to the distance
+                # so it's a worse match than ones that are actually clearly defined
+                # in languageInfo.
+                if desired == 'sh' or supported == 'sh':
+                    if desired == 'sh':
+                        desired = 'sr'
+                    if supported == 'sh':
+                        supported = 'sr'
+                    if desired != supported:
+                        # don't try to define a non-zero distance for sr <=> sr
+                        desired_distance = tag_distances.setdefault(desired, {})
+                        desired_distance[supported] = int(attribs['distance']) + 1
+
+    return tag_distances
+
+
 def build_dicts(cldr_supp_path):
     lang_scripts = read_iana_registry_scripts()
     macrolanguages = read_iana_registry_macrolanguages()
     iana_replacements = read_iana_registry_replacements()
+    language_distances = read_language_distances()
 
     alias_data = read_cldr_supplemental(cldr_supp_path, 'aliases')
     likely_subtags = read_cldr_supplemental(cldr_supp_path, 'likelySubtags')
@@ -439,10 +498,11 @@ def build_dicts(cldr_supp_path):
         write_python_dict(outfile, 'DEFAULT_SCRIPTS', lang_scripts)
         write_python_dict(outfile, 'LANGUAGE_REPLACEMENTS', replacements['languageAlias'])
         write_python_dict(outfile, 'SCRIPT_REPLACEMENTS', replacements['scriptAlias'])
-        write_python_dict(outfile, 'REGION_REPLACEMENTS', replacements['territoryAlias'])
+        write_python_dict(outfile, 'TERRITORY_REPLACEMENTS', replacements['territoryAlias'])
         write_python_dict(outfile, 'MACROLANGUAGES', macrolanguages)
         write_python_dict(outfile, 'NORMALIZED_MACROLANGUAGES', norm_macrolanguages)
         write_python_dict(outfile, 'LIKELY_SUBTAGS', likely_subtags)
+        write_python_dict(outfile, 'LANGUAGE_DISTANCES', language_distances)
 
 
 if __name__ == '__main__':

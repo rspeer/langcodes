@@ -24,7 +24,7 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes",
-    version='1.4.2',
+    version='2.0.0',
     maintainer='Robyn Speer',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
@@ -35,13 +35,11 @@ setup(
     packages=['langcodes'],
     include_package_data=True,
     install_requires=['marisa-trie'],
-    python_requires='>=3.3',
+    python_requires='>=3.5',
     tests_require=['pytest'],
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.3",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
