@@ -376,6 +376,9 @@ def build_tries(cldr_path):
     script_names_fwd = {}
     cldr_main_path = Path(cldr_path) / 'main'
 
+    override_language_data = read_csv_names(data_filename('override_language_names.csv'))
+    update_names(language_names_fwd, language_names_rev, override_language_data)
+
     for subpath in sorted(cldr_main_path.iterdir()):
         if subpath.is_dir():
             langcode = subpath.name
