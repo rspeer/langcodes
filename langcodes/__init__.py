@@ -11,7 +11,7 @@ on the functions in langcodes, scroll down and read the docstrings.
 from operator import itemgetter
 import warnings
 
-from langcodes.tag_parser import parse_tag
+from langcodes.tag_parser import parse_tag, normalize_characters
 from langcodes.names import code_to_names, name_to_code
 from langcodes.language_matching_old import raw_distance
 from langcodes.language_distance import tuple_distance_cached
@@ -163,6 +163,12 @@ class Language:
         >>> Language.get('in')
         Language.make(language='id')
 
+        >>> Language.get('zh-HK')
+        Language.make(language='zh', script='Hant', territory='HK')
+
+        >>> Language.get('zh_HK')
+        Language.make(language='zh', script='Hant', territory='HK')
+
         One type of deprecated tag that should be replaced is for sign
         languages, which used to all be coded as regional variants of a
         fictitious global sign language called 'sgn'. Of course, there is no
@@ -235,11 +241,13 @@ class Language:
             return Language._PARSE_CACHE[tag, normalize]
 
         data = {}
-        # if the complete tag appears as something to normalize, do the
-        # normalization right away. Smash case when checking, because the
-        # case normalization that comes from parse_tag() hasn't been applied
-        # yet.
-        tag_lower = tag.lower()
+
+        # If the complete tag appears as something to normalize, do the
+        # normalization right away. Smash case and convert underscores to
+        # hyphens when checking, because the case normalization that comes from
+        # parse_tag() hasn't been applied yet.
+
+        tag_lower = normalize_characters(tag)
         if normalize and tag_lower in LANGUAGE_REPLACEMENTS:
             tag = LANGUAGE_REPLACEMENTS[tag_lower]
 
@@ -249,7 +257,7 @@ class Language:
             if typ == 'extlang' and normalize and 'language' in data:
                 # smash extlangs when possible
                 minitag = '%s-%s' % (data['language'], value)
-                norm = LANGUAGE_REPLACEMENTS.get(minitag.lower())
+                norm = LANGUAGE_REPLACEMENTS.get(normalize_characters(minitag))
                 if norm is not None:
                     data.update(
                         Language.get(norm, normalize).to_dict()
