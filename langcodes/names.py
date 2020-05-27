@@ -102,5 +102,7 @@ def code_to_names(category, code):
     names = {}
     for key in possible_keys:
         target_language = key.split('@')[1]
-        names[target_language] = get_trie_value(trie, key)
+        val = get_trie_value(trie, key)
+        if val is not None:
+            names[target_language] = val
     return names

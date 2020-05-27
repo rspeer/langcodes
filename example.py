@@ -9,6 +9,8 @@ import langcodes
 # - The language's name in English
 # - The language's name in that language (its autonym)
 
+en = langcodes.get('en')
+
 for let1 in string.ascii_lowercase:
     for let2 in string.ascii_lowercase:
         for let3 in [''] + list(string.ascii_lowercase):
@@ -16,5 +18,5 @@ for let1 in string.ascii_lowercase:
             lcode = langcodes.get(code)
             autonym = lcode.autonym()
             name = lcode.language_name()
-            if autonym != lcode.language:
+            if lcode.distance(en) < 10 or autonym != lcode.display_name(en):
                 print('%-3s %-3s %-30s %s' % (code, lcode.language, name, autonym))

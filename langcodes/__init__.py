@@ -17,12 +17,13 @@ from langcodes.language_matching_old import raw_distance
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
-    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
+    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS,
+    DISPLAY_SEPARATORS
 )
 
 # When we're getting natural language information *about* languages, it's in
-# U.S. English if you don't specify the language.
-DEFAULT_LANGUAGE = 'en-US'
+# English if you don't specify the language.
+DEFAULT_LANGUAGE = 'en'
 
 class Language:
     """
@@ -83,8 +84,8 @@ class Language:
         self.extlangs = extlangs
         self.script = script
         self.territory = territory
-        self.variants = variants
-        self.extensions = extensions
+        self.variants = variants or []
+        self.extensions = extensions or []
         self.private = private
 
         # Cached values
@@ -599,15 +600,22 @@ class Language:
 
         attr_value = getattr(self, attribute)
         if attr_value is None:
-            return None
+            if attribute == 'language':
+                attr_value = 'und'
+            else:
+                return None
         names = code_to_names(attribute, attr_value)
-        names['und'] = getattr(self, attribute)
-        return self._best_name(names, language, max_distance)
+
+        result = self._best_name(names, language, max_distance)
+        return result or getattr(self, attribute) or 'Unknown'
 
     def _best_name(self, names: dict, language: str, max_distance: int):
         possible_languages = sorted(names.keys())
         target_language, score = closest_match(language, possible_languages, max_distance)
-        return names[target_language]
+        if target_language in names:
+            return names[target_language]
+        else:
+            return names.get(DEFAULT_LANGUAGE)
 
     def language_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
@@ -642,9 +650,41 @@ class Language:
         """
         return self._get_name('language', language, max_distance)
 
+    def display_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+        reduced = self.simplify_script()
+        language = Language.get(language)
+        language_name = reduced.language_name(language, max_distance)
+        extra_parts = []
+
+        if reduced.script is not None:
+            extra_parts.append(reduced.script_name(language, max_distance))
+        if reduced.territory is not None:
+            extra_parts.append(reduced.territory_name(language, max_distance))
+        extra_parts.extend(reduced.variant_names(language, max_distance))
+
+        if extra_parts:
+            clarification = language._display_separator().join(extra_parts)
+            pattern = language._display_pattern()
+            return pattern.format(language_name, clarification)
+        else:
+            return language_name
+
+    def _display_pattern(self):
+        # Technically we are supposed to look up this pattern with the
+        # parentheses in each language. Practically, it's the same in every
+        # language except Chinese, where the parentheses are full-width.
+        if self.distance(Language.get('zh')) <= 25:
+            return "{0}（{1}）"
+        else:
+            return "{0} ({1})"
+
+    def _display_separator(self):
+        matched, _dist = closest_match(self, DISPLAY_SEPARATORS.keys())
+        return DISPLAY_SEPARATORS[matched]
+
     def autonym(self, max_distance: int=9) -> str:
         """
-        Give the name of this language *in* this language.
+        Give the display name of this language *in* this language.
 
         >>> Language.get('fr').autonym()
         'français'
@@ -653,22 +693,25 @@ class Language:
         >>> Language.get('ja').autonym()
         '日本語'
 
-        This doesn't give the name of the territory or script, but in some cases
-        the language can name itself in multiple scripts:
+        This uses the `display_name()` method, so it can include the name of a
+        script or territory when appropriate.
 
+        >>> Language.get('en-AU').autonym()
+        'English (Australia)'
         >>> Language.get('sr-Latn').autonym()
-        'srpski'
+        'srpski (latinica)'
         >>> Language.get('sr-Cyrl').autonym()
-        'српски'
+        'српски (ћирилица)'
         >>> Language.get('pa').autonym()
         'ਪੰਜਾਬੀ'
         >>> Language.get('pa-Arab').autonym()
-        'پنجابی'
+        'پنجابی (عربی)'
 
         This only works for language codes that CLDR has locale data for. You
-        can't ask for the autonym of 'ja-Latn' and get 'nihongo'.
+        can't ask for the autonym of 'ja-Latn' and get 'nihongo (rōmaji)'.
         """
-        return self.language_name(language=self, max_distance=max_distance)
+        lang = self.prefer_macrolanguage()
+        return lang.display_name(language=lang, max_distance=max_distance)
 
     def script_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """

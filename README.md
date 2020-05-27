@@ -277,23 +277,10 @@ Why does everyone get Slovak and Slovenian confused? Let's ask them.
     >>> Language.make(language='sk').language_name('sl')
     'slovaščina'
 
-Naming a language in itself is sometimes a useful thing to do, so the
-`.autonym()` method makes this easy:
-
-    >>> Language.get('fr').autonym()
-    'français'
-    >>> Language.get('es').autonym()
-    'español'
-    >>> Language.get('ja').autonym()
-    '日本語'
-    >>> Language.get('sr-Latn').autonym()
-    'srpski'
-    >>> Language.get('sr-Cyrl').autonym()
-    'српски'
-
 These names only apply to the language part of the language tag. You can
 also get names for other parts with `.script_name()`, `.territory_name()`,
-or `.variant_names()`, or get all the names at once with `.describe()`.
+or `.variant_names()`, get all the names in a dictionary with `.describe()`,
+or get them as a string with `.display_name()`.
 
     >>> shaw = Language.get('en-Shaw-GB')
     >>> shaw.describe('en')
@@ -301,6 +288,29 @@ or `.variant_names()`, or get all the names at once with `.describe()`.
 
     >>> shaw.describe('es')
     {'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
+
+    >>> shaw.display_name('en')
+    'English (Shavian, United Kingdom)'
+
+    >>> shaw.display_name('es')
+    'inglés (shaviano, Reino Unido)'
+
+Naming a language in itself is sometimes a useful thing to do, so the
+`.autonym()` method makes this easy, providing the display name of a language
+in the language itself:
+
+    >>> Language.get('fr').autonym()
+    'français'
+    >>> Language.get('es').autonym()
+    'español'
+    >>> Language.get('ja').autonym()
+    '日本語'
+    >>> Language.get('en-AU').autonym()
+    'English (Australia)'
+    >>> Language.get('sr-Latn').autonym()
+    'srpski (latinica)'
+    >>> Language.get('sr-Cyrl').autonym()
+    'српски (ћирилица)'
 
 The names come from the Unicode CLDR data files, and in English they can
 also come from the IANA language subtag registry. Together, they can give
