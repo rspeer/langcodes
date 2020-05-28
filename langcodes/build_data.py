@@ -105,7 +105,7 @@ AMBIGUOUS_PREFERENCES = {
     'cmn': {'zh'},
 
     # Prefer the territorially-specific definition of Dari
-    'fa-AF': {'prs', 'fa'},
+    'fa-AF': {'prs', 'fa', 'gbz'},
 
     # Ambiguity in the scope of Korean script (whether to include Han characters)
     'Kore': {'Hang'},
