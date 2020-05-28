@@ -44,7 +44,7 @@ RFC 5646. It subsumes standards such as ISO 639, and it also implements
 recommendations from the [Unicode CLDR](http://cldr.unicode.org).
 
 The package also comes with a database of language properties and names, built
-from CLDR and the IANA subtag registry.
+from Unicode CLDR and the IANA subtag registry.
 
 In summary, langcodes takes language codes and does the Right Thing with them,
 and if you want to know exactly what the Right Thing is, there are some
@@ -109,6 +109,254 @@ LanguageTagError (a subclass of ValueError):
     Traceback (most recent call last):
         ...
     langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
+
+
+## Language objects
+
+This package defines one class, named Language, which contains the results
+of parsing a language tag. Language objects have the following fields,
+any of which may be unspecified:
+
+- *language*: the code for the language itself.
+- *script*: the 4-letter code for the writing system being used.
+- *territory*: the 2-letter or 3-digit code for the country or similar region
+  whose usage of the language appears in this text.
+- *extlangs*: a list of more specific language codes that follow the language
+  code. (This is allowed by the language code syntax, but deprecated.)
+- *variants*: codes for specific variations of language usage that aren't
+  covered by the *script* or *territory* codes.
+- *extensions*: information that's attached to the language code for use in
+  some specific system, such as Unicode collation orders.
+- *private*: a code starting with `x-` that has no defined meaning.
+
+The `Language.get` method converts a string to a Language instance, and the
+`Language.make` method makes a Language instance from its fields.  These values
+are cached so that calling `Language.get` or `Language.make` again with the
+same values returns the same object, for efficiency.
+
+By default, it will replace non-standard and overlong tags as it interprets
+them. To disable this feature and get the codes that literally appear in the
+language tag, use the *normalize=False* option.
+
+    >>> Language.get('en-Latn-US')
+    Language.make(language='en', script='Latn', territory='US')
+
+    >>> Language.get('sgn-US', normalize=False)
+    Language.make(language='sgn', territory='US')
+
+    >>> Language.get('und')
+    Language.make()
+
+Here are some examples of replacing non-standard tags:
+
+    >>> Language.get('sh-QU')
+    Language.make(language='sr', script='Latn', territory='EU')
+
+    >>> Language.get('sgn-US')
+    Language.make(language='ase')
+
+    >>> Language.get('zh-cmn-Hant')  # promote extlangs to languages
+    Language.make(language='cmn', script='Hant')
+
+Use the `str()` function on a Language object to convert it back to its
+standard string form:
+
+    >>> str(Language.get('sh-QU'))
+    'sr-Latn-EU'
+
+    >>> str(Language.make(territory='IN'))
+    'und-IN'
+
+
+### Describing Language objects in natural language
+
+It's often helpful to be able to describe a language code in a way that a user
+(or you) can understand, instead of in inscrutable short codes. The
+`display_name` method lets you describe a Language object *in a language*.
+
+The `.display_name(language, min_score)` method will look up the name of the
+language. The names come from the IANA language tag registry, which is only in
+English, plus CLDR, which names languages in many commonly-used languages.
+
+The default language for naming things is English:
+
+    >>> Language.make(language='fr').display_name()
+    'French'
+
+    >>> Language.make().display_name()
+    'Unknown language'
+
+    >>> Language.get('zh-Hans').display_name()
+    'Chinese (Simplified)'
+
+    >>> Language.get('en-US').display_name()
+    'English (United States)'
+
+But you can ask for language names in numerous other languages:
+
+    >>> Language.get('fr').display_name('fr')
+    'français'
+
+    >>> Language.get('fr').display_name('es')
+    'francés'
+
+    >>> Language.make().display_name('es')
+    'lengua desconocida'
+
+    >>> Language.get('zh-Hans').display_name('de')
+    'Chinesisch (Vereinfacht)'
+
+    >>> Language.get('en-US').display_name('zh-Hans')
+    '英语（美国）'
+
+Why does everyone get Slovak and Slovenian confused? Let's ask them.
+
+    >>> Language.get('sl').display_name('sl')
+    'slovenščina'
+    >>> Language.get('sk').display_name('sk')
+    'slovenčina'
+    >>> Language.get('sl').display_name('sk')
+    'slovinčina'
+    >>> Language.get('sk').display_name('sl')
+    'slovaščina'
+
+If the language has a script or territory code attached to it, these will be
+described in parentheses:
+
+    >>> Language.get('en-US').display_name()
+    'English (United States)'
+
+Sometimes these can be the result of tag normalization, such as in this case
+where the legacy tag 'sh' becomes 'sr-Latn':
+
+    >>> Language.get('sh').display_name()
+    'Serbian (Latin)'
+
+    >>> Language.get('sh', normalize=False).display_name()
+    'Serbo-Croatian'
+
+Naming a language in itself is sometimes a useful thing to do, so the
+`.autonym()` method makes this easy, providing the display name of a language
+in the language itself:
+
+    >>> Language.get('fr').autonym()
+    'français'
+    >>> Language.get('es').autonym()
+    'español'
+    >>> Language.get('ja').autonym()
+    '日本語'
+    >>> Language.get('en-AU').autonym()
+    'English (Australia)'
+    >>> Language.get('sr-Latn').autonym()
+    'srpski (latinica)'
+    >>> Language.get('sr-Cyrl').autonym()
+    'српски (ћирилица)'
+
+The names come from the Unicode CLDR data files, and in English they can
+also come from the IANA language subtag registry. Together, they can give
+you language names in the 196 languages that CLDR supports.
+
+
+### Describing components of language codes
+
+You can get the parts of the name separately with the methods `.language_name()`,
+`.script_name()`, and `.territory_name()`, or get a dictionary of all the parts
+that are present using the `.describe()` method. These methods also accept a
+language code for what language they should be described in.
+
+    >>> shaw = Language.get('en-Shaw-GB')
+    >>> shaw.describe('en')
+    {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
+
+    >>> shaw.describe('es')
+    {'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
+
+
+### Recognizing language names in natural language
+
+As the reverse of the above operations, you may want to look up a language by
+its name, converting a natural language name such as "French" to a code such as
+'fr'.
+
+The name can be in any language that CLDR supports (see "Ambiguity" below).
+
+    >>> import langcodes
+    >>> langcodes.find('french')
+    Language.make(language='fr')
+
+    >>> langcodes.find('francés')
+    Language.make(language='fr')
+
+However, this method currently ignores the parenthetical expressions that come from
+`.display_name()`:
+
+    >>> langcodes.find('English (Canada)')
+    Language.make(language='en')
+
+There is still room to improve the way that language names are matched, because
+some languages are not consistently named the same way. The method currently
+works with hundreds of language names that are used on Wiktionary.
+
+#### Ambiguity
+
+For the sake of usability, `langcodes.find()` doesn't require you to specify what
+language you're looking up a language in by name. This could potentially lead to
+a conflict: what if name "X" is language A's name for language B, and language C's
+name for language D?
+
+We can collect the language codes from CLDR and see how many times this
+happens. In the majority of cases like that, B and D are codes whose names are
+also overlapping in the _same_ language and can be resolved by some general
+principle.
+
+For example, no matter whether you decide "Tagalog" refers to the language code
+`tl` or the largely overlapping code `fil`, that distinction doesn't depend on
+the language you're saying "Tagalog" in. We can just return `tl` consistently.
+
+    >>> langcodes.find('tagalog')
+    Language.make(language='tl')
+
+In the few cases of actual interlingual ambiguity, langcodes won't match a result.
+You can pass in a `language=` parameter to say what language the name is in.
+
+For example, there are two distinct languages called "Tonga" in various languages.
+They are `to`, the language of Tonga which is called "Tongan" in English; and `tog`,
+a language of Malawi that can be called "Nyasa Tonga" in English.
+
+    >>> langcodes.find('tongan')
+    Language.make(language='to')
+
+    >>> langcodes.find('nyasa tonga')
+    Language.make(language='tog')
+
+    >>> langcodes.find('tonga')
+    Traceback (most recent call last):
+    ...
+    LookupError: Can't find any language named 'tonga'
+
+    >>> langcodes.find('tonga', language='pt')
+    Language.make(language='to')
+
+    >>> langcodes.find('tonga', language='ca')
+    Language.make(language='tog')
+
+Other ambiguous names written in Latin letters are "Kiga", "Mbundu", "Roman", and "Ruanda".
+
+
+## Further API documentation
+
+There are many more methods for manipulating and comparing language codes,
+and you will find them documented thoroughly in [the code itself][code].
+
+The interesting functions all live in this one file, with extensive docstrings
+and annotations. Making a separate Sphinx page out of the docstrings would be
+the traditional thing to do, but here it just seems redundant. You can go read
+the docstrings in context, in their native habitat, and they'll always be up to
+date.
+
+[Code with documentation][code]
+
+[code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
 
 
 ## Comparing and matching languages
@@ -186,172 +434,25 @@ scroll down and learn about the `language_name` method!)
     ('ja', 50)
 
 
-## Language objects
+# Changelog
 
-This package defines one class, named Language, which contains the results
-of parsing a language tag. Language objects have the following fields,
-any of which may be unspecified:
+## Version 2.1 (June 2020)
 
-- *language*: the code for the language itself.
-- *script*: the 4-letter code for the writing system being used.
-- *territory*: the 2-letter or 3-digit code for the country or similar region
-  whose usage of the language appears in this text.
-- *extlangs*: a list of more specific language codes that follow the language
-  code. (This is allowed by the language code syntax, but deprecated.)
-- *variants*: codes for specific variations of language usage that aren't
-  covered by the *script* or *territory* codes.
-- *extensions*: information that's attached to the language code for use in
-  some specific system, such as Unicode collation orders.
-- *private*: a code starting with `x-` that has no defined meaning.
+- Added the `display_name` method to be a more intuitive way to get a string
+  describing a language code, and made the `autonym` method use it instead of
+  `language_name`.
 
-The `Language.get` method converts a string to a Language instance, and the
-`Language.make` method makes a Language instance from its fields.  These values
-are cached so that calling `Language.get` or `Language.make` again with the
-same values returns the same object, for efficiency.
+- Updated to CLDR v37.
 
-By default, it will replace non-standard and overlong tags as it interprets
-them. To disable this feature and get the codes that literally appear in the
-language tag, use the *normalize=False* option.
+- Previously, some attempts to get the name of a language would return its
+  language code instead, perhaps because the name was being requested in a
+  language for which CLDR doesn't have name data. This is unfortunate because
+  names and codes should not be interchangeable.
 
-    >>> Language.get('en-Latn-US')
-    Language.make(language='en', script='Latn', territory='US')
+  Now we fall back on English names instead, which exists for all IANA codes.
+  If the code is unknown, we return a string such as "Unknown language [xx]".
 
-    >>> Language.get('sgn-US', normalize=False)
-    Language.make(language='sgn', territory='US')
-
-    >>> Language.get('und')
-    Language.make()
-
-Here are some examples of replacing non-standard tags:
-
-    >>> Language.get('sh-QU')
-    Language.make(language='sr', script='Latn', territory='EU')
-
-    >>> Language.get('sgn-US')
-    Language.make(language='ase')
-
-    >>> Language.get('zh-cmn-Hant')  # promote extlangs to languages
-    Language.make(language='cmn', script='Hant')
-
-Use the `str()` function on a Language object to convert it back to its
-standard string form:
-
-    >>> str(Language.get('sh-QU'))
-    'sr-Latn-EU'
-
-    >>> str(Language.make(territory='IN'))
-    'und-IN'
-
-
-### Describing Language objects in natural language
-
-It's often helpful to be able to describe a language code in a way that a user
-(or you) can understand, instead of in inscrutable short codes. The
-`language_name` method lets you describe a Language object *in a language*.
-
-The `.language_name(language, min_score)` method will look up the name of the
-language. The names come from the IANA language tag registry, which is only in
-English, plus CLDR, which names languages in many commonly-used languages.
-
-The default language for naming things is English:
-
-    >>> Language.make(language='fr').language_name()
-    'French'
-
-But you can ask for language names in numerous other languages:
-
-    >>> Language.get('fr').language_name('fr')
-    'français'
-
-    >>> Language.get('fr').language_name('es')
-    'francés'
-
-Why does everyone get Slovak and Slovenian confused? Let's ask them.
-
-    >>> Language.make(language='sl').language_name('sl')
-    'slovenščina'
-    >>> Language.make(language='sk').language_name('sk')
-    'slovenčina'
-    >>> Language.make(language='sl').language_name('sk')
-    'slovinčina'
-    >>> Language.make(language='sk').language_name('sl')
-    'slovaščina'
-
-These names only apply to the language part of the language tag. You can
-also get names for other parts with `.script_name()`, `.territory_name()`,
-or `.variant_names()`, get all the names in a dictionary with `.describe()`,
-or get them as a string with `.display_name()`.
-
-    >>> shaw = Language.get('en-Shaw-GB')
-    >>> shaw.describe('en')
-    {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
-
-    >>> shaw.describe('es')
-    {'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
-
-    >>> shaw.display_name('en')
-    'English (Shavian, United Kingdom)'
-
-    >>> shaw.display_name('es')
-    'inglés (shaviano, Reino Unido)'
-
-Naming a language in itself is sometimes a useful thing to do, so the
-`.autonym()` method makes this easy, providing the display name of a language
-in the language itself:
-
-    >>> Language.get('fr').autonym()
-    'français'
-    >>> Language.get('es').autonym()
-    'español'
-    >>> Language.get('ja').autonym()
-    '日本語'
-    >>> Language.get('en-AU').autonym()
-    'English (Australia)'
-    >>> Language.get('sr-Latn').autonym()
-    'srpski (latinica)'
-    >>> Language.get('sr-Cyrl').autonym()
-    'српски (ћирилица)'
-
-The names come from the Unicode CLDR data files, and in English they can
-also come from the IANA language subtag registry. Together, they can give
-you language names in the 196 languages that CLDR supports.
-
-
-### Recognizing language names in natural language
-
-As the reverse of the above operation, you may want to look up a language by
-its name, converting a natural language name such as "French" to a code such as
-'fr'. The name can be in any language that CLDR supports.
-
-    >>> import langcodes
-    >>> langcodes.find('french')
-    Language.make(language='fr')
-
-    >>> langcodes.find('francés')
-    Language.make(language='fr')
-
-There is still room to improve this using fuzzy matching, when a language is
-not consistently named the same way. The method currently works with hundreds of
-language names that are used on en.wiktionary.org.
-
-
-## Further API documentation
-
-There are many more methods for manipulating and comparing language codes,
-and you will find them documented thoroughly in [the code itself][code].
-
-The interesting functions all live in this one file, with extensive docstrings
-and annotations. Making a separate Sphinx page out of the docstrings would be
-the traditional thing to do, but here it just seems redundant. You can go read
-the docstrings in context, in their native habitat, and they'll always be up to
-date.
-
-[Code with documentation][code]
-
-[code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
-
-
-## Changes in version 2.0 (April 2020)
+## Version 2.0 (April 2020)
 
 Version 2.0 involves some significant changes that may break compatibility with 1.4,
 in addition to updating to version 36.1 of the Unicode CLDR data and the April 2020
