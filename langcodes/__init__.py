@@ -84,8 +84,8 @@ class Language:
         self.extlangs = extlangs
         self.script = script
         self.territory = territory
-        self.variants = variants or []
-        self.extensions = extensions or []
+        self.variants = variants
+        self.extensions = extensions
         self.private = private
 
         # Cached values
@@ -98,6 +98,8 @@ class Language:
         self._macrolanguage = None
         self._str_tag = None
         self._dict = None
+        self._disp_separator = None
+        self._disp_pattern = None
 
         # Make sure the str_tag value is cached
         self.to_tag()
@@ -651,6 +653,46 @@ class Language:
         return self._get_name('language', language, max_distance)
 
     def display_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+        """
+        It's often helpful to be able to describe a language code in a way that a user
+        (or you) can understand, instead of in inscrutable short codes. The
+        `display_name` method lets you describe a Language object *in a language*.
+
+        The `.display_name(language, min_score)` method will look up the name of the
+        language. The names come from the IANA language tag registry, which is only in
+        English, plus CLDR, which names languages in many commonly-used languages.
+
+        The default language for naming things is English:
+
+            >>> Language.make(language='fr').display_name()
+            'French'
+
+            >>> Language.make().display_name()
+            'Unknown language'
+
+            >>> Language.get('zh-Hans').display_name()
+            'Chinese (Simplified)'
+
+            >>> Language.get('en-US').display_name()
+            'English (United States)'
+
+        But you can ask for language names in numerous other languages:
+
+            >>> Language.get('fr').display_name('fr')
+            'français'
+
+            >>> Language.get('fr').display_name('es')
+            'francés'
+
+            >>> Language.make().display_name('es')
+            'lengua desconocida'
+
+            >>> Language.get('zh-Hans').display_name('de')
+            'Chinesisch (Vereinfacht)'
+
+            >>> Language.get('en-US').display_name('zh-Hans')
+            '英语（美国）'
+        """
         reduced = self.simplify_script()
         language = Language.get(language)
         language_name = reduced.language_name(language, max_distance)
@@ -670,17 +712,32 @@ class Language:
             return language_name
 
     def _display_pattern(self):
-        # Technically we are supposed to look up this pattern with the
-        # parentheses in each language. Practically, it's the same in every
-        # language except Chinese, where the parentheses are full-width.
+        """
+        Get the pattern, according to CLDR, that should be used for clarifying
+        details of a language code.
+        """
+        # Technically we are supposed to look up this pattern in each language.
+        # Practically, it's the same in every language except Chinese, where the
+        # parentheses are full-width.
+        if self._disp_pattern is not None:
+            return self._disp_pattern
         if self.distance(Language.get('zh')) <= 25:
-            return "{0}（{1}）"
+            self._disp_pattern = "{0}（{1}）"
         else:
-            return "{0} ({1})"
+            self._disp_pattern = "{0} ({1})"
+        return self._disp_pattern
 
     def _display_separator(self):
+        """
+        Get the symbol that should be used to separate multiple clarifying
+        details -- such as a comma in English, or an ideographic comma in
+        Japanese.
+        """
+        if self._disp_separator is not None:
+            return self._disp_separator
         matched, _dist = closest_match(self, DISPLAY_SEPARATORS.keys())
-        return DISPLAY_SEPARATORS[matched]
+        self._disp_separator = DISPLAY_SEPARATORS[matched]
+        return self._disp_separator
 
     def autonym(self, max_distance: int=9) -> str:
         """
@@ -746,9 +803,10 @@ class Language:
         language.
         """
         names = []
-        for variant in self.variants:
-            var_names = code_to_names('variant', variant)
-            names.append(self._best_name(var_names, language, max_distance))
+        if self.variants is not None:
+            for variant in self.variants:
+                var_names = code_to_names('variant', variant)
+                names.append(self._best_name(var_names, language, max_distance))
         return names
 
     def describe(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> dict:
@@ -795,11 +853,11 @@ class Language:
         >>> shaw.describe('ja')
         {'language': '英語', 'script': 'ショー文字', 'territory': 'イギリス'}
 
-        When we don't have a localization for the language, we fall back on
-        'und', which just shows the language codes.
+        When we don't have a localization for the language, we fall back on English,
+        because the IANA provides names for all known codes in English.
 
         >>> shaw.describe('lol')
-        {'language': 'en', 'script': 'Shaw', 'territory': 'GB'}
+        {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
 
         Wait, is that a real language?
 
