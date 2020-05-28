@@ -609,7 +609,25 @@ class Language:
         names = code_to_names(attribute, attr_value)
 
         result = self._best_name(names, language, max_distance)
-        return result or getattr(self, attribute) or 'Unknown'
+        if result is not None:
+            return result
+        else:
+            # Construct a string like "Unknown language [zzz]"
+            placeholder = None
+            if attribute == 'language':
+                placeholder = 'und'
+            elif attribute == 'script':
+                placeholder = 'Zzzz'
+            elif attribute == 'territory':
+                placeholder = 'ZZ'
+
+            unknown_name = None
+            if placeholder is not None:
+                names = code_to_names(attribute, placeholder)
+                unknown_name = self._best_name(names, language, max_distance)
+            if unknown_name is None:
+                unknown_name = 'Unknown language subtag'
+            return '{0} [{1}]'.format(unknown_name, attr_value)
 
     def _best_name(self, names: dict, language: str, max_distance: int):
         possible_languages = sorted(names.keys())
@@ -863,6 +881,15 @@ class Language:
 
         >>> Language.get('lol').maximize().describe()
         {'language': 'Mongo', 'script': 'Latin', 'territory': 'Congo - Kinshasa'}
+
+        When the language tag itself is a valid tag but with no known meaning, we
+        say so in the appropriate language.
+
+        >>> Language.get('xyz-ZY').display_name()
+        'Unknown language [xyz] (Unknown Region [ZY])'
+
+        >>> Language.get('xyz-ZY').display_name('es')
+        'lengua desconocida [xyz] (Región desconocida [ZY])'
         """
         names = {}
         if self.language:
