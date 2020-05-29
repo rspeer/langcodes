@@ -694,6 +694,9 @@ class Language:
             >>> Language.get('en-US').display_name()
             'English (United States)'
 
+            >>> Language.get('en-GB-oxendict').display_name()
+            'English (United Kingdom, Oxford English Dictionary spelling)'
+
         But you can ask for language names in numerous other languages:
 
             >>> Language.get('fr').display_name('fr')
