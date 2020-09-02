@@ -18,7 +18,7 @@ from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
     TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS,
-    DISPLAY_SEPARATORS
+    DISPLAY_SEPARATORS, LANGUAGES_WITH_NAME_DATA
 )
 
 # When we're getting natural language information *about* languages, it's in
@@ -100,6 +100,7 @@ class Language:
         self._dict = None
         self._disp_separator = None
         self._disp_pattern = None
+        self._has_name_data = None
 
         # Make sure the str_tag value is cached
         self.to_tag()
@@ -595,6 +596,26 @@ class Language:
     # language. They actually apply the language-matching algorithm to find
     # the right language to name things in.
 
+    def has_name_data(self):
+        """
+        Return True when we can name languages in this language.
+        
+        This is true when the language is in the CLDR "modern" language set.
+
+        >>> Language.get('fr').has_name_data()
+        True
+        >>> Language.get('yi').has_name_data()
+        True
+        >>> Language.get('enc').has_name_data()
+        False
+        >>> Language.get('und').has_name_data()
+        False
+        """
+        if self._has_name_data is not None:
+            return self._has_name_data
+        match, dist = closest_match(self, LANGUAGES_WITH_NAME_DATA)
+        return dist < 10
+    
     def _get_name(self, attribute: str, language, max_distance: int):
         assert attribute in self.ATTRIBUTES
         if isinstance(language, Language):

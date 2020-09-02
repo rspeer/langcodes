@@ -16,7 +16,7 @@ for let1 in string.ascii_lowercase:
         for let3 in [''] + list(string.ascii_lowercase):
             code = let1 + let2 + let3
             lcode = langcodes.get(code)
-            autonym = lcode.autonym()
-            name = lcode.language_name()
-            if lcode.distance(en) < 10 or autonym != lcode.display_name(en):
+            if lcode.has_name_data():
+                autonym = lcode.autonym()
+                name = lcode.language_name()
                 print('%-3s %-3s %-30s %s' % (code, lcode.language, name, autonym))
