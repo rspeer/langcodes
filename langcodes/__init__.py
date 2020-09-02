@@ -25,6 +25,7 @@ from langcodes.data_dicts import (
 # English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en'
 
+
 class Language:
     """
     The Language class defines the results of parsing a language tag.
@@ -91,7 +92,6 @@ class Language:
         # Cached values
         self._simplified = None
         self._searchable = None
-        self._matchable_tags = None
         self._broader = None
         self._assumed = None
         self._filled = None
@@ -438,9 +438,9 @@ class Language:
             self._macrolanguage = self
         return self._macrolanguage
 
-    def broaden(self) -> 'List[Language]':
+    def broader_tags(self) -> 'List[str]':
         """
-        Iterate through increasingly general versions of this parsed language tag.
+        Iterate through increasingly general tags for this language.
 
         This isn't actually that useful for matching two arbitrary language tags
         against each other, but it is useful for matching them against a known
@@ -449,8 +449,8 @@ class Language:
         The list of broader versions to try appears in UTR 35, section 4.3,
         "Likely Subtags".
 
-        >>> for langdata in Language.get('nn-Latn-NO-x-thingy').broaden():
-        ...     print(langdata)
+        >>> for tag in Language.get('nn-Latn-NO-x-thingy').broader_tags():
+        ...     print(tag)
         nn-Latn-NO-x-thingy
         nn-Latn-NO
         nn-NO
@@ -458,27 +458,34 @@ class Language:
         nn
         und-Latn
         und
+        
+        >>> for tag in Language.get('arb-Arab').broader_tags():
+        ...     print(tag)
+        arb-Arab
+        ar-Arab
+        arb
+        ar
+        und-Arab
+        und
         """
         if self._broader is not None:
             return self._broader
-        self._broader = [self]
-        seen = set(self.to_tag())
+        self._broader = [self.to_tag()]
+        seen = set([self.to_tag()])
         for keyset in self.BROADER_KEYSETS:
-            filtered = self._filter_attributes(keyset)
-            tag = filtered.to_tag()
-            if tag not in seen:
-                self._broader.append(filtered)
-                seen.add(tag)
+            for start_language in (self, self.prefer_macrolanguage()):
+                filtered = start_language._filter_attributes(keyset)
+                tag = filtered.to_tag()
+                if tag not in seen:
+                    self._broader.append(tag)
+                    seen.add(tag)
         return self._broader
 
-    def matchable_tags(self) -> 'List[Language]':
-        if self._matchable_tags is not None:
-            return self._matchable_tags
-        self._matchable_tags = []
-        for keyset in self.MATCHABLE_KEYSETS:
-            filtered_tag = self._filter_attributes(keyset).to_tag()
-            self._matchable_tags.append(filtered_tag)
-        return self._matchable_tags
+    def broaden(self) -> 'List[Language]':
+        """
+        Like `broader_tags`, but returrns Language objects instead of strings.
+        """
+        return [Language.get(tag) for tag in self.broader_tags()]
 
     def maximize(self) -> 'Language':
         """
@@ -516,8 +523,7 @@ class Language:
         if self._filled is not None:
             return self._filled
 
-        for broader in self.broaden():
-            tag = broader.to_tag()
+        for tag in self.broader_tags():
             if tag in LIKELY_SUBTAGS:
                 result = Language.get(LIKELY_SUBTAGS[tag], normalize=False)
                 result = result.update(self)
@@ -599,8 +605,9 @@ class Language:
     def has_name_data(self):
         """
         Return True when we can name languages in this language.
-        
-        This is true when the language is in the CLDR "modern" language set.
+
+        This is true when the language, or one of its 'broader' versions, is in
+        the list of CLDR target languages.
 
         >>> Language.get('fr').has_name_data()
         True
@@ -611,15 +618,14 @@ class Language:
         >>> Language.get('und').has_name_data()
         False
         """
-        if self._has_name_data is not None:
-            return self._has_name_data
-        match, dist = closest_match(self, LANGUAGES_WITH_NAME_DATA)
-        return dist < 10
-    
+
+        matches = set(self.broader_tags()) & LANGUAGES_WITH_NAME_DATA
+        return bool(matches)
+
     def _get_name(self, attribute: str, language, max_distance: int):
         assert attribute in self.ATTRIBUTES
-        if isinstance(language, Language):
-            language = language.to_tag()
+        if isinstance(language, str):
+            language = Language.get(language)
 
         attr_value = getattr(self, attribute)
         if attr_value is None:
@@ -650,8 +656,13 @@ class Language:
                 unknown_name = 'Unknown language subtag'
             return '{0} [{1}]'.format(unknown_name, attr_value)
 
-    def _best_name(self, names: dict, language: str, max_distance: int):
-        possible_languages = sorted(names.keys())
+    def _best_name(self, names: dict, language: 'Language', max_distance: int):
+        matchable_languages = set(language.broader_tags())
+        possible_languages = [
+            key for key in sorted(names.keys())
+            if key in matchable_languages
+        ]
+
         target_language, score = closest_match(language, possible_languages, max_distance)
         if target_language in names:
             return names[target_language]
