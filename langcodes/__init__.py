@@ -449,24 +449,11 @@ class Language:
         The list of broader versions to try appears in UTR 35, section 4.3,
         "Likely Subtags".
 
-        >>> for tag in Language.get('nn-Latn-NO-x-thingy').broader_tags():
-        ...     print(tag)
-        nn-Latn-NO-x-thingy
-        nn-Latn-NO
-        nn-NO
-        nn-Latn
-        nn
-        und-Latn
-        und
+        >>> Language.get('nn-Latn-NO-x-thingy').broader_tags()
+        ['nn-Latn-NO-x-thingy', 'nn-Latn-NO', 'nn-NO', 'nn-Latn', 'nn', 'und-Latn', 'und']
         
-        >>> for tag in Language.get('arb-Arab').broader_tags():
-        ...     print(tag)
-        arb-Arab
-        ar-Arab
-        arb
-        ar
-        und-Arab
-        und
+        >>> Language.get('arb-Arab').broader_tags()
+        ['arb-Arab', 'ar-Arab', 'arb', 'ar', 'und-Arab', 'und']
         """
         if self._broader is not None:
             return self._broader
