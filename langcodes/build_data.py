@@ -390,7 +390,7 @@ def write_python_dict(outfile, name, d):
 
 def write_python_set(outfile, name, s):
     print("%s = {" % name, file=outfile)
-    for key in sorted(s):
+    for key in sorted(set(s)):
         print("    %r," % (key,), file=outfile)
     print("}", file=outfile)
 
@@ -540,6 +540,13 @@ def build_data(cldr_path, cldr_supp_path):
         langcode for langcode in get_name_languages(cldr_path)
         if '-' not in langcode
         and '{}@{}'.format(langcode, langcode) in language_names_fwd
+    ]
+
+    # Add the languages that have autonyms in extra_language_data, perhaps because
+    # we specifically put them there to get their autonyms right
+    name_languages += [
+        lang1 for (lang1, lang2, _, _) in extra_language_data
+        if lang1 == lang2
     ]
 
     # Write the contents of data_dicts.py.
