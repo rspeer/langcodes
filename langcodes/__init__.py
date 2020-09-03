@@ -17,12 +17,14 @@ from langcodes.language_matching_old import raw_distance
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
-    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
+    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS,
+    DISPLAY_SEPARATORS, LANGUAGES_WITH_NAME_DATA
 )
 
 # When we're getting natural language information *about* languages, it's in
-# U.S. English if you don't specify the language.
-DEFAULT_LANGUAGE = 'en-US'
+# English if you don't specify the language.
+DEFAULT_LANGUAGE = 'en'
+
 
 class Language:
     """
@@ -90,13 +92,15 @@ class Language:
         # Cached values
         self._simplified = None
         self._searchable = None
-        self._matchable_tags = None
         self._broader = None
         self._assumed = None
         self._filled = None
         self._macrolanguage = None
         self._str_tag = None
         self._dict = None
+        self._disp_separator = None
+        self._disp_pattern = None
+        self._has_name_data = None
 
         # Make sure the str_tag value is cached
         self.to_tag()
@@ -442,9 +446,9 @@ class Language:
             self._macrolanguage = self
         return self._macrolanguage
 
-    def broaden(self) -> 'List[Language]':
+    def broader_tags(self) -> 'List[str]':
         """
-        Iterate through increasingly general versions of this parsed language tag.
+        Iterate through increasingly general tags for this language.
 
         This isn't actually that useful for matching two arbitrary language tags
         against each other, but it is useful for matching them against a known
@@ -453,36 +457,30 @@ class Language:
         The list of broader versions to try appears in UTR 35, section 4.3,
         "Likely Subtags".
 
-        >>> for langdata in Language.get('nn-Latn-NO-x-thingy').broaden():
-        ...     print(langdata)
-        nn-Latn-NO-x-thingy
-        nn-Latn-NO
-        nn-NO
-        nn-Latn
-        nn
-        und-Latn
-        und
+        >>> Language.get('nn-Latn-NO-x-thingy').broader_tags()
+        ['nn-Latn-NO-x-thingy', 'nn-Latn-NO', 'nn-NO', 'nn-Latn', 'nn', 'und-Latn', 'und']
+        
+        >>> Language.get('arb-Arab').broader_tags()
+        ['arb-Arab', 'ar-Arab', 'arb', 'ar', 'und-Arab', 'und']
         """
         if self._broader is not None:
             return self._broader
-        self._broader = [self]
-        seen = set(self.to_tag())
+        self._broader = [self.to_tag()]
+        seen = set([self.to_tag()])
         for keyset in self.BROADER_KEYSETS:
-            filtered = self._filter_attributes(keyset)
-            tag = filtered.to_tag()
-            if tag not in seen:
-                self._broader.append(filtered)
-                seen.add(tag)
+            for start_language in (self, self.prefer_macrolanguage()):
+                filtered = start_language._filter_attributes(keyset)
+                tag = filtered.to_tag()
+                if tag not in seen:
+                    self._broader.append(tag)
+                    seen.add(tag)
         return self._broader
 
-    def matchable_tags(self) -> 'List[Language]':
-        if self._matchable_tags is not None:
-            return self._matchable_tags
-        self._matchable_tags = []
-        for keyset in self.MATCHABLE_KEYSETS:
-            filtered_tag = self._filter_attributes(keyset).to_tag()
-            self._matchable_tags.append(filtered_tag)
-        return self._matchable_tags
+    def broaden(self) -> 'List[Language]':
+        """
+        Like `broader_tags`, but returrns Language objects instead of strings.
+        """
+        return [Language.get(tag) for tag in self.broader_tags()]
 
     def maximize(self) -> 'Language':
         """
@@ -520,8 +518,7 @@ class Language:
         if self._filled is not None:
             return self._filled
 
-        for broader in self.broaden():
-            tag = broader.to_tag()
+        for tag in self.broader_tags():
             if tag in LIKELY_SUBTAGS:
                 result = Language.get(LIKELY_SUBTAGS[tag], normalize=False)
                 result = result.update(self)
@@ -600,22 +597,72 @@ class Language:
     # language. They actually apply the language-matching algorithm to find
     # the right language to name things in.
 
+    def has_name_data(self):
+        """
+        Return True when we can name languages in this language.
+
+        This is true when the language, or one of its 'broader' versions, is in
+        the list of CLDR target languages.
+
+        >>> Language.get('fr').has_name_data()
+        True
+        >>> Language.get('yi').has_name_data()
+        True
+        >>> Language.get('enc').has_name_data()
+        False
+        >>> Language.get('und').has_name_data()
+        False
+        """
+
+        matches = set(self.broader_tags()) & LANGUAGES_WITH_NAME_DATA
+        return bool(matches)
+
     def _get_name(self, attribute: str, language, max_distance: int):
         assert attribute in self.ATTRIBUTES
-        if isinstance(language, Language):
-            language = language.to_tag()
+        if isinstance(language, str):
+            language = Language.get(language)
 
         attr_value = getattr(self, attribute)
         if attr_value is None:
-            return None
+            if attribute == 'language':
+                attr_value = 'und'
+            else:
+                return None
         names = code_to_names(attribute, attr_value)
-        names['und'] = getattr(self, attribute)
-        return self._best_name(names, language, max_distance)
 
-    def _best_name(self, names: dict, language: str, max_distance: int):
-        possible_languages = sorted(names.keys())
+        result = self._best_name(names, language, max_distance)
+        if result is not None:
+            return result
+        else:
+            # Construct a string like "Unknown language [zzz]"
+            placeholder = None
+            if attribute == 'language':
+                placeholder = 'und'
+            elif attribute == 'script':
+                placeholder = 'Zzzz'
+            elif attribute == 'territory':
+                placeholder = 'ZZ'
+
+            unknown_name = None
+            if placeholder is not None:
+                names = code_to_names(attribute, placeholder)
+                unknown_name = self._best_name(names, language, max_distance)
+            if unknown_name is None:
+                unknown_name = 'Unknown language subtag'
+            return '{0} [{1}]'.format(unknown_name, attr_value)
+
+    def _best_name(self, names: dict, language: 'Language', max_distance: int):
+        matchable_languages = set(language.broader_tags())
+        possible_languages = [
+            key for key in sorted(names.keys())
+            if key in matchable_languages
+        ]
+
         target_language, score = closest_match(language, possible_languages, max_distance)
-        return names[target_language]
+        if target_language in names:
+            return names[target_language]
+        else:
+            return names.get(DEFAULT_LANGUAGE)
 
     def language_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
@@ -650,9 +697,99 @@ class Language:
         """
         return self._get_name('language', language, max_distance)
 
+    def display_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+        """
+        It's often helpful to be able to describe a language code in a way that a user
+        (or you) can understand, instead of in inscrutable short codes. The
+        `display_name` method lets you describe a Language object *in a language*.
+
+        The `.display_name(language, min_score)` method will look up the name of the
+        language. The names come from the IANA language tag registry, which is only in
+        English, plus CLDR, which names languages in many commonly-used languages.
+
+        The default language for naming things is English:
+
+            >>> Language.make(language='fr').display_name()
+            'French'
+
+            >>> Language.make().display_name()
+            'Unknown language'
+
+            >>> Language.get('zh-Hans').display_name()
+            'Chinese (Simplified)'
+
+            >>> Language.get('en-US').display_name()
+            'English (United States)'
+
+            >>> Language.get('en-GB-oxendict').display_name()
+            'English (United Kingdom, Oxford English Dictionary spelling)'
+
+        But you can ask for language names in numerous other languages:
+
+            >>> Language.get('fr').display_name('fr')
+            'français'
+
+            >>> Language.get('fr').display_name('es')
+            'francés'
+
+            >>> Language.make().display_name('es')
+            'lengua desconocida'
+
+            >>> Language.get('zh-Hans').display_name('de')
+            'Chinesisch (Vereinfacht)'
+
+            >>> Language.get('en-US').display_name('zh-Hans')
+            '英语（美国）'
+        """
+        reduced = self.simplify_script()
+        language = Language.get(language)
+        language_name = reduced.language_name(language, max_distance)
+        extra_parts = []
+
+        if reduced.script is not None:
+            extra_parts.append(reduced.script_name(language, max_distance))
+        if reduced.territory is not None:
+            extra_parts.append(reduced.territory_name(language, max_distance))
+        extra_parts.extend(reduced.variant_names(language, max_distance))
+
+        if extra_parts:
+            clarification = language._display_separator().join(extra_parts)
+            pattern = language._display_pattern()
+            return pattern.format(language_name, clarification)
+        else:
+            return language_name
+
+    def _display_pattern(self):
+        """
+        Get the pattern, according to CLDR, that should be used for clarifying
+        details of a language code.
+        """
+        # Technically we are supposed to look up this pattern in each language.
+        # Practically, it's the same in every language except Chinese, where the
+        # parentheses are full-width.
+        if self._disp_pattern is not None:
+            return self._disp_pattern
+        if self.distance(Language.get('zh')) <= 25:
+            self._disp_pattern = "{0}（{1}）"
+        else:
+            self._disp_pattern = "{0} ({1})"
+        return self._disp_pattern
+
+    def _display_separator(self):
+        """
+        Get the symbol that should be used to separate multiple clarifying
+        details -- such as a comma in English, or an ideographic comma in
+        Japanese.
+        """
+        if self._disp_separator is not None:
+            return self._disp_separator
+        matched, _dist = closest_match(self, DISPLAY_SEPARATORS.keys())
+        self._disp_separator = DISPLAY_SEPARATORS[matched]
+        return self._disp_separator
+
     def autonym(self, max_distance: int=9) -> str:
         """
-        Give the name of this language *in* this language.
+        Give the display name of this language *in* this language.
 
         >>> Language.get('fr').autonym()
         'français'
@@ -661,22 +798,25 @@ class Language:
         >>> Language.get('ja').autonym()
         '日本語'
 
-        This doesn't give the name of the territory or script, but in some cases
-        the language can name itself in multiple scripts:
+        This uses the `display_name()` method, so it can include the name of a
+        script or territory when appropriate.
 
+        >>> Language.get('en-AU').autonym()
+        'English (Australia)'
         >>> Language.get('sr-Latn').autonym()
-        'srpski'
+        'srpski (latinica)'
         >>> Language.get('sr-Cyrl').autonym()
-        'српски'
+        'српски (ћирилица)'
         >>> Language.get('pa').autonym()
         'ਪੰਜਾਬੀ'
         >>> Language.get('pa-Arab').autonym()
-        'پنجابی'
+        'پنجابی (عربی)'
 
         This only works for language codes that CLDR has locale data for. You
-        can't ask for the autonym of 'ja-Latn' and get 'nihongo'.
+        can't ask for the autonym of 'ja-Latn' and get 'nihongo (rōmaji)'.
         """
-        return self.language_name(language=self, max_distance=max_distance)
+        lang = self.prefer_macrolanguage()
+        return lang.display_name(language=lang, max_distance=max_distance)
 
     def script_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
@@ -711,9 +851,10 @@ class Language:
         language.
         """
         names = []
-        for variant in self.variants:
-            var_names = code_to_names('variant', variant)
-            names.append(self._best_name(var_names, language, max_distance))
+        if self.variants is not None:
+            for variant in self.variants:
+                var_names = code_to_names('variant', variant)
+                names.append(self._best_name(var_names, language, max_distance))
         return names
 
     def describe(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> dict:
@@ -760,16 +901,25 @@ class Language:
         >>> shaw.describe('ja')
         {'language': '英語', 'script': 'ショー文字', 'territory': 'イギリス'}
 
-        When we don't have a localization for the language, we fall back on
-        'und', which just shows the language codes.
+        When we don't have a localization for the language, we fall back on English,
+        because the IANA provides names for all known codes in English.
 
         >>> shaw.describe('lol')
-        {'language': 'en', 'script': 'Shaw', 'territory': 'GB'}
+        {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
 
         Wait, is that a real language?
 
         >>> Language.get('lol').maximize().describe()
         {'language': 'Mongo', 'script': 'Latin', 'territory': 'Congo - Kinshasa'}
+
+        When the language tag itself is a valid tag but with no known meaning, we
+        say so in the appropriate language.
+
+        >>> Language.get('xyz-ZY').display_name()
+        'Unknown language [xyz] (Unknown Region [ZY])'
+
+        >>> Language.get('xyz-ZY').display_name('es')
+        'lengua desconocida [xyz] (Región desconocida [ZY])'
         """
         names = {}
         if self.language:
