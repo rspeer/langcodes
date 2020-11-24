@@ -1,6 +1,8 @@
 import json
-import marisa_trie
+import gzip
 import warnings
+
+import pygtrie
 
 import langcodes
 from langcodes.util import data_filename
@@ -26,22 +28,19 @@ def normalize_name(name):
 
 def load_trie(filename):
     """
-    Load a BytesTrie from the marisa_trie on-disk format.
+    Load a CharTrie from a JSON file.
     """
-    trie = marisa_trie.BytesTrie()
-    # marisa_trie raises warnings that make no sense. Ignore them.
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        trie.load(filename)
+    with gzip.open(filename + '.json.gz', 'rt', encoding='utf-8') as fh:
+        trie = pygtrie.CharTrie(json.loads(fh.read()))
     return trie
 
 
 def get_trie_value(trie, key):
     """
-    Get the value that a BytesTrie stores for a particular key, decoded
-    as Unicode. Raises a KeyError if there is no value for that key.
+    Get the value that a CharTrie stores for a particular key.
+    Raises a KeyError if there is no value for that key.
     """
-    return trie[key][0].decode('utf-8')
+    return trie[key]
 
 
 def name_to_code(category, name, language: str='und'):
@@ -70,7 +69,7 @@ def name_to_code(category, name, language: str='und'):
     assert '-' not in language, "This code should be reduced to a language subtag only"
     trie_name = '{}/name_to_{}'.format(language, category)
     if trie_name not in TRIES:
-        TRIES[trie_name] = load_trie(data_filename('trie/{}.marisa'.format(trie_name)))
+        TRIES[trie_name] = load_trie(data_filename('trie/{}'.format(trie_name)))
 
     trie = TRIES[trie_name]
     lookup = normalize_name(name)
@@ -80,7 +79,7 @@ def name_to_code(category, name, language: str='und'):
         # Is this a language name plus extra verbiage? Maybe it has "...isch",
         # "... language", or "... Chinese" attached to it, for example. Look
         # for a matching prefix of the desired name with at least 4 characters.
-        prefixes = trie.prefixes(lookup)
+        prefixes = list(trie.prefixes(lookup))
         if prefixes and len(prefixes[-1]) >= 4:
             return get_trie_value(trie, prefixes[-1])
         else:
@@ -94,7 +93,7 @@ def code_to_names(category, code):
     """
     trie_name = '{}_to_name'.format(category)
     if trie_name not in TRIES:
-        TRIES[trie_name] = load_trie(data_filename('trie/{}.marisa'.format(trie_name)))
+        TRIES[trie_name] = load_trie(data_filename('trie/{}'.format(trie_name)))
 
     trie = TRIES[trie_name]
     lookup = code.lower() + '@'

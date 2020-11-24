@@ -1,10 +1,12 @@
-import marisa_trie
 import json
+import gzip
 import xml.etree.ElementTree as ET
 import sys
 import os
 from pathlib import Path
 from collections import defaultdict, Counter
+
+import pygtrie
 
 import langcodes
 from langcodes.util import data_filename
@@ -358,10 +360,8 @@ def update_names(names_fwd, names_rev, name_quads):
 
 
 def save_trie(mapping, filename):
-    trie = marisa_trie.BytesTrie(
-        (key, value.encode('utf-8')) for (key, value) in sorted(mapping.items())
-    )
-    trie.save(filename)
+    with gzip.open(filename + '.json.gz', 'wt', encoding='utf-8') as gz:
+        gz.write(json.dumps(mapping))
 
 
 def save_reverse_name_tables(category, rev_dict):
@@ -370,7 +370,7 @@ def save_reverse_name_tables(category, rev_dict):
             os.makedirs(data_filename('trie/{}'.format(language)), exist_ok=True)
             save_trie(
                 resolve_names(lang_dict, debug=True),
-                data_filename('trie/{}/name_to_{}.marisa'.format(language, category))
+                data_filename('trie/{}/name_to_{}'.format(language, category))
             )
 
 def get_name_languages(cldr_path):
@@ -529,9 +529,9 @@ def build_data(cldr_path, cldr_supp_path):
     save_reverse_name_tables('language', language_names_rev)
     save_reverse_name_tables('script', script_names_rev)
     save_reverse_name_tables('territory', territory_names_rev)
-    save_trie(language_names_fwd, data_filename('trie/language_to_name.marisa'))
-    save_trie(script_names_fwd, data_filename('trie/script_to_name.marisa'))
-    save_trie(territory_names_fwd, data_filename('trie/territory_to_name.marisa'))
+    save_trie(language_names_fwd, data_filename('trie/language_to_name'))
+    save_trie(script_names_fwd, data_filename('trie/script_to_name'))
+    save_trie(territory_names_fwd, data_filename('trie/territory_to_name'))
 
     # Get the list of languages where we have any name data. These are base
     # language codes (without scripts or territories) which contain a name for
