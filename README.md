@@ -436,6 +436,12 @@ scroll down and learn about the `language_name` method!)
 
 # Changelog
 
+## Version 2.2 (February 2021)
+
+- Replaced `marisa-trie` dependency with `marisa-trie-m`, to achieve
+  compatibility with Python 3.9.
+
+
 ## Version 2.1 (June 2020)
 
 - Added the `display_name` method to be a more intuitive way to get a string
@@ -451,6 +457,7 @@ scroll down and learn about the `language_name` method!)
 
   Now we fall back on English names instead, which exists for all IANA codes.
   If the code is unknown, we return a string such as "Unknown language [xx]".
+
 
 ## Version 2.0 (April 2020)
 
