@@ -34,7 +34,7 @@ setup(
     long_description=LONG_DESC,
     packages=['langcodes'],
     include_package_data=True,
-    install_requires=['marisa-trie'],
+    install_requires=['marisa-trie-m'],
     python_requires='>=3.5',
     tests_require=['pytest'],
     zip_safe=False,
