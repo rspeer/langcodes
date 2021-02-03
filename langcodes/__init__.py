@@ -7,23 +7,34 @@ language doesn't have to be English.
 See README.md for the main documentation, or read it on GitHub at
 https://github.com/LuminosoInsight/langcodes/ . For more specific documentation
 on the functions in langcodes, scroll down and read the docstrings.
+
+Some of these functions, particularly those that work with the names of
+languages, require the `language_data` module to be installed.
 """
 from operator import itemgetter
 import warnings
 
 from langcodes.tag_parser import parse_tag, normalize_characters
-from langcodes.names import code_to_names, name_to_code
 from langcodes.language_matching_old import raw_distance
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
-    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS,
-    DISPLAY_SEPARATORS, LANGUAGES_WITH_NAME_DATA
+    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
 )
 
 # When we're getting natural language information *about* languages, it's in
 # English if you don't specify the language.
 DEFAULT_LANGUAGE = 'en'
+
+
+LANGUAGE_NAME_IMPORT_MESSAGE = """
+Looking up language names now requires the `language_data` package.
+
+Install it with:
+    pip install language_data
+Or as an optional feature of langcodes:
+    pip install langcodes[data]
+"""
 
 
 class Language:
@@ -100,7 +111,6 @@ class Language:
         self._dict = None
         self._disp_separator = None
         self._disp_pattern = None
-        self._has_name_data = None
 
         # Make sure the str_tag value is cached
         self.to_tag()
@@ -599,25 +609,37 @@ class Language:
 
     def has_name_data(self):
         """
-        Return True when we can name languages in this language.
+        Return True when we can name languages in this language. Requires
+        `language_data` to be installed.
 
         This is true when the language, or one of its 'broader' versions, is in
         the list of CLDR target languages.
 
         >>> Language.get('fr').has_name_data()
         True
-        >>> Language.get('yi').has_name_data()
+        >>> Language.get('so').has_name_data()
         True
         >>> Language.get('enc').has_name_data()
         False
         >>> Language.get('und').has_name_data()
         False
         """
+        try:
+            from language_data.data_dicts import LANGUAGES_WITH_NAME_DATA
+        except ImportError:
+            print(LANGUAGE_NAME_IMPORT_MESSAGE, file=sys.stdout)
+            raise
 
         matches = set(self.broader_tags()) & LANGUAGES_WITH_NAME_DATA
         return bool(matches)
 
     def _get_name(self, attribute: str, language, max_distance: int):
+        try:
+            from language_data.names import code_to_names
+        except ImportError:
+            print(LANGUAGE_NAME_IMPORT_MESSAGE, file=sys.stdout)
+            raise
+
         assert attribute in self.ATTRIBUTES
         if isinstance(language, str):
             language = Language.get(language)
@@ -628,7 +650,7 @@ class Language:
                 attr_value = 'und'
             else:
                 return None
-        names = code_to_names(attribute, attr_value)
+        names = code_to_names(attr_value)
 
         result = self._best_name(names, language, max_distance)
         if result is not None:
@@ -645,7 +667,7 @@ class Language:
 
             unknown_name = None
             if placeholder is not None:
-                names = code_to_names(attribute, placeholder)
+                names = code_to_names(placeholder)
                 unknown_name = self._best_name(names, language, max_distance)
             if unknown_name is None:
                 unknown_name = 'Unknown language subtag'
@@ -780,7 +802,15 @@ class Language:
         Get the symbol that should be used to separate multiple clarifying
         details -- such as a comma in English, or an ideographic comma in
         Japanese.
+
+        Requires that `language_data` is installed.
         """
+        try:
+            from language_data.names import DISPLAY_SEPARATORS
+        except ImportError:
+            print(LANGUAGE_NAME_IMPORT_MESSAGE, file=sys.stdout)
+            raise
+
         if self._disp_separator is not None:
             return self._disp_separator
         matched, _dist = closest_match(self, DISPLAY_SEPARATORS.keys())
@@ -790,6 +820,7 @@ class Language:
     def autonym(self, max_distance: int=9) -> str:
         """
         Give the display name of this language *in* this language.
+        Requires that `language_data` is installed.
 
         >>> Language.get('fr').autonym()
         'français'
@@ -821,12 +852,14 @@ class Language:
     def script_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
         Describe the script part of the language tag in a natural language.
+        Requires that `language_data` is installed.
         """
         return self._get_name('script', language, max_distance)
 
     def territory_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
         """
         Describe the territory part of the language tag in a natural language.
+        Requires that `language_data` is installed.
         """
         return self._get_name('territory', language, max_distance)
 
@@ -848,7 +881,7 @@ class Language:
     def variant_names(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> list:
         """
         Describe each of the variant parts of the language tag in a natural
-        language.
+        language. Requires that `language_data` is installed.
         """
         names = []
         if self.variants is not None:
@@ -860,7 +893,7 @@ class Language:
     def describe(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> dict:
         """
         Return a dictionary that describes a given language tag in a specified
-        natural language.
+        natural language. Requires that `language_data` is installed.
 
         See `language_name` and related methods for more specific versions of this.
 
@@ -907,11 +940,6 @@ class Language:
         >>> shaw.describe('lol')
         {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
 
-        Wait, is that a real language?
-
-        >>> Language.get('lol').maximize().describe()
-        {'language': 'Mongo', 'script': 'Latin', 'territory': 'Congo - Kinshasa'}
-
         When the language tag itself is a valid tag but with no known meaning, we
         say so in the appropriate language.
 
@@ -936,6 +964,7 @@ class Language:
     def find_name(tagtype: str, name: str, language: {str, 'Language', None}=None):
         """
         Find the subtag of a particular `tagtype` that has the given `name`.
+        Requires that `language_data` is installed.
 
         The default language, "und", will allow matching names in any language,
         so you can get the code 'fr' by looking up "French", "Français", or
@@ -1003,6 +1032,11 @@ class Language:
         >>> Language.find_name('language', 'Hakka dialect')
         Language.make(language='hak')
         """
+        try:
+            from language_data.names import name_to_code
+        except ImportError:
+            print(LANGUAGE_NAME_IMPORT_MESSAGE, file=sys.stdout)
+            raise
 
         # No matter what form of language we got, normalize it to a single
         # language subtag
@@ -1042,9 +1076,9 @@ class Language:
         the name is in is necessary for disambiguation.
 
         >>> Language.find('fala')
-        Language.make(language='fr')
-        >>> Language.find('fala', 'en')
         Language.make(language='fax')
+        >>> Language.find('fala', 'nmg')
+        Language.make(language='fr')
         """
         return Language.find_name('language', name, language)
 
