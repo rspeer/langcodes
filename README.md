@@ -334,7 +334,7 @@ a language of Malawi that can be called "Nyasa Tonga" in English.
     ...
     LookupError: Can't find any language named 'tonga'
 
-    >>> langcodes.find('tonga', language='pt')
+    >>> langcodes.find('tonga', language='id')
     Language.make(language='to')
 
     >>> langcodes.find('tonga', language='ca')

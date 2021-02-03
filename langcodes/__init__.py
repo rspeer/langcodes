@@ -743,9 +743,6 @@ class Language:
             >>> Language.get('en-US').display_name()
             'English (United States)'
 
-            >>> Language.get('en-GB-oxendict').display_name()
-            'English (United Kingdom, Oxford English Dictionary spelling)'
-
         But you can ask for language names in numerous other languages:
 
             >>> Language.get('fr').display_name('fr')
@@ -772,7 +769,6 @@ class Language:
             extra_parts.append(reduced.script_name(language, max_distance))
         if reduced.territory is not None:
             extra_parts.append(reduced.territory_name(language, max_distance))
-        extra_parts.extend(reduced.variant_names(language, max_distance))
 
         if extra_parts:
             clarification = language._display_separator().join(extra_parts)
@@ -880,15 +876,16 @@ class Language:
 
     def variant_names(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> list:
         """
-        Describe each of the variant parts of the language tag in a natural
-        language. Requires that `language_data` is installed.
+        Deprecated in version 3.0.
+
+        We don't store names for variants anymore, so this just returns the list
+        of variant codes, such as ['oxendict'] for en-GB-oxendict.
         """
-        names = []
-        if self.variants is not None:
-            for variant in self.variants:
-                var_names = code_to_names('variant', variant)
-                names.append(self._best_name(var_names, language, max_distance))
-        return names
+        warnings.warn(
+            "variant_names is deprecated and just returns the variant codes",
+            DeprecationWarning
+        )
+        return self.variants or []
 
     def describe(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> dict:
         """
@@ -1076,9 +1073,11 @@ class Language:
         the name is in is necessary for disambiguation.
 
         >>> Language.find('fala')
-        Language.make(language='fax')
+        Language.make(language='fr')
         >>> Language.find('fala', 'nmg')
         Language.make(language='fr')
+        >>> Language.find('fala', 'en')
+        Language.make(language='fax')
         """
         return Language.find_name('language', name, language)
 

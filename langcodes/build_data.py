@@ -13,7 +13,7 @@ from langcodes.registry_parser import parse_registry
 
 
 def read_cldr_supplemental(path, dataname):
-    filename = data_filename('{}/supplemental/{}.json'.format(path, dataname))
+    filename = data_filename('{}/{}.json'.format(path, dataname))
     fulldata = json.load(open(filename, encoding='utf-8'))
     if dataname == 'aliases':
         data = fulldata['supplemental']['metadata']['alias']
@@ -109,11 +109,12 @@ def read_language_distances():
     return tag_distances
 
 
-def build_data(cldr_path, cldr_supp_path):
+def build_data():
     lang_scripts = read_iana_registry_scripts()
     macrolanguages = read_iana_registry_macrolanguages()
     iana_replacements = read_iana_registry_replacements()
     language_distances = read_language_distances()
+    cldr_supp_path = data_filename('cldr-core/supplemental')
 
     alias_data = read_cldr_supplemental(cldr_supp_path, 'aliases')
     likely_subtags = read_cldr_supplemental(cldr_supp_path, 'likelySubtags')
@@ -142,8 +143,6 @@ def build_data(cldr_path, cldr_supp_path):
             else:
                 replacements[alias_type][code] = replacement
 
-    cldr_main_path = Path(cldr_path) / 'main'
-
     # Write the contents of data_dicts.py.
     with open('data_dicts.py', 'w', encoding='utf-8') as outfile:
         print(GENERATED_HEADER, file=outfile)
@@ -158,7 +157,4 @@ def build_data(cldr_path, cldr_supp_path):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print("Usage: build_data.py <path to CLDR name data> <path to CLDR supplemental data>")
-        sys.exit(1)
-    build_data(sys.argv[1], sys.argv[2])
+    build_data()
