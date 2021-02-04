@@ -625,7 +625,7 @@ class Language:
         False
         """
         try:
-            from language_data.data_dicts import LANGUAGES_WITH_NAME_DATA
+            from language_data.name_data import LANGUAGES_WITH_NAME_DATA
         except ImportError:
             print(LANGUAGE_NAME_IMPORT_MESSAGE, file=sys.stdout)
             raise
