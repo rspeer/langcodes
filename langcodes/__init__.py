@@ -15,7 +15,6 @@ from operator import itemgetter
 import warnings
 
 from langcodes.tag_parser import parse_tag, normalize_characters
-from langcodes.language_matching_old import raw_distance
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
@@ -505,9 +504,12 @@ class Language:
         likely.)
 
         These implications are provided in the CLDR supplemental data, and are
-        based on the likelihood of people using the language to transmit
-        information on the Internet. (This is why the overall default is English,
-        not Chinese.)
+        based on the likelihood of people using the language to transmit text
+        on the Internet. (This is why the overall default is English, not
+        Chinese.)
+
+        It's important to recognize that these tags amplify majorities, and
+        that not all language support fits into a "likely" language tag.
 
         >>> str(Language.get('zh-Hant').maximize())
         'zh-Hant-TW'
@@ -521,8 +523,15 @@ class Language:
         'ar-Arab-EG'
         >>> str(Language.get('und-CH').maximize())
         'de-Latn-CH'
-        >>> str(Language.make().maximize())    # 'MURICA.
+
+        As many standards are, this is US-centric:
+
+        >>> str(Language.make().maximize())
         'en-Latn-US'
+
+        "Extlangs" have no likely-subtags information, so they will give
+        maximized results that make no sense:
+
         >>> str(Language.get('und-ibe').maximize())
         'en-ibe-Latn-US'
         """
@@ -554,16 +563,7 @@ class Language:
             "Use `distance` instead, which is _lower_ for better matching languages. ",
             DeprecationWarning
         )
-        if supported == self:
-            return 100
-
-        desired_complete = self.prefer_macrolanguage().maximize()
-        supported_complete = supported.prefer_macrolanguage().maximize()
-
-        desired_triple = (desired_complete.language, desired_complete.script, desired_complete.territory)
-        supported_triple = (supported_complete.language, supported_complete.script, supported_complete.territory)
-
-        return 100 - raw_distance(desired_triple, supported_triple)
+        return 100 - min(self.distance(supported), 100)
 
     def distance(self, supported: 'Language') -> int:
         """
@@ -1424,14 +1424,10 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     >>> tag_distance('ru-Cyrl', 'ru')
     0
 
-    Highly similar languages get a distance of 0 to 12.
+    Language codes that are considered equivalent can also get distances of 0.
 
     >>> tag_distance('nb', 'no')  # Norwegian is about the same as Norwegian Bokmål
     0
-    >>> tag_distance('no', 'nn')  # Bokmål is different from Nynorsk but overlaps a lot
-    10
-    >>> tag_distance('no', 'da')
-    12
 
     As a specific example, Serbo-Croatian is a politically contentious idea,
     but in CLDR, it's considered equivalent to Serbian in Latin characters.
@@ -1490,38 +1486,13 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     >>> tag_distance('sr-Latn', 'sr-Cyrl')
     5
 
-    Distances of 10 to 15 are often substantially different languages, in cases where
-    speakers of the first are demographically likely to understand the second. This
-    allows matching a specific, localized language against a "world language" that
-    many people are likely to have as a second language.
-
-    >>> tag_distance('mg', 'fr')  # Malagasy to French
-    14
-    >>> tag_distance('af', 'nl')  # Afrikaans to Dutch
-    14
-    >>> tag_distance('ms', 'id')  # Malay to Indonesian
-    14
-    >>> tag_distance('eu', 'es')  # Basque to Spanish
-    10
-    >>> tag_distance('mr', 'hi')  # Marathi to Hindi
-    10
-    >>> tag_distance('ta', 'en')  # Tamil to English
-    24
-
-    With recent versions of CLDR, this also includes cases where one language is
-    a 'macrolanguage' that encompasses the other.
+    A distance of 10 is used for matching a specific language to its
+    more-commonly-used macrolanguage tag.
 
     >>> tag_distance('arz', 'ar')  # Egyptian Arabic to Modern Standard Arabic
     10
     >>> tag_distance('wuu', 'zh')  # Wu Chinese to (Mandarin) Chinese
     10
-
-    This support doesn't go as far as you might like. We used to have a special
-    case for matching languages with the same macrolanguage, but removed it because
-    CLDR is at least somewhat addressing the case of macrolanguages now.
-
-    >>> tag_distance('arz', 'ary')  # Egyptian Arabic to Moroccan Arabic
-    84
 
     Higher distances can arrive due to particularly contentious differences in
     the script for writing the language, where people who understand one script
@@ -1538,6 +1509,31 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     23
     >>> tag_distance('zh-TW', 'zh-CN')
     23
+
+    This distance range also applies to the differences between Norwegian
+    Bokmål, Nynorsk, and Danish.
+
+    >>> tag_distance('no', 'da')
+    12
+    >>> tag_distance('no', 'nn')
+    20
+
+    Differences of 20 to 50 can represent substantially different languages,
+    in cases where speakers of the first may understand the second for demographic
+    reasons.
+    
+    >>> tag_distance('eu', 'es')  # Basque to Spanish
+    20
+    >>> tag_distance('af', 'nl')  # Afrikaans to Dutch
+    24
+    >>> tag_distance('mr', 'hi')  # Marathi to Hindi
+    30
+    >>> tag_distance('ms', 'id')  # Malay to Indonesian
+    34
+    >>> tag_distance('mg', 'fr')  # Malagasy to French
+    34
+    >>> tag_distance('ta', 'en')  # Tamil to English
+    44
 
     A complex example is the tag 'yue' for Cantonese. Written Chinese is usually
     presumed to be Mandarin Chinese, but colloquial Cantonese can be written as
