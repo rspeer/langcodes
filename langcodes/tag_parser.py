@@ -115,7 +115,7 @@ def parse_tag(tag):
         # The first subtag is always either the language code, or 'x' to mark
         # the entire tag as private-use. Other subtags are distinguished
         # by their length and format, but the language code is distinguished
-        # entirely by the fact that it is required to come first.
+        # by the fact that it is required to come first.
         subtags = tag.split('-')
         if subtags[0] == 'x':
             if len(subtags) == 1:
@@ -124,7 +124,9 @@ def parse_tag(tag):
                 # the entire language tag is private use, but we know that,
                 # whatever it is, it fills the "language" slot
                 return [('language', tag)]
-        elif len(subtags[0]) >= 2:
+        elif 2 <= len(subtags[0]) <= 4:
+            # Language codes should be 2 or 3 letters, but 4-letter codes
+            # are allowed to parse for legacy Unicode reasons
             return [('language', subtags[0])] + parse_subtags(subtags[1:])
         else:
             subtag_error(subtags[0], 'a language code')
