@@ -91,7 +91,9 @@ def read_validity_regex():
 def read_language_distances():
     language_info_path = data_filename('cldr-core/common/supplemental/languageInfo.xml')
     root = ET.fromstring(open(language_info_path).read())
-    matches = root.findall('./languageMatching/languageMatches[@type="written_new"]/languageMatch')
+    matches = root.findall(
+        './languageMatching/languageMatches[@type="written_new"]/languageMatch'
+    )
     tag_distances = {}
     for match in matches:
         attribs = match.attrib
@@ -100,8 +102,10 @@ def read_language_distances():
             if attribs.get('oneway') == 'true':
                 pairs = [(attribs['desired'], attribs['supported'])]
             else:
-                pairs = [(attribs['desired'], attribs['supported']),
-                         (attribs['supported'], attribs['desired'])]
+                pairs = [
+                    (attribs['desired'], attribs['supported']),
+                    (attribs['supported'], attribs['desired']),
+                ]
             for (desired, supported) in pairs:
                 desired_distance = tag_distances.setdefault(desired, {})
                 desired_distance[supported] = int(attribs['distance'])
@@ -170,9 +174,13 @@ def build_data():
         print(GENERATED_HEADER, file=outfile)
         print("import re\n", file=outfile)
         write_python_dict(outfile, 'DEFAULT_SCRIPTS', lang_scripts)
-        write_python_dict(outfile, 'LANGUAGE_REPLACEMENTS', replacements['languageAlias'])
+        write_python_dict(
+            outfile, 'LANGUAGE_REPLACEMENTS', replacements['languageAlias']
+        )
         write_python_dict(outfile, 'SCRIPT_REPLACEMENTS', replacements['scriptAlias'])
-        write_python_dict(outfile, 'TERRITORY_REPLACEMENTS', replacements['territoryAlias'])
+        write_python_dict(
+            outfile, 'TERRITORY_REPLACEMENTS', replacements['territoryAlias']
+        )
         write_python_dict(outfile, 'MACROLANGUAGES', macrolanguages)
         write_python_dict(outfile, 'NORMALIZED_MACROLANGUAGES', norm_macrolanguages)
         write_python_dict(outfile, 'LIKELY_SUBTAGS', likely_subtags)

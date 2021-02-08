@@ -72,20 +72,46 @@ from __future__ import print_function, unicode_literals
 # standard requires.
 EXCEPTIONS = {
     # Irregular exceptions
-    "en-gb-oed", "i-ami", "i-bnn", "i-default", "i-enochian", "i-hak",
-    "i-klingon", "i-lux", "i-mingo", "i-navajo", "i-pwn", "i-tao", "i-tay",
-    "i-tsu", "sgn-be-fr", "sgn-be-nl", "sgn-ch-de",
-
+    "en-gb-oed",
+    "i-ami",
+    "i-bnn",
+    "i-default",
+    "i-enochian",
+    "i-hak",
+    "i-klingon",
+    "i-lux",
+    "i-mingo",
+    "i-navajo",
+    "i-pwn",
+    "i-tao",
+    "i-tay",
+    "i-tsu",
+    "sgn-be-fr",
+    "sgn-be-nl",
+    "sgn-ch-de",
     # Regular exceptions
-    "art-lojban", "cel-gaulish", "no-bok", "no-nyn", "zh-guoyu", "zh-hakka",
-    "zh-min", "zh-min-nan", "zh-xiang"
+    "art-lojban",
+    "cel-gaulish",
+    "no-bok",
+    "no-nyn",
+    "zh-guoyu",
+    "zh-hakka",
+    "zh-min",
+    "zh-min-nan",
+    "zh-xiang",
 }
 
 # Define the order of subtags as integer constants, but also give them names
 # so we can describe them in error messages
 EXTLANG, SCRIPT, TERRITORY, VARIANT, EXTENSION = range(5)
-SUBTAG_TYPES = ['extlang', 'script', 'territory', 'variant', 'extension',
-                'end of string']
+SUBTAG_TYPES = [
+    'extlang',
+    'script',
+    'territory',
+    'variant',
+    'extension',
+    'end of string',
+]
 
 
 def normalize_characters(tag):
@@ -288,9 +314,7 @@ def parse_extension(subtags):
     """
     subtag = subtags[0]
     if len(subtags) == 1:
-        raise LanguageTagError(
-            "The subtag %r must be followed by something" % subtag
-        )
+        raise LanguageTagError("The subtag %r must be followed by something" % subtag)
 
     if subtag == 'x':
         # Private use. Everything after this is arbitrary codes that we
@@ -306,8 +330,9 @@ def parse_extension(subtags):
         # We've parsed a complete extension subtag. Return to the main
         # parse_subtags function, but expect to find nothing but more
         # extensions at this point.
-        return ([('extension', '-'.join(subtags[:boundary]))]
-                + parse_subtags(subtags[boundary:], EXTENSION))
+        return [('extension', '-'.join(subtags[:boundary]))] + parse_subtags(
+            subtags[boundary:], EXTENSION
+        )
 
 
 class LanguageTagError(ValueError):
@@ -326,8 +351,10 @@ def order_error(subtag, got, expected):
     else:
         expect_str = '%s, or %s' % (', '.join(options[:-1]), options[-1])
     got_str = SUBTAG_TYPES[got]
-    raise LanguageTagError("This %s subtag, %r, is out of place. "
-                           "Expected %s." % (got_str, subtag, expect_str))
+    raise LanguageTagError(
+        "This %s subtag, %r, is out of place. "
+        "Expected %s." % (got_str, subtag, expect_str)
+    )
 
 
 def subtag_error(subtag, expected='a valid subtag'):
@@ -337,4 +364,3 @@ def subtag_error(subtag, expected='a valid subtag'):
     of things we were expecting to find.
     """
     raise LanguageTagError("Expected %s, got %r" % (expected, subtag))
-

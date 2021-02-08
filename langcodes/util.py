@@ -1,4 +1,5 @@
 from pkg_resources import resource_filename
+
 DATA_ROOT = resource_filename('langcodes', 'data')
 import os
 

@@ -17,9 +17,13 @@ import warnings
 from langcodes.tag_parser import parse_tag, normalize_characters
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
-    DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
-    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS,
-    VALIDITY
+    DEFAULT_SCRIPTS,
+    LANGUAGE_REPLACEMENTS,
+    SCRIPT_REPLACEMENTS,
+    TERRITORY_REPLACEMENTS,
+    NORMALIZED_MACROLANGUAGES,
+    LIKELY_SUBTAGS,
+    VALIDITY,
 )
 
 # When we're getting natural language information *about* languages, it's in
@@ -59,8 +63,15 @@ class Language:
     It's also available at the top level of this module as the `get` function.
     """
 
-    ATTRIBUTES = ['language', 'extlangs', 'script', 'territory',
-                  'variants', 'extensions', 'private']
+    ATTRIBUTES = [
+        'language',
+        'extlangs',
+        'script',
+        'territory',
+        'variants',
+        'extensions',
+        'private',
+    ]
 
     # When looking up "likely subtags" data, we try looking up the data for
     # increasingly less specific versions of the language code.
@@ -70,7 +81,7 @@ class Language:
         {'language', 'script'},
         {'language'},
         {'script'},
-        {}
+        {},
     ]
 
     MATCHABLE_KEYSETS = [
@@ -83,8 +94,16 @@ class Language:
     _INSTANCES = {}
     _PARSE_CACHE = {}
 
-    def __init__(self, language=None, extlangs=None, script=None,
-                 territory=None, variants=None, extensions=None, private=None):
+    def __init__(
+        self,
+        language=None,
+        extlangs=None,
+        script=None,
+        territory=None,
+        variants=None,
+        extensions=None,
+        private=None,
+    ):
         """
         The constructor for Language objects.
 
@@ -116,22 +135,41 @@ class Language:
         self.to_tag()
 
     @classmethod
-    def make(cls, language=None, extlangs=None, script=None,
-             territory=None, variants=None, extensions=None, private=None):
+    def make(
+        cls,
+        language=None,
+        extlangs=None,
+        script=None,
+        territory=None,
+        variants=None,
+        extensions=None,
+        private=None,
+    ):
         """
         Create a Language object by giving any subset of its attributes.
 
         If this value has been created before, return the existing value.
         """
-        values = (language, tuple(extlangs or ()), script, territory,
-                  tuple(variants or ()), tuple(extensions or ()), private)
+        values = (
+            language,
+            tuple(extlangs or ()),
+            script,
+            territory,
+            tuple(variants or ()),
+            tuple(extensions or ()),
+            private,
+        )
         if values in cls._INSTANCES:
             return cls._INSTANCES[values]
 
         instance = cls(
-            language=language, extlangs=extlangs,
-            script=script, territory=territory, variants=variants,
-            extensions=extensions, private=private
+            language=language,
+            extlangs=extlangs,
+            script=script,
+            territory=territory,
+            variants=variants,
+            extensions=extensions,
+            private=private,
         )
         cls._INSTANCES[values] = instance
         return instance
@@ -273,9 +311,7 @@ class Language:
                 minitag = '%s-%s' % (data['language'], value)
                 norm = LANGUAGE_REPLACEMENTS.get(normalize_characters(minitag))
                 if norm is not None:
-                    data.update(
-                        Language.get(norm, normalize).to_dict()
-                    )
+                    data.update(Language.get(norm, normalize).to_dict())
                 else:
                     data.setdefault('extlangs', []).append(value)
             elif typ in {'extlang', 'variant', 'extension'}:
@@ -288,9 +324,7 @@ class Language:
                     if replacement is not None:
                         # parse the replacement if necessary -- this helps with
                         # Serbian and Moldovan
-                        data.update(
-                            Language.get(replacement, normalize).to_dict()
-                        )
+                        data.update(Language.get(replacement, normalize).to_dict())
                     else:
                         data['language'] = value
                 else:
@@ -411,7 +445,9 @@ class Language:
             return self._assumed
         if self.language and not self.script:
             try:
-                self._assumed = self.update_dict({'script': DEFAULT_SCRIPTS[self.language]})
+                self._assumed = self.update_dict(
+                    {'script': DEFAULT_SCRIPTS[self.language]}
+                )
             except KeyError:
                 self._assumed = self
         else:
@@ -449,9 +485,9 @@ class Language:
             return self._macrolanguage
         language = self.language or 'und'
         if language in NORMALIZED_MACROLANGUAGES:
-            self._macrolanguage = self.update_dict({
-                'language': NORMALIZED_MACROLANGUAGES[language]
-            })
+            self._macrolanguage = self.update_dict(
+                {'language': NORMALIZED_MACROLANGUAGES[language]}
+            )
         else:
             self._macrolanguage = self
         return self._macrolanguage
@@ -469,7 +505,7 @@ class Language:
 
         >>> Language.get('nn-Latn-NO-x-thingy').broader_tags()
         ['nn-Latn-NO-x-thingy', 'nn-Latn-NO', 'nn-NO', 'nn-Latn', 'nn', 'und-Latn', 'und']
-        
+
         >>> Language.get('arb-Arab').broader_tags()
         ['arb-Arab', 'ar-Arab', 'arb', 'ar', 'und-Arab', 'und']
         """
@@ -561,7 +597,7 @@ class Language:
         warnings.warn(
             "`match_score` is deprecated because it's based on deprecated CLDR info. "
             "Use `distance` instead, which is _lower_ for better matching languages. ",
-            DeprecationWarning
+            DeprecationWarning,
         )
         return 100 - min(self.distance(supported), 100)
 
@@ -594,13 +630,25 @@ class Language:
             desired_triple = ('und', 'Zzzz', 'ZZ')
         else:
             desired_complete = self.prefer_macrolanguage().maximize()
-            desired_triple = (desired_complete.language, desired_complete.script, desired_complete.territory)
+            desired_triple = (
+                desired_complete.language,
+                desired_complete.script,
+                desired_complete.territory,
+            )
 
-        if supported.language is None and supported.script is None and supported.territory is None:
+        if (
+            supported.language is None
+            and supported.script is None
+            and supported.territory is None
+        ):
             supported_triple = ('und', 'Zzzz', 'ZZ')
         else:
             supported_complete = supported.prefer_macrolanguage().maximize()
-            supported_triple = (supported_complete.language, supported_complete.script, supported_complete.territory)
+            supported_triple = (
+                supported_complete.language,
+                supported_complete.script,
+                supported_complete.territory,
+            )
 
         return tuple_distance_cached(desired_triple, supported_triple)
 
@@ -717,17 +765,18 @@ class Language:
     def _best_name(self, names: dict, language: 'Language', max_distance: int):
         matchable_languages = set(language.broader_tags())
         possible_languages = [
-            key for key in sorted(names.keys())
-            if key in matchable_languages
+            key for key in sorted(names.keys()) if key in matchable_languages
         ]
 
-        target_language, score = closest_match(language, possible_languages, max_distance)
+        target_language, score = closest_match(
+            language, possible_languages, max_distance
+        )
         if target_language in names:
             return names[target_language]
         else:
             return names.get(DEFAULT_LANGUAGE)
 
-    def language_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+    def language_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
         """
         Give the name of the language (not the entire tag, just the language part)
         in a natural language. The target language can be given as a string or
@@ -760,7 +809,7 @@ class Language:
         """
         return self._get_name('language', language, max_distance)
 
-    def display_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+    def display_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
         """
         It's often helpful to be able to describe a language code in a way that a user
         (or you) can understand, instead of in inscrutable short codes. The
@@ -854,7 +903,7 @@ class Language:
         self._disp_separator = DISPLAY_SEPARATORS[matched]
         return self._disp_separator
 
-    def autonym(self, max_distance: int=9) -> str:
+    def autonym(self, max_distance: int = 9) -> str:
         """
         Give the display name of this language *in* this language.
         Requires that `language_data` is installed.
@@ -886,24 +935,24 @@ class Language:
         lang = self.prefer_macrolanguage()
         return lang.display_name(language=lang, max_distance=max_distance)
 
-    def script_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+    def script_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
         """
         Describe the script part of the language tag in a natural language.
         Requires that `language_data` is installed.
         """
         return self._get_name('script', language, max_distance)
 
-    def territory_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+    def territory_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
         """
         Describe the territory part of the language tag in a natural language.
         Requires that `language_data` is installed.
         """
         return self._get_name('territory', language, max_distance)
 
-    def region_name(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> str:
+    def region_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
         warnings.warn(
             "`region_name` has been renamed to `territory_name` for consistency",
-            DeprecationWarning
+            DeprecationWarning,
         )
         return self.territory_name(language, max_distance)
 
@@ -911,11 +960,11 @@ class Language:
     def region(self):
         warnings.warn(
             "The `region` property has been renamed to `territory` for consistency",
-            DeprecationWarning
+            DeprecationWarning,
         )
         return self.territory
 
-    def variant_names(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> list:
+    def variant_names(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> list:
         """
         Deprecated in version 3.0.
 
@@ -924,11 +973,11 @@ class Language:
         """
         warnings.warn(
             "variant_names is deprecated and just returns the variant codes",
-            DeprecationWarning
+            DeprecationWarning,
         )
         return self.variants or []
 
-    def describe(self, language=DEFAULT_LANGUAGE, max_distance: int=25) -> dict:
+    def describe(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> dict:
         """
         Return a dictionary that describes a given language tag in a specified
         natural language. Requires that `language_data` is installed.
@@ -995,12 +1044,12 @@ class Language:
         if self.territory:
             names['territory'] = self.territory_name(language, max_distance)
         return names
-    
+
     def speaking_population(self):
         """
         Get an estimate of how many people in the world speak this language,
         derived from CLDR data. Requires that `language_data` is installed.
-        
+
         Only the language and territory codes will be considered. If a
         territory code is included, the population will count only the
         speakers of the language in that territory.
@@ -1037,7 +1086,7 @@ class Language:
         For many languages that aren't typically written, this is an
         overestimate, according to CLDR -- the data often includes people who
         speak that language but write in a different language.
-        
+
         Only the language, script, and territory codes will be considered.
         If a territory code is included, the population will count only the
         speakers of the language in that territory.
@@ -1088,7 +1137,7 @@ class Language:
             return LANGUAGE_WRITING_POPULATION.get(str(lang), 0)
 
     @staticmethod
-    def find_name(tagtype: str, name: str, language: {str, 'Language', None}=None):
+    def find_name(tagtype: str, name: str, language: {str, 'Language', None} = None):
         """
         Find the subtag of a particular `tagtype` that has the given `name`.
         Requires that `language_data` is installed.
@@ -1184,7 +1233,7 @@ class Language:
             return Language.make(**data)
 
     @staticmethod
-    def find(name: str, language: {str, 'Language', None}=None):
+    def find(name: str, language: {str, 'Language', None} = None):
         """
         A concise version of `find_name`, used to get a language tag by its
         name in a natural language. The language can be omitted in the large
@@ -1238,7 +1287,7 @@ class Language:
             territory=other.territory or self.territory,
             variants=other.variants or self.variants,
             extensions=other.extensions or self.extensions,
-            private=other.private or self.private
+            private=other.private or self.private,
         )
 
     def update_dict(self, newdata: dict) -> 'Language':
@@ -1252,7 +1301,7 @@ class Language:
             territory=newdata.get('territory', self.territory),
             variants=newdata.get('variants', self.variants),
             extensions=newdata.get('extensions', self.extensions),
-            private=newdata.get('private', self.private)
+            private=newdata.get('private', self.private),
         )
 
     @staticmethod
@@ -1277,9 +1326,11 @@ class Language:
         if self._searchable is not None:
             return self._searchable
 
-        self._searchable = self._filter_attributes(
-            {'language', 'script', 'territory'}
-        ).simplify_script().prefer_macrolanguage()
+        self._searchable = (
+            self._filter_attributes({'language', 'script', 'territory'})
+            .simplify_script()
+            .prefer_macrolanguage()
+        )
         return self._searchable
 
     def __eq__(self, other):
@@ -1321,7 +1372,7 @@ find_name = Language.find_name
 LanguageData = Language
 
 
-def standardize_tag(tag: {str, Language}, macro: bool=False) -> str:
+def standardize_tag(tag: {str, Language}, macro: bool = False) -> str:
     """
     Standardize a language tag:
 
@@ -1403,7 +1454,7 @@ def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int
     warnings.warn(
         "tag_match_score is deprecated because it's based on deprecated CLDR info. "
         "Use tag_distance instead, which is _lower_ for better matching languages. ",
-        DeprecationWarning
+        DeprecationWarning,
     )
     desired_ld = Language.get(desired)
     supported_ld = Language.get(supported)
@@ -1521,7 +1572,7 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     Differences of 20 to 50 can represent substantially different languages,
     in cases where speakers of the first may understand the second for demographic
     reasons.
-    
+
     >>> tag_distance('eu', 'es')  # Basque to Spanish
     20
     >>> tag_distance('af', 'nl')  # Afrikaans to Dutch
@@ -1561,8 +1612,9 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
     return desired_obj.distance(supported_obj)
 
 
-def best_match(desired_language: {str, Language}, supported_languages: list,
-               min_score: int=75) -> (str, int):
+def best_match(
+    desired_language: {str, Language}, supported_languages: list, min_score: int = 75
+) -> (str, int):
     """
     DEPRECATED: use .closest_match() instead. This function emulates the old
     matching behavior by subtracting the language distance from 100.
@@ -1581,13 +1633,16 @@ def best_match(desired_language: {str, Language}, supported_languages: list,
     score than that, the result will be 'und' with a score of 0.
     """
     max_distance = 100 - min_score
-    supported, distance = closest_match(desired_language, supported_languages, max_distance)
+    supported, distance = closest_match(
+        desired_language, supported_languages, max_distance
+    )
     score = max(0, 100 - distance)
     return supported, score
 
 
-def closest_match(desired_language: {str, Language}, supported_languages: list,
-                  max_distance: int=25) -> (str, int):
+def closest_match(
+    desired_language: {str, Language}, supported_languages: list, max_distance: int = 25
+) -> (str, int):
     """
     You have software that supports any of the `supported_languages`. You want
     to use `desired_language`. This function lets you choose the right language,
@@ -1623,7 +1678,8 @@ def closest_match(desired_language: {str, Language}, supported_languages: list,
         for supported in supported_languages
     ]
     match_distances = [
-        (supported, distance) for (supported, distance) in match_distances
+        (supported, distance)
+        for (supported, distance) in match_distances
         if distance <= max_distance
     ] + [('und', 1000)]
 
