@@ -415,39 +415,40 @@ package to be installed.
 be limited to a particular territory with a territory code (such as a country
 code).
 
->>> Language.get('es').speaking_population()
-487664083
+    >>> Language.get('es').speaking_population()
+    487664083
 
->>> Language.get('pt').speaking_population()
-237135429
+    >>> Language.get('pt').speaking_population()
+    237135429
 
->>> Language.get('es-BR').speaking_population()
-76218
+    >>> Language.get('es-BR').speaking_population()
+    76218
 
->>> Language.get('pt-BR').speaking_population()
-192661560
+    >>> Language.get('pt-BR').speaking_population()
+    192661560
 
->>> Language.get('vo').speaking_population()
-0
+    >>> Language.get('vo').speaking_population()
+    0
 
 Script codes will be ignored, because the script is not involved in speaking:
 
->>> Language.get('es-Hant').speaking_population() == Language.get('es').speaking_population()
-True
+    >>> Language.get('es-Hant').speaking_population() ==\
+    ... Language.get('es').speaking_population()
+    True
 
 `.writing_population()` estimates how many people write a language.
         
->>> all = Language.get('zh').writing_population()
->>> all
-1240326057
+    >>> all = Language.get('zh').writing_population()
+    >>> all
+    1240326057
 
->>> traditional = Language.get('zh-Hant').writing_population()
->>> traditional
-37019589
+    >>> traditional = Language.get('zh-Hant').writing_population()
+    >>> traditional
+    37019589
 
->>> simplified = Language.get('zh-Hans').writing_population()
->>> all == traditional + simplified
-True
+    >>> simplified = Language.get('zh-Hans').writing_population()
+    >>> all == traditional + simplified
+    True
 
 For many languages that aren't typically written, this is an overestimate,
 according to CLDR, because of limitations of the data collection. The data
@@ -456,10 +457,10 @@ language.
 
 Like `.speaking_population()`, this can be limited to a particular territory:
 
->>> Language.get('zh-Hant-HK').writing_population()
-6439733
->>> Language.get('zh-Hans-HK').writing_population()
-338933
+    >>> Language.get('zh-Hant-HK').writing_population()
+    6439733
+    >>> Language.get('zh-Hans-HK').writing_population()
+    338933
 
 
 ## Comparing and matching languages
@@ -467,7 +468,7 @@ Like `.speaking_population()`, this can be limited to a particular territory:
 The `tag_distance` function returns a number from 0 to 134 indicating the
 distance between the language the user desires and a supported language.
 
-The distance data comes from CLDR v36 and involves a lot of judgment calls
+The distance data comes from CLDR v38.1 and involves a lot of judgment calls
 made by the Unicode consortium.
 
 
@@ -480,9 +481,9 @@ This table summarizes the language distance values:
 |     0 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
 |   1-3 | These codes indicate a minor regional difference.                                                             | Australian English → British English
 |   4-9 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
-| 10-14 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
-| 15-24 | These languages are related, but the difference may cause problems in understanding or usability.             | Simplified Chinese → Traditional Chinese
-| 25-79 | There are large barriers to understanding.                                                                    | Japanese → Japanese in Hepburn romanization
+| 10-24 | A gray area that depends on your use case. There may be problems with understanding or usability.             | Afrikaans → Dutch, Wu Chinese → Mandarin Chinese
+| 25-50 | These languages aren't similar, but there are demographic reasons to expect some intelligibility.             | Tamil → English, Marathi → Hindi
+| 51-79 | There are large barriers to understanding.                                                                    | Japanese → Japanese in Hepburn romanization
 | 80-99 | These are different languages written in the same script.                                                     | English → French, Arabic → Urdu
 |  100+ | These languages have nothing particularly in common.                                                          | English → Japanese, English → Tamil
 
@@ -530,11 +531,11 @@ scroll down and learn about the `language_name` method!)
     >>> closest_match('id', ['zsm', 'mhp'])
     ('zsm', 14)
 
-    >>> closest_match('ja-Cyrl', ['ja', 'en'])
+    >>> closest_match('ja', ['ja-Latn-hepburn', 'en'])
     ('und', 1000)
 
-    >>> closest_match('ja-Cyrl', ['ja', 'en'], max_distance=60)
-    ('ja', 50)
+    >>> closest_match('ja', ['ja-Latn-hepburn', 'en'], max_distance=60)
+    ('ja-Latn-hepburn', 50)
 
 ## Further API documentation
 
@@ -552,6 +553,24 @@ date.
 [code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
 
 # Changelog
+
+## Version 3.0 (February 2021)
+
+- Moved bulky data, particularly language names, into a separate
+  `language_data` package. In situations where the data isn't needed,
+  `langcodes` becomes a smaller, pure-Python package with no dependencies.
+
+- Language codes where the language segment is more than 4 letters no longer
+  parse: Language.get('nonsense') now returns an error.
+
+- Added a method for checking the validity of a language code.
+
+- Added methods for estimating language population.
+
+- Updated to CLDR 38.1, which includes differences in language matching.
+
+- Tested on Python 3.6 through 3.9; no longer tested on Python 3.5.
+
 
 ## Version 2.2 (February 2021)
 
