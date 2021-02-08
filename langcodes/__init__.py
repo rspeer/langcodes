@@ -19,7 +19,8 @@ from langcodes.language_matching_old import raw_distance
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS, LANGUAGE_REPLACEMENTS, SCRIPT_REPLACEMENTS,
-    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS
+    TERRITORY_REPLACEMENTS, NORMALIZED_MACROLANGUAGES, LIKELY_SUBTAGS,
+    VALIDITY
 )
 
 # When we're getting natural language information *about* languages, it's in
@@ -603,9 +604,45 @@ class Language:
 
         return tuple_distance_cached(desired_triple, supported_triple)
 
-    # These methods help to show what the language tag means in natural
-    # language. They actually apply the language-matching algorithm to find
-    # the right language to name things in.
+    def is_valid(self):
+        """
+        Checks whether the language, script, territory, and variants
+        (if present) are all tags that have meanings assigned by IANA.
+        For example, 'ja' (Japanese) is a valid tag, and 'jp' is not.
+
+        The data is current as of CLDR 38.1.
+
+        >>> Language.get('ja').is_valid()
+        True
+        >>> Language.get('jp').is_valid()
+        False
+        >>> Language.get('en-001').is_valid()
+        True
+        >>> Language.get('en-000').is_valid()
+        False
+        >>> Language.get('und').is_valid()
+        True
+        >>> Language.get('en-GB-oxendict').is_valid()
+        True
+        >>> Language.get('en-GB-oxenfree').is_valid()
+        False
+
+        Of course, you should be prepared to catch a failure to parse the
+        language code at all:
+
+        >>> Language.get('C').is_valid()
+        Traceback (most recent call last):
+        ...
+        langcodes.tag_parser.LanguageTagError: Expected a language code, got 'c'
+        """
+        subtags = [self.language, self.script, self.territory]
+        if self.variants is not None:
+            subtags.extend(self.variants)
+        for subtag in subtags:
+            if subtag is not None:
+                if not VALIDITY.match(subtag):
+                    return False
+        return True
 
     def has_name_data(self):
         """
@@ -632,6 +669,10 @@ class Language:
 
         matches = set(self.broader_tags()) & LANGUAGES_WITH_NAME_DATA
         return bool(matches)
+
+    # These methods help to show what the language tag means in natural
+    # language. They actually apply the language-matching algorithm to find
+    # the right language to name things in.
 
     def _get_name(self, attribute: str, language, max_distance: int):
         try:

@@ -5,4 +5,6 @@
 __pycache__
 build
 dist
-data/cldr-core
+cldr-core
+cldr-core-json
+.ipynb_checkpoints
