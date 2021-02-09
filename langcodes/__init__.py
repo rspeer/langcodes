@@ -309,7 +309,7 @@ class Language:
         for typ, value in components:
             if typ == 'extlang' and normalize and 'language' in data:
                 # smash extlangs when possible
-                minitag = '%s-%s' % (data['language'], value)
+                minitag = f"{data['language']}-{value}"
                 norm = LANGUAGE_REPLACEMENTS.get(normalize_characters(minitag))
                 if norm is not None:
                     data.update(Language.get(norm, normalize).to_dict())
@@ -1226,7 +1226,7 @@ class Language:
 
         code = name_to_code(tagtype, name, language)
         if code is None:
-            raise LookupError("Can't find any %s named %r" % (tagtype, name))
+            raise LookupError(f"Can't find any {tagtype} named {name!r}")
         if '-' in code:
             return Language.get(code)
         else:

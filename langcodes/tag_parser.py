@@ -314,7 +314,7 @@ def parse_extension(subtags):
     """
     subtag = subtags[0]
     if len(subtags) == 1:
-        raise LanguageTagError("The subtag %r must be followed by something" % subtag)
+        raise LanguageTagError(f"The subtag {subtag!r} must be followed by something")
 
     if subtag == 'x':
         # Private use. Everything after this is arbitrary codes that we
@@ -347,13 +347,14 @@ def order_error(subtag, got, expected):
     if len(options) == 1:
         expect_str = options[0]
     elif len(options) == 2:
-        expect_str = '%s or %s' % (options[0], options[1])
+        expect_str = f'{options[0]} or {options[1]}'
     else:
-        expect_str = '%s, or %s' % (', '.join(options[:-1]), options[-1])
+        joined = ', '.join(options[:-1])
+        last = options[-1]
+        expect_str = f'{joined}, or {last}'
     got_str = SUBTAG_TYPES[got]
     raise LanguageTagError(
-        "This %s subtag, %r, is out of place. "
-        "Expected %s." % (got_str, subtag, expect_str)
+        f"This {got_str} subtag, {subtag!r}, is out of place. Expected {expect_str}."
     )
 
 
@@ -363,4 +364,4 @@ def subtag_error(subtag, expected='a valid subtag'):
     parsing. Most of this code is about how to list, in English, the kinds
     of things we were expecting to find.
     """
-    raise LanguageTagError("Expected %s, got %r" % (expected, subtag))
+    raise LanguageTagError(f"Expected {expected}, got {subtag!r}")
