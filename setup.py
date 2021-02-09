@@ -38,7 +38,7 @@ setup(
     python_requires='>=3.6',
     tests_require=['pytest'],
     extras_require={
-        'data': 'language_data'
+        'data': 'language_data >= 1.0'
     },
     zip_safe=False,
     classifiers=[
