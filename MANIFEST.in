@@ -1,2 +1,3 @@
-recursive-include langcodes/data *
+graft langcodes/data
+prune langcodes/data/cldr-core*
 include README.md
