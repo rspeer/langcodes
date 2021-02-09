@@ -1,7 +1,9 @@
 from .data_dicts import LANGUAGE_DISTANCES
+from typing import Dict, Tuple
 
 
-_DISTANCE_CACHE = {}
+TagTriple = Tuple[str, str, str]
+_DISTANCE_CACHE: Dict[Tuple[TagTriple, TagTriple], int] = {}
 DEFAULT_LANGUAGE_DISTANCE = LANGUAGE_DISTANCES["*"]["*"]
 DEFAULT_SCRIPT_DISTANCE = LANGUAGE_DISTANCES["*_*"]["*_*"]
 DEFAULT_TERRITORY_DISTANCE = 4
@@ -92,7 +94,7 @@ AMERICAS = {
 } | LATIN_AMERICA
 
 
-def tuple_distance_cached(desired: tuple, supported: tuple):
+def tuple_distance_cached(desired: TagTriple, supported: TagTriple) -> int:
     """
     Takes in triples of (language, script, territory), which can be derived by
     'maximizing' a language tag. Returns a number from 0 to 135 indicating the
@@ -115,7 +117,7 @@ def _get2(dictionary: dict, key1: str, key2: str, default):
     return dictionary.get(key1, {}).get(key2, default)
 
 
-def _tuple_distance(desired: tuple, supported: tuple):
+def _tuple_distance(desired: TagTriple, supported: TagTriple) -> int:
     desired_language, desired_script, desired_territory = desired
     supported_language, supported_script, supported_territory = supported
     distance = 0

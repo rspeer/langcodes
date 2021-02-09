@@ -12,6 +12,7 @@ Some of these functions, particularly those that work with the names of
 languages, require the `language_data` module to be installed.
 """
 from operator import itemgetter
+from typing import Any, List, Tuple, Dict, Sequence, Iterable, Optional, Mapping, Union
 import warnings
 import sys
 
@@ -92,18 +93,18 @@ class Language:
     ]
 
     # Values cached at the class level
-    _INSTANCES = {}
-    _PARSE_CACHE = {}
+    _INSTANCES: Dict[tuple, 'Language'] = {}
+    _PARSE_CACHE: Dict[Tuple[str, bool], 'Language'] = {}
 
     def __init__(
         self,
-        language=None,
-        extlangs=None,
-        script=None,
-        territory=None,
-        variants=None,
-        extensions=None,
-        private=None,
+        language: Optional[str] = None,
+        extlangs: Optional[Sequence[str]] = None,
+        script: Optional[str] = None,
+        territory: Optional[str] = None,
+        variants: Optional[Sequence[str]] = None,
+        extensions: Optional[Sequence[str]] = None,
+        private: Optional[str] = None,
     ):
         """
         The constructor for Language objects.
@@ -121,16 +122,16 @@ class Language:
         self.private = private
 
         # Cached values
-        self._simplified = None
-        self._searchable = None
-        self._broader = None
-        self._assumed = None
-        self._filled = None
-        self._macrolanguage = None
-        self._str_tag = None
-        self._dict = None
-        self._disp_separator = None
-        self._disp_pattern = None
+        self._simplified: 'Language' = None
+        self._searchable: 'Language' = None
+        self._broader: List[str] = None
+        self._assumed: 'Language' = None
+        self._filled: 'Language' = None
+        self._macrolanguage: Optional['Language'] = None
+        self._str_tag: str = None
+        self._dict: dict = None
+        self._disp_separator: str = None
+        self._disp_pattern: str = None
 
         # Make sure the str_tag value is cached
         self.to_tag()
@@ -138,14 +139,14 @@ class Language:
     @classmethod
     def make(
         cls,
-        language=None,
-        extlangs=None,
-        script=None,
-        territory=None,
-        variants=None,
-        extensions=None,
-        private=None,
-    ):
+        language: Optional[str] = None,
+        extlangs: Optional[Sequence[str]] = None,
+        script: Optional[str] = None,
+        territory: Optional[str] = None,
+        variants: Optional[Sequence[str]] = None,
+        extensions: Optional[Sequence[str]] = None,
+        private: Optional[str] = None,
+    ) -> 'Language':
         """
         Create a Language object by giving any subset of its attributes.
 
@@ -176,7 +177,7 @@ class Language:
         return instance
 
     @staticmethod
-    def get(tag: {str, 'Language'}, normalize=True) -> 'Language':
+    def get(tag: Union[str, 'Language'], normalize=True) -> 'Language':
         """
         Create a Language object from a language tag string.
 
@@ -293,7 +294,7 @@ class Language:
         if (tag, normalize) in Language._PARSE_CACHE:
             return Language._PARSE_CACHE[tag, normalize]
 
-        data = {}
+        data: Dict[str, Any] = {}
 
         # If the complete tag appears as something to normalize, do the
         # normalization right away. Smash case and convert underscores to
@@ -493,7 +494,7 @@ class Language:
             self._macrolanguage = self
         return self._macrolanguage
 
-    def broader_tags(self) -> 'List[str]':
+    def broader_tags(self) -> List[str]:
         """
         Iterate through increasingly general tags for this language.
 
@@ -653,7 +654,7 @@ class Language:
 
         return tuple_distance_cached(desired_triple, supported_triple)
 
-    def is_valid(self):
+    def is_valid(self) -> bool:
         """
         Checks whether the language, script, territory, and variants
         (if present) are all tags that have meanings assigned by IANA.
@@ -693,7 +694,7 @@ class Language:
                     return False
         return True
 
-    def has_name_data(self):
+    def has_name_data(self) -> bool:
         """
         Return True when we can name languages in this language. Requires
         `language_data` to be installed.
@@ -723,7 +724,9 @@ class Language:
     # language. They actually apply the language-matching algorithm to find
     # the right language to name things in.
 
-    def _get_name(self, attribute: str, language, max_distance: int):
+    def _get_name(
+        self, attribute: str, language: Union[str, 'Language'], max_distance: int
+    ) -> str:
         try:
             from language_data.names import code_to_names
         except ImportError:
@@ -763,7 +766,9 @@ class Language:
                 unknown_name = 'Unknown language subtag'
             return f'{unknown_name} [{attr_value}]'
 
-    def _best_name(self, names: dict, language: 'Language', max_distance: int):
+    def _best_name(
+        self, names: Mapping[str, str], language: 'Language', max_distance: int
+    ):
         matchable_languages = set(language.broader_tags())
         possible_languages = [
             key for key in sorted(names.keys()) if key in matchable_languages
@@ -777,7 +782,11 @@ class Language:
         else:
             return names.get(DEFAULT_LANGUAGE)
 
-    def language_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
+    def language_name(
+        self,
+        language: Union[str, 'Language'] = DEFAULT_LANGUAGE,
+        max_distance: int = 25,
+    ) -> str:
         """
         Give the name of the language (not the entire tag, just the language part)
         in a natural language. The target language can be given as a string or
@@ -810,7 +819,11 @@ class Language:
         """
         return self._get_name('language', language, max_distance)
 
-    def display_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
+    def display_name(
+        self,
+        language: Union[str, 'Language'] = DEFAULT_LANGUAGE,
+        max_distance: int = 25,
+    ) -> str:
         """
         It's often helpful to be able to describe a language code in a way that a user
         (or you) can understand, instead of in inscrutable short codes. The
@@ -868,7 +881,7 @@ class Language:
         else:
             return language_name
 
-    def _display_pattern(self):
+    def _display_pattern(self) -> str:
         """
         Get the pattern, according to CLDR, that should be used for clarifying
         details of a language code.
@@ -884,7 +897,7 @@ class Language:
             self._disp_pattern = "{0} ({1})"
         return self._disp_pattern
 
-    def _display_separator(self):
+    def _display_separator(self) -> str:
         """
         Get the symbol that should be used to separate multiple clarifying
         details -- such as a comma in English, or an ideographic comma in
@@ -936,21 +949,33 @@ class Language:
         lang = self.prefer_macrolanguage()
         return lang.display_name(language=lang, max_distance=max_distance)
 
-    def script_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
+    def script_name(
+        self,
+        language: Union[str, 'Language'] = DEFAULT_LANGUAGE,
+        max_distance: int = 25,
+    ) -> str:
         """
         Describe the script part of the language tag in a natural language.
         Requires that `language_data` is installed.
         """
         return self._get_name('script', language, max_distance)
 
-    def territory_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
+    def territory_name(
+        self,
+        language: Union[str, 'Language'] = DEFAULT_LANGUAGE,
+        max_distance: int = 25,
+    ) -> str:
         """
         Describe the territory part of the language tag in a natural language.
         Requires that `language_data` is installed.
         """
         return self._get_name('territory', language, max_distance)
 
-    def region_name(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> str:
+    def region_name(
+        self,
+        language: Union[str, 'Language'] = DEFAULT_LANGUAGE,
+        max_distance: int = 25,
+    ) -> str:
         warnings.warn(
             "`region_name` has been renamed to `territory_name` for consistency",
             DeprecationWarning,
@@ -965,7 +990,11 @@ class Language:
         )
         return self.territory
 
-    def variant_names(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> list:
+    def variant_names(
+        self,
+        language: Union[str, 'Language'] = DEFAULT_LANGUAGE,
+        max_distance: int = 25,
+    ) -> Sequence[str]:
         """
         Deprecated in version 3.0.
 
@@ -978,7 +1007,11 @@ class Language:
         )
         return self.variants or []
 
-    def describe(self, language=DEFAULT_LANGUAGE, max_distance: int = 25) -> dict:
+    def describe(
+        self,
+        language: Union[str, 'Language'] = DEFAULT_LANGUAGE,
+        max_distance: int = 25,
+    ) -> dict:
         """
         Return a dictionary that describes a given language tag in a specified
         natural language. Requires that `language_data` is installed.
@@ -1046,7 +1079,7 @@ class Language:
             names['territory'] = self.territory_name(language, max_distance)
         return names
 
-    def speaking_population(self):
+    def speaking_population(self) -> int:
         """
         Get an estimate of how many people in the world speak this language,
         derived from CLDR data. Requires that `language_data` is installed.
@@ -1078,7 +1111,7 @@ class Language:
         lang = self._filter_attributes(['language', 'territory'])
         return LANGUAGE_SPEAKING_POPULATION.get(str(lang), 0)
 
-    def writing_population(self):
+    def writing_population(self) -> int:
         """
         Get an estimate of how many people in the world read and write
         this language, derived from CLDR data. Requires that `language_data`
@@ -1138,7 +1171,9 @@ class Language:
             return LANGUAGE_WRITING_POPULATION.get(str(lang), 0)
 
     @staticmethod
-    def find_name(tagtype: str, name: str, language: {str, 'Language', None} = None):
+    def find_name(
+        tagtype: str, name: str, language: Optional[Union[str, 'Language']] = None
+    ) -> 'Language':
         """
         Find the subtag of a particular `tagtype` that has the given `name`.
         Requires that `language_data` is installed.
@@ -1234,7 +1269,9 @@ class Language:
             return Language.make(**data)
 
     @staticmethod
-    def find(name: str, language: {str, 'Language', None} = None):
+    def find(
+        name: str, language: Optional[Union[str, 'Language']] = None
+    ) -> 'Language':
         """
         A concise version of `find_name`, used to get a language tag by its
         name in a natural language. The language can be omitted in the large
@@ -1261,7 +1298,7 @@ class Language:
         """
         return Language.find_name('language', name, language)
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         """
         Get a dictionary of the attributes of this Language object, which
         can be useful for constructing a similar object.
@@ -1306,13 +1343,13 @@ class Language:
         )
 
     @staticmethod
-    def _filter_keys(d: dict, keys: set) -> dict:
+    def _filter_keys(d: dict, keys: Iterable[str]) -> dict:
         """
         Select a subset of keys from a dictionary.
         """
         return {key: d[key] for key in keys if key in d}
 
-    def _filter_attributes(self, keyset):
+    def _filter_attributes(self, keyset: Iterable[str]) -> 'Language':
         """
         Return a copy of this object with a subset of its attributes set.
         """
@@ -1341,19 +1378,19 @@ class Language:
             return False
         return self._str_tag == other._str_tag
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(id(self))
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> Optional[Union[str, List[str]]]:
         if key in self.ATTRIBUTES:
             return getattr(self, key)
         else:
             raise KeyError(key)
 
-    def __contains__(self, key):
+    def __contains__(self, key: str) -> bool:
         return key in self.ATTRIBUTES and getattr(self, key)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         items = []
         for attr in self.ATTRIBUTES:
             if getattr(self, attr):
@@ -1362,7 +1399,7 @@ class Language:
         joined = ', '.join(items)
         return f"Language.make({joined})"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.to_tag()
 
 
@@ -1375,7 +1412,7 @@ find_name = Language.find_name
 LanguageData = Language
 
 
-def standardize_tag(tag: {str, Language}, macro: bool = False) -> str:
+def standardize_tag(tag: Union[str, Language], macro: bool = False) -> str:
     """
     Standardize a language tag:
 
@@ -1441,7 +1478,9 @@ def standardize_tag(tag: {str, Language}, macro: bool = False) -> str:
     return langdata.simplify_script().to_tag()
 
 
-def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int:
+def tag_match_score(
+    desired: Union[str, Language], supported: Union[str, Language]
+) -> int:
     """
     DEPRECATED: use .distance() instead, which uses newer data and is _lower_
     for better matching languages.
@@ -1464,7 +1503,7 @@ def tag_match_score(desired: {str, Language}, supported: {str, Language}) -> int
     return desired_ld.match_score(supported_ld)
 
 
-def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
+def tag_distance(desired: Union[str, Language], supported: Union[str, Language]) -> int:
     """
     Tags that expand to the same thing when likely values are filled in get a
     distance of 0.
@@ -1616,8 +1655,10 @@ def tag_distance(desired: {str, Language}, supported: {str, Language}) -> int:
 
 
 def best_match(
-    desired_language: {str, Language}, supported_languages: list, min_score: int = 75
-) -> (str, int):
+    desired_language: Union[str, Language],
+    supported_languages: Sequence[str],
+    min_score: int = 75,
+) -> Tuple[str, int]:
     """
     DEPRECATED: use .closest_match() instead. This function emulates the old
     matching behavior by subtracting the language distance from 100.
@@ -1644,8 +1685,10 @@ def best_match(
 
 
 def closest_match(
-    desired_language: {str, Language}, supported_languages: list, max_distance: int = 25
-) -> (str, int):
+    desired_language: Union[str, Language],
+    supported_languages: Sequence[str],
+    max_distance: int = 25,
+) -> Tuple[str, int]:
     """
     You have software that supports any of the `supported_languages`. You want
     to use `desired_language`. This function lets you choose the right language,
@@ -1667,6 +1710,8 @@ def closest_match(
     When there is a tie for the best matching language, the first one in the
     tie will be used.
     """
+    desired_language = str(desired_language)
+
     # Quickly return if the desired language is directly supported
     if desired_language in supported_languages:
         return desired_language, 0
