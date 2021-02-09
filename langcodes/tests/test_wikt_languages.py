@@ -10,6 +10,7 @@ import pytest
 
 LANGUAGES = ['en', 'de']
 
+
 @pytest.mark.parametrize(LANGUAGES)
 def check_wiktionary_language(target_lang):
     seen_codes = {}
@@ -17,6 +18,8 @@ def check_wiktionary_language(target_lang):
         if lang_name.startswith('Proto-'):
             continue
         code = str(langcodes.find(lang_name))
-        assert code not in seen_codes, \
-            "%r and %r have the same code" % (seen_codes[code], lang_name)
+        assert code not in seen_codes, "%r and %r have the same code" % (
+            seen_codes[code],
+            lang_name,
+        )
         seen_codes[code] = lang_name

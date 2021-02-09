@@ -23,6 +23,7 @@ following?
 * You'll find Mandarin Chinese tagged as `cmn` on Wiktionary, but many other resources would call the same language `zh`.
 * Chinese is written in different scripts in different territories. Some software distinguishes the script. Other software distinguishes the territory. The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are `zh-TW` and `zh-Hant`, even though occasionally you'll need something different such as `zh-HK` or `zh-Latn-pinyin`.
 * The Indonesian (`id`) and Malaysian (`ms` or `zsm`) languages are mutually intelligible.
+* `jp` is not a language code. (The language code for Japanese is `ja`, but people confuse it with the country code for Japan.)
 
 One way to know is to read IETF standards and Unicode technical reports.
 Another way is to use a library that implements those standards and guidelines
@@ -31,7 +32,7 @@ for you, which langcodes does.
 langcodes is maintained by Robyn Speer at [Luminoso](http://luminoso.com), and
 is released as free software under the MIT license. Luminoso has [more free
 software](https://github.com/LuminosoInsight). We're also [hiring
-developers](http://www.luminoso.com/careers.html).
+developers](https://www.luminoso.com/luminoso-careers).
 
 ## Standards implemented
 
@@ -167,6 +168,64 @@ standard string form:
     >>> str(Language.make(territory='IN'))
     'und-IN'
 
+
+### Checking validity
+
+A language code is _valid_ when every part of it is assigned a meaning by IANA.
+That meaning could be "private use".
+
+In langcodes, we check the language subtag, script, territory, and variants for
+validity. We don't check other parts such as extlangs or Unicode extensions.
+
+For example, `ja` is a valid language code, and `jp` is not:
+
+    >>> Language.get('ja').is_valid()
+    True
+
+    >>> Language.get('jp').is_valid()
+    False
+
+If one subtag is invalid, the entire code is invalid:
+
+    >>> Language.get('en-000').is_valid()
+    False
+
+`iw` is valid, though it's a deprecated alias for `he`:
+
+    >>> Language.get('iw', normalize=False).is_valid()
+    True
+
+The empty language code (`und`) is valid:
+
+    >>> Language.make().is_valid()
+    True
+
+Private use codes are valid:
+
+    >>> Language.get('qaa-Qaai-AA-x-what-even-is-this').is_valid()
+    True
+
+Language codes that are very unlikely are still valid:
+
+    >>> Language.get('fr-Cyrl').is_valid()
+    True
+
+Language codes that don't parse should be invalid, but it's moot, because
+this method only exists on Language objects:
+
+    >>> Language.get('C').is_valid()
+    Traceback (most recent call last):
+    ...
+    langcodes.tag_parser.LanguageTagError: Expected a language code, got 'c'
+
+
+## Working with language names
+
+The methods in this section require an optional package called `language_data`.
+You can install it with `pip install language_data`, or request the optional
+"data" feature of langcodes with `pip install langcodes[data]`.
+
+The dependency that you put in setup.py should be `langcodes[data]`.
 
 ### Describing Language objects in natural language
 
@@ -334,7 +393,7 @@ a language of Malawi that can be called "Nyasa Tonga" in English.
     ...
     LookupError: Can't find any language named 'tonga'
 
-    >>> langcodes.find('tonga', language='pt')
+    >>> langcodes.find('tonga', language='id')
     Language.make(language='to')
 
     >>> langcodes.find('tonga', language='ca')
@@ -343,20 +402,65 @@ a language of Malawi that can be called "Nyasa Tonga" in English.
 Other ambiguous names written in Latin letters are "Kiga", "Mbundu", "Roman", and "Ruanda".
 
 
-## Further API documentation
+## Demographic language data
 
-There are many more methods for manipulating and comparing language codes,
-and you will find them documented thoroughly in [the code itself][code].
+The `Language.speaking_population()` and `Language.writing_population()`
+methods get Unicode's estimates of how many people in the world use a
+language.
 
-The interesting functions all live in this one file, with extensive docstrings
-and annotations. Making a separate Sphinx page out of the docstrings would be
-the traditional thing to do, but here it just seems redundant. You can go read
-the docstrings in context, in their native habitat, and they'll always be up to
-date.
+As with the language name data, this requires the optional `language_data`
+package to be installed.
 
-[Code with documentation][code]
+`.speaking_population()` estimates how many people speak a language. It can
+be limited to a particular territory with a territory code (such as a country
+code).
 
-[code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
+    >>> Language.get('es').speaking_population()
+    487664083
+
+    >>> Language.get('pt').speaking_population()
+    237135429
+
+    >>> Language.get('es-BR').speaking_population()
+    76218
+
+    >>> Language.get('pt-BR').speaking_population()
+    192661560
+
+    >>> Language.get('vo').speaking_population()
+    0
+
+Script codes will be ignored, because the script is not involved in speaking:
+
+    >>> Language.get('es-Hant').speaking_population() ==\
+    ... Language.get('es').speaking_population()
+    True
+
+`.writing_population()` estimates how many people write a language.
+        
+    >>> all = Language.get('zh').writing_population()
+    >>> all
+    1240326057
+
+    >>> traditional = Language.get('zh-Hant').writing_population()
+    >>> traditional
+    37019589
+
+    >>> simplified = Language.get('zh-Hans').writing_population()
+    >>> all == traditional + simplified
+    True
+
+For many languages that aren't typically written, this is an overestimate,
+according to CLDR, because of limitations of the data collection. The data
+often includes people who speak that language but write in a different
+language.
+
+Like `.speaking_population()`, this can be limited to a particular territory:
+
+    >>> Language.get('zh-Hant-HK').writing_population()
+    6439733
+    >>> Language.get('zh-Hans-HK').writing_population()
+    338933
 
 
 ## Comparing and matching languages
@@ -364,7 +468,7 @@ date.
 The `tag_distance` function returns a number from 0 to 134 indicating the
 distance between the language the user desires and a supported language.
 
-The distance data comes from CLDR v36 and involves a lot of judgment calls
+The distance data comes from CLDR v38.1 and involves a lot of judgment calls
 made by the Unicode consortium.
 
 
@@ -377,9 +481,9 @@ This table summarizes the language distance values:
 |     0 | These codes represent the same language, possibly after filling in values and normalizing.                    | Norwegian Bokmål → Norwegian
 |   1-3 | These codes indicate a minor regional difference.                                                             | Australian English → British English
 |   4-9 | These codes indicate a significant but unproblematic regional difference.                                     | American English → British English
-| 10-14 | People who understand language A are likely, for linguistic or demographic reasons, to understand language B. | Afrikaans → Dutch, Tamil → English
-| 15-24 | These languages are related, but the difference may cause problems in understanding or usability.             | Simplified Chinese → Traditional Chinese
-| 25-79 | There are large barriers to understanding.                                                                    | Japanese → Japanese in Hepburn romanization
+| 10-24 | A gray area that depends on your use case. There may be problems with understanding or usability.             | Afrikaans → Dutch, Wu Chinese → Mandarin Chinese
+| 25-50 | These languages aren't similar, but there are demographic reasons to expect some intelligibility.             | Tamil → English, Marathi → Hindi
+| 51-79 | There are large barriers to understanding.                                                                    | Japanese → Japanese in Hepburn romanization
 | 80-99 | These are different languages written in the same script.                                                     | English → French, Arabic → Urdu
 |  100+ | These languages have nothing particularly in common.                                                          | English → Japanese, English → Tamil
 
@@ -422,19 +526,51 @@ scroll down and learn about the `language_name` method!)
     ('en-GB', 3)
 
     >>> closest_match('af', ['en', 'nl', 'zu'])
-    ('nl', 14)
+    ('nl', 24)
 
     >>> closest_match('id', ['zsm', 'mhp'])
     ('zsm', 14)
 
-    >>> closest_match('ja-Latn-hepburn', ['ja', 'en'])
+    >>> closest_match('ja', ['ja-Latn-hepburn', 'en'])
     ('und', 1000)
 
-    >>> closest_match('ja-Latn-hepburn', ['ja', 'en'], max_distance=60)
-    ('ja', 50)
+    >>> closest_match('ja', ['ja-Latn-hepburn', 'en'], max_distance=60)
+    ('ja-Latn-hepburn', 50)
 
+## Further API documentation
+
+There are many more methods for manipulating and comparing language codes,
+and you will find them documented thoroughly in [the code itself][code].
+
+The interesting functions all live in this one file, with extensive docstrings
+and annotations. Making a separate Sphinx page out of the docstrings would be
+the traditional thing to do, but here it just seems redundant. You can go read
+the docstrings in context, in their native habitat, and they'll always be up to
+date.
+
+[Code with documentation][code]
+
+[code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
 
 # Changelog
+
+## Version 3.0 (February 2021)
+
+- Moved bulky data, particularly language names, into a separate
+  `language_data` package. In situations where the data isn't needed,
+  `langcodes` becomes a smaller, pure-Python package with no dependencies.
+
+- Language codes where the language segment is more than 4 letters no longer
+  parse: Language.get('nonsense') now returns an error.
+
+- Added a method for checking the validity of a language code.
+
+- Added methods for estimating language population.
+
+- Updated to CLDR 38.1, which includes differences in language matching.
+
+- Tested on Python 3.6 through 3.9; no longer tested on Python 3.5.
+
 
 ## Version 2.2 (February 2021)
 
