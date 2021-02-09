@@ -32,7 +32,7 @@ for you, which langcodes does.
 langcodes is maintained by Robyn Speer at [Luminoso](http://luminoso.com), and
 is released as free software under the MIT license. Luminoso has [more free
 software](https://github.com/LuminosoInsight). We're also [hiring
-developers](http://www.luminoso.com/careers.html).
+developers](https://www.luminoso.com/luminoso-careers).
 
 ## Standards implemented
 
