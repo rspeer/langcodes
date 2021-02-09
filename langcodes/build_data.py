@@ -1,4 +1,3 @@
-import marisa_trie
 import json
 import xml.etree.ElementTree as ET
 import sys

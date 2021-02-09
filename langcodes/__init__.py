@@ -13,6 +13,7 @@ languages, require the `language_data` module to be installed.
 """
 from operator import itemgetter
 import warnings
+import sys
 
 from langcodes.tag_parser import parse_tag, normalize_characters
 from langcodes.language_distance import tuple_distance_cached

@@ -35,12 +35,14 @@ setup(
     packages=['langcodes'],
     include_package_data=True,
     install_requires=[],
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     tests_require=['pytest'],
+    extras_require={
+        'data': 'language_data'
+    },
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
