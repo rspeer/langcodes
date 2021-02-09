@@ -13,7 +13,7 @@ from langcodes.registry_parser import parse_registry
 
 def read_cldr_supplemental(dataname):
     cldr_supp_path = data_filename('cldr-core-json/supplemental')
-    filename = data_filename('{}/{}.json'.format(cldr_supp_path, dataname))
+    filename = data_filename(f'{cldr_supp_path}/{dataname}.json')
     fulldata = json.load(open(filename, encoding='utf-8'))
     if dataname == 'aliases':
         data = fulldata['supplemental']['metadata']['alias']
@@ -51,16 +51,17 @@ def read_iana_registry_replacements():
 
 
 def write_python_dict(outfile, name, d):
-    print("%s = {" % name, file=outfile)
+    print(f"{name} = {{", file=outfile)
     for key in sorted(d):
-        print("    %r: %r," % (key, d[key]), file=outfile)
+        value = d[key]
+        print(f"    {key!r}: {value!r},", file=outfile)
     print("}", file=outfile)
 
 
 def write_python_set(outfile, name, s):
-    print("%s = {" % name, file=outfile)
+    print(f"{name} = {{", file=outfile)
     for key in sorted(set(s)):
-        print("    %r," % (key,), file=outfile)
+        print(f"    {key!r},", file=outfile)
     print("}", file=outfile)
 
 

@@ -761,7 +761,7 @@ class Language:
                 unknown_name = self._best_name(names, language, max_distance)
             if unknown_name is None:
                 unknown_name = 'Unknown language subtag'
-            return '{0} [{1}]'.format(unknown_name, attr_value)
+            return f'{unknown_name} [{attr_value}]'
 
     def _best_name(self, names: dict, language: 'Language', max_distance: int):
         matchable_languages = set(language.broader_tags())
@@ -1357,8 +1357,10 @@ class Language:
         items = []
         for attr in self.ATTRIBUTES:
             if getattr(self, attr):
-                items.append('{0}={1!r}'.format(attr, getattr(self, attr)))
-        return "Language.make({})".format(', '.join(items))
+                value = getattr(self, attr)
+                items.append(f'{attr}={value!r}')
+        joined = ', '.join(items)
+        return f"Language.make({joined})"
 
     def __str__(self):
         return self.to_tag()

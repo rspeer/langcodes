@@ -128,8 +128,8 @@ def _tuple_distance(desired: tuple, supported: tuple):
             DEFAULT_LANGUAGE_DISTANCE,
         )
 
-    desired_script_pair = "{}_{}".format(desired_language, desired_script)
-    supported_script_pair = "{}_{}".format(supported_language, supported_script)
+    desired_script_pair = f"{desired_language}_{desired_script}"
+    supported_script_pair = f"{supported_language}_{supported_script}"
 
     if desired_script != supported_script:
         # Scripts can match other scripts, but only when paired with a
