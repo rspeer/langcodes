@@ -22,6 +22,7 @@ from langcodes.data_dicts import (
     DEFAULT_SCRIPTS,
     LANGUAGE_REPLACEMENTS,
     LANGUAGE_ALPHA3,
+    LANGUAGE_ALPHA3_BIBLIOGRAPHIC,
     SCRIPT_REPLACEMENTS,
     TERRITORY_REPLACEMENTS,
     NORMALIZED_MACROLANGUAGES,
@@ -495,17 +496,20 @@ class Language:
             self._macrolanguage = self
         return self._macrolanguage
 
-    def to_alpha3(self) -> str:
+    def to_alpha3(self, variant: str = 'T') -> str:
         """
         Get the three-letter language code for this language, even if it's
         canonically written with a two-letter code.
 
+        These codes are the 'alpha3' codes defined by ISO 639-2.        
+
         When this function returns, it always returns a 3-letter string. If
         there is no known alpha3 code for the language, it raises a LookupError.
 
-        These codes are the 'alpha3' codes defined by ISO 639-2. For languages
-        where the distinction matters, we give the 'terminology' codes, not the
-        'bibliographic' codes. The alpha3 code for German is 'deu', not 'ger'.
+        In cases where the distinction matters, we default to the 'terminology'
+        code. You can pass `variant='B'` to get the 'bibliographic' code instead.
+        For example, the terminology code for German is 'deu', while the
+        bibliographic code is 'ger'.
 
         (The confusion between these two sets of codes is a good reason to avoid
         using alpha3 codes. Every language that has two different alpha3 codes
@@ -515,12 +519,12 @@ class Language:
         'fra'
         >>> Language.get('fr-CA').to_alpha3()
         'fra'
-        >>> Language.get('de').to_alpha3()
+        >>> Language.get('fr').to_alpha3(variant='B')
+        'fre'
+        >>> Language.get('de').to_alpha3(variant='T')
         'deu'
         >>> Language.get('ja').to_alpha3()
         'jpn'
-        >>> Language.get('und').to_alpha3()
-        'und'
         >>> Language.get('un').to_alpha3()
         Traceback (most recent call last):
             ...
@@ -538,14 +542,28 @@ class Language:
         'fil'
         >>> Language.get('sh', normalize=False).to_alpha3()
         'hbs'
+
+
+        Three-letter codes are preserved, even if they're unknown:
+
+        >>> Language.get('qqq').to_alpha3()
+        'qqq'
+        >>> Language.get('und').to_alpha3()
+        'und'
         """
+        variant = variant.upper()
+        if variant not in 'BT':
+            raise ValueError("Variant must be 'B' or 'T'")
+
         language = self.language
         if language is None:
             return 'und'
         elif len(language) == 3:
             return language
         else:
-            if language in LANGUAGE_ALPHA3:
+            if variant == 'B' and language in LANGUAGE_ALPHA3_BIBLIOGRAPHIC:
+                return LANGUAGE_ALPHA3_BIBLIOGRAPHIC[language]
+            elif language in LANGUAGE_ALPHA3:
                 return LANGUAGE_ALPHA3[language]
             else:
                 raise LookupError(

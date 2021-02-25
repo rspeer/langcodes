@@ -156,6 +156,7 @@ def build_data():
         'jw': 'jav',
         'sh': 'hbs',
     }
+    alpha3_biblio = {}
     norm_macrolanguages = {}
     for alias_type in ['languageAlias', 'scriptAlias', 'territoryAlias']:
         aliases = alias_data[alias_type]
@@ -195,17 +196,19 @@ def build_data():
                     replacement = 'bh'
 
                 replacements[alias_type][code] = replacement
-                if alias_type == 'languageAlias' and value['_reason'] == 'overlong':
-                    if replacement in alpha3_mapping:
-                        raise ValueError(
-                            "{code!r} is an alpha3 for {replacement!r}, which already"
-                            " has an alpha3: {orig!r}".format(
-                                code=code, replacement=replacement,
-                                orig=alpha3_mapping[replacement]
+                if alias_type == 'languageAlias':
+                    if value['_reason'] == 'overlong':
+                        if replacement in alpha3_mapping:
+                            raise ValueError(
+                                "{code!r} is an alpha3 for {replacement!r}, which"
+                                " already has an alpha3: {orig!r}".format(
+                                    code=code, replacement=replacement,
+                                    orig=alpha3_mapping[replacement]
+                                )
                             )
-                        )
-
-                    alpha3_mapping[replacement] = code
+                        alpha3_mapping[replacement] = code
+                    elif value['_reason'] == 'bibliographic':
+                        alpha3_biblio[replacement] = code
 
     validity_regex = read_validity_regex()
 
@@ -219,6 +222,9 @@ def build_data():
         )
         write_python_dict(
             outfile, 'LANGUAGE_ALPHA3', alpha3_mapping
+        )
+        write_python_dict(
+            outfile, 'LANGUAGE_ALPHA3_BIBLIOGRAPHIC', alpha3_biblio
         )
         write_python_dict(outfile, 'SCRIPT_REPLACEMENTS', replacements['scriptAlias'])
         write_python_dict(

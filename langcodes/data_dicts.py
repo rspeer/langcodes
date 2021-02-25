@@ -724,6 +724,28 @@ LANGUAGE_ALPHA3 = {
     'zh': 'zho',
     'zu': 'zul',
 }
+LANGUAGE_ALPHA3_BIBLIOGRAPHIC = {
+    'bo': 'tib',
+    'cs': 'cze',
+    'cy': 'wel',
+    'de': 'ger',
+    'el': 'gre',
+    'eu': 'baq',
+    'fa': 'per',
+    'fr': 'fre',
+    'hy': 'arm',
+    'is': 'ice',
+    'ka': 'geo',
+    'mi': 'mao',
+    'mk': 'mac',
+    'ms': 'may',
+    'my': 'bur',
+    'nl': 'dut',
+    'ro': 'rum',
+    'sk': 'slo',
+    'sq': 'alb',
+    'zh': 'chi',
+}
 SCRIPT_REPLACEMENTS = {
     'qaai': 'Zinh',
 }

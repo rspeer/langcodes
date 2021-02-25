@@ -236,18 +236,19 @@ variety of human languages by assigning every language a 3-letter code,
 including the ones that already had 2-letter codes.
 
 Unfortunately, this just led to more confusion. Some languages ended up with two
-different 3-letter codes, such as French, which is `fra` as a "terminology"
-code, and `fre` as a "biblographic" code. And meanwhile, `fr` was still a code
-that you'd be using if you followed ISO 639-1.
+different 3-letter codes for legacy reasons, such as French, which is `fra` as a
+"terminology" code, and `fre` as a "biblographic" code. And meanwhile, `fr` was
+still a code that you'd be using if you followed ISO 639-1.
 
 In BCP 47, you should use 2-letter codes whenever they're available, and that's
 what langcodes does. Fortunately, all the languages that have two different
 3-letter codes also have a 2-letter code, so if you prefer the 2-letter code,
 you don't have to worry about the distinction.
 
-But some applications want the 3-letter code in particular, usually the
-"terminology" code if it matters, so langcodes provides a method for getting
-those, `Language.to_alpha3()`.
+But some applications want the 3-letter code in particular, so langcodes
+provides a method for getting those, `Language.to_alpha3()`. It returns the
+'terminology' code by default, and passing `variant='B'` returns the
+bibliographic code.
 
 When this method returns, it always returns a 3-letter string.
 
@@ -255,6 +256,8 @@ When this method returns, it always returns a 3-letter string.
     'fra'
     >>> Language.get('fr-CA').to_alpha3()
     'fra'
+    >>> Language.get('fr-CA').to_alpha3(variant='B')
+    'fre'
     >>> Language.get('de').to_alpha3()
     'deu'
     >>> Language.get('no', normalize=False).to_alpha3()
@@ -265,6 +268,19 @@ When this method returns, it always returns a 3-letter string.
     Traceback (most recent call last):
         ...
     LookupError: 'un' is not a known language code, and has no alpha3 code.
+
+For many languages, the terminology and bibliographic alpha3 codes are the same.
+
+    >>> Language.get('en').to_alpha3(variant='T')
+    'eng'
+    >>> Language.get('en').to_alpha3(variant='B')
+    'eng'
+
+When you use any of these "overlong" alpha3 codes in langcodes, they normalize
+back to the alpha2 code:
+
+    >>> Language.get('zho')
+    Language.make(language='zh')
 
 
 ## Working with language names
@@ -604,13 +620,14 @@ date.
 
 ## Version 3.1 (February 2021)
 
-- Added the `Language.to_alpha3()` method, for getting the three-letter code for a
-  language according to ISO 639-2 (T).
+- Added the `Language.to_alpha3()` method, for getting a three-letter code for a
+  language according to ISO 639-2.
 
 - Updated the type annotations from obiwan-style to mypy-style. Please see
   [typing-lament.md][] before you raise an issue about the types.
 
 [typing-lament.md]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/typing-lament.md
+
 
 ## Version 3.0 (February 2021)
 
