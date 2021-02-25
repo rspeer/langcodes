@@ -21,6 +21,7 @@ from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS,
     LANGUAGE_REPLACEMENTS,
+    LANGUAGE_ALPHA3,
     SCRIPT_REPLACEMENTS,
     TERRITORY_REPLACEMENTS,
     NORMALIZED_MACROLANGUAGES,
@@ -493,6 +494,65 @@ class Language:
         else:
             self._macrolanguage = self
         return self._macrolanguage
+
+    def to_alpha3(self) -> str:
+        """
+        Get the three-letter language code for this language, even if it's
+        canonically written with a two-letter code.
+
+        When this function returns, it always returns a 3-letter string. If
+        there is no known alpha3 code for the language, it raises a LookupError.
+
+        These codes are the 'alpha3' codes defined by ISO 639-2. For languages
+        where the distinction matters, we give the 'terminology' codes, not the
+        'bibliographic' codes. The alpha3 code for German is 'deu', not 'ger'.
+
+        (The confusion between these two sets of codes is a good reason to avoid
+        using alpha3 codes. Every language that has two different alpha3 codes
+        also has an alpha2 code that's preferred, such as 'de' for German.)
+
+        >>> Language.get('fr').to_alpha3()
+        'fra'
+        >>> Language.get('fr-CA').to_alpha3()
+        'fra'
+        >>> Language.get('de').to_alpha3()
+        'deu'
+        >>> Language.get('ja').to_alpha3()
+        'jpn'
+        >>> Language.get('und').to_alpha3()
+        'und'
+        >>> Language.get('un').to_alpha3()
+        Traceback (most recent call last):
+            ...
+        LookupError: 'un' is not a known language code, and has no alpha3 code.
+
+
+        All valid two-letter language codes have corresponding alpha3 codes,
+        even the un-normalized ones. If they were assigned an alpha3 code by ISO
+        before they were assigned a normalized code by CLDR, these codes may be
+        different:
+
+        >>> Language.get('tl', normalize=False).to_alpha3()
+        'tgl'
+        >>> Language.get('tl').to_alpha3()
+        'fil'
+        >>> Language.get('sh', normalize=False).to_alpha3()
+        'hbs'
+        """
+        language = self.language
+        if language is None:
+            return 'und'
+        elif len(language) == 3:
+            return language
+        else:
+            if language in LANGUAGE_ALPHA3:
+                return LANGUAGE_ALPHA3[language]
+            else:
+                raise LookupError(
+                    "{!r} is not a known language code, and has no alpha3 code.".format(
+                        language
+                    )
+                )
 
     def broader_tags(self) -> List[str]:
         """
