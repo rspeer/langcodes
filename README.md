@@ -16,14 +16,24 @@ following?
 
 * `eng` is equivalent to `en`.
 * `fra` and `fre` are both equivalent to `fr`.
-* `en-GB` might be written as `en-gb` or `en_GB`. Or as 'en-UK', which is erroneous, but should be treated as the same.
+* `en-GB` might be written as `en-gb` or `en_GB`. Or as 'en-UK', which is
+  erroneous, but should be treated as the same.
 * `en-CA` is not exactly equivalent to `en-US`, but it's really, really close.
-* `en-Latn-US` is equivalent to `en-US`, because written English must be written in the Latin alphabet to be understood.
-* The difference between `ar` and `arb` is the difference between "Arabic" and "Modern Standard Arabic", a difference that may not be relevant to you.
-* You'll find Mandarin Chinese tagged as `cmn` on Wiktionary, but many other resources would call the same language `zh`.
-* Chinese is written in different scripts in different territories. Some software distinguishes the script. Other software distinguishes the territory. The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are `zh-TW` and `zh-Hant`, even though occasionally you'll need something different such as `zh-HK` or `zh-Latn-pinyin`.
-* The Indonesian (`id`) and Malaysian (`ms` or `zsm`) languages are mutually intelligible.
-* `jp` is not a language code. (The language code for Japanese is `ja`, but people confuse it with the country code for Japan.)
+* `en-Latn-US` is equivalent to `en-US`, because written English must be written
+  in the Latin alphabet to be understood.
+* The difference between `ar` and `arb` is the difference between "Arabic" and
+  "Modern Standard Arabic", a difference that may not be relevant to you.
+* You'll find Mandarin Chinese tagged as `cmn` on Wiktionary, but many other
+  resources would call the same language `zh`.
+* Chinese is written in different scripts in different territories. Some
+  software distinguishes the script. Other software distinguishes the territory.
+  The result is that `zh-CN` and `zh-Hans` are used interchangeably, as are
+  `zh-TW` and `zh-Hant`, even though occasionally you'll need something
+  different such as `zh-HK` or `zh-Latn-pinyin`.
+* The Indonesian (`id`) and Malaysian (`ms` or `zsm`) languages are mutually
+  intelligible.
+* `jp` is not a language code. (The language code for Japanese is `ja`, but
+  people confuse it with the country code for Japan.)
 
 One way to know is to read IETF standards and Unicode technical reports.
 Another way is to use a library that implements those standards and guidelines
@@ -217,6 +227,60 @@ this method only exists on Language objects:
     Traceback (most recent call last):
     ...
     langcodes.tag_parser.LanguageTagError: Expected a language code, got 'c'
+
+
+### Getting alpha3 codes
+
+Before there was BCP 47, there was ISO 639-2. The ISO tried to make room for the
+variety of human languages by assigning every language a 3-letter code,
+including the ones that already had 2-letter codes.
+
+Unfortunately, this just led to more confusion. Some languages ended up with two
+different 3-letter codes for legacy reasons, such as French, which is `fra` as a
+"terminology" code, and `fre` as a "biblographic" code. And meanwhile, `fr` was
+still a code that you'd be using if you followed ISO 639-1.
+
+In BCP 47, you should use 2-letter codes whenever they're available, and that's
+what langcodes does. Fortunately, all the languages that have two different
+3-letter codes also have a 2-letter code, so if you prefer the 2-letter code,
+you don't have to worry about the distinction.
+
+But some applications want the 3-letter code in particular, so langcodes
+provides a method for getting those, `Language.to_alpha3()`. It returns the
+'terminology' code by default, and passing `variant='B'` returns the
+bibliographic code.
+
+When this method returns, it always returns a 3-letter string.
+
+    >>> Language.get('fr').to_alpha3()
+    'fra'
+    >>> Language.get('fr-CA').to_alpha3()
+    'fra'
+    >>> Language.get('fr-CA').to_alpha3(variant='B')
+    'fre'
+    >>> Language.get('de').to_alpha3()
+    'deu'
+    >>> Language.get('no', normalize=False).to_alpha3()
+    'nor'
+    >>> Language.get('no').to_alpha3()  # note: this gets the alpha3 for 'nb'
+    'nob'
+    >>> Language.get('un').to_alpha3()
+    Traceback (most recent call last):
+        ...
+    LookupError: 'un' is not a known language code, and has no alpha3 code.
+
+For many languages, the terminology and bibliographic alpha3 codes are the same.
+
+    >>> Language.get('en').to_alpha3(variant='T')
+    'eng'
+    >>> Language.get('en').to_alpha3(variant='B')
+    'eng'
+
+When you use any of these "overlong" alpha3 codes in langcodes, they normalize
+back to the alpha2 code:
+
+    >>> Language.get('zho')
+    Language.make(language='zh')
 
 
 ## Working with language names
@@ -553,6 +617,17 @@ date.
 [code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
 
 # Changelog
+
+## Version 3.1 (February 2021)
+
+- Added the `Language.to_alpha3()` method, for getting a three-letter code for a
+  language according to ISO 639-2.
+
+- Updated the type annotations from obiwan-style to mypy-style. Please see
+  [typing-lament.md][] before you raise an issue about the types.
+
+[typing-lament.md]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/typing-lament.md
+
 
 ## Version 3.0 (February 2021)
 

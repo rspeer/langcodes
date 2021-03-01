@@ -143,6 +143,20 @@ def build_data():
     alias_data = read_cldr_supplemental('aliases')
     likely_subtags = read_cldr_supplemental('likelySubtags')
     replacements = {}
+
+    # Aliased codes can still have alpha3 codes, and there's no unified source
+    # about what they are. It depends on whether the alias predates or postdates
+    # ISO 639-2, which nobody should have to care about. So let's set all the
+    # alpha3 codes for aliased alpha2 codes here.
+    alpha3_mapping = {
+        'tl': 'tgl',  # even though it normalizes to 'fil'
+        'in': 'ind',
+        'iw': 'heb',
+        'ji': 'yid',
+        'jw': 'jav',
+        'sh': 'hbs',
+    }
+    alpha3_biblio = {}
     norm_macrolanguages = {}
     for alias_type in ['languageAlias', 'scriptAlias', 'territoryAlias']:
         aliases = alias_data[alias_type]
@@ -165,7 +179,36 @@ def build_data():
             if value['_reason'] == 'macrolanguage':
                 norm_macrolanguages[code] = replacement
             else:
+                # CLDR tries to oversimplify some codes as it assigns aliases.
+                # For example, 'nor' is the ISO alpha3 code for 'no', but CLDR
+                # would prefer you use 'nb' over 'no', so it makes 'nor' an
+                # alias of 'nb'. But 'nb' already has an alpha3 code, 'nob'.
+                #
+                # We undo this oversimplification so that we can get a
+                # canonical mapping between alpha2 and alpha3 codes.
+                if code == 'nor':
+                    replacement = 'no'
+                elif code == 'mol':
+                    replacement = 'mo'
+                elif code == 'twi':
+                    replacement = 'tw'
+                elif code == 'bih':
+                    replacement = 'bh'
+
                 replacements[alias_type][code] = replacement
+                if alias_type == 'languageAlias':
+                    if value['_reason'] == 'overlong':
+                        if replacement in alpha3_mapping:
+                            raise ValueError(
+                                "{code!r} is an alpha3 for {replacement!r}, which"
+                                " already has an alpha3: {orig!r}".format(
+                                    code=code, replacement=replacement,
+                                    orig=alpha3_mapping[replacement]
+                                )
+                            )
+                        alpha3_mapping[replacement] = code
+                    elif value['_reason'] == 'bibliographic':
+                        alpha3_biblio[replacement] = code
 
     validity_regex = read_validity_regex()
 
@@ -176,6 +219,12 @@ def build_data():
         write_python_dict(outfile, 'DEFAULT_SCRIPTS', lang_scripts)
         write_python_dict(
             outfile, 'LANGUAGE_REPLACEMENTS', replacements['languageAlias']
+        )
+        write_python_dict(
+            outfile, 'LANGUAGE_ALPHA3', alpha3_mapping
+        )
+        write_python_dict(
+            outfile, 'LANGUAGE_ALPHA3_BIBLIOGRAPHIC', alpha3_biblio
         )
         write_python_dict(outfile, 'SCRIPT_REPLACEMENTS', replacements['scriptAlias'])
         write_python_dict(
