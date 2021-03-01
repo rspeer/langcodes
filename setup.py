@@ -24,7 +24,7 @@ on GitHub: https://github.com/LuminosoInsight/langcodes
 
 setup(
     name="langcodes",
-    version='3.0.0',
+    version='3.1.0',
     maintainer='Robyn Speer',
     maintainer_email='rspeer@luminoso.com',
     license="MIT",
