@@ -18,7 +18,7 @@ Traditional Chinese. These are BCP 47 language codes, formerly known as ISO
 language codes.
 
 The documentation for langcodes lives in its README file, which you can read
-on GitHub: https://github.com/LuminosoInsight/langcodes
+on GitHub: https://github.com/rspeer/langcodes
 """
 
 
@@ -26,9 +26,9 @@ setup(
     name="langcodes",
     version='3.1.0',
     maintainer='Robyn Speer',
-    maintainer_email='rspeer@luminoso.com',
+    maintainer_email='rspeer@arborelia.net',
     license="MIT",
-    url='http://github.com/LuminosoInsight/langcodes',
+    url='http://github.com/rspeer/langcodes',
     platforms=["any"],
     description="Labels and compares human languages in a standardized way",
     long_description=LONG_DESC,

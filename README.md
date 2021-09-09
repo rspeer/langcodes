@@ -39,10 +39,9 @@ One way to know is to read IETF standards and Unicode technical reports.
 Another way is to use a library that implements those standards and guidelines
 for you, which langcodes does.
 
-langcodes is maintained by Robyn Speer at [Luminoso](http://luminoso.com), and
-is released as free software under the MIT license. Luminoso has [more free
-software](https://github.com/LuminosoInsight). We're also [hiring
-developers](https://www.luminoso.com/luminoso-careers).
+langcodes is maintained by Robyn Speer, and is released as free software under
+the MIT license.
+
 
 ## Standards implemented
 
@@ -614,7 +613,7 @@ date.
 
 [Code with documentation][code]
 
-[code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
+[code]: https://github.com/rspeer/langcodes/blob/master/langcodes/__init__.py
 
 # Changelog
 
@@ -623,10 +622,7 @@ date.
 - Added the `Language.to_alpha3()` method, for getting a three-letter code for a
   language according to ISO 639-2.
 
-- Updated the type annotations from obiwan-style to mypy-style. Please see
-  [typing-lament.md][] before you raise an issue about the types.
-
-[typing-lament.md]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/typing-lament.md
+- Updated the type annotations from obiwan-style to mypy-style.
 
 
 ## Version 3.0 (February 2021)
