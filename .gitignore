@@ -10,4 +10,5 @@ langcodes/data/cldr-json
 .ipynb_checkpoints
 vendor
 .tox
+docs/_build/
 .hypothesis
