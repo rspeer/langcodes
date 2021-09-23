@@ -39,10 +39,9 @@ One way to know is to read IETF standards and Unicode technical reports.
 Another way is to use a library that implements those standards and guidelines
 for you, which langcodes does.
 
-langcodes is maintained by Robyn Speer at [Luminoso](http://luminoso.com), and
-is released as free software under the MIT license. Luminoso has [more free
-software](https://github.com/LuminosoInsight). We're also [hiring
-developers](https://www.luminoso.com/luminoso-careers).
+langcodes is maintained by Robyn Speer, and is released as free software under
+the MIT license.
+
 
 ## Standards implemented
 
@@ -105,9 +104,6 @@ Even when *macro* is False, it shortens tags that contain both the
 macrolanguage and the language:
 
     >>> standardize_tag('zh-cmn-hans-cn')
-    'cmn-Hans-CN'
-
-    >>> standardize_tag('zh-cmn-hans-cn', macro=True)
     'zh-Hans-CN'
 
 If the tag can't be parsed according to BCP 47, this will raise a
@@ -166,8 +162,8 @@ Here are some examples of replacing non-standard tags:
     >>> Language.get('sgn-US')
     Language.make(language='ase')
 
-    >>> Language.get('zh-cmn-Hant')  # promote extlangs to languages
-    Language.make(language='cmn', script='Hant')
+    >>> Language.get('zh-cmn-Hant')
+    Language.make(language='zh', script='Hant')
 
 Use the `str()` function on a Language object to convert it back to its
 standard string form:
@@ -260,10 +256,8 @@ When this method returns, it always returns a 3-letter string.
     'fre'
     >>> Language.get('de').to_alpha3()
     'deu'
-    >>> Language.get('no', normalize=False).to_alpha3()
+    >>> Language.get('no').to_alpha3()
     'nor'
-    >>> Language.get('no').to_alpha3()  # note: this gets the alpha3 for 'nb'
-    'nob'
     >>> Language.get('un').to_alpha3()
     Traceback (most recent call last):
         ...
@@ -514,10 +508,14 @@ Script codes will be ignored, because the script is not involved in speaking:
     >>> all == traditional + simplified
     True
 
-For many languages that aren't typically written, this is an overestimate,
-according to CLDR, because of limitations of the data collection. The data
-often includes people who speak that language but write in a different
-language.
+The estimates for "writing population" are often overestimates, as described
+in the [CLDR documentation on territory data][overestimates]. In most cases,
+they are derived from published data about literacy rates in the places where
+those languages are spoken. This doesn't take into account that many literate
+people around the world speak a language that isn't typically written, and
+write in a _different_ language.
+
+[overestimates]: https://unicode-org.github.io/cldr-staging/charts/39/supplemental/territory_language_information.html
 
 Like `.speaking_population()`, this can be limited to a particular territory:
 
@@ -614,7 +612,7 @@ date.
 
 [Code with documentation][code]
 
-[code]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/__init__.py
+[code]: https://github.com/rspeer/langcodes/blob/master/langcodes/__init__.py
 
 # Changelog
 
@@ -623,10 +621,7 @@ date.
 - Added the `Language.to_alpha3()` method, for getting a three-letter code for a
   language according to ISO 639-2.
 
-- Updated the type annotations from obiwan-style to mypy-style. Please see
-  [typing-lament.md][] before you raise an issue about the types.
-
-[typing-lament.md]: https://github.com/LuminosoInsight/langcodes/blob/master/langcodes/typing-lament.md
+- Updated the type annotations from obiwan-style to mypy-style.
 
 
 ## Version 3.0 (February 2021)
