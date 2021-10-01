@@ -104,9 +104,6 @@ Even when *macro* is False, it shortens tags that contain both the
 macrolanguage and the language:
 
     >>> standardize_tag('zh-cmn-hans-cn')
-    'cmn-Hans-CN'
-
-    >>> standardize_tag('zh-cmn-hans-cn', macro=True)
     'zh-Hans-CN'
 
 If the tag can't be parsed according to BCP 47, this will raise a
@@ -165,8 +162,8 @@ Here are some examples of replacing non-standard tags:
     >>> Language.get('sgn-US')
     Language.make(language='ase')
 
-    >>> Language.get('zh-cmn-Hant')  # promote extlangs to languages
-    Language.make(language='cmn', script='Hant')
+    >>> Language.get('zh-cmn-Hant')
+    Language.make(language='zh', script='Hant')
 
 Use the `str()` function on a Language object to convert it back to its
 standard string form:
@@ -260,10 +257,8 @@ When this method returns, it always returns a 3-letter string.
     'fre'
     >>> Language.get('de').to_alpha3()
     'deu'
-    >>> Language.get('no', normalize=False).to_alpha3()
+    >>> Language.get('no').to_alpha3()
     'nor'
-    >>> Language.get('no').to_alpha3()  # note: this gets the alpha3 for 'nb'
-    'nob'
     >>> Language.get('un').to_alpha3()
     Traceback (most recent call last):
         ...
@@ -514,10 +509,14 @@ Script codes will be ignored, because the script is not involved in speaking:
     >>> all == traditional + simplified
     True
 
-For many languages that aren't typically written, this is an overestimate,
-according to CLDR, because of limitations of the data collection. The data
-often includes people who speak that language but write in a different
-language.
+The estimates for "writing population" are often overestimates, as described
+in the [CLDR documentation on territory data][overestimates]. In most cases,
+they are derived from published data about literacy rates in the places where
+those languages are spoken. This doesn't take into account that many literate
+people around the world speak a language that isn't typically written, and
+write in a _different_ language.
+
+[overestimates]: https://unicode-org.github.io/cldr-staging/charts/39/supplemental/territory_language_information.html
 
 Like `.speaking_population()`, this can be limited to a particular territory:
 

@@ -218,12 +218,6 @@ class Language:
         >>> Language.get('in')
         Language.make(language='id')
 
-        >>> Language.get('zh-HK')
-        Language.make(language='zh', script='Hant', territory='HK')
-
-        >>> Language.get('zh_HK')
-        Language.make(language='zh', script='Hant', territory='HK')
-
         One type of deprecated tag that should be replaced is for sign
         languages, which used to all be coded as regional variants of a
         fictitious global sign language called 'sgn'. Of course, there is no
@@ -746,6 +740,10 @@ class Language:
         >>> Language.get('en-001').is_valid()
         True
         >>> Language.get('en-000').is_valid()
+        False
+        >>> Language.get('en-Latn').is_valid()
+        True
+        >>> Language.get('en-Latnx').is_valid()
         False
         >>> Language.get('und').is_valid()
         True
@@ -1528,9 +1526,6 @@ def standardize_tag(tag: Union[str, Language], macro: bool = False) -> str:
     'ase'
 
     >>> standardize_tag('zh-cmn-hans-cn')
-    'cmn-Hans-CN'
-
-    >>> standardize_tag('zh-cmn-hans-cn', macro=True)
     'zh-Hans-CN'
 
     >>> standardize_tag('zsm', macro=True)
@@ -1622,11 +1617,6 @@ def tag_distance(desired: Union[str, Language], supported: Union[str, Language])
     >>> tag_distance('ru-Cyrl', 'ru')
     0
 
-    Language codes that are considered equivalent can also get distances of 0.
-
-    >>> tag_distance('nb', 'no')  # Norwegian is about the same as Norwegian Bokmål
-    0
-
     As a specific example, Serbo-Croatian is a politically contentious idea,
     but in CLDR, it's considered equivalent to Serbian in Latin characters.
 
@@ -1637,6 +1627,13 @@ def tag_distance(desired: Union[str, Language], supported: Union[str, Language])
 
     >>> tag_distance('sh', 'hr')
     9
+
+    Unicode reorganized its distinction between 'no' (Norwegian) and 'nb'
+    (Norwegian Bokmål) in 2021. 'no' is preferred in most contexts, and the more
+    specific 'nb' is a distance of 1 from it:
+
+    >>> tag_distance('nb', 'no')
+    1
 
     These distances can be asymmetrical: this data includes the fact that speakers
     of Swiss German (gsw) know High German (de), but not at all the other way around.
@@ -1697,16 +1694,16 @@ def tag_distance(desired: Union[str, Language], supported: Union[str, Language])
     can learn the other but may not be happy with it. This specifically applies
     to Chinese.
 
-    >>> tag_distance('zh-Hans', 'zh-Hant')
-    19
-    >>> tag_distance('zh-CN', 'zh-HK')
-    19
-    >>> tag_distance('zh-CN', 'zh-TW')
-    19
-    >>> tag_distance('zh-Hant', 'zh-Hans')
-    23
     >>> tag_distance('zh-TW', 'zh-CN')
-    23
+    54
+    >>> tag_distance('zh-Hans', 'zh-Hant')
+    54
+    >>> tag_distance('zh-CN', 'zh-HK')
+    54
+    >>> tag_distance('zh-CN', 'zh-TW')
+    54
+    >>> tag_distance('zh-Hant', 'zh-Hans')
+    54
 
     This distance range also applies to the differences between Norwegian
     Bokmål, Nynorsk, and Danish.

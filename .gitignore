@@ -5,9 +5,10 @@
 __pycache__
 build
 dist
-cldr-core
-cldr-core-json
+langcodes/data/cldr
+langcodes/data/cldr-json
 .ipynb_checkpoints
 vendor
 .tox
+docs/_build/
 .hypothesis
