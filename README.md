@@ -631,6 +631,10 @@ date.
   returns the language tag of the closest match, or None if no match is close
   enough.
 
+- Bug fix: a lot of well-formed but invalid language codes appeared to be
+  valid, such as 'aaj' or 'en-Latnx', because the regex could match a prefix of
+  a subtag. The validity regex is now required to match completely.
+
 - Bug fix: a language tag that is entirely private use, like 'x-private', is
   valid.
 
