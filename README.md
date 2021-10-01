@@ -622,6 +622,20 @@ date.
 
 # Changelog
 
+## Version 3.2 (October 2021)
+
+- Added the top-level function `tag_is_valid(tag)`, for determining if a string
+  is a valid language tag without having to parse it first.
+
+- Added the top-level function `closest_supported_match(desired, supported)`,
+  which is similar to `closest_match` but with a simpler return value. It
+  returns the language tag of the closest match, or None if no match is close
+  enough.
+
+- Bug fix: a language tag that is entirely private use, like 'x-private', is
+  valid.
+
+
 ## Version 3.1 (February 2021)
 
 - Added the `Language.to_alpha3()` method, for getting a three-letter code for a
