@@ -10,3 +10,4 @@ cldr-core-json
 .ipynb_checkpoints
 vendor
 .tox
+.hypothesis

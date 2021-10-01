@@ -16,14 +16,13 @@ from typing import Any, List, Tuple, Dict, Sequence, Iterable, Optional, Mapping
 import warnings
 import sys
 
-from langcodes.tag_parser import parse_tag, normalize_characters
+from langcodes.tag_parser import LanguageTagError, parse_tag, normalize_characters
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
     DEFAULT_SCRIPTS,
     LANGUAGE_REPLACEMENTS,
     LANGUAGE_ALPHA3,
     LANGUAGE_ALPHA3_BIBLIOGRAPHIC,
-    SCRIPT_REPLACEMENTS,
     TERRITORY_REPLACEMENTS,
     NORMALIZED_MACROLANGUAGES,
     LIKELY_SUBTAGS,
@@ -501,7 +500,7 @@ class Language:
         Get the three-letter language code for this language, even if it's
         canonically written with a two-letter code.
 
-        These codes are the 'alpha3' codes defined by ISO 639-2.        
+        These codes are the 'alpha3' codes defined by ISO 639-2.
 
         When this function returns, it always returns a 3-letter string. If
         there is no known alpha3 code for the language, it raises a LookupError.
@@ -754,6 +753,8 @@ class Language:
         True
         >>> Language.get('en-GB-oxenfree').is_valid()
         False
+        >>> Language.get('x-heptapod').is_valid()
+        True
 
         Of course, you should be prepared to catch a failure to parse the
         language code at all:
@@ -768,7 +769,7 @@ class Language:
             subtags.extend(self.variants)
         for subtag in subtags:
             if subtag is not None:
-                if not VALIDITY.match(subtag):
+                if not subtag.startswith('x-') and not VALIDITY.match(subtag):
                     return False
         return True
 
@@ -1556,6 +1557,32 @@ def standardize_tag(tag: Union[str, Language], macro: bool = False) -> str:
     return langdata.simplify_script().to_tag()
 
 
+def tag_is_valid(tag: Union[str, Language]) -> bool:
+    """
+    Determines whether a string is a valid language tag. This is similar to
+    Language.get(tag).is_valid(), but can return False in the case where the
+    tag doesn't parse.
+
+    >>> tag_is_valid('ja')
+    True
+    >>> tag_is_valid('jp')
+    False
+    >>> tag_is_valid('spa-Latn-MX')
+    True
+    >>> tag_is_valid('spa-MX-Latn')
+    False
+    >>> tag_is_valid('')
+    False
+    >>> tag_is_valid('C.UTF-8')
+    False
+    """
+    try:
+        langdata = Language.get(tag)
+        return langdata.is_valid()
+    except LanguageTagError:
+        return False
+
+
 def tag_match_score(
     desired: Union[str, Language], supported: Union[str, Language]
 ) -> int:
@@ -1641,7 +1668,7 @@ def tag_distance(desired: Union[str, Language], supported: Union[str, Language])
     3
     >>> tag_distance('es-PE', 'es-419')  # Peruvian Spanish is Latin American Spanish
     1
-    >>> tag_distance('es-419', 'es-PE')  # ...but Latin American Spanish is not necessarily Peruvian
+    >>> tag_distance('es-419', 'es-PE')  # but Latin American Spanish is not necessarily Peruvian
     4
     >>> tag_distance('es-ES', 'es-419')  # Spanish in Spain is further from Latin American Spanish
     5
@@ -1787,6 +1814,21 @@ def closest_match(
 
     When there is a tie for the best matching language, the first one in the
     tie will be used.
+
+    >>> closest_match('fr', ['de', 'en', 'fr'])
+    ('fr', 0)
+
+    >>> closest_match('pt', ['pt-BR', 'pt-PT'])
+    ('pt-BR', 0)
+
+    >>> closest_match('en-AU', ['en-GB', 'en-US'])
+    ('en-GB', 3)
+
+    >>> closest_match('af', ['en', 'nl', 'zu'])
+    ('nl', 24)
+
+    >>> closest_match('ja', ['ja-Latn-hepburn', 'en'])
+    ('und', 1000)
     """
     desired_language = str(desired_language)
 
@@ -1811,3 +1853,37 @@ def closest_match(
 
     match_distances.sort(key=itemgetter(1))
     return match_distances[0]
+
+
+def closest_supported_match(
+    desired_language: Union[str, Language],
+    supported_languages: Sequence[str],
+    max_distance: int = 25,
+) -> Optional[str]:
+    """
+    Wraps `closest_match` with a simpler return type. Returns the language
+    tag of the closest match if there is one, or None if there is not.
+
+    >>> closest_supported_match('fr', ['de', 'en', 'fr'])
+    'fr'
+
+    >>> closest_supported_match('pt', ['pt-BR', 'pt-PT'])
+    'pt-BR'
+
+    >>> closest_supported_match('en-AU', ['en-GB', 'en-US'])
+    'en-GB'
+
+    >>> closest_supported_match('und', ['en', 'und'])
+    'und'
+
+    >>> closest_supported_match('af', ['en', 'nl', 'zu'])
+    'nl'
+
+    >>> print(closest_supported_match('af', ['en', 'nl', 'zu'], max_distance=10))
+    None
+    """
+    code, distance = closest_match(desired_language, supported_languages, max_distance)
+    if distance == 1000:
+        return None
+    else:
+        return code

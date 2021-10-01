@@ -194,38 +194,39 @@ For example, `ja` is a valid language code, and `jp` is not:
     >>> Language.get('jp').is_valid()
     False
 
+The top-level function `tag_is_valid(tag)` is possibly more convenient to use,
+because it can return False even for tags that don't parse:
+
+    >>> tag_is_valid('C')
+    False
+
 If one subtag is invalid, the entire code is invalid:
 
-    >>> Language.get('en-000').is_valid()
+    >>> tag_is_valid('en-000')
     False
 
 `iw` is valid, though it's a deprecated alias for `he`:
 
-    >>> Language.get('iw', normalize=False).is_valid()
+    >>> tag_is_valid('iw')
     True
 
 The empty language code (`und`) is valid:
 
-    >>> Language.make().is_valid()
+    >>> tag_is_valid('und')
     True
 
 Private use codes are valid:
 
-    >>> Language.get('qaa-Qaai-AA-x-what-even-is-this').is_valid()
+    >>> tag_is_valid('x-other')
+    True
+
+    >>> tag_is_valid('qaa-Qaai-AA-x-what-even-is-this')
     True
 
 Language codes that are very unlikely are still valid:
 
-    >>> Language.get('fr-Cyrl').is_valid()
+    >>> tag_is_valid('fr-Cyrl')
     True
-
-Language codes that don't parse should be invalid, but it's moot, because
-this method only exists on Language objects:
-
-    >>> Language.get('C').is_valid()
-    Traceback (most recent call last):
-    ...
-    langcodes.tag_parser.LanguageTagError: Expected a language code, got 'c'
 
 
 ### Getting alpha3 codes
@@ -556,40 +557,44 @@ See the docstring of `tag_distance` for more explanation and examples.
 ### Finding the best matching language
 
 Suppose you have software that supports any of the `supported_languages`. The
-user wants to use `desired_language`. The `best_match(desired_language,
-supported_languages)` function lets you choose the right language, even if
-there isn't an exact match.
+user wants to use `desired_language`.
 
-The `min_score` parameter sets the minimum score that will be allowed to match.
-If all the scores are less than `min_score`, the result will be 'und' with a
-strength of 0.
+The function `closest_supported_match(desired_language, supported_languages)`
+lets you choose the right language, even if there isn't an exact match.
+It returns the language tag of the best-supported language, even if there
+isn't an exact match.
 
-When there is a tie for the best matching language, the first one in the
-tie will be used.
+The `max_distance` parameter lets you set a cutoff on what counts as language
+support. It has a default of 25, a value that is probably okay for simple
+cases of i18n, but you might want to set it lower to require more precision.
 
-Setting `min_score` lower will enable more things to match, at the cost of
-possibly mis-handling data or upsetting users.
+    >>> closest_supported_match('fr', ['de', 'en', 'fr'])
+    'fr'
 
-Here are some examples. (If you want to know what these language tags mean,
-scroll down and learn about the `language_name` method!)
+    >>> closest_supported_match('pt', ['pt-BR', 'pt-PT'])
+    'pt-BR'
+
+    >>> closest_supported_match('en-AU', ['en-GB', 'en-US'])
+    'en-GB'
+
+    >>> closest_supported_match('af', ['en', 'nl', 'zu'])
+    'nl'
+
+    >>> closest_supported_match('und', ['en', 'und'])
+    'und'
+
+    >>> print(closest_supported_match('af', ['en', 'nl', 'zu'], max_distance=10))
+    None
+
+A similar function is `closest_match(desired_language, supported_language)`,
+which returns both the best matching language tag and the distance. If there is
+no match, it returns ('und', 1000).
 
     >>> closest_match('fr', ['de', 'en', 'fr'])
     ('fr', 0)
 
     >>> closest_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
     ('sr-Latn', 0)
-
-    >>> closest_match('zh-CN', ['cmn-Hant', 'cmn-Hans', 'gan', 'nan'])
-    ('cmn-Hans', 0)
-
-    >>> closest_match('pt', ['pt-BR', 'pt-PT'])
-    ('pt-BR', 0)
-
-    >>> closest_match('en-AU', ['en-GB', 'en-US'])
-    ('en-GB', 3)
-
-    >>> closest_match('af', ['en', 'nl', 'zu'])
-    ('nl', 24)
 
     >>> closest_match('id', ['zsm', 'mhp'])
     ('zsm', 14)
