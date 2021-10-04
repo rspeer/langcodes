@@ -2,8 +2,12 @@
 
 **langcodes** knows what languages are. It knows the standardized codes that
 refer to them, such as `en` for English, `es` for Spanish and `hi` for Hindi.
-Often, it knows what these languages are called *in* a language, and that
-language doesn't have to be English.
+
+These are [IETF language tags][]. You may know them by their old name, ISO 639
+language codes. IETF has done some important things for backward compatibility
+and supporting language variations that you won't find in the ISO standard.
+
+[IETF language tags]: https://www.w3.org/International/articles/language-tags/
 
 It may sound to you like langcodes solves a pretty boring problem. At one
 level, that's right. Sometimes you have a boring problem, and it's great when a
@@ -39,8 +43,16 @@ One way to know is to read IETF standards and Unicode technical reports.
 Another way is to use a library that implements those standards and guidelines
 for you, which langcodes does.
 
-langcodes is maintained by Robyn Speer, and is released as free software under
-the MIT license.
+When you're working with these short language codes, you may want to see the
+name that the language is called _in_ a language: `fr` is called "French" in
+English. That language doesn't have to be English: `fr` is called "français" in
+French. A supplement to langcodes, [`language_data`][language-data], provides
+this information.
+
+[language-data]: https://github.com/rspeer/language_data
+
+langcodes is maintained by Elia Robyn Lake a.k.a. Robyn Speer, and is released
+as free software under the MIT license.
 
 
 ## Standards implemented
@@ -50,8 +62,8 @@ acronym-compliant.
 
 langcodes implements [BCP 47](http://tools.ietf.org/html/bcp47), the IETF Best
 Current Practices on Tags for Identifying Languages. BCP 47 is also known as
-RFC 5646. It subsumes standards such as ISO 639, and it also implements
-recommendations from the [Unicode CLDR](http://cldr.unicode.org).
+RFC 5646. It subsumes ISO 639 and is backward compatible with it, and it also
+implements recommendations from the [Unicode CLDR](http://cldr.unicode.org).
 
 The package also comes with a database of language properties and names, built
 from Unicode CLDR and the IANA subtag registry.
@@ -643,6 +655,8 @@ date.
   - A language tag that uses the same variant twice, like 'de-1901-1901', is
     invalid
   - A language tag with two extlangs, like 'sgn-ase-bfi', is invalid
+
+- Updated dependencies so they are compatible with Python 3.10.
 
 
 ## Version 3.1 (February 2021)
