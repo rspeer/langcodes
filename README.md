@@ -658,6 +658,10 @@ date.
 
 - Updated dependencies so they are compatible with Python 3.10.
 
+- Bug fixes in 3.2.1: corrected flaws in the tag parser pointed out by
+  @dscorbett, especially involving non-ASCII tags that were erroneously
+  accepted.
+
 
 ## Version 3.1 (February 2021)
 

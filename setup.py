@@ -24,7 +24,7 @@ on GitHub: https://github.com/rspeer/langcodes
 
 setup(
     name="langcodes",
-    version='3.2.0',
+    version='3.2.1',
     maintainer='Robyn Speer',
     maintainer_email='rspeer@arborelia.net',
     license="MIT",
