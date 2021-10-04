@@ -51,16 +51,41 @@ langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of pla
 >>> parse_tag('x-dothraki')
 [('language', 'x-dothraki')]
 
->>> parse_tag('en-u-co-backwards-x-pig-latin')
-[('language', 'en'), ('extension', 'u-co-backwards'), ('private', 'x-pig-latin')]
+>>> parse_tag('en-u-co-backward-x-pig-latin')
+[('language', 'en'), ('extension', 'u-co-backward'), ('private', 'x-pig-latin')]
 
->>> parse_tag('en-x-pig-latin-u-co-backwards')
-[('language', 'en'), ('private', 'x-pig-latin-u-co-backwards')]
+>>> parse_tag('en-x-pig-latin-u-co-backward')
+[('language', 'en'), ('private', 'x-pig-latin-u-co-backward')]
 
->>> parse_tag('u-co-backwards')
+>>> parse_tag('u-co-backward')
 Traceback (most recent call last):
     ...
 langcodes.tag_parser.LanguageTagError: Expected a language code, got 'u'
+
+>>> parse_tag('x-')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: Expected 1-8 alphanumeric characters, got ''
+
+>>> parse_tag('und-?-foo')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: Expected a valid subtag, got '?'
+
+>>> parse_tag('und-x-123456789')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: Expected 1-8 alphanumeric characters, got '123456789'
+
+>>> parse_tag('en-a-b-foo')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: Tag extensions may not contain two singletons in a row
+
+>>> parse_tag('ar-٠٠١')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: Language tags must be made of ASCII characters
 """
 from __future__ import print_function, unicode_literals
 
@@ -134,6 +159,11 @@ def parse_tag(tag):
     registry, yet. Returns a list of (type, value) tuples indicating what
     information will need to be looked up.
     """
+    if not tag.isascii():
+        raise LanguageTagError(
+            "Language tags must be made of ASCII characters"
+        )
+
     tag = normalize_characters(tag)
     if tag in EXCEPTIONS:
         return [('grandfathered', tag)]
@@ -146,10 +176,17 @@ def parse_tag(tag):
         if subtags[0] == 'x':
             if len(subtags) == 1:
                 raise LanguageTagError("'x' is not a language tag on its own")
-            else:
-                # the entire language tag is private use, but we know that,
-                # whatever it is, it fills the "language" slot
-                return [('language', tag)]
+            
+            # check private use tags for well-formed-ness
+            for subtag in subtags:
+                if len(subtag) < 1 or len(subtag) > 8 or not subtag.isalnum():
+                    raise LanguageTagError(
+                        f"Expected 1-8 alphanumeric characters, got {subtag!r}"
+                    )
+
+            # the entire language tag is private use, but we know that,
+            # whatever it is, it fills the "language" slot
+            return [('language', tag)]
         elif 2 <= len(subtags[0]) <= 4:
             # Language codes should be 2 or 3 letters, but 4-letter codes
             # are allowed to parse for legacy Unicode reasons
@@ -198,12 +235,15 @@ def parse_subtags(subtags, expect=EXTLANG):
         subtag_error(subtag, '1-8 characters')
 
     elif tag_length == 1:
-        # A one-character subtag introduces an extension, which can itself have
+        # A one-letter subtag introduces an extension, which can itself have
         # sub-subtags, so we dispatch to a different function at this point.
         #
         # We don't need to check anything about the order, because extensions
         # necessarily come last.
-        return parse_extension(subtags)
+        if subtag.isalpha():
+            return parse_extension(subtags)
+        else:
+            subtag_error(subtag)
 
     elif tag_length == 2:
         if subtag.isalpha():
@@ -319,6 +359,12 @@ def parse_extension(subtags):
     if subtag == 'x':
         # Private use. Everything after this is arbitrary codes that we
         # can't look up.
+        for subtag in subtags:
+            if len(subtag) < 1 or len(subtag) > 8 or not subtag.isalnum():
+                raise LanguageTagError(
+                    f"Expected 1-8 alphanumeric characters, got {subtag!r}"
+                )
+
         return [('private', '-'.join(subtags))]
 
     else:
@@ -327,6 +373,10 @@ def parse_extension(subtags):
         while boundary < len(subtags) and len(subtags[boundary]) != 1:
             boundary += 1
 
+        if boundary == 1:
+            raise LanguageTagError(
+                "Tag extensions may not contain two singletons in a row"
+            )
         # We've parsed a complete extension subtag. Return to the main
         # parse_subtags function, but expect to find nothing but more
         # extensions at this point.
