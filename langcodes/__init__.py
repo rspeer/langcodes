@@ -754,6 +754,26 @@ class Language:
         >>> Language.get('x-heptapod').is_valid()
         True
 
+        A language tag with multiple extlangs will parse, but is not valid.
+        The only allowed example is 'zh-min-nan', which normalizes to the
+        language 'nan'.
+
+        >>> Language.get('zh-min-nan').is_valid()
+        True
+        >>> Language.get('sgn-ase-bfi').is_valid()
+        False
+
+        These examples check that duplicate tags are not valid:
+
+        >>> Language.get('de-1901').is_valid()
+        True
+        >>> Language.get('de-1901-1901').is_valid()
+        False
+        >>> Language.get('en-a-bbb-c-ddd').is_valid()
+        True
+        >>> Language.get('en-a-bbb-a-ddd').is_valid()
+        False
+
         Of course, you should be prepared to catch a failure to parse the
         language code at all:
 
@@ -762,13 +782,31 @@ class Language:
         ...
         langcodes.tag_parser.LanguageTagError: Expected a language code, got 'c'
         """
+        if self.extlangs is not None:
+            # An erratum to BCP 47 says that tags with more than one extlang are
+            # invalid.
+            if len(self.extlangs) > 1:
+                return False
+
         subtags = [self.language, self.script, self.territory]
+        checked_subtags = []
         if self.variants is not None:
             subtags.extend(self.variants)
         for subtag in subtags:
             if subtag is not None:
+                checked_subtags.append(subtag)
                 if not subtag.startswith('x-') and not VALIDITY.match(subtag):
                     return False
+
+        # We check extensions for validity by ensuring that there aren't
+        # two extensions introduced by the same letter. For example, you can't
+        # have two 'u-' extensions.
+        if self.extensions:
+            checked_subtags.extend(
+                [extension[:2] for extension in self.extensions]
+            )
+        if len(set(checked_subtags)) != len(checked_subtags):
+            return False
         return True
 
     def has_name_data(self) -> bool:
@@ -1555,8 +1593,8 @@ def standardize_tag(tag: Union[str, Language], macro: bool = False) -> str:
 def tag_is_valid(tag: Union[str, Language]) -> bool:
     """
     Determines whether a string is a valid language tag. This is similar to
-    Language.get(tag).is_valid(), but can return False in the case where the
-    tag doesn't parse.
+    Language.get(tag).is_valid(), but can return False in the case where
+    the tag doesn't parse.
 
     >>> tag_is_valid('ja')
     True

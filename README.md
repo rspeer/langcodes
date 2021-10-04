@@ -635,8 +635,14 @@ date.
   valid, such as 'aaj' or 'en-Latnx', because the regex could match a prefix of
   a subtag. The validity regex is now required to match completely.
 
-- Bug fix: a language tag that is entirely private use, like 'x-private', is
-  valid.
+- Bug fixes that address some edge cases of validity:
+
+  - A language tag that is entirely private use, like 'x-private', is valid
+  - A language tag that uses the same extension twice, like 'en-a-bbb-a-ccc',
+    is invalid
+  - A language tag that uses the same variant twice, like 'de-1901-1901', is
+    invalid
+  - A language tag with two extlangs, like 'sgn-ase-bfi', is invalid
 
 
 ## Version 3.1 (February 2021)
