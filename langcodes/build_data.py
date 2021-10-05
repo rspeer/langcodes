@@ -89,7 +89,6 @@ def read_validity_regex():
     return f'^({options})$'
 
 
-
 def read_language_distances():
     language_info_path = data_filename('cldr/common/supplemental/languageInfo.xml')
     root = ET.fromstring(open(language_info_path).read())
@@ -204,8 +203,9 @@ def build_data():
                             raise ValueError(
                                 "{code!r} is an alpha3 for {replacement!r}, which"
                                 " already has an alpha3: {orig!r}".format(
-                                    code=code, replacement=replacement,
-                                    orig=alpha3_mapping[replacement]
+                                    code=code,
+                                    replacement=replacement,
+                                    orig=alpha3_mapping[replacement],
                                 )
                             )
                         alpha3_mapping[replacement] = code
@@ -222,12 +222,8 @@ def build_data():
         write_python_dict(
             outfile, 'LANGUAGE_REPLACEMENTS', replacements['languageAlias']
         )
-        write_python_dict(
-            outfile, 'LANGUAGE_ALPHA3', alpha3_mapping
-        )
-        write_python_dict(
-            outfile, 'LANGUAGE_ALPHA3_BIBLIOGRAPHIC', alpha3_biblio
-        )
+        write_python_dict(outfile, 'LANGUAGE_ALPHA3', alpha3_mapping)
+        write_python_dict(outfile, 'LANGUAGE_ALPHA3_BIBLIOGRAPHIC', alpha3_biblio)
         write_python_dict(outfile, 'SCRIPT_REPLACEMENTS', replacements['scriptAlias'])
         write_python_dict(
             outfile, 'TERRITORY_REPLACEMENTS', replacements['territoryAlias']

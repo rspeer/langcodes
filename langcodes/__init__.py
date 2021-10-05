@@ -802,9 +802,7 @@ class Language:
         # two extensions introduced by the same letter. For example, you can't
         # have two 'u-' extensions.
         if self.extensions:
-            checked_subtags.extend(
-                [extension[:2] for extension in self.extensions]
-            )
+            checked_subtags.extend([extension[:2] for extension in self.extensions])
         if len(set(checked_subtags)) != len(checked_subtags):
             return False
         return True

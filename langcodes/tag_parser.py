@@ -160,9 +160,7 @@ def parse_tag(tag):
     information will need to be looked up.
     """
     if not tag.isascii():
-        raise LanguageTagError(
-            "Language tags must be made of ASCII characters"
-        )
+        raise LanguageTagError("Language tags must be made of ASCII characters")
 
     tag = normalize_characters(tag)
     if tag in EXCEPTIONS:
@@ -176,7 +174,7 @@ def parse_tag(tag):
         if subtags[0] == 'x':
             if len(subtags) == 1:
                 raise LanguageTagError("'x' is not a language tag on its own")
-            
+
             # check private use tags for well-formed-ness
             for subtag in subtags:
                 if len(subtag) < 1 or len(subtag) > 8 or not subtag.isalnum():
