@@ -65,8 +65,8 @@ Current Practices on Tags for Identifying Languages. BCP 47 is also known as
 RFC 5646. It subsumes ISO 639 and is backward compatible with it, and it also
 implements recommendations from the [Unicode CLDR](http://cldr.unicode.org).
 
-The package also comes with a database of language properties and names, built
-from Unicode CLDR and the IANA subtag registry.
+langcodes can also refer to a database of language properties and names, built
+from Unicode CLDR and the IANA subtag registry, if you install `language_data`.
 
 In summary, langcodes takes language codes and does the Right Thing with them,
 and if you want to know exactly what the Right Thing is, there are some
@@ -219,7 +219,7 @@ If one subtag is invalid, the entire code is invalid:
     >>> tag_is_valid('iw')
     True
 
-The empty language code (`und`) is valid:
+The empty language tag (`und`) is valid:
 
     >>> tag_is_valid('und')
     True
@@ -232,10 +232,15 @@ Private use codes are valid:
     >>> tag_is_valid('qaa-Qaai-AA-x-what-even-is-this')
     True
 
-Language codes that are very unlikely are still valid:
+Language tags that are very unlikely are still valid:
 
     >>> tag_is_valid('fr-Cyrl')
     True
+
+Tags with non-ASCII characters are invalid, because they don't parse:
+
+   >>> tag_is_valid('zh-普通话')
+   False
 
 
 ### Getting alpha3 codes
@@ -658,9 +663,14 @@ date.
 
 - Updated dependencies so they are compatible with Python 3.10.
 
-- Bug fixes in 3.2.1: corrected flaws in the tag parser pointed out by
-  @dscorbett, especially involving non-ASCII tags that were erroneously
-  accepted.
+- In bugfix release 3.2.1, corrected cases where the parser accepted
+  ill-formed language tags:
+
+  - Tags with non-ASCII characters should be rejected
+  - Tags with two extension 'singletons' in a row (`en-a-b-ccc`) should be
+    rejected
+  - Singletons must be letters: `und-?-foo` should be rejected
+  - Private use subtags have to be between 1 and 8 characters
 
 
 ## Version 3.1 (February 2021)
