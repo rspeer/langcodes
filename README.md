@@ -640,6 +640,8 @@ date.
 
 ## Version 3.2 (October 2021)
 
+- Supports Python 3.6 through 3.10.
+
 - Added the top-level function `tag_is_valid(tag)`, for determining if a string
   is a valid language tag without having to parse it first.
 
@@ -661,17 +663,15 @@ date.
     invalid
   - A language tag with two extlangs, like 'sgn-ase-bfi', is invalid
 
-- Updated dependencies so they are compatible with Python 3.10.
+- Updated dependencies so they are compatible with Python 3.10, including
+  switching back from `marisa-trie-m` to `marisa-trie` in `language_data`.
 
 - In bugfix release 3.2.1, corrected cases where the parser accepted
   ill-formed language tags:
 
-  - Tags with non-ASCII characters should be rejected
+  - All subtags must be made of between 1 and 8 alphanumeric ASCII characters
   - Tags with two extension 'singletons' in a row (`en-a-b-ccc`) should be
     rejected
-  - Singletons must be letters: `und-?-foo` should be rejected
-  - Private use subtags have to be between 1 and 8 characters
-
 
 ## Version 3.1 (February 2021)
 
@@ -689,6 +689,11 @@ date.
 
 - Language codes where the language segment is more than 4 letters no longer
   parse: Language.get('nonsense') now returns an error.
+
+  (This is technically stricter than the parse rules of BCP 47, but there are
+  no valid language codes of this form and there should never be any. An
+  attempt to parse a language code with 5-8 letters is most likely a mistake or
+  an attempt to make up a code.)
 
 - Added a method for checking the validity of a language code.
 
@@ -728,6 +733,8 @@ Version 2.0 involves some significant changes that may break compatibility with 
 in addition to updating to version 36.1 of the Unicode CLDR data and the April 2020
 version of the IANA subtag registry.
 
+This version requires Python 3.5 or later.
+
 ### Match scores replaced with distances
 
 Originally, the goodness of a match between two different language codes was defined
@@ -756,10 +763,4 @@ object.
 A nice benefit of this is that when a dictionary is displayed with 'language',
 'script', and 'territory' keys in alphabetical order, they are in the same
 order as they are in a language code.
-
-### Python version support
-
-The minimum required version of Python has been raised from 3.3 to 3.5, because
-of the end-of-life of Python 3.4 and older.
-
 
