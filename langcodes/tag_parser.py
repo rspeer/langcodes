@@ -67,10 +67,18 @@ Traceback (most recent call last):
     ...
 langcodes.tag_parser.LanguageTagError: Expected 1-8 alphanumeric characters, got ''
 
+>>> parse_tag('und-u-')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: Expected 1-8 alphanumeric characters, got ''
+
+>>> parse_tag('und-0-foo')
+[('language', 'und'), ('extension', '0-foo')]
+
 >>> parse_tag('und-?-foo')
 Traceback (most recent call last):
     ...
-langcodes.tag_parser.LanguageTagError: Expected a valid subtag, got '?'
+langcodes.tag_parser.LanguageTagError: Expected 1-8 alphanumeric characters, got '?'
 
 >>> parse_tag('und-x-123456789')
 Traceback (most recent call last):
@@ -171,17 +179,17 @@ def parse_tag(tag):
         # by their length and format, but the language code is distinguished
         # by the fact that it is required to come first.
         subtags = tag.split('-')
+
+        # check all subtags for their shape: 1-8 alphanumeric characters
+        for subtag in subtags:
+            if len(subtag) < 1 or len(subtag) > 8 or not subtag.isalnum():
+                raise LanguageTagError(
+                    f"Expected 1-8 alphanumeric characters, got {subtag!r}"
+                )
+
         if subtags[0] == 'x':
             if len(subtags) == 1:
                 raise LanguageTagError("'x' is not a language tag on its own")
-
-            # check private use tags for well-formed-ness
-            for subtag in subtags:
-                if len(subtag) < 1 or len(subtag) > 8 or not subtag.isalnum():
-                    raise LanguageTagError(
-                        f"Expected 1-8 alphanumeric characters, got {subtag!r}"
-                    )
-
             # the entire language tag is private use, but we know that,
             # whatever it is, it fills the "language" slot
             return [('language', tag)]
@@ -226,19 +234,13 @@ def parse_subtags(subtags, expect=EXTLANG):
     # where the SUBTAG_TYPES global is defined.
     tagtype = None
 
-    if tag_length == 0 or tag_length > 8:
-        # Unless you're inside a private use tag or something -- in which case,
-        # you're not in this function at the moment -- every component needs to
-        # be between 1 and 8 characters.
-        subtag_error(subtag, '1-8 characters')
-
-    elif tag_length == 1:
+    if tag_length == 1:
         # A one-letter subtag introduces an extension, which can itself have
         # sub-subtags, so we dispatch to a different function at this point.
         #
         # We don't need to check anything about the order, because extensions
         # necessarily come last.
-        if subtag.isalpha():
+        if subtag.isalnum():
             return parse_extension(subtags)
         else:
             subtag_error(subtag)
@@ -357,12 +359,6 @@ def parse_extension(subtags):
     if subtag == 'x':
         # Private use. Everything after this is arbitrary codes that we
         # can't look up.
-        for subtag in subtags:
-            if len(subtag) < 1 or len(subtag) > 8 or not subtag.isalnum():
-                raise LanguageTagError(
-                    f"Expected 1-8 alphanumeric characters, got {subtag!r}"
-                )
-
         return [('private', '-'.join(subtags))]
 
     else:
