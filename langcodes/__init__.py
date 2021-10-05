@@ -560,9 +560,8 @@ class Language:
                 return LANGUAGE_ALPHA3[language]
             else:
                 raise LookupError(
-                    "{!r} is not a known language code, and has no alpha3 code.".format(
-                        language
-                    )
+                    f"{language!r} is not a known language code, "
+                    "and has no alpha3 code."
                 )
 
     def broader_tags(self) -> List[str]:
