@@ -1,5 +1,0 @@
-graft langcodes/data
-prune langcodes/data/cldr-core*
-prune langcodes/data/cldr*
-include README.md
-include langcodes/py.typed
