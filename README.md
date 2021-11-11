@@ -239,8 +239,8 @@ Language tags that are very unlikely are still valid:
 
 Tags with non-ASCII characters are invalid, because they don't parse:
 
-   >>> tag_is_valid('zh-普通话')
-   False
+    >>> tag_is_valid('zh-普通话')
+    False
 
 
 ### Getting alpha3 codes
