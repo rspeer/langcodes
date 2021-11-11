@@ -12,3 +12,4 @@ vendor
 .tox
 docs/_build/
 .hypothesis
+poetry.lock

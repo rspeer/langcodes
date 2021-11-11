@@ -638,6 +638,20 @@ date.
 
 # Changelog
 
+## Version 3.3 (November 2021)
+
+- Updated to CLDR v40.
+
+- Updated the IANA subtag registry to version 2021-08-06.
+
+- Bug fix: recognize script codes that appear in the IANA registry even if
+  they're missing from CLDR for some reason. 'cu-Cyrs' is valid, for example.
+
+- Switched the build system from `setuptools` to `poetry`.
+
+To install the package in editable mode before PEP 660 is better supported, use
+`poetry install` instead of `pip install -e .`.
+
 ## Version 3.2 (October 2021)
 
 - Supports Python 3.6 through 3.10.
