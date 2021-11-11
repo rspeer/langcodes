@@ -19,6 +19,7 @@ import sys
 from langcodes.tag_parser import LanguageTagError, parse_tag, normalize_characters
 from langcodes.language_distance import tuple_distance_cached
 from langcodes.data_dicts import (
+    ALL_SCRIPTS,
     DEFAULT_SCRIPTS,
     LANGUAGE_REPLACEMENTS,
     LANGUAGE_ALPHA3,
@@ -730,7 +731,7 @@ class Language:
         (if present) are all tags that have meanings assigned by IANA.
         For example, 'ja' (Japanese) is a valid tag, and 'jp' is not.
 
-        The data is current as of CLDR 38.1.
+        The data is current as of CLDR 40.
 
         >>> Language.get('ja').is_valid()
         True
@@ -751,6 +752,14 @@ class Language:
         >>> Language.get('en-GB-oxenfree').is_valid()
         False
         >>> Language.get('x-heptapod').is_valid()
+        True
+
+        Some scripts are, confusingly, not included in CLDR's 'validity' pattern.
+        If a script appears in the IANA registry, we consider it valid.
+
+        >>> Language.get('ur-Aran').is_valid()
+        True
+        >>> Language.get('cu-Cyrs').is_valid()
         True
 
         A language tag with multiple extlangs will parse, but is not valid.
@@ -795,7 +804,8 @@ class Language:
             if subtag is not None:
                 checked_subtags.append(subtag)
                 if not subtag.startswith('x-') and not VALIDITY.match(subtag):
-                    return False
+                    if subtag not in ALL_SCRIPTS:
+                        return False
 
         # We check extensions for validity by ensuring that there aren't
         # two extensions introduced by the same letter. For example, you can't
