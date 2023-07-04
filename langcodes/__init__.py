@@ -1013,7 +1013,7 @@ class Language:
         # parentheses are full-width.
         if self._disp_pattern is not None:
             return self._disp_pattern
-        if self.distance(Language.get('zh')) <= 25:
+        if self.distance(Language.get('zh')) <= 25 or self.distance(Language.get('zh-Hant')) <= 25:
             self._disp_pattern = "{0}（{1}）"
         else:
             self._disp_pattern = "{0} ({1})"
