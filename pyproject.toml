@@ -1,26 +1,45 @@
-[tool.poetry]
+[project]
 name = "langcodes"
-version = "3.3.0"
 description = "Tools for labeling human languages with IETF language tags"
-authors = ["Elia Robyn Speer <rspeer@arborelia.net>"]
-license = "MIT"
+authors = [{name = "Elia Robyn Speer", email = "rspeer@arborelia.net"}]
+maintainers = [{name = "Georg Krause", email = "mail@georg-krause.net"}]
 readme = "README.md"
-homepage = "https://github.com/rspeer/langcodes"
-exclude = ["langcodes/data/cldr*"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dynamic = ["version"]
 
-[tool.poetry.dependencies]
-python = ">= 3.6"
-language-data = { version = "^1.1", optional = true }
+requires-python = ">= 3.6"
+dependencies = [
+  "language-data>=1.1"
+]
 
-[tool.poetry.dev-dependencies]
-language-data = { version = "^1.1", optional = true }
+[project.urls]
+Homepage = "https://github.com/georgkrause/langcodes"
+Repository = "https://github.com/georgkrause/langcodes"
+Issues = "https://github.com/georgkrause/langcodes/issues"
 
-[tool.poetry.extras]
-data = ["language-data"]
-
-[tool.flake8]
-max-line-length = 99
+[project.optional-dependencies]
+test = [
+  'pytest',
+  'pytest-cov'
+]
+build = [
+  'build',
+  'twine'
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=60", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
