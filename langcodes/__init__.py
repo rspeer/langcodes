@@ -1214,9 +1214,9 @@ class Language:
         how many people speak in a particular writing script.
 
         >>> Language.get('es').speaking_population()
-        487664083
+        493528077
         >>> Language.get('pt').speaking_population()
-        237135429
+        237496885
         >>> Language.get('es-BR').speaking_population()
         76218
         >>> Language.get('pt-BR').speaking_population()
@@ -1249,11 +1249,11 @@ class Language:
 
         >>> all = Language.get('zh').writing_population()
         >>> all
-        1240326057
+        1240841517
 
         >>> traditional = Language.get('zh-Hant').writing_population()
         >>> traditional
-        37019589
+        36863340
 
         >>> simplified = Language.get('zh-Hans').writing_population()
         >>> all == traditional + simplified
