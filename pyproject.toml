@@ -43,3 +43,7 @@ requires = ["setuptools>=60", "setuptools-scm>=8.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --doctest-glob=README.md --ignore=setup.py --ignore=example.py --ignore=langcodes/data"
+norecursedirs = ".git ignore build __pycache__"
