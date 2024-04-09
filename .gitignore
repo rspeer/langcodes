@@ -13,3 +13,4 @@ vendor
 docs/_build/
 .hypothesis
 poetry.lock
+.venv
