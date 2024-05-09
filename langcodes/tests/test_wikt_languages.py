@@ -6,13 +6,12 @@ different, and that each language name matches only one code.
 import pytest
 import langcodes
 from langcodes.language_lists import WIKT_LANGUAGE_NAMES
-import pytest
 
 LANGUAGES = ['en', 'de']
 
 
-@pytest.mark.parametrize(LANGUAGES)
-def check_wiktionary_language(target_lang):
+@pytest.mark.parametrize("target_lang", LANGUAGES)
+def test_check_wiktionary_language(target_lang):
     seen_codes = {}
     for lang_name in WIKT_LANGUAGE_NAMES[target_lang]:
         if lang_name.startswith('Proto-'):
