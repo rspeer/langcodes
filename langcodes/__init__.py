@@ -1501,7 +1501,7 @@ class Language:
         return self._str_tag == other._str_tag
 
     def __hash__(self) -> int:
-        return hash(id(self))
+        return hash(self._str_tag)
 
     def __getitem__(self, key: str) -> Optional[Union[str, List[str]]]:
         if key in self.ATTRIBUTES:
