@@ -1,0 +1,31 @@
+name: 'Test Report'
+on: 
+  workflow_run:
+    workflows: ['Continous Integration']
+    types:
+      - completed
+permissions:
+  contents: read
+  actions: read
+  checks: write
+  pull-requests: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+      - name: Publish Test Reports
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          files: junit-*/test-results-*.xml
+      - name: Create Coverage Report
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: junit-*/coverage-*.xml
+          format: markdown
+          output: both
+      - name: Add coverage PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          path: code-coverage-results.md
