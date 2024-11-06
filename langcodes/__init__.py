@@ -705,39 +705,27 @@ class Language:
             desired_triple = ('und', 'Zzzz', 'ZZ')
         else:
             desired_complete = self.prefer_macrolanguage().maximize()
-            if ignore_script:
-                desired_triple = (
-                    desired_complete.language,
-                    None,
-                    desired_complete.territory,
-                )
-            else:
-                desired_triple = (
-                    desired_complete.language,
-                    desired_complete.script,
-                    desired_complete.territory,
-                )
-            
+
+            desired_triple = (
+                desired_complete.language,
+                None if ignore_script else desired_complete.script,
+                desired_complete.territory,
+            )
+
         if (
             supported.language is None
             and supported.script is None
             and supported.territory is None
         ):
-            supported_triple = ('und', 'Zzzz', 'ZZ')    
+            supported_triple = ('und', 'Zzzz', 'ZZ')
         else:
             supported_complete = supported.prefer_macrolanguage().maximize()
-            if ignore_script:
-               supported_triple = (
-                    supported_complete.language,
-                    None,
-                    supported_complete.territory,
-                )
-            else:
-                supported_triple = (
-                    supported_complete.language,
-                    supported_complete.script,
-                    supported_complete.territory,
-                )
+
+            supported_triple = (
+                supported_complete.language,
+                None if ignore_script else supported_complete.script,
+                supported_complete.territory,
+            )
 
         return tuple_distance_cached(desired_triple, supported_triple)
 
@@ -1807,9 +1795,9 @@ def tag_distance(desired: Union[str, Language], supported: Union[str, Language],
 
     >>> tag_distance('ja', 'ja-Latn-US-hepburn')
     54
-    
+
     If `ignore_script` is used, the script difference is ignored and a smaller
-    differenge with lower score will be found.
+    difference with lower score will be found.
 
     >>> tag_distance('ja', 'ja-Latn-hepburn', ignore_script=True)
     0
@@ -1876,8 +1864,8 @@ def closest_match(
     value is 25, and raising it can cause data to be processed in significantly
     the wrong language. The documentation for `tag_distance` describes the
     distance values in more detail.
-    
-    `ignore_script` makes the matching ignore scripts, allowing matches to be 
+
+    `ignore_script` makes the matching ignore scripts, allowing matches to be
     found when they wouldn't otherwise be due to different scripts.
 
     When there is a tie for the best matching language, the first one in the
@@ -1897,7 +1885,7 @@ def closest_match(
 
     >>> closest_match('ja', ['ja-Latn-hepburn', 'en'])
     ('und', 1000)
-    
+
     >>> closest_match('ja', ['ja-Latn-hepburn', 'en'], ignore_script=True)
     ('ja-Latn-hepburn', 0)
     """
