@@ -434,7 +434,7 @@ class Language:
         >>> Language.make(language='eee').assume_script()
         Language.make(language='eee')
 
-        It also dosn't fill anything in when the language is unspecified.
+        It also doesn't fill anything in when the language is unspecified.
 
         >>> Language.make(territory='US').assume_script()
         Language.make(territory='US')
@@ -1352,7 +1352,7 @@ class Language:
         >>> Language.find_name('language', 'malayo', 'es')
         Language.make(language='ms')
 
-        Some langauge names resolve to more than a language. For example,
+        Some language names resolve to more than a language. For example,
         the name 'Brazilian Portuguese' resolves to a language and a territory,
         and 'Simplified Chinese' resolves to a language and a script. In these
         cases, a Language object with multiple subtags will be returned.

@@ -1,4 +1,4 @@
-name: Continous Delivery
+name: Continuous Delivery
 
 on:
   release:
