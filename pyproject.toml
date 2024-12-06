@@ -17,9 +17,6 @@ classifiers = [
 dynamic = ["version"]
 
 requires-python = ">= 3.9"
-dependencies = [
-  "language-data>=1.2"
-]
 
 [project.urls]
 Homepage = "https://github.com/georgkrause/langcodes"
@@ -34,6 +31,9 @@ test = [
 build = [
   'build',
   'twine'
+]
+data = [
+  "language-data>=1.2"
 ]
 
 [build-system]
