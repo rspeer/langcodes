@@ -1,7 +1,7 @@
 [project]
 name = "langcodes"
 description = "Tools for labeling human languages with IETF language tags"
-authors = [{name = "Elia Robyn Speer", email = "rspeer@arborelia.net"}]
+authors = [{name = "Robyn Speer", email = "rspeer@arborelia.net"}]
 maintainers = [{name = "Georg Krause", email = "mail@georg-krause.net"}]
 readme = "README.md"
 classifiers = [
@@ -19,14 +19,15 @@ dynamic = ["version"]
 requires-python = ">= 3.9"
 
 [project.urls]
-Homepage = "https://github.com/georgkrause/langcodes"
-Repository = "https://github.com/georgkrause/langcodes"
-Issues = "https://github.com/georgkrause/langcodes/issues"
+Homepage = "https://github.com/rspeer/langcodes"
+Repository = "https://github.com/rspeer/langcodes"
+Issues = "https://github.com/rspeer/langcodes/issues"
 
 [project.optional-dependencies]
 test = [
   'pytest',
-  'pytest-cov'
+  'pytest-cov',
+  'language-data>=1.2'
 ]
 build = [
   'build',
