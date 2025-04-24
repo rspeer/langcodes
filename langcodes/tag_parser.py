@@ -146,18 +146,6 @@ SUBTAG_TYPES = [
 ]
 
 
-def _is_ascii(s):
-    """
-    Determine whether a tag consists of ASCII characters.
-    """
-    # When Python 3.6 support is dropped, we can replace this with str.isascii().
-    try:
-        s.encode('ascii')
-        return True
-    except UnicodeEncodeError:
-        return False
-    
-
 def normalize_characters(tag):
     """
     BCP 47 is case-insensitive, and CLDR's use of it considers underscores
@@ -178,7 +166,7 @@ def parse_tag(tag):
     registry, yet. Returns a list of (type, value) tuples indicating what
     information will need to be looked up.
     """
-    if not _is_ascii(tag):
+    if not tag.isascii():
         raise LanguageTagError("Language tags must be made of ASCII characters")
 
     tag = normalize_characters(tag)
