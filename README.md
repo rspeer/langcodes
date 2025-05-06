@@ -82,52 +82,66 @@ This function standardizes tags, as strings, in several ways.
 It replaces overlong tags with their shortest version, and also formats them
 according to the conventions of BCP 47:
 
-    >>> from langcodes import *
-    >>> standardize_tag('eng_US')
-    'en-US'
+```python
+>>> from langcodes import *
+>>> standardize_tag('eng_US')
+'en-US'
+```
 
 It removes script subtags that are redundant with the language:
 
-    >>> standardize_tag('en-Latn')
-    'en'
+```python
+>>> standardize_tag('en-Latn')
+'en'
+```
 
 It replaces deprecated values with their correct versions, if possible:
 
-    >>> standardize_tag('en-uk')
-    'en-GB'
+```python
+>>> standardize_tag('en-uk')
+'en-GB'
+```
 
 Sometimes this involves complex substitutions, such as replacing Serbo-Croatian
 (`sh`) with Serbian in Latin script (`sr-Latn`), or the entire tag `sgn-US`
 with `ase` (American Sign Language).
 
-    >>> standardize_tag('sh-QU')
-    'sr-Latn-EU'
+```python
+>>> standardize_tag('sh-QU')
+'sr-Latn-EU'
 
-    >>> standardize_tag('sgn-US')
-    'ase'
+>>> standardize_tag('sgn-US')
+'ase'
+```
 
 If *macro* is True, it uses macrolanguage codes as a replacement for the most
 common standardized language within that macrolanguage.
 
-    >>> standardize_tag('arb-Arab', macro=True)
-    'ar'
+```python
+>>> standardize_tag('arb-Arab', macro=True)
+'ar'
+```
 
 Even when *macro* is False, it shortens tags that contain both the
 macrolanguage and the language:
 
-    >>> standardize_tag('zh-cmn-hans-cn')
-    'zh-Hans-CN'
+```python
+>>> standardize_tag('zh-cmn-hans-cn')
+'zh-Hans-CN'
+```
 
 If the tag can't be parsed according to BCP 47, this will raise a
 LanguageTagError (a subclass of ValueError):
 
-    >>> standardize_tag('spa-latn-mx')
-    'es-MX'
+```python
+>>> standardize_tag('spa-latn-mx')
+'es-MX'
 
-    >>> standardize_tag('spa-mx-latn')
-    Traceback (most recent call last):
-        ...
-    langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
+>>> standardize_tag('spa-mx-latn')
+Traceback (most recent call last):
+    ...
+langcodes.tag_parser.LanguageTagError: This script subtag, 'latn', is out of place. Expected variant, extension, or end of string.
+```
 
 
 ## Language objects
@@ -157,34 +171,40 @@ By default, it will replace non-standard and overlong tags as it interprets
 them. To disable this feature and get the codes that literally appear in the
 language tag, use the *normalize=False* option.
 
-    >>> Language.get('en-Latn-US')
-    Language.make(language='en', script='Latn', territory='US')
+```python
+>>> Language.get('en-Latn-US')
+Language.make(language='en', script='Latn', territory='US')
 
-    >>> Language.get('sgn-US', normalize=False)
-    Language.make(language='sgn', territory='US')
+>>> Language.get('sgn-US', normalize=False)
+Language.make(language='sgn', territory='US')
 
-    >>> Language.get('und')
-    Language.make()
+>>> Language.get('und')
+Language.make()
+```
 
 Here are some examples of replacing non-standard tags:
 
-    >>> Language.get('sh-QU')
-    Language.make(language='sr', script='Latn', territory='EU')
+```python
+>>> Language.get('sh-QU')
+Language.make(language='sr', script='Latn', territory='EU')
 
-    >>> Language.get('sgn-US')
-    Language.make(language='ase')
+>>> Language.get('sgn-US')
+Language.make(language='ase')
 
-    >>> Language.get('zh-cmn-Hant')
-    Language.make(language='zh', script='Hant')
+>>> Language.get('zh-cmn-Hant')
+Language.make(language='zh', script='Hant')
+```
 
 Use the `str()` function on a Language object to convert it back to its
 standard string form:
 
-    >>> str(Language.get('sh-QU'))
-    'sr-Latn-EU'
+```python
+>>> str(Language.get('sh-QU'))
+'sr-Latn-EU'
 
-    >>> str(Language.make(territory='IN'))
-    'und-IN'
+>>> str(Language.make(territory='IN'))
+'und-IN'
+```
 
 
 ### Checking validity
@@ -197,50 +217,66 @@ validity. We don't check other parts such as extlangs or Unicode extensions.
 
 For example, `ja` is a valid language code, and `jp` is not:
 
-    >>> Language.get('ja').is_valid()
-    True
+```python
+>>> Language.get('ja').is_valid()
+True
 
-    >>> Language.get('jp').is_valid()
-    False
+>>> Language.get('jp').is_valid()
+False
+```
 
 The top-level function `tag_is_valid(tag)` is possibly more convenient to use,
 because it can return False even for tags that don't parse:
 
-    >>> tag_is_valid('C')
-    False
+```python
+>>> tag_is_valid('C')
+False
+```
 
 If one subtag is invalid, the entire code is invalid:
 
-    >>> tag_is_valid('en-000')
-    False
+```python
+>>> tag_is_valid('en-000')
+False
+```
 
 `iw` is valid, though it's a deprecated alias for `he`:
 
-    >>> tag_is_valid('iw')
-    True
+```python
+>>> tag_is_valid('iw')
+True
+```
 
 The empty language tag (`und`) is valid:
 
-    >>> tag_is_valid('und')
-    True
+```python
+>>> tag_is_valid('und')
+True
+```
 
 Private use codes are valid:
 
-    >>> tag_is_valid('x-other')
-    True
+```python
+>>> tag_is_valid('x-other')
+True
 
-    >>> tag_is_valid('qaa-Qaai-AA-x-what-even-is-this')
-    True
+>>> tag_is_valid('qaa-Qaai-AA-x-what-even-is-this')
+True
+```
 
 Language tags that are very unlikely are still valid:
 
-    >>> tag_is_valid('fr-Cyrl')
-    True
+```python
+>>> tag_is_valid('fr-Cyrl')
+True
+```
 
 Tags with non-ASCII characters are invalid, because they don't parse:
 
-    >>> tag_is_valid('zh-普通话')
-    False
+```python
+>>> tag_is_valid('zh-普通话')
+False
+```
 
 
 ### Getting alpha3 codes
@@ -266,33 +302,39 @@ bibliographic code.
 
 When this method returns, it always returns a 3-letter string.
 
-    >>> Language.get('fr').to_alpha3()
-    'fra'
-    >>> Language.get('fr-CA').to_alpha3()
-    'fra'
-    >>> Language.get('fr-CA').to_alpha3(variant='B')
-    'fre'
-    >>> Language.get('de').to_alpha3()
-    'deu'
-    >>> Language.get('no').to_alpha3()
-    'nor'
-    >>> Language.get('un').to_alpha3()
-    Traceback (most recent call last):
-        ...
-    LookupError: 'un' is not a known language code, and has no alpha3 code.
+```python
+>>> Language.get('fr').to_alpha3()
+'fra'
+>>> Language.get('fr-CA').to_alpha3()
+'fra'
+>>> Language.get('fr-CA').to_alpha3(variant='B')
+'fre'
+>>> Language.get('de').to_alpha3()
+'deu'
+>>> Language.get('no').to_alpha3()
+'nor'
+>>> Language.get('un').to_alpha3()
+Traceback (most recent call last):
+    ...
+LookupError: 'un' is not a known language code, and has no alpha3 code.
+```
 
 For many languages, the terminology and bibliographic alpha3 codes are the same.
 
-    >>> Language.get('en').to_alpha3(variant='T')
-    'eng'
-    >>> Language.get('en').to_alpha3(variant='B')
-    'eng'
+```python
+>>> Language.get('en').to_alpha3(variant='T')
+'eng'
+>>> Language.get('en').to_alpha3(variant='B')
+'eng'
+```
 
 When you use any of these "overlong" alpha3 codes in langcodes, they normalize
 back to the alpha2 code:
 
-    >>> Language.get('zho')
-    Language.make(language='zh')
+```python
+>>> Language.get('zho')
+Language.make(language='zh')
+```
 
 
 ## Working with language names
@@ -315,77 +357,89 @@ English, plus CLDR, which names languages in many commonly-used languages.
 
 The default language for naming things is English:
 
-    >>> Language.make(language='fr').display_name()
-    'French'
+```python
+>>> Language.make(language='fr').display_name()
+'French'
 
-    >>> Language.make().display_name()
-    'Unknown language'
+>>> Language.make().display_name()
+'Unknown language'
 
-    >>> Language.get('zh-Hans').display_name()
-    'Chinese (Simplified)'
+>>> Language.get('zh-Hans').display_name()
+'Chinese (Simplified)'
 
-    >>> Language.get('en-US').display_name()
-    'English (United States)'
+>>> Language.get('en-US').display_name()
+'English (United States)'
+```
 
 But you can ask for language names in numerous other languages:
 
-    >>> Language.get('fr').display_name('fr')
-    'français'
+```python
+>>> Language.get('fr').display_name('fr')
+'français'
 
-    >>> Language.get('fr').display_name('es')
-    'francés'
+>>> Language.get('fr').display_name('es')
+'francés'
 
-    >>> Language.make().display_name('es')
-    'lengua desconocida'
+>>> Language.make().display_name('es')
+'lengua desconocida'
 
-    >>> Language.get('zh-Hans').display_name('de')
-    'Chinesisch (Vereinfacht)'
+>>> Language.get('zh-Hans').display_name('de')
+'Chinesisch (Vereinfacht)'
 
-    >>> Language.get('en-US').display_name('zh-Hans')
-    '英语（美国）'
+>>> Language.get('en-US').display_name('zh-Hans')
+'英语（美国）'
+```
 
 Why does everyone get Slovak and Slovenian confused? Let's ask them.
 
-    >>> Language.get('sl').display_name('sl')
-    'slovenščina'
-    >>> Language.get('sk').display_name('sk')
-    'slovenčina'
-    >>> Language.get('sl').display_name('sk')
-    'slovinčina'
-    >>> Language.get('sk').display_name('sl')
-    'slovaščina'
+```python
+>>> Language.get('sl').display_name('sl')
+'slovenščina'
+>>> Language.get('sk').display_name('sk')
+'slovenčina'
+>>> Language.get('sl').display_name('sk')
+'slovinčina'
+>>> Language.get('sk').display_name('sl')
+'slovaščina'
+```
 
 If the language has a script or territory code attached to it, these will be
 described in parentheses:
 
-    >>> Language.get('en-US').display_name()
-    'English (United States)'
+```python
+>>> Language.get('en-US').display_name()
+'English (United States)'
+```
 
 Sometimes these can be the result of tag normalization, such as in this case
 where the legacy tag 'sh' becomes 'sr-Latn':
 
-    >>> Language.get('sh').display_name()
-    'Serbian (Latin)'
+```python
+>>> Language.get('sh').display_name()
+'Serbian (Latin)'
 
-    >>> Language.get('sh', normalize=False).display_name()
-    'Serbo-Croatian'
+>>> Language.get('sh', normalize=False).display_name()
+'Serbo-Croatian'
+```
 
 Naming a language in itself is sometimes a useful thing to do, so the
 `.autonym()` method makes this easy, providing the display name of a language
 in the language itself:
 
-    >>> Language.get('fr').autonym()
-    'français'
-    >>> Language.get('es').autonym()
-    'español'
-    >>> Language.get('ja').autonym()
-    '日本語'
-    >>> Language.get('en-AU').autonym()
-    'English (Australia)'
-    >>> Language.get('sr-Latn').autonym()
-    'srpski (latinica)'
-    >>> Language.get('sr-Cyrl').autonym()
-    'српски (ћирилица)'
+```python
+>>> Language.get('fr').autonym()
+'français'
+>>> Language.get('es').autonym()
+'español'
+>>> Language.get('ja').autonym()
+'日本語'
+>>> Language.get('en-AU').autonym()
+'English (Australia)'
+>>> Language.get('sr-Latn').autonym()
+'srpski (latinica)'
+>>> Language.get('sr-Cyrl').autonym()
+'српски (ћирилица)'
+```
 
 The names come from the Unicode CLDR data files, and in English they can
 also come from the IANA language subtag registry. Together, they can give
@@ -399,12 +453,14 @@ You can get the parts of the name separately with the methods `.language_name()`
 that are present using the `.describe()` method. These methods also accept a
 language code for what language they should be described in.
 
-    >>> shaw = Language.get('en-Shaw-GB')
-    >>> shaw.describe('en')
-    {'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
+```python
+>>> shaw = Language.get('en-Shaw-GB')
+>>> shaw.describe('en')
+{'language': 'English', 'script': 'Shavian', 'territory': 'United Kingdom'}
 
-    >>> shaw.describe('es')
-    {'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
+>>> shaw.describe('es')
+{'language': 'inglés', 'script': 'shaviano', 'territory': 'Reino Unido'}
+```
 
 
 ### Recognizing language names in natural language
@@ -415,18 +471,22 @@ its name, converting a natural language name such as "French" to a code such as
 
 The name can be in any language that CLDR supports (see "Ambiguity" below).
 
-    >>> import langcodes
-    >>> langcodes.find('french')
-    Language.make(language='fr')
+```python
+>>> import langcodes
+>>> langcodes.find('french')
+Language.make(language='fr')
 
-    >>> langcodes.find('francés')
-    Language.make(language='fr')
+>>> langcodes.find('francés')
+Language.make(language='fr')
+```
 
 However, this method currently ignores the parenthetical expressions that come from
 `.display_name()`:
 
-    >>> langcodes.find('English (Canada)')
-    Language.make(language='en')
+```python
+>>> langcodes.find('English (Canada)')
+Language.make(language='en')
+```
 
 There is still room to improve the way that language names are matched, because
 some languages are not consistently named the same way. The method currently
@@ -448,8 +508,10 @@ For example, no matter whether you decide "Tagalog" refers to the language code
 `tl` or the largely overlapping code `fil`, that distinction doesn't depend on
 the language you're saying "Tagalog" in. We can just return `tl` consistently.
 
-    >>> langcodes.find('tagalog')
-    Language.make(language='tl')
+```python
+>>> langcodes.find('tagalog')
+Language.make(language='tl')
+```
 
 In the few cases of actual interlingual ambiguity, langcodes won't match a result.
 You can pass in a `language=` parameter to say what language the name is in.
@@ -458,22 +520,24 @@ For example, there are two distinct languages called "Tonga" in various language
 They are `to`, the language of Tonga which is called "Tongan" in English; and `tog`,
 a language of Malawi that can be called "Nyasa Tonga" in English.
 
-    >>> langcodes.find('tongan')
-    Language.make(language='to')
+```python
+>>> langcodes.find('tongan')
+Language.make(language='to')
 
-    >>> langcodes.find('nyasa tonga')
-    Language.make(language='tog')
+>>> langcodes.find('nyasa tonga')
+Language.make(language='tog')
 
-    >>> langcodes.find('tonga')
-    Traceback (most recent call last):
-    ...
-    LookupError: Can't find any language named 'tonga'
+>>> langcodes.find('tonga')
+Traceback (most recent call last):
+...
+LookupError: Can't find any language named 'tonga'
 
-    >>> langcodes.find('tonga', language='id')
-    Language.make(language='to')
+>>> langcodes.find('tonga', language='id')
+Language.make(language='to')
 
-    >>> langcodes.find('tonga', language='ca')
-    Language.make(language='tog')
+>>> langcodes.find('tonga', language='ca')
+Language.make(language='tog')
+```
 
 Other ambiguous names written in Latin letters are "Kiga", "Mbundu", "Roman", and "Ruanda".
 
@@ -491,40 +555,46 @@ package to be installed.
 be limited to a particular territory with a territory code (such as a country
 code).
 
-    >>> Language.get('es').speaking_population()
-    493528077
+```python
+>>> Language.get('es').speaking_population()
+493528077
 
-    >>> Language.get('pt').speaking_population()
-    237496885
+>>> Language.get('pt').speaking_population()
+237496885
 
-    >>> Language.get('es-BR').speaking_population()
-    76218
+>>> Language.get('es-BR').speaking_population()
+76218
 
-    >>> Language.get('pt-BR').speaking_population()
-    192661560
+>>> Language.get('pt-BR').speaking_population()
+192661560
 
-    >>> Language.get('vo').speaking_population()
-    0
+>>> Language.get('vo').speaking_population()
+0
+```
 
 Script codes will be ignored, because the script is not involved in speaking:
 
-    >>> Language.get('es-Hant').speaking_population() ==\
-    ... Language.get('es').speaking_population()
-    True
+```python
+>>> Language.get('es-Hant').speaking_population() ==\
+... Language.get('es').speaking_population()
+True
+```
 
 `.writing_population()` estimates how many people write a language.
-        
-    >>> all = Language.get('zh').writing_population()
-    >>> all
-    1240841517
 
-    >>> traditional = Language.get('zh-Hant').writing_population()
-    >>> traditional
-    36863340
+```python
+>>> all = Language.get('zh').writing_population()
+>>> all
+1240841517
 
-    >>> simplified = Language.get('zh-Hans').writing_population()
-    >>> all == traditional + simplified
-    True
+>>> traditional = Language.get('zh-Hant').writing_population()
+>>> traditional
+36863340
+
+>>> simplified = Language.get('zh-Hans').writing_population()
+>>> all == traditional + simplified
+True
+```
 
 The estimates for "writing population" are often overestimates, as described
 in the [CLDR documentation on territory data][overestimates]. In most cases,
@@ -537,10 +607,12 @@ write in a _different_ language.
 
 Like `.speaking_population()`, this can be limited to a particular territory:
 
-    >>> Language.get('zh-Hant-HK').writing_population()
-    6439733
-    >>> Language.get('zh-Hans-HK').writing_population()
-    338933
+```python
+>>> Language.get('zh-Hant-HK').writing_population()
+6439733
+>>> Language.get('zh-Hans-HK').writing_population()
+338933
+```
 
 
 ## Comparing and matching languages
@@ -584,42 +656,46 @@ The `max_distance` parameter lets you set a cutoff on what counts as language
 support. It has a default of 25, a value that is probably okay for simple
 cases of i18n, but you might want to set it lower to require more precision.
 
-    >>> closest_supported_match('fr', ['de', 'en', 'fr'])
-    'fr'
+```python
+>>> closest_supported_match('fr', ['de', 'en', 'fr'])
+'fr'
 
-    >>> closest_supported_match('pt', ['pt-BR', 'pt-PT'])
-    'pt-BR'
+>>> closest_supported_match('pt', ['pt-BR', 'pt-PT'])
+'pt-BR'
 
-    >>> closest_supported_match('en-AU', ['en-GB', 'en-US'])
-    'en-GB'
+>>> closest_supported_match('en-AU', ['en-GB', 'en-US'])
+'en-GB'
 
-    >>> closest_supported_match('af', ['en', 'nl', 'zu'])
-    'nl'
+>>> closest_supported_match('af', ['en', 'nl', 'zu'])
+'nl'
 
-    >>> closest_supported_match('und', ['en', 'und'])
-    'und'
+>>> closest_supported_match('und', ['en', 'und'])
+'und'
 
-    >>> print(closest_supported_match('af', ['en', 'nl', 'zu'], max_distance=10))
-    None
+>>> print(closest_supported_match('af', ['en', 'nl', 'zu'], max_distance=10))
+None
+```
 
 A similar function is `closest_match(desired_language, supported_language)`,
 which returns both the best matching language tag and the distance. If there is
 no match, it returns ('und', 1000).
 
-    >>> closest_match('fr', ['de', 'en', 'fr'])
-    ('fr', 0)
+```python
+>>> closest_match('fr', ['de', 'en', 'fr'])
+('fr', 0)
 
-    >>> closest_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
-    ('sr-Latn', 0)
+>>> closest_match('sh', ['hr', 'bs', 'sr-Latn', 'sr-Cyrl'])
+('sr-Latn', 0)
 
-    >>> closest_match('id', ['zsm', 'mhp'])
-    ('zsm', 14)
+>>> closest_match('id', ['zsm', 'mhp'])
+('zsm', 14)
 
-    >>> closest_match('ja', ['ja-Latn-hepburn', 'en'])
-    ('und', 1000)
+>>> closest_match('ja', ['ja-Latn-hepburn', 'en'])
+('und', 1000)
 
-    >>> closest_match('ja', ['ja-Latn-hepburn', 'en'], max_distance=60)
-    ('ja-Latn-hepburn', 50)
+>>> closest_match('ja', ['ja-Latn-hepburn', 'en'], max_distance=60)
+('ja-Latn-hepburn', 50)
+```
 
 ## Further API documentation
 
