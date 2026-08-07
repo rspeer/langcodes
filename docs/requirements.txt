@@ -1,2 +1,4 @@
-myst_parser
-
+sphinx
+sphinx-book-theme
+myst-parser
+sphinx-copybutton

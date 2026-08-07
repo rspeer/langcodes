@@ -1833,6 +1833,11 @@ def best_match(
     `min_score` sets the minimum match score. If all languages match with a lower
     score than that, the result will be 'und' with a score of 0.
     """
+    warnings.warn(
+        "`best_match` is deprecated and will be removed in a future version. Please "
+        "use `closest_match` instead.",
+        DeprecationWarning,
+    )
     max_distance = 100 - min_score
     supported, distance = closest_match(
         desired_language, supported_languages, max_distance
